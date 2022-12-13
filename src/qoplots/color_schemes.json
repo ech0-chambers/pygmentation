@@ -1,0 +1,5674 @@
+{
+    "newcastle": {
+        "foreground": "3E3E3F",
+        "background": "F2F3F4",
+        "colors" : [
+            "004271",
+            "E4183E",
+            "8890C7",
+            "FDBE11",
+            "01B2B0",
+            "8E58A4",
+            "1768B4",
+            "6B1A3B",
+            "303268",
+            "F26B5A",
+            "ED018A",
+            "A9B633"
+        ]
+    },
+    "catppuccin": {
+        "light" : {
+            "foreground": "4c4f69",
+            "background": "eff1f5",
+            "colors": [
+                "dc8a78",
+                "dd7878",
+                "ea76cb",
+                "8839ef",
+                "d20f39",
+                "e64553",
+                "fe640b",
+                "df8e1d",
+                "40a02b",
+                "179299",
+                "04a5e5",
+                "209fb5",
+                "1e66f5",
+                "7287fd",
+                "5c5f77",
+                "6c6f85",
+                "7c7f93",
+                "8c8fa1",
+                "9ca0b0",
+                "acb0be",
+                "bcc0cc",
+                "ccd0da",
+                "e6e9ef",
+                "dce0e8"
+            ]
+        },
+        "dark" : {
+            "foreground": "cdd6f4",
+            "background": "1e1e2e",
+            "colors" : [
+                "f5e0dc",
+                "f2cdcd",
+                "f5c2e7",
+                "cba6f7",
+                "f38ba8",
+                "eba0ac",
+                "fab387",
+                "f9e2af",
+                "a6e3a1",
+                "94e2d5",
+                "89dceb",
+                "74c7ec",
+                "89b4fa",
+                "b4befe",
+                "bac2de",
+                "a6adc8",
+                "9399b2",
+                "7f849c",
+                "6c7086",
+                "585b70",
+                "45475a",
+                "313244",
+                "181825",
+                "11111b"
+            ]
+        }
+    },
+    "twilight": {
+        "foreground": "24213E",
+        "background": "E9EAEF",
+        "colors": [
+            "E4BC50",
+            "86C0C4",
+            "E68E3A",
+            "949FDE",
+            "89A049",
+            "CE5D45"
+        ]
+    },
+    "waveform": {
+        "foreground": "073E87",
+        "background": "C6E7FC",
+        "colors": [
+            "30B6FD",
+            "4584D3",
+            "5CCF78",
+            "A6D02B",
+            "F4C146",
+            "0FE0DC"
+        ]
+    },
+    "verve": {
+        "foreground": "666666",
+        "background": "D2D2D2",
+        "colors": [
+            "FF378B",
+            "E40059",
+            "9C017F",
+            "6A0480",
+            "0860D4",
+            "0B3CA1"
+        ]
+    },
+    "urban": {
+        "foreground": "424456",
+        "background": "DEDEDE",
+        "colors": [
+            "525389",
+            "438086",
+            "A04EA3",
+            "C46730",
+            "8E6243",
+            "6296B7"
+        ]
+    },
+    "trek": {
+        "foreground": "4E3B30",
+        "background": "FBEEC9",
+        "colors": [
+            "F0A22E",
+            "A5634D",
+            "B58B80",
+            "C3986D",
+            "A29676",
+            "C2782F"
+        ]
+    },
+    "thatch": {
+        "foreground": "1D3641",
+        "background": "DFE6D0",
+        "colors": [
+            "7499A4",
+            "CFC60D",
+            "99987F",
+            "91AD98",
+            "FEAF23",
+            "BBAE75"
+        ]
+    },
+    "technic": {
+        "foreground": "3B3B3B",
+        "background": "D4D2D0",
+        "colors": [
+            "6D9FAF",
+            "CCAF0A",
+            "8D89A4",
+            "768662",
+            "A09577",
+            "838991"
+        ]
+    },
+    "pushpin": {
+        "foreground": "465E9C",
+        "background": "CCDDEA",
+        "colors": [
+            "FD9F22",
+            "AA2B1E",
+            "71685D",
+            "66A83E",
+            "EB5B0D",
+            "BBCB23"
+        ]
+    },
+    "perspective": {
+        "foreground": "283138",
+        "background": "FF8600",
+        "colors": [
+            "828C9A",
+            "D2610C",
+            "80716A",
+            "95177D",
+            "625FD3",
+            "757282"
+        ]
+    },
+    "origin": {
+        "foreground": "464653",
+        "background": "DDE9EC",
+        "colors": [
+            "717BA2",
+            "9FB8CD",
+            "D1D97A",
+            "F9DA7C",
+            "BA8776",
+            "927870"
+        ]
+    },
+    "oriel": {
+        "foreground": "565E6C",
+        "background": "FFF39D",
+        "colors": [
+            "FD8637",
+            "7699D9",
+            "B4301A",
+            "F4CE33",
+            "B1BCD6",
+            "7E838A"
+        ]
+    },
+    "opulent": {
+        "foreground": "B13F9A",
+        "background": "F4E7ED",
+        "colors": [
+            "B83C67",
+            "AC66BB",
+            "DD6C37",
+            "F8B63C",
+            "D071A6",
+            "F99145"
+        ]
+    },
+    "newsprint": {
+        "foreground": "303030",
+        "background": "DEDEE0",
+        "colors": [
+            "AC0000",
+            "726056",
+            "AC956E",
+            "818EAA",
+            "485360",
+            "78180B"
+        ]
+    },
+    "module": {
+        "foreground": "5A6378",
+        "background": "D4D4D6",
+        "colors": [
+            "F0AC00",
+            "60B5CC",
+            "E56C7D",
+            "6DB76F",
+            "E88956",
+            "C84F4E"
+        ]
+    },
+    "equity": {
+        "foreground": "696464",
+        "background": "E9E5DC",
+        "colors": [
+            "D34716",
+            "9B2D1F",
+            "A28E6A",
+            "966453",
+            "948788",
+            "8A6363"
+        ]
+    },
+    "elemental": {
+        "foreground": "22211D",
+        "background": "807A74",
+        "colors": [
+            "497F7D",
+            "98290F",
+            "7F7111",
+            "7F4E2F",
+            "387F58",
+            "479A43"
+        ]
+    },
+    "couture": {
+        "foreground": "37302A",
+        "background": "D0CCB9",
+        "colors": [
+            "9D8D5B",
+            "A09781",
+            "85776D",
+            "AFB0AA",
+            "908A8E",
+            "716750"
+        ]
+    },
+    "concourse": {
+        "foreground": "464646",
+        "background": "DEF5FA",
+        "colors": [
+            "2CA1BF",
+            "DA1F28",
+            "EA641C",
+            "3C659E",
+            "4D507C",
+            "824451"
+        ]
+    },
+    "composite": {
+        "foreground": "5B6973",
+        "background": "E7ECED",
+        "colors": [
+            "97C722",
+            "59B0B9",
+            "DDAE01",
+            "B77DB4",
+            "E07B42",
+            "AC9169"
+        ]
+    },
+    "clarity": {
+        "foreground": "D2533C",
+        "background": "F3F2DC",
+        "colors": [
+            "93A299",
+            "AD8E66",
+            "715F55",
+            "4C5A6A",
+            "828EA1",
+            "7C4B42"
+        ]
+    },
+    "civic": {
+        "foreground": "646B86",
+        "background": "C5D1D7",
+        "colors": [
+            "D16248",
+            "CCB400",
+            "8CADAE",
+            "8D7D72",
+            "92B28F",
+            "D29450"
+        ]
+    },
+    "black_tie": {
+        "foreground": "46464A",
+        "background": "E3DCCF",
+        "colors": [
+            "6E6E73",
+            "A7B789",
+            "BEAE98",
+            "93AAB9",
+            "9F856A",
+            "916F79"
+        ]
+    },
+    "austin": {
+        "foreground": "3E3D2D",
+        "background": "CAF278",
+        "colors": [
+            "93C600",
+            "71685A",
+            "FE6701",
+            "919567",
+            "986F49",
+            "FDA32B"
+        ]
+    },
+    "apothecary": {
+        "foreground": "564B3C",
+        "background": "ECEDD1",
+        "colors": [
+            "92A198",
+            "CF543F",
+            "B5AE54",
+            "85815A",
+            "E8B752",
+            "7D7276"
+        ]
+    },
+    "apex": {
+        "foreground": "69676D",
+        "background": "C9C2D1",
+        "colors": [
+            "CEB965",
+            "9CB084",
+            "6BB1C9",
+            "6786CF",
+            "826FCA",
+            "A67EBD"
+        ]
+    },
+    "angeles": {
+        "foreground": "434342",
+        "background": "CDD7D9",
+        "colors": [
+            "787A7D",
+            "F96A1B",
+            "09A1D8",
+            "7D994C",
+            "C3AF90",
+            "577498"
+        ]
+    },
+    "adjacency": {
+        "foreground": "675E47",
+        "background": "DFDCB7",
+        "colors": [
+            "A9A57C",
+            "9CBEBD",
+            "D2CB6D",
+            "96A49E",
+            "C9A262",
+            "B4A38D"
+        ]
+    },
+    "greyscale": {
+        "foreground": "000000",
+        "background": "F8F8F8",
+        "colors": [
+            "DDDDDD",
+            "B2B2B2",
+            "969696",
+            "818181",
+            "646464",
+            "545454"
+        ]
+    },
+    "office_default": {
+        "foreground": "1F497D",
+        "background": "EEECE1",
+        "colors": [
+            "4F81BD",
+            "C04F4C",
+            "9BBB58",
+            "8064A2",
+            "4EADC6",
+            "F6984B"
+        ]
+    },
+    "office_2011": {
+        "foreground": "1F487B",
+        "background": "EEECE0",
+        "colors": [
+            "5181B9",
+            "BD5152",
+            "9CBB5A",
+            "836AA2",
+            "53B0C7",
+            "F49B54"
+        ]
+    },
+    "advantage": {
+        "foreground": "2C1330",
+        "background": "C3AECC",
+        "colors": [
+            "633363",
+            "321141",
+            "6A6897",
+            "9C9C6B",
+            "F49529",
+            "A5A712"
+        ]
+    },
+    "breeze": {
+        "foreground": "09213A",
+        "background": "D5EEF5",
+        "colors": [
+            "2E7A9C",
+            "274957",
+            "E07724",
+            "FAB70C",
+            "83B812",
+            "BE1111"
+        ]
+    },
+    "capital": {
+        "foreground": "6F6E5C",
+        "background": "7B8F96",
+        "colors": [
+            "4B595F",
+            "9B523B",
+            "50483C",
+            "C1B07E",
+            "6D7A60",
+            "BDD8B2"
+        ]
+    },
+    "essential": {
+        "foreground": "D2272D",
+        "background": "C8C7B0",
+        "colors": [
+            "7A7A7A",
+            "F3C10B",
+            "576EB1",
+            "9B9DAC",
+            "DB5F2C",
+            "B9B899"
+        ]
+    },
+    "executive": {
+        "foreground": "2F5895",
+        "background": "E4E9EF",
+        "colors": [
+            "6175B0",
+            "985455",
+            "E48527",
+            "876B50",
+            "6A8E29",
+            "7A878B"
+        ]
+    },
+    "infusion": {
+        "foreground": "2E1F57",
+        "background": "B7A8DE",
+        "colors": [
+            "8B74CC",
+            "C4E7C5",
+            "C4A7E8",
+            "B663C6",
+            "A4DBF9",
+            "99C7B3"
+        ]
+    },
+    "inkwell": {
+        "foreground": "584D2F",
+        "background": "EFE6C4",
+        "colors": [
+            "800B09",
+            "480808",
+            "7A530D",
+            "C37C18",
+            "877D5A",
+            "BABF89"
+        ]
+    },
+    "inspiration": {
+        "foreground": "2F2E29",
+        "background": "9FA895",
+        "colors": [
+            "74960C",
+            "BACA86",
+            "719EC3",
+            "284BA5",
+            "5842C4",
+            "7A1FCE"
+        ]
+    },
+    "kilter": {
+        "foreground": "308FC4",
+        "background": "AEE7FA",
+        "colors": [
+            "78C4EA",
+            "F9A128",
+            "F9690A",
+            "76A72B",
+            "A9D84F",
+            "2E7C93"
+        ]
+    },
+    "median": {
+        "foreground": "775F55",
+        "background": "EBDDC3",
+        "colors": [
+            "94B6D2",
+            "DD8047",
+            "A5AB81",
+            "D8B25C",
+            "7BA79D",
+            "968C8C"
+        ]
+    },
+    "orbit": {
+        "foreground": "7D9BA5",
+        "background": "C1D0CB",
+        "colors": [
+            "EEDB09",
+            "9FE324",
+            "138BE7",
+            "C62124",
+            "E07614",
+            "9241D2"
+        ]
+    },
+    "perception": {
+        "foreground": "333333",
+        "background": "BBC0AA",
+        "colors": [
+            "A2C61D",
+            "DB7708",
+            "E3C308",
+            "80C4EB",
+            "2A4C9C",
+            "A7B47B"
+        ]
+    },
+    "pixel": {
+        "foreground": "03C0C2",
+        "background": "0396FC",
+        "colors": [
+            "F6810A",
+            "EFB01E",
+            "FCEB87",
+            "D3C3F0",
+            "DB61F1",
+            "A017CF"
+        ]
+    },
+    "plaza": {
+        "foreground": "333333",
+        "background": "CCCCCC",
+        "colors": [
+            "950404",
+            "580304",
+            "E84B08",
+            "E9910D",
+            "A8A8A8",
+            "6F6F6F"
+        ]
+    },
+    "precedent": {
+        "foreground": "333333",
+        "background": "E4E5D4",
+        "colors": [
+            "953234",
+            "9A6D3A",
+            "746E5F",
+            "CA9A33",
+            "C96634",
+            "948216"
+        ]
+    },
+    "revolution": {
+        "foreground": "1B3760",
+        "background": "37ABEA",
+        "colors": [
+            "0E5782",
+            "DDF345",
+            "54870C",
+            "C0620B",
+            "9D0E0E",
+            "720E81"
+        ]
+    },
+    "saddle": {
+        "foreground": "AC6415",
+        "background": "E8E4DB",
+        "colors": [
+            "C4B17A",
+            "9A5A1B",
+            "72B3BA",
+            "7EAB62",
+            "8C759D",
+            "57777E"
+        ]
+    },
+    "sketchbook": {
+        "foreground": "4D1104",
+        "background": "FFFFE6",
+        "colors": [
+            "A13212",
+            "E48334",
+            "9DAF60",
+            "719EC7",
+            "566BB4",
+            "8F7EB2"
+        ]
+    },
+    "sky": {
+        "foreground": "1880C1",
+        "background": "61BCE7",
+        "colors": [
+            "0A3675",
+            "94D7FA",
+            "FCCC08",
+            "E96B1D",
+            "C76B0D",
+            "B531B6"
+        ]
+    },
+    "soho": {
+        "foreground": "47241C",
+        "background": "CBD9DC",
+        "colors": [
+            "61625D",
+            "954D30",
+            "655642",
+            "868460",
+            "B2A453",
+            "B28358"
+        ]
+    },
+    "solstice": {
+        "foreground": "4F261C",
+        "background": "E6DEC8",
+        "colors": [
+            "3C8FA4",
+            "FBB714",
+            "BF3133",
+            "89AC38",
+            "9A4B11",
+            "516395"
+        ]
+    },
+    "spectrum": {
+        "foreground": "25282F",
+        "background": "EBE7E4",
+        "colors": [
+            "950405",
+            "F76709",
+            "FABB06",
+            "9DCC0F",
+            "5A900F",
+            "3F3F3F"
+        ]
+    },
+    "story": {
+        "foreground": "212121",
+        "background": "CED3D7",
+        "colors": [
+            "2284C6",
+            "722F99",
+            "B50E20",
+            "E49916",
+            "5C9D33",
+            "3A9F90"
+        ]
+    },
+    "summer": {
+        "foreground": "D16107",
+        "background": "EEB31D",
+        "colors": [
+            "53A5BE",
+            "54C0A8",
+            "82C154",
+            "E1DE59",
+            "B75029",
+            "A574B6"
+        ]
+    },
+    "tradition": {
+        "foreground": "58470D",
+        "background": "D08E11",
+        "colors": [
+            "684A0E",
+            "770B16",
+            "918443",
+            "49455F",
+            "6A1E4E",
+            "7B903A"
+        ]
+    },
+    "travelouge": {
+        "foreground": "292515",
+        "background": "83672D",
+        "colors": [
+            "B64E1E",
+            "A3241E",
+            "47779D",
+            "655F96",
+            "6C9448",
+            "BF7F1D"
+        ]
+    },
+    "venture": {
+        "foreground": "75834E",
+        "background": "E7E9D0",
+        "colors": [
+            "9EAF63",
+            "D19910",
+            "F0EC89",
+            "845522",
+            "592321",
+            "60437E"
+        ]
+    },
+    "aspect": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "F07F09",
+            "9F2936",
+            "1B587C",
+            "4E8542",
+            "604878",
+            "C19859"
+        ]
+    },
+    "blue_green": {
+        "foreground": "373545",
+        "background": "CEDBE6",
+        "colors": [
+            "3494BA",
+            "58B6C0",
+            "75BDA7",
+            "7A8C8E",
+            "84ACB6",
+            "2683C6"
+        ]
+    },
+    "blue_ii": {
+        "foreground": "335B74",
+        "background": "DFE3E5",
+        "colors": [
+            "1CADE4",
+            "2683C6",
+            "27CED7",
+            "42BA97",
+            "3E8853",
+            "62A39F"
+        ]
+    },
+    "blue_warm": {
+        "foreground": "242852",
+        "background": "ACCBF9",
+        "colors": [
+            "4A66AC",
+            "629DD1",
+            "297FD5",
+            "7F8FA9",
+            "5AA2AE",
+            "9D90A0"
+        ]
+    },
+    "blue": {
+        "foreground": "17406D",
+        "background": "DBEFF9",
+        "colors": [
+            "0F6FC6",
+            "009DD9",
+            "0BD0D9",
+            "10CF9B",
+            "7CCA62",
+            "A5C249"
+        ]
+    },
+    "grayscale": {
+        "foreground": "000000",
+        "background": "F8F8F8",
+        "colors": [
+            "DDDDDD",
+            "B2B2B2",
+            "969696",
+            "808080",
+            "5F5F5F",
+            "4D4D4D"
+        ]
+    },
+    "green_yellow": {
+        "foreground": "455F51",
+        "background": "E2DFCC",
+        "colors": [
+            "99CB38",
+            "63A537",
+            "37A76F",
+            "44C1A3",
+            "4EB3CF",
+            "51C3F9"
+        ]
+    },
+    "green": {
+        "foreground": "455F51",
+        "background": "E3DED1",
+        "colors": [
+            "549E39",
+            "8AB833",
+            "C0CF3A",
+            "029676",
+            "4AB5C4",
+            "0989B1"
+        ]
+    },
+    "marquee": {
+        "foreground": "5E5E5E",
+        "background": "DDDDDD",
+        "colors": [
+            "418AB3",
+            "A6B727",
+            "F69200",
+            "838383",
+            "FEC306",
+            "DF5327"
+        ]
+    },
+    "office_2007_2010": {
+        "foreground": "1F497D",
+        "background": "EEECE1",
+        "colors": [
+            "4F81BD",
+            "C0504D",
+            "9BBB59",
+            "8064A2",
+            "4BACC6",
+            "F79646"
+        ]
+    },
+    "orange_red": {
+        "foreground": "696464",
+        "background": "E9E5DC",
+        "colors": [
+            "D34817",
+            "9B2D1F",
+            "A28E6A",
+            "956251",
+            "918485",
+            "855D5D"
+        ]
+    },
+    "orange": {
+        "foreground": "637052",
+        "background": "CCDDEA",
+        "colors": [
+            "E48312",
+            "BD582C",
+            "865640",
+            "9B8357",
+            "C2BC80",
+            "94A088"
+        ]
+    },
+    "paper": {
+        "foreground": "444D26",
+        "background": "FEFAC9",
+        "colors": [
+            "A5B592",
+            "F3A447",
+            "E7BC29",
+            "D092A7",
+            "9C85C0",
+            "809EC2"
+        ]
+    },
+    "red_orange": {
+        "foreground": "505046",
+        "background": "EEECE1",
+        "colors": [
+            "E84C22",
+            "FFBD47",
+            "B64926",
+            "FF8427",
+            "CC9900",
+            "B22600"
+        ]
+    },
+    "red_violet": {
+        "foreground": "454551",
+        "background": "D8D9DC",
+        "colors": [
+            "E32D91",
+            "C830CC",
+            "4EA6DC",
+            "4775E7",
+            "8971E1",
+            "D54773"
+        ]
+    },
+    "red": {
+        "foreground": "323232",
+        "background": "E5C243",
+        "colors": [
+            "A5300F",
+            "D55816",
+            "E19825",
+            "B19C7D",
+            "7F5F52",
+            "B27D49"
+        ]
+    },
+    "slipstream": {
+        "foreground": "212745",
+        "background": "B4DCFA",
+        "colors": [
+            "4E67C8",
+            "5ECCF3",
+            "A7EA52",
+            "5DCEAF",
+            "FF8021",
+            "F14124"
+        ]
+    },
+    "violet_ii": {
+        "foreground": "632E62",
+        "background": "EAE5EB",
+        "colors": [
+            "92278F",
+            "9B57D3",
+            "755DD9",
+            "665EB8",
+            "45A5ED",
+            "5982DB"
+        ]
+    },
+    "violet": {
+        "foreground": "373545",
+        "background": "DCD8DC",
+        "colors": [
+            "AD84C6",
+            "8784C7",
+            "5D739A",
+            "6997AF",
+            "84ACB6",
+            "6F8183"
+        ]
+    },
+    "yellow_orange": {
+        "foreground": "4E3B30",
+        "background": "FBEEC9",
+        "colors": [
+            "F0A22E",
+            "A5644E",
+            "B58B80",
+            "C3986D",
+            "A19574",
+            "C17529"
+        ]
+    },
+    "yellow": {
+        "foreground": "39302A",
+        "background": "E5DEDB",
+        "colors": [
+            "FFCA08",
+            "F8931D",
+            "CE8D3E",
+            "EC7016",
+            "E64823",
+            "9C6A6A"
+        ]
+    },
+    "office_2020": {
+        "foreground": "44546A",
+        "background": "E7E6E6",
+        "colors": [
+            "4472C4",
+            "ED7D31",
+            "A5A5A5",
+            "FFC000",
+            "5B9BD5",
+            "70AD47"
+        ]
+    },
+    "3024_day": {
+        "foreground": "4A4543",
+        "background": "F7F7F7",
+        "colors": [
+            "01A0E4",
+            "B5E4F4",
+            "01A252",
+            "FDED02",
+            "DB2D20",
+            "A16A94"
+        ]
+    },
+    "3024_night": {
+        "foreground": "090300",
+        "background": "A5A2A2",
+        "colors": [
+            "B5E4F4",
+            "A16A94",
+            "01A0E4",
+            "FDED02",
+            "01A252",
+            "DB2D20"
+        ]
+    },
+    "adventure": {
+        "foreground": "040404",
+        "background": "FEFFFF",
+        "colors": [
+            "EEBB6E",
+            "E5C499",
+            "5DA602",
+            "BDCFE5",
+            "D84A33",
+            "417AB3"
+        ]
+    },
+    "adventuretime": {
+        "foreground": "1F1D45",
+        "background": "F8DCC0",
+        "colors": [
+            "0F4AC6",
+            "4AB118",
+            "665993",
+            "BD0013",
+            "E7741E",
+            "70A598"
+        ]
+    },
+    "afterglow": {
+        "foreground": "212121",
+        "background": "D0D0D0",
+        "colors": [
+            "E5B567",
+            "6C99BB",
+            "7E8E50",
+            "AC4142",
+            "9F4E85",
+            "7DD6CF"
+        ]
+    },
+    "alienblood": {
+        "foreground": "0F1610",
+        "background": "637D75",
+        "colors": [
+            "327F77",
+            "47587F",
+            "2F7E25",
+            "717F24",
+            "2F6A7F",
+            "7F2B27"
+        ]
+    },
+    "andromeda": {
+        "foreground": "262A33",
+        "background": "E5E5E5",
+        "colors": [
+            "BC3FBC",
+            "E5E512",
+            "2472C8",
+            "05BC79",
+            "CD3131",
+            "0FA8CD"
+        ]
+    },
+    "argonaut": {
+        "foreground": "0E1019",
+        "background": "FFFAF4",
+        "colors": [
+            "6D43A6",
+            "FFB900",
+            "008DF8",
+            "8CE10B",
+            "00D8EB",
+            "FF000F"
+        ]
+    },
+    "arthur": {
+        "foreground": "1C1C1C",
+        "background": "DDEEDD",
+        "colors": [
+            "B0C4DE",
+            "DEB887",
+            "6495ED",
+            "CD5C5C",
+            "86AF80",
+            "E8AE5B"
+        ]
+    },
+    "ateliersulphurpool": {
+        "foreground": "202746",
+        "background": "979DB4",
+        "colors": [
+            "C94922",
+            "3D8FD1",
+            "22A2C9",
+            "C08B30",
+            "6679CC",
+            "AC9739"
+        ]
+    },
+    "atom": {
+        "foreground": "161719",
+        "background": "C5C8C6",
+        "colors": [
+            "87C38A",
+            "FFD7B1",
+            "85BEFD",
+            "85BEFD",
+            "FD5FF1",
+            "B9B6FC"
+        ]
+    },
+    "atomonelight": {
+        "foreground": "2A2C33",
+        "background": "F9F9F9",
+        "colors": [
+            "D2B67C",
+            "3F953A",
+            "3F953A",
+            "2F5AF3",
+            "950095",
+            "DE3E35"
+        ]
+    },
+    "ayu": {
+        "foreground": "0F1419",
+        "background": "E6E1CF",
+        "colors": [
+            "F07178",
+            "36A3D9",
+            "FF3333",
+            "B8CC52",
+            "95E6CB",
+            "E7C547"
+        ]
+    },
+    "ayu_light": {
+        "foreground": "5C6773",
+        "background": "FAFAFA",
+        "colors": [
+            "86B300",
+            "41A6D9",
+            "F29718",
+            "FF3333",
+            "F07178",
+            "4DBF99"
+        ]
+    },
+    "banana_blueberry": {
+        "foreground": "191323",
+        "background": "CCCCCC",
+        "colors": [
+            "56B6C2",
+            "E6C62F",
+            "00BD9C",
+            "DC396A",
+            "22E8DF",
+            "FF6B7F"
+        ]
+    },
+    "batman": {
+        "foreground": "1B1D1E",
+        "background": "6F6F6F",
+        "colors": [
+            "62605F",
+            "C8BE46",
+            "E6DC44",
+            "737174",
+            "F4FD22",
+            "747271"
+        ]
+    },
+    "belafonte_day": {
+        "foreground": "45373C",
+        "background": "D5CCBA",
+        "colors": [
+            "989A9C",
+            "97522C",
+            "426A79",
+            "EAA549",
+            "858162",
+            "BE100E"
+        ]
+    },
+    "belafonte_night": {
+        "foreground": "20111B",
+        "background": "968C83",
+        "colors": [
+            "426A79",
+            "97522C",
+            "989A9C",
+            "858162",
+            "EAA549",
+            "BE100E"
+        ]
+    },
+    "birdsofparadise": {
+        "foreground": "2A1F1D",
+        "background": "E0DBB7",
+        "colors": [
+            "AC80A6",
+            "6BA18A",
+            "5A86AD",
+            "BE2D26",
+            "74A6AD",
+            "E99D2A"
+        ]
+    },
+    "blazer": {
+        "foreground": "0D1926",
+        "background": "D9E6F2",
+        "colors": [
+            "7AB87A",
+            "B87AB8",
+            "B87A7A",
+            "7AB8B8",
+            "7A7AB8",
+            "B8B87A"
+        ]
+    },
+    "blue_matrix": {
+        "foreground": "101116",
+        "background": "00A2FF",
+        "colors": [
+            "D57BFF",
+            "FF5680",
+            "00FF9C",
+            "FFFC58",
+            "00B0FF",
+            "76C1FF"
+        ]
+    },
+    "blueberrypie": {
+        "foreground": "1C0C28",
+        "background": "BABAB9",
+        "colors": [
+            "EAB9A8",
+            "90A5BD",
+            "5CB1B3",
+            "9D54A7",
+            "7E83CC",
+            "99246E"
+        ]
+    },
+    "blulocodark": {
+        "foreground": "1E2127",
+        "background": "ABB2BF",
+        "colors": [
+            "F81141",
+            "8C62FD",
+            "366F9A",
+            "FD7E57",
+            "285BFF",
+            "23974A"
+        ]
+    },
+    "blulocolight": {
+        "foreground": "2A2C33",
+        "background": "F7F7F7",
+        "colors": [
+            "C90E42",
+            "1E44DD",
+            "21883A",
+            "6D1BED",
+            "1F4D7A",
+            "D54D17"
+        ]
+    },
+    "borland": {
+        "foreground": "0000A4",
+        "background": "FFFF4E",
+        "colors": [
+            "96CBFE",
+            "A8FF60",
+            "FF6C60",
+            "FF73FD",
+            "FFFFB6",
+            "C6C5FE"
+        ]
+    },
+    "breeze_terminal": {
+        "foreground": "31363B",
+        "background": "EFF0F1",
+        "colors": [
+            "ED1515",
+            "9B59B6",
+            "11D116",
+            "1ABC9C",
+            "1D99F3",
+            "F67400"
+        ]
+    },
+    "bright_lights": {
+        "foreground": "191919",
+        "background": "B3C9D7",
+        "colors": [
+            "FF355B",
+            "BA76E7",
+            "76D4FF",
+            "FFC251",
+            "B7E876",
+            "6CBFB5"
+        ]
+    },
+    "broadcast": {
+        "foreground": "2B2B2B",
+        "background": "E6E1DC",
+        "colors": [
+            "519F50",
+            "DA4939",
+            "6E9CBE",
+            "D0D0FF",
+            "FFD24A",
+            "6D9CBE"
+        ]
+    },
+    "brogrammer": {
+        "foreground": "131313",
+        "background": "D6DBE5",
+        "colors": [
+            "ECBA0F",
+            "2DC55E",
+            "1081D6",
+            "F81118",
+            "4E5AB7",
+            "2A84D2"
+        ]
+    },
+    "builtin_dark": {
+        "foreground": "000000",
+        "background": "BBBBBB",
+        "colors": [
+            "BB00BB",
+            "BBBB00",
+            "0000BB",
+            "00BBBB",
+            "00BB00",
+            "BB0000"
+        ]
+    },
+    "builtin_light": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "BBBB00",
+            "BB0000",
+            "00BB00",
+            "BB00BB",
+            "0000BB",
+            "00BBBB"
+        ]
+    },
+    "builtin_pastel_dark": {
+        "foreground": "000000",
+        "background": "BBBBBB",
+        "colors": [
+            "FF73FD",
+            "FF6C60",
+            "FFFFB6",
+            "96CBFE",
+            "C6C5FE",
+            "A8FF60"
+        ]
+    },
+    "builtin_solarized_dark": {
+        "foreground": "002B36",
+        "background": "839496",
+        "colors": [
+            "268BD2",
+            "859900",
+            "DC322F",
+            "2AA198",
+            "D33682",
+            "B58900"
+        ]
+    },
+    "builtin_solarized_light": {
+        "foreground": "657B83",
+        "background": "FDF6E3",
+        "colors": [
+            "B58900",
+            "D33682",
+            "2AA198",
+            "268BD2",
+            "DC322F",
+            "859900"
+        ]
+    },
+    "builtin_tango_dark": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "75507B",
+            "C4A000",
+            "CC0000",
+            "3465A4",
+            "4E9A06",
+            "06989A"
+        ]
+    },
+    "builtin_tango_light": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "3465A4",
+            "4E9A06",
+            "C4A000",
+            "75507B",
+            "CC0000",
+            "06989A"
+        ]
+    },
+    "c64": {
+        "foreground": "40318D",
+        "background": "7869C4",
+        "colors": [
+            "55A049",
+            "67B6BD",
+            "40318D",
+            "8B3F96",
+            "883932",
+            "BFCE72"
+        ]
+    },
+    "calamity": {
+        "foreground": "2F2833",
+        "background": "D5CED9",
+        "colors": [
+            "74D3DE",
+            "E9D7A5",
+            "3B79C7",
+            "A5F69C",
+            "FC644D",
+            "F92672"
+        ]
+    },
+    "chalk": {
+        "foreground": "2B2D2E",
+        "background": "D2D8D9",
+        "colors": [
+            "789B6A",
+            "B23A52",
+            "2A7FAC",
+            "BD4F5A",
+            "B9AC4A",
+            "44A799"
+        ]
+    },
+    "chalkboard": {
+        "foreground": "29262F",
+        "background": "D9E6F2",
+        "colors": [
+            "C37372",
+            "7372C3",
+            "C2C372",
+            "C372C2",
+            "72C373",
+            "72C2C3"
+        ]
+    },
+    "challengerdeep": {
+        "foreground": "1E1C31",
+        "background": "CBE1E7",
+        "colors": [
+            "906CFF",
+            "FF5458",
+            "62D196",
+            "65B2FF",
+            "63F2F1",
+            "FFB378"
+        ]
+    },
+    "chester": {
+        "foreground": "2C3643",
+        "background": "FFFFFF",
+        "colors": [
+            "FFC83F",
+            "FA5E5B",
+            "16C98D",
+            "D34590",
+            "28DDDE",
+            "288AD6"
+        ]
+    },
+    "ciapre": {
+        "foreground": "191C27",
+        "background": "AEA47A",
+        "colors": [
+            "5C4F4B",
+            "CC8B3F",
+            "48513B",
+            "576D8C",
+            "724D7C",
+            "810009"
+        ]
+    },
+    "clrs": {
+        "foreground": "262626",
+        "background": "FFFFFF",
+        "colors": [
+            "135CD0",
+            "F8282A",
+            "328A5D",
+            "9F00BD",
+            "33C3C1",
+            "FA701D"
+        ]
+    },
+    "cobalt_neon": {
+        "foreground": "142838",
+        "background": "8FF586",
+        "colors": [
+            "E9E75C",
+            "781AA0",
+            "8FF586",
+            "3BA5FF",
+            "FF2320",
+            "8FF586"
+        ]
+    },
+    "cobalt2": {
+        "foreground": "132738",
+        "background": "FFFFFF",
+        "colors": [
+            "00BBBB",
+            "1460D2",
+            "FFE50A",
+            "38DE21",
+            "FF0000",
+            "FF005D"
+        ]
+    },
+    "coffee_theme": {
+        "foreground": "000000",
+        "background": "F5DEB3",
+        "colors": [
+            "CA30C7",
+            "C7C400",
+            "0225C7",
+            "00C200",
+            "00C5C7",
+            "C91B00"
+        ]
+    },
+    "crayonponyfish": {
+        "foreground": "150707",
+        "background": "68525A",
+        "colors": [
+            "AB311B",
+            "692F50",
+            "E8A866",
+            "579524",
+            "91002B",
+            "8C87B0"
+        ]
+    },
+    "cyberdyne": {
+        "foreground": "151144",
+        "background": "00FF92",
+        "colors": [
+            "FF8373",
+            "0071CF",
+            "6BFFDD",
+            "00C172",
+            "FF90FE",
+            "D2A700"
+        ]
+    },
+    "cyberpunk": {
+        "foreground": "332A57",
+        "background": "E5E5E5",
+        "colors": [
+            "00BFFF",
+            "FFFA6A",
+            "DF95FF",
+            "00FBAC",
+            "FF7092",
+            "86CBFE"
+        ]
+    },
+    "dark_pastel": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "FFFF55",
+            "55FFFF",
+            "5555FF",
+            "55FF55",
+            "FF5555",
+            "FF55FF"
+        ]
+    },
+    "dark+": {
+        "foreground": "0E0E0E",
+        "background": "CCCCCC",
+        "colors": [
+            "CD3131",
+            "E5E510",
+            "BC3FBC",
+            "11A8CD",
+            "2472C8",
+            "0DBC79"
+        ]
+    },
+    "darkside": {
+        "foreground": "222324",
+        "background": "BABABA",
+        "colors": [
+            "1C98E8",
+            "E8341C",
+            "F2D42C",
+            "8E69C9",
+            "1C98E8",
+            "68C256"
+        ]
+    },
+    "deep": {
+        "foreground": "090909",
+        "background": "CDCDCD",
+        "colors": [
+            "D9BD26",
+            "B052DA",
+            "50D2DA",
+            "D70005",
+            "1CD915",
+            "5665FF"
+        ]
+    },
+    "desert": {
+        "foreground": "333333",
+        "background": "FFFFFF",
+        "colors": [
+            "FF2B2B",
+            "FFA0A0",
+            "FFDEAD",
+            "F0E68C",
+            "CD853F",
+            "98FB98"
+        ]
+    },
+    "dimmedmonokai": {
+        "foreground": "1F1F1F",
+        "background": "B9BCBA",
+        "colors": [
+            "855C8D",
+            "578FA4",
+            "4F76A1",
+            "879A3B",
+            "C5A635",
+            "BE3F48"
+        ]
+    },
+    "django": {
+        "foreground": "0B2F20",
+        "background": "F8F8F8",
+        "colors": [
+            "FFE862",
+            "FD6209",
+            "41A83E",
+            "245032",
+            "F8F8F8",
+            "9DF39F"
+        ]
+    },
+    "djangorebornagain": {
+        "foreground": "051F14",
+        "background": "DADEDC",
+        "colors": [
+            "245032",
+            "FD6209",
+            "FFE862",
+            "F8F8F8",
+            "9DF39F",
+            "41A83E"
+        ]
+    },
+    "djangosmooth": {
+        "foreground": "245032",
+        "background": "F8F8F8",
+        "colors": [
+            "989898",
+            "FFE862",
+            "41A83E",
+            "F8F8F8",
+            "9DF39F",
+            "FD6209"
+        ]
+    },
+    "doomone": {
+        "foreground": "282C34",
+        "background": "BBC2CF",
+        "colors": [
+            "ECBE7B",
+            "98BE65",
+            "A9A1E1",
+            "51AFEF",
+            "C678DD",
+            "FF6C6B"
+        ]
+    },
+    "dotgov": {
+        "foreground": "262C35",
+        "background": "EBEBEB",
+        "colors": [
+            "3D9751",
+            "F6BB34",
+            "17B2E0",
+            "8BD2ED",
+            "BF091D",
+            "7830B0"
+        ]
+    },
+    "dracula+": {
+        "foreground": "212121",
+        "background": "F8F8F2",
+        "colors": [
+            "8BE9FD",
+            "C792EA",
+            "FF5555",
+            "82AAFF",
+            "50FA7B",
+            "FFCB6B"
+        ]
+    },
+    "dracula": {
+        "foreground": "1E1F29",
+        "background": "F8F8F2",
+        "colors": [
+            "BD93F9",
+            "50FA7B",
+            "F1FA8C",
+            "8BE9FD",
+            "FF79C6",
+            "FF5555"
+        ]
+    },
+    "duotone_dark": {
+        "foreground": "1F1D27",
+        "background": "B7A1FF",
+        "colors": [
+            "D9B76E",
+            "FFC284",
+            "DE8D40",
+            "2DCD73",
+            "2488FF",
+            "D9393E"
+        ]
+    },
+    "earthsong": {
+        "foreground": "292520",
+        "background": "E5C7A9",
+        "colors": [
+            "C94234",
+            "D0633D",
+            "85C54C",
+            "1398B9",
+            "F5AE2E",
+            "509552"
+        ]
+    },
+    "elementary": {
+        "foreground": "181818",
+        "background": "EFEFEF",
+        "colors": [
+            "5AA513",
+            "D71C15",
+            "FDB40C",
+            "2595E1",
+            "E40038",
+            "063B8C"
+        ]
+    },
+    "encom": {
+        "foreground": "000000",
+        "background": "00A595",
+        "colors": [
+            "FFD000",
+            "0081FF",
+            "008B00",
+            "9F0000",
+            "008B8B",
+            "BC00CA"
+        ]
+    },
+    "espresso_libre": {
+        "foreground": "2A211C",
+        "background": "B8A898",
+        "colors": [
+            "0066FF",
+            "F0E53A",
+            "C5656B",
+            "1A921C",
+            "CC0000",
+            "06989A"
+        ]
+    },
+    "espresso": {
+        "foreground": "323232",
+        "background": "FFFFFF",
+        "colors": [
+            "A5C261",
+            "D25252",
+            "D197D9",
+            "FFC66D",
+            "6C99BB",
+            "BED6FF"
+        ]
+    },
+    "fahrenheit": {
+        "foreground": "000000",
+        "background": "FFFFCE",
+        "colors": [
+            "979797",
+            "734C4D",
+            "FECF75",
+            "CDA074",
+            "9E744D",
+            "720102"
+        ]
+    },
+    "fideloper": {
+        "foreground": "292F33",
+        "background": "DBDAE0",
+        "colors": [
+            "C0236F",
+            "2E78C2",
+            "EDB8AC",
+            "309186",
+            "B7AB9B",
+            "CB1E2D"
+        ]
+    },
+    "firefoxdev": {
+        "foreground": "0E1011",
+        "background": "7C8FA4",
+        "colors": [
+            "5EB83C",
+            "A57706",
+            "4B73A2",
+            "359DDF",
+            "D75CFF",
+            "E63853"
+        ]
+    },
+    "firewatch": {
+        "foreground": "1E2027",
+        "background": "9BA2B2",
+        "colors": [
+            "4D89C4",
+            "D55119",
+            "D95360",
+            "44A8B6",
+            "DFB563",
+            "5AB977"
+        ]
+    },
+    "fishtank": {
+        "foreground": "232537",
+        "background": "ECF0FE",
+        "colors": [
+            "C6004A",
+            "525FB8",
+            "ACF157",
+            "968763",
+            "FECD5E",
+            "986F82"
+        ]
+    },
+    "flat": {
+        "foreground": "002240",
+        "background": "2CC55D",
+        "colors": [
+            "781AA0",
+            "2C9370",
+            "E58D11",
+            "A82320",
+            "3167AC",
+            "32A548"
+        ]
+    },
+    "flatland": {
+        "foreground": "1D1F21",
+        "background": "B8DBEF",
+        "colors": [
+            "695ABC",
+            "5096BE",
+            "F4EF6D",
+            "D63865",
+            "9FD364",
+            "F18339"
+        ]
+    },
+    "floraverse": {
+        "foreground": "0E0D15",
+        "background": "DBD1B9",
+        "colors": [
+            "42A38C",
+            "1D6DA1",
+            "B7077E",
+            "CD751C",
+            "5D731A",
+            "64002C"
+        ]
+    },
+    "forestblue": {
+        "foreground": "051519",
+        "background": "E2D8CD",
+        "colors": [
+            "8ED0CE",
+            "92D3A2",
+            "F8818E",
+            "1A8E63",
+            "31658C",
+            "5E468C"
+        ]
+    },
+    "framer": {
+        "foreground": "111111",
+        "background": "777777",
+        "colors": [
+            "AA88FF",
+            "00AAFF",
+            "88DDFF",
+            "FF5555",
+            "FFCC33",
+            "98EC65"
+        ]
+    },
+    "frontenddelight": {
+        "foreground": "1B1C1D",
+        "background": "ADADAD",
+        "colors": [
+            "F8511B",
+            "F02E4F",
+            "FA771D",
+            "565747",
+            "3CA1A6",
+            "2C70B7"
+        ]
+    },
+    "funforrest": {
+        "foreground": "251200",
+        "background": "DEC165",
+        "colors": [
+            "DA8213",
+            "BE8A13",
+            "D6262B",
+            "919C00",
+            "4699A3",
+            "8D4331"
+        ]
+    },
+    "galaxy": {
+        "foreground": "1D2837",
+        "background": "FFFFFF",
+        "colors": [
+            "1F9EE7",
+            "944D95",
+            "589DF6",
+            "FEF02A",
+            "F9555F",
+            "21B089"
+        ]
+    },
+    "github": {
+        "foreground": "3E3E3E",
+        "background": "F4F4F4",
+        "colors": [
+            "E94691",
+            "003E8A",
+            "F8EEC7",
+            "07962A",
+            "970B16",
+            "89D1EC"
+        ]
+    },
+    "glacier": {
+        "foreground": "0C1115",
+        "background": "FFFFFF",
+        "colors": [
+            "FB9435",
+            "BD2523",
+            "1F5872",
+            "BD0F2F",
+            "778397",
+            "35A770"
+        ]
+    },
+    "grape": {
+        "foreground": "171423",
+        "background": "9F9FA1",
+        "colors": [
+            "8D35C9",
+            "ED2261",
+            "1FA91B",
+            "8DDC20",
+            "3BDEED",
+            "487DF4"
+        ]
+    },
+    "grass": {
+        "foreground": "13773D",
+        "background": "FFF0A5",
+        "colors": [
+            "950062",
+            "00BBBB",
+            "E7B000",
+            "BB0000",
+            "00BB00",
+            "0000A3"
+        ]
+    },
+    "gruvbox_dark": {
+        "foreground": "1E1E1E",
+        "background": "E6D4A3",
+        "colors": [
+            "868715",
+            "CC881A",
+            "377375",
+            "BE0F17",
+            "578E57",
+            "A04B73"
+        ]
+    },
+    "gruvbox_light": {
+        "foreground": "282828",
+        "background": "FBF1C7",
+        "colors": [
+            "8F3F71",
+            "076678",
+            "B57614",
+            "79740E",
+            "427B58",
+            "9D0006"
+        ]
+    },
+    "hacktober": {
+        "foreground": "141414",
+        "background": "C9C9C9",
+        "colors": [
+            "D08949",
+            "206EC5",
+            "B34538",
+            "864651",
+            "AC9166",
+            "587744"
+        ]
+    },
+    "hardcore": {
+        "foreground": "121212",
+        "background": "A0A0A0",
+        "colors": [
+            "F92672",
+            "9E6FFE",
+            "66D9EF",
+            "FD971F",
+            "A6E22E",
+            "5E7175"
+        ]
+    },
+    "harper": {
+        "foreground": "010101",
+        "background": "A8A49D",
+        "colors": [
+            "489E48",
+            "F5BFD7",
+            "D6DA25",
+            "7FB5E1",
+            "F8B63F",
+            "B296C6"
+        ]
+    },
+    "highway": {
+        "foreground": "222225",
+        "background": "EDEDED",
+        "colors": [
+            "D00E18",
+            "384564",
+            "FFCB3E",
+            "138034",
+            "006BB3",
+            "6B2775"
+        ]
+    },
+    "hipster_green": {
+        "foreground": "100B05",
+        "background": "84C138",
+        "colors": [
+            "00A600",
+            "B200B2",
+            "BFBF00",
+            "00A6B2",
+            "246EB2",
+            "B6214A"
+        ]
+    },
+    "hivacruz": {
+        "foreground": "132638",
+        "background": "EDE4E4",
+        "colors": [
+            "AC9739",
+            "6679CC",
+            "C94922",
+            "3D8FD1",
+            "22A2C9",
+            "C08B30"
+        ]
+    },
+    "homebrew": {
+        "foreground": "000000",
+        "background": "00FF00",
+        "colors": [
+            "B200B2",
+            "00A600",
+            "00A6B2",
+            "999900",
+            "990000",
+            "0000B2"
+        ]
+    },
+    "hopscotch.256": {
+        "foreground": "322931",
+        "background": "B9B5B8",
+        "colors": [
+            "C85E7C",
+            "FDCC59",
+            "149B93",
+            "8FC13E",
+            "1290BF",
+            "DD464C"
+        ]
+    },
+    "hopscotch": {
+        "foreground": "322931",
+        "background": "B9B5B8",
+        "colors": [
+            "8FC13E",
+            "1290BF",
+            "DD464C",
+            "C85E7C",
+            "FDCC59",
+            "149B93"
+        ]
+    },
+    "hurtado": {
+        "foreground": "000000",
+        "background": "DBDBDB",
+        "colors": [
+            "A5E055",
+            "FD5FF1",
+            "86E9FE",
+            "496487",
+            "FBE74A",
+            "FF1B00"
+        ]
+    },
+    "hybrid": {
+        "foreground": "161719",
+        "background": "B7BCBA",
+        "colors": [
+            "6E90B0",
+            "B84D51",
+            "B3BF5A",
+            "E4B55E",
+            "A17EAC",
+            "7FBFB4"
+        ]
+    },
+    "ic_green_ppl": {
+        "foreground": "2C2C2C",
+        "background": "E0F1DC",
+        "colors": [
+            "41A638",
+            "50A096",
+            "2EC3B9",
+            "3CA078",
+            "FF2736",
+            "76A831"
+        ]
+    },
+    "ic_orange_ppl": {
+        "foreground": "262626",
+        "background": "FFCB83",
+        "colors": [
+            "C13900",
+            "BD6D00",
+            "F79500",
+            "CAAF00",
+            "A4A900",
+            "FC5E00"
+        ]
+    },
+    "idea": {
+        "foreground": "202020",
+        "background": "ADADAD",
+        "colors": [
+            "FC5256",
+            "98B61C",
+            "CCB444",
+            "248887",
+            "437EE7",
+            "9D74B0"
+        ]
+    },
+    "idletoes": {
+        "foreground": "323232",
+        "background": "FFFFFF",
+        "colors": [
+            "7FE173",
+            "BED6FF",
+            "4099FF",
+            "D25252",
+            "F680FF",
+            "FFC66D"
+        ]
+    },
+    "ir_black": {
+        "foreground": "000000",
+        "background": "F1F1F1",
+        "colors": [
+            "FFFEB7",
+            "A8FF60",
+            "96CAFE",
+            "FA6C60",
+            "FA73FD",
+            "C6C5FE"
+        ]
+    },
+    "jackie_brown": {
+        "foreground": "2C1D16",
+        "background": "FFCC2F",
+        "colors": [
+            "2BAF2B",
+            "BEBF00",
+            "EF5734",
+            "246EB2",
+            "00ACEE",
+            "D05EC1"
+        ]
+    },
+    "japanesque": {
+        "foreground": "1E1E1E",
+        "background": "F7F6EC",
+        "colors": [
+            "A57FC4",
+            "E9B32A",
+            "389AAD",
+            "7BB75B",
+            "CF3F61",
+            "4C9AD4"
+        ]
+    },
+    "jellybeans": {
+        "foreground": "121212",
+        "background": "DEDEDE",
+        "colors": [
+            "FFBA7B",
+            "E1C0FA",
+            "E27373",
+            "97BEDC",
+            "00988E",
+            "94B979"
+        ]
+    },
+    "jetbrains_darcula": {
+        "foreground": "202020",
+        "background": "ADADAD",
+        "colors": [
+            "126E00",
+            "C2C300",
+            "FA5355",
+            "FA54FF",
+            "4581EB",
+            "33C2C1"
+        ]
+    },
+    "jubi": {
+        "foreground": "262B33",
+        "background": "C3D3DE",
+        "colors": [
+            "576EA6",
+            "6EBFC0",
+            "90A94B",
+            "75A7D2",
+            "CF7B98",
+            "BC4F68"
+        ]
+    },
+    "kibble": {
+        "foreground": "0E100A",
+        "background": "F7F7F7",
+        "colors": [
+            "8400FF",
+            "C70031",
+            "0798AB",
+            "D8E30E",
+            "29CF13",
+            "3449D1"
+        ]
+    },
+    "kolorit": {
+        "foreground": "1D1A1E",
+        "background": "EFECEC",
+        "colors": [
+            "47D7A1",
+            "DA6CDA",
+            "FF5B82",
+            "5DB4EE",
+            "57E9EB",
+            "E8E562"
+        ]
+    },
+    "konsolas": {
+        "foreground": "060606",
+        "background": "C8C1C1",
+        "colors": [
+            "AD1EDC",
+            "42B0C8",
+            "2323A5",
+            "18B218",
+            "AA1717",
+            "EBAE1F"
+        ]
+    },
+    "lab_fox": {
+        "foreground": "2E2E2E",
+        "background": "FFFFFF",
+        "colors": [
+            "FCA121",
+            "6E49CB",
+            "380D75",
+            "FC6D26",
+            "3EB383",
+            "DB3B21"
+        ]
+    },
+    "laser": {
+        "foreground": "030D18",
+        "background": "F106E3",
+        "colors": [
+            "FF8373",
+            "09B4BD",
+            "B4FB73",
+            "D1D1FE",
+            "FED300",
+            "FF90FE"
+        ]
+    },
+    "later_this_evening": {
+        "foreground": "222222",
+        "background": "959595",
+        "colors": [
+            "E5D289",
+            "AFBA67",
+            "C092D6",
+            "D45A60",
+            "A0BAD6",
+            "91BFB7"
+        ]
+    },
+    "lavandula": {
+        "foreground": "050014",
+        "background": "736E7D",
+        "colors": [
+            "7F6F49",
+            "5A3F7F",
+            "7D1625",
+            "4F4A7F",
+            "337E6F",
+            "58777F"
+        ]
+    },
+    "liquidcarbon": {
+        "foreground": "303030",
+        "background": "AFC2C2",
+        "colors": [
+            "559A70",
+            "0099CC",
+            "CCAC00",
+            "FF3030",
+            "CC69C8",
+            "7AC4CC"
+        ]
+    },
+    "liquidcarbontransparent": {
+        "foreground": "000000",
+        "background": "AFC2C2",
+        "colors": [
+            "559A70",
+            "7AC4CC",
+            "0099CC",
+            "CC69C8",
+            "CCAC00",
+            "FF3030"
+        ]
+    },
+    "liquidcarbontransparentinverse": {
+        "foreground": "000000",
+        "background": "AFC2C2",
+        "colors": [
+            "7AC4CC",
+            "CCAC00",
+            "FF3030",
+            "CC69C8",
+            "0099CC",
+            "559A70"
+        ]
+    },
+    "lovelace": {
+        "foreground": "1D1F28",
+        "background": "FDFDFD",
+        "colors": [
+            "F37F97",
+            "F2A272",
+            "5ADECD",
+            "C574DD",
+            "79E6F3",
+            "8897F4"
+        ]
+    },
+    "man_page": {
+        "foreground": "000000",
+        "background": "FEF49C",
+        "colors": [
+            "999900",
+            "0000B2",
+            "00A600",
+            "00A6B2",
+            "CC0000",
+            "B200B2"
+        ]
+    },
+    "material": {
+        "foreground": "232322",
+        "background": "EAEAEA",
+        "colors": [
+            "457B24",
+            "0E717C",
+            "B7141F",
+            "560088",
+            "134EB2",
+            "F6981E"
+        ]
+    },
+    "materialdark": {
+        "foreground": "232322",
+        "background": "E5E5E5",
+        "colors": [
+            "457B24",
+            "134EB2",
+            "0E717C",
+            "F6981E",
+            "560088",
+            "B7141F"
+        ]
+    },
+    "materialdarker": {
+        "foreground": "212121",
+        "background": "EEFFFF",
+        "colors": [
+            "89DDFF",
+            "FFCB6B",
+            "C3E88D",
+            "C792EA",
+            "FF5370",
+            "82AAFF"
+        ]
+    },
+    "materialocean": {
+        "foreground": "0F111A",
+        "background": "8F93A2",
+        "colors": [
+            "FFCB6B",
+            "82AAFF",
+            "C3E88D",
+            "89DDFF",
+            "FF5370",
+            "C792EA"
+        ]
+    },
+    "mathias": {
+        "foreground": "000000",
+        "background": "BBBBBB",
+        "colors": [
+            "67D9F0",
+            "FA2573",
+            "C48DFF",
+            "E52222",
+            "A6E32D",
+            "FC951E"
+        ]
+    },
+    "medallion": {
+        "foreground": "1D1908",
+        "background": "CAC296",
+        "colors": [
+            "D3BD26",
+            "616BB0",
+            "B64C00",
+            "8C5A90",
+            "916C25",
+            "7C8B16"
+        ]
+    },
+    "midnight_in_mojave": {
+        "foreground": "1E1E1E",
+        "background": "FFFFFF",
+        "colors": [
+            "FF453A",
+            "FFD60A",
+            "5AC8FA",
+            "0A84FF",
+            "BF5AF2",
+            "32D74B"
+        ]
+    },
+    "mirage": {
+        "foreground": "1B2738",
+        "background": "A6B2C0",
+        "colors": [
+            "FF9999",
+            "7FB5FF",
+            "85CC95",
+            "FFD700",
+            "21C7A8",
+            "DDB3FF"
+        ]
+    },
+    "misterioso": {
+        "foreground": "2D3743",
+        "background": "E1E1E0",
+        "colors": [
+            "23D7D7",
+            "338F86",
+            "FF4242",
+            "74AF68",
+            "FFAD29",
+            "9414E6"
+        ]
+    },
+    "molokai": {
+        "foreground": "121212",
+        "background": "BBBBBB",
+        "colors": [
+            "1080D0",
+            "8700FF",
+            "FA2573",
+            "DFD460",
+            "43A8D0",
+            "98E123"
+        ]
+    },
+    "monalisa": {
+        "foreground": "120B0D",
+        "background": "F7D66A",
+        "colors": [
+            "636232",
+            "9B291C",
+            "588056",
+            "515C5D",
+            "9B1D29",
+            "C36E28"
+        ]
+    },
+    "monokai_remastered": {
+        "foreground": "0C0C0C",
+        "background": "D9D9D9",
+        "colors": [
+            "9D65FF",
+            "FD971F",
+            "58D1EB",
+            "F4005F",
+            "98E024",
+            "F4005F"
+        ]
+    },
+    "monokai_soda": {
+        "foreground": "1A1A1A",
+        "background": "C4C5B5",
+        "colors": [
+            "98E024",
+            "58D1EB",
+            "9D65FF",
+            "F4005F",
+            "F4005F",
+            "FA8419"
+        ]
+    },
+    "monokai_vivid": {
+        "foreground": "121212",
+        "background": "F9F9F9",
+        "colors": [
+            "FA2934",
+            "98E123",
+            "F800F8",
+            "FFF30A",
+            "01B6ED",
+            "0443FF"
+        ]
+    },
+    "n0tch2k": {
+        "foreground": "222222",
+        "background": "A0A0A0",
+        "colors": [
+            "A95551",
+            "767676",
+            "666666",
+            "657D3E",
+            "C9C9C9",
+            "A98051"
+        ]
+    },
+    "neopolitan": {
+        "foreground": "271F19",
+        "background": "FFFFFF",
+        "colors": [
+            "61CE3C",
+            "8DA6CE",
+            "253B76",
+            "FBDE2D",
+            "800000",
+            "FF0080"
+        ]
+    },
+    "neutron": {
+        "foreground": "1C1E22",
+        "background": "E6E8EF",
+        "colors": [
+            "5AB977",
+            "A4799D",
+            "B54036",
+            "DEB566",
+            "3F94A8",
+            "6A7C93"
+        ]
+    },
+    "night_owlish_light": {
+        "foreground": "403F53",
+        "background": "FFFFFF",
+        "colors": [
+            "D3423E",
+            "4876D6",
+            "08916A",
+            "2AA298",
+            "403F53",
+            "DAAA01"
+        ]
+    },
+    "nightlion_v1": {
+        "foreground": "000000",
+        "background": "BBBBBB",
+        "colors": [
+            "BB00BB",
+            "5FDE8F",
+            "BB0000",
+            "276BD8",
+            "F3F167",
+            "00DADF"
+        ]
+    },
+    "nightlion_v2": {
+        "foreground": "171717",
+        "background": "BBBBBB",
+        "colors": [
+            "04F623",
+            "64D0F0",
+            "CE6FDB",
+            "BB0000",
+            "00DADF",
+            "F3F167"
+        ]
+    },
+    "nocturnal_winter": {
+        "foreground": "0D0D17",
+        "background": "E6E5E5",
+        "colors": [
+            "09CD7E",
+            "FF2B6D",
+            "3182E0",
+            "F12D52",
+            "09C87A",
+            "F5F17A"
+        ]
+    },
+    "nord": {
+        "foreground": "2E3440",
+        "background": "D8DEE9",
+        "colors": [
+            "EBCB8B",
+            "BF616A",
+            "A3BE8C",
+            "81A1C1",
+            "B48EAD",
+            "88C0D0"
+        ]
+    },
+    "novel": {
+        "foreground": "3B2322",
+        "background": "DFDBC3",
+        "colors": [
+            "0000CC",
+            "CC00CC",
+            "0087CC",
+            "CC0000",
+            "D06B00",
+            "009600"
+        ]
+    },
+    "obsidian": {
+        "foreground": "283033",
+        "background": "CDCDCD",
+        "colors": [
+            "00BBBB",
+            "FECD22",
+            "BB00BB",
+            "00BB00",
+            "3A9BDB",
+            "A60001"
+        ]
+    },
+    "ocean": {
+        "foreground": "224FBC",
+        "background": "FFFFFF",
+        "colors": [
+            "990000",
+            "999900",
+            "00A600",
+            "0000B2",
+            "00A6B2",
+            "B200B2"
+        ]
+    },
+    "oceanicmaterial": {
+        "foreground": "1C262B",
+        "background": "C2C8D7",
+        "colors": [
+            "8800A0",
+            "FFEA2E",
+            "40A33F",
+            "1E80F0",
+            "EE2B2A",
+            "16AFCA"
+        ]
+    },
+    "ollie": {
+        "foreground": "222125",
+        "background": "8A8DAE",
+        "colors": [
+            "1FA6AC",
+            "B08528",
+            "AC2E31",
+            "2D57AC",
+            "AC4300",
+            "31AC61"
+        ]
+    },
+    "onehalfdark": {
+        "foreground": "282C34",
+        "background": "DCDFE4",
+        "colors": [
+            "56B6C2",
+            "61AFEF",
+            "E5C07B",
+            "E06C75",
+            "98C379",
+            "C678DD"
+        ]
+    },
+    "onehalflight": {
+        "foreground": "383A42",
+        "background": "FAFAFA",
+        "colors": [
+            "A626A4",
+            "0184BC",
+            "50A14F",
+            "0997B3",
+            "E45649",
+            "C18401"
+        ]
+    },
+    "operator_mono_dark": {
+        "foreground": "191919",
+        "background": "C3CAC2",
+        "colors": [
+            "4387CF",
+            "CA372D",
+            "72D5C6",
+            "B86CB4",
+            "4D7B3A",
+            "D4D697"
+        ]
+    },
+    "overnight_slumber": {
+        "foreground": "0E1729",
+        "background": "CED2D6",
+        "colors": [
+            "8DABE1",
+            "C792EB",
+            "FFCB8B",
+            "78CCF0",
+            "85CC95",
+            "FFA7C4"
+        ]
+    },
+    "pandora": {
+        "foreground": "141E43",
+        "background": "E1E1E1",
+        "colors": [
+            "FF4242",
+            "23D7D7",
+            "9414E6",
+            "338F86",
+            "74AF68",
+            "FFAD29"
+        ]
+    },
+    "paraiso_dark": {
+        "foreground": "2F1E2E",
+        "background": "A39E9B",
+        "colors": [
+            "5BC4BF",
+            "FEC418",
+            "EF6155",
+            "815BA4",
+            "06B6EF",
+            "48B685"
+        ]
+    },
+    "parasio_dark": {
+        "foreground": "2F1E2E",
+        "background": "A39E9B",
+        "colors": [
+            "06B6EF",
+            "EF6155",
+            "FEC418",
+            "5BC4BF",
+            "48B685",
+            "815BA4"
+        ]
+    },
+    "paulmillr": {
+        "foreground": "000000",
+        "background": "F2F2F2",
+        "colors": [
+            "79FF0F",
+            "B449BE",
+            "396BD7",
+            "FF0000",
+            "E7BF00",
+            "66CCFF"
+        ]
+    },
+    "pencildark": {
+        "foreground": "212121",
+        "background": "F1F1F1",
+        "colors": [
+            "10A778",
+            "A89C14",
+            "008EC4",
+            "523C79",
+            "C30771",
+            "20A5BA"
+        ]
+    },
+    "pencillight": {
+        "foreground": "424242",
+        "background": "F1F1F1",
+        "colors": [
+            "008EC4",
+            "20A5BA",
+            "10A778",
+            "A89C14",
+            "C30771",
+            "523C79"
+        ]
+    },
+    "piatto_light": {
+        "foreground": "414141",
+        "background": "FFFFFF",
+        "colors": [
+            "3C5EA8",
+            "A454B2",
+            "66781E",
+            "B23771",
+            "66781E",
+            "CD6F34"
+        ]
+    },
+    "pnevma": {
+        "foreground": "1C1C1C",
+        "background": "D0D0D0",
+        "colors": [
+            "8ADBB4",
+            "D7AF87",
+            "A36666",
+            "7FA5BD",
+            "C79EC4",
+            "90A57D"
+        ]
+    },
+    "popping_and_locking": {
+        "foreground": "181921",
+        "background": "EBDBB2",
+        "colors": [
+            "B16286",
+            "D79921",
+            "98971A",
+            "689D6A",
+            "458588",
+            "CC241D"
+        ]
+    },
+    "primary": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "DB4437",
+            "DB4437",
+            "4285F4",
+            "F4B400",
+            "0F9D58",
+            "4285F4"
+        ]
+    },
+    "pro_light": {
+        "foreground": "191919",
+        "background": "FFFFFF",
+        "colors": [
+            "ED66E8",
+            "3B75FF",
+            "4ED2DE",
+            "50D148",
+            "C6C440",
+            "E5492B"
+        ]
+    },
+    "pro": {
+        "foreground": "000000",
+        "background": "F2F2F2",
+        "colors": [
+            "990000",
+            "B200B2",
+            "00A600",
+            "999900",
+            "2009DB",
+            "00A6B2"
+        ]
+    },
+    "purple_rain": {
+        "foreground": "21084A",
+        "background": "FFFBF6",
+        "colors": [
+            "9BE205",
+            "00A2FA",
+            "815BB5",
+            "FFC400",
+            "FF260E",
+            "00DEEF"
+        ]
+    },
+    "purplepeter": {
+        "foreground": "2A1A4A",
+        "background": "ECE7FA",
+        "colors": [
+            "BA8CFF",
+            "FF796D",
+            "E78FCD",
+            "EFDFAC",
+            "99B481",
+            "66D9EF"
+        ]
+    },
+    "rapture": {
+        "foreground": "111E2A",
+        "background": "C0C9E5",
+        "colors": [
+            "FC644D",
+            "7AFDE1",
+            "FFF09B",
+            "FF4FA1",
+            "6C9BF5",
+            "64E0FF"
+        ]
+    },
+    "rebecca": {
+        "foreground": "292A44",
+        "background": "E8E6ED",
+        "colors": [
+            "DD7755",
+            "04DBB5",
+            "BF9CF9",
+            "7AA5FF",
+            "56D3C2",
+            "F2E7B7"
+        ]
+    },
+    "red_alert": {
+        "foreground": "762423",
+        "background": "FFFFFF",
+        "colors": [
+            "E979D7",
+            "D62E4E",
+            "BEB86B",
+            "6BBEB8",
+            "71BE6B",
+            "489BEE"
+        ]
+    },
+    "red_planet": {
+        "foreground": "222222",
+        "background": "C2B790",
+        "colors": [
+            "5B8390",
+            "8C3432",
+            "69819E",
+            "728271",
+            "E8BF6A",
+            "896492"
+        ]
+    },
+    "red_sands": {
+        "foreground": "7A251E",
+        "background": "D7C9A7",
+        "colors": [
+            "BB00BB",
+            "E7B000",
+            "0072FF",
+            "00BBBB",
+            "FF3F00",
+            "00BB00"
+        ]
+    },
+    "relaxed": {
+        "foreground": "353A44",
+        "background": "D9D9D9",
+        "colors": [
+            "6A8799",
+            "909D63",
+            "C9DFFF",
+            "BC5653",
+            "B06698",
+            "EBC17A"
+        ]
+    },
+    "rippedcasts": {
+        "foreground": "2B2B2B",
+        "background": "FFFFFF",
+        "colors": [
+            "BFBB1F",
+            "75A5B0",
+            "A8FF60",
+            "5A647E",
+            "FF73FD",
+            "CDAF95"
+        ]
+    },
+    "rouge_2": {
+        "foreground": "17182B",
+        "background": "A2A3AA",
+        "colors": [
+            "DBCDAB",
+            "969E92",
+            "8AB6C1",
+            "4C4E78",
+            "6E94B9",
+            "C6797E"
+        ]
+    },
+    "royal": {
+        "foreground": "100815",
+        "background": "514968",
+        "colors": [
+            "B49D27",
+            "23801C",
+            "8AAABE",
+            "6580B0",
+            "91284C",
+            "674D96"
+        ]
+    },
+    "ryuuko": {
+        "foreground": "2C3941",
+        "background": "ECECEC",
+        "colors": [
+            "B1A990",
+            "66907D",
+            "B18A73",
+            "865F5B",
+            "6A8E95",
+            "88B2AC"
+        ]
+    },
+    "sakura": {
+        "foreground": "18131E",
+        "background": "DD7BDC",
+        "colors": [
+            "6964AB",
+            "41AF1A",
+            "BC7053",
+            "939393",
+            "C71FBF",
+            "D52370"
+        ]
+    },
+    "scarlet_protocol": {
+        "foreground": "1C153D",
+        "background": "E41951",
+        "colors": [
+            "0271B6",
+            "FAF945",
+            "FF0051",
+            "00C5C7",
+            "00DC84",
+            "CA30C7"
+        ]
+    },
+    "seafoam_pastel": {
+        "foreground": "243435",
+        "background": "D4E7D4",
+        "colors": [
+            "ADA16D",
+            "729494",
+            "728C62",
+            "4D7B82",
+            "8A7267",
+            "825D4D"
+        ]
+    },
+    "seashells": {
+        "foreground": "09141B",
+        "background": "DEB88D",
+        "colors": [
+            "027C9B",
+            "D15123",
+            "1E4950",
+            "50A3B5",
+            "FCA02F",
+            "68D4F1"
+        ]
+    },
+    "seti": {
+        "foreground": "111213",
+        "background": "CACECD",
+        "colors": [
+            "E0C64F",
+            "8EC43D",
+            "43A5D5",
+            "8B57B5",
+            "8EC43D",
+            "C22832"
+        ]
+    },
+    "shades_of_purple": {
+        "foreground": "1E1D40",
+        "background": "FFFFFF",
+        "colors": [
+            "FFE700",
+            "FF2C70",
+            "D90429",
+            "00C5C7",
+            "3AD900",
+            "6943FF"
+        ]
+    },
+    "shaman": {
+        "foreground": "001015",
+        "background": "405555",
+        "colors": [
+            "5E8BAA",
+            "00599D",
+            "B2302D",
+            "00A941",
+            "5D7E19",
+            "449A86"
+        ]
+    },
+    "slate": {
+        "foreground": "222222",
+        "background": "35B1D2",
+        "colors": [
+            "15AB9C",
+            "264B49",
+            "E2A8BF",
+            "C4C9C0",
+            "A481D3",
+            "81D778"
+        ]
+    },
+    "sleepyhollow": {
+        "foreground": "121214",
+        "background": "AF9A91",
+        "colors": [
+            "B55600",
+            "5F63B4",
+            "91773F",
+            "8FAEA9",
+            "A17C7B",
+            "BA3934"
+        ]
+    },
+    "smyck": {
+        "foreground": "1B1B1B",
+        "background": "F7F7F7",
+        "colors": [
+            "7DA900",
+            "B84131",
+            "BA8ACC",
+            "62A3C4",
+            "207383",
+            "C4A500"
+        ]
+    },
+    "snazzy": {
+        "foreground": "1E1F29",
+        "background": "EBECE6",
+        "colors": [
+            "FC4346",
+            "49BAFF",
+            "50FB7C",
+            "8BE9FE",
+            "FC4CB4",
+            "F0FB8C"
+        ]
+    },
+    "softserver": {
+        "foreground": "242626",
+        "background": "99A3A2",
+        "colors": [
+            "6BA58F",
+            "6B8FA3",
+            "A2686A",
+            "9AA56A",
+            "6A71A3",
+            "A3906A"
+        ]
+    },
+    "solarized_darcula": {
+        "foreground": "3D3F41",
+        "background": "D2D8D9",
+        "colors": [
+            "2075C7",
+            "629655",
+            "F24840",
+            "15968D",
+            "797FD4",
+            "B68800"
+        ]
+    },
+    "solarized_dark___patched": {
+        "foreground": "001E27",
+        "background": "708284",
+        "colors": [
+            "A57706",
+            "259286",
+            "D11C24",
+            "738A05",
+            "C61C6F",
+            "2176C7"
+        ]
+    },
+    "solarized_dark_higher_contrast": {
+        "foreground": "001E27",
+        "background": "9CC2C3",
+        "colors": [
+            "2176C7",
+            "259286",
+            "A57706",
+            "C61C6F",
+            "6CBE6C",
+            "D11C24"
+        ]
+    },
+    "spacedust": {
+        "foreground": "0A1E24",
+        "background": "ECF0C1",
+        "colors": [
+            "5CAB96",
+            "06AFC7",
+            "E3CD7B",
+            "0F548B",
+            "E35B00",
+            "E35B00"
+        ]
+    },
+    "spacegray_eighties_dull": {
+        "foreground": "222222",
+        "background": "C9C6BC",
+        "colors": [
+            "7C8FA5",
+            "92B477",
+            "A5789E",
+            "C6735A",
+            "80CDCB",
+            "B24A56"
+        ]
+    },
+    "spacegray_eighties": {
+        "foreground": "222222",
+        "background": "BDBAAE",
+        "colors": [
+            "5486C0",
+            "81A764",
+            "57C2C1",
+            "EC5F67",
+            "BF83C1",
+            "FEC254"
+        ]
+    },
+    "spacegray": {
+        "foreground": "20242D",
+        "background": "B3B8C3",
+        "colors": [
+            "E5C179",
+            "7D8FA4",
+            "85A7A5",
+            "A47996",
+            "B04B57",
+            "87B379"
+        ]
+    },
+    "spiderman": {
+        "foreground": "1B1D1E",
+        "background": "E3E3E3",
+        "colors": [
+            "E60813",
+            "2C3FFF",
+            "2435DB",
+            "E24756",
+            "3256FF",
+            "E22928"
+        ]
+    },
+    "spring": {
+        "foreground": "4D4D4C",
+        "background": "FFFFFF",
+        "colors": [
+            "3E999F",
+            "FF4D83",
+            "1FC95B",
+            "1DD3EE",
+            "1F8C3B",
+            "8959A8"
+        ]
+    },
+    "square": {
+        "foreground": "1A1A1A",
+        "background": "ACACAB",
+        "colors": [
+            "B6377D",
+            "C9CAEC",
+            "A9CDEB",
+            "75507B",
+            "ECEBBE",
+            "E9897C"
+        ]
+    },
+    "subliminal": {
+        "foreground": "282C35",
+        "background": "D4D4D4",
+        "colors": [
+            "5FB3B3",
+            "E15A60",
+            "FFE2A9",
+            "F1A5AB",
+            "6699CC",
+            "A9CFA4"
+        ]
+    },
+    "sundried": {
+        "foreground": "1A1818",
+        "background": "C9C9C9",
+        "colors": [
+            "A7463D",
+            "9D602A",
+            "9C814F",
+            "587744",
+            "485B98",
+            "864651"
+        ]
+    },
+    "symfonic": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "DC322F",
+            "FF8400",
+            "56DB3A",
+            "CCCCFF",
+            "0084D4",
+            "B729D9"
+        ]
+    },
+    "synthwave_everything": {
+        "foreground": "2A2139",
+        "background": "F0EFF1",
+        "colors": [
+            "C792EA",
+            "F97E72",
+            "72F1B8",
+            "F772E0",
+            "6D77B3",
+            "FEDE5D"
+        ]
+    },
+    "synthwave": {
+        "foreground": "000000",
+        "background": "DAD9C7",
+        "colors": [
+            "2186EC",
+            "12C3E2",
+            "1EBB2B",
+            "FDF834",
+            "F85A21",
+            "F6188F"
+        ]
+    },
+    "tango_adapted": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "00D0D6",
+            "C17ECC",
+            "F0CB00",
+            "FF0000",
+            "00A2FF",
+            "59D600"
+        ]
+    },
+    "tango_half_adapted": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "E2C000",
+            "00BDC3",
+            "A96CB3",
+            "008EF6",
+            "FF0000",
+            "4CC300"
+        ]
+    },
+    "teerb": {
+        "foreground": "262626",
+        "background": "D0D0D0",
+        "colors": [
+            "D7AF87",
+            "86AED6",
+            "8ADBB4",
+            "D6AED6",
+            "AED686",
+            "D68686"
+        ]
+    },
+    "terminal_basic": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "999900",
+            "00A6B2",
+            "990000",
+            "B200B2",
+            "00A600",
+            "0000B2"
+        ]
+    },
+    "thayer_bright": {
+        "foreground": "1B1D1E",
+        "background": "F8F8F8",
+        "colors": [
+            "F4FD22",
+            "38C8B5",
+            "2757D6",
+            "F92672",
+            "4DF840",
+            "8C54FE"
+        ]
+    },
+    "the_hulk": {
+        "foreground": "1B1D1E",
+        "background": "B5B5B5",
+        "colors": [
+            "2525F5",
+            "13CE30",
+            "641F74",
+            "269D1B",
+            "63E457",
+            "378CA9"
+        ]
+    },
+    "tinacious_design_(dark)": {
+        "foreground": "1D1D26",
+        "background": "CBCBF0",
+        "colors": [
+            "00CBFF",
+            "00CECA",
+            "FF3399",
+            "FFCC66",
+            "00D364",
+            "CC66FF"
+        ]
+    },
+    "tinacious_design_(light)": {
+        "foreground": "1D1D26",
+        "background": "F8F8FF",
+        "colors": [
+            "CC66FF",
+            "00CECA",
+            "00D364",
+            "FFCC66",
+            "FF3399",
+            "00CBFF"
+        ]
+    },
+    "tomorrow_night_blue": {
+        "foreground": "002451",
+        "background": "FFFFFF",
+        "colors": [
+            "FFEEAD",
+            "D1F1A9",
+            "BBDAFF",
+            "FF9DA4",
+            "EBBBFF",
+            "99FFFF"
+        ]
+    },
+    "tomorrow_night_bright": {
+        "foreground": "000000",
+        "background": "EAEAEA",
+        "colors": [
+            "70C0B1",
+            "C397D8",
+            "E7C547",
+            "D54E53",
+            "B9CA4A",
+            "7AA6DA"
+        ]
+    },
+    "tomorrow_night_burns": {
+        "foreground": "151515",
+        "background": "A1B0B8",
+        "colors": [
+            "D3494E",
+            "DF9395",
+            "FC595F",
+            "BA8586",
+            "A63C40",
+            "832E31"
+        ]
+    },
+    "tomorrow_night_eighties": {
+        "foreground": "2D2D2D",
+        "background": "CCCCCC",
+        "colors": [
+            "CC99CC",
+            "66CCCC",
+            "FFCC66",
+            "99CC99",
+            "F2777A",
+            "6699CC"
+        ]
+    },
+    "tomorrow_night": {
+        "foreground": "1D1F21",
+        "background": "C5C8C6",
+        "colors": [
+            "8ABEB7",
+            "B294BB",
+            "F0C674",
+            "B5BD68",
+            "CC6666",
+            "81A2BE"
+        ]
+    },
+    "tomorrow": {
+        "foreground": "4D4D4C",
+        "background": "FFFFFF",
+        "colors": [
+            "4271AE",
+            "718C00",
+            "C82829",
+            "3E999F",
+            "8959A8",
+            "EAB700"
+        ]
+    },
+    "toychest": {
+        "foreground": "24364B",
+        "background": "31D07B",
+        "colors": [
+            "DB8E27",
+            "35A08F",
+            "8A5EDC",
+            "BE2D26",
+            "1A9172",
+            "325D96"
+        ]
+    },
+    "treehouse": {
+        "foreground": "191919",
+        "background": "786B53",
+        "colors": [
+            "AA820C",
+            "58859A",
+            "97363D",
+            "44A900",
+            "B2270E",
+            "B25A1E"
+        ]
+    },
+    "twilight_terminal": {
+        "foreground": "141414",
+        "background": "FFFFD4",
+        "colors": [
+            "44474A",
+            "C2A86C",
+            "AFB97A",
+            "B4BE7C",
+            "C06D44",
+            "778385"
+        ]
+    },
+    "ubuntu": {
+        "foreground": "300A24",
+        "background": "EEEEEC",
+        "colors": [
+            "75507B",
+            "3465A4",
+            "06989A",
+            "4E9A06",
+            "CC0000",
+            "C4A000"
+        ]
+    },
+    "ultraviolent": {
+        "foreground": "242728",
+        "background": "C1C1C1",
+        "colors": [
+            "FFF727",
+            "D731FF",
+            "FF0090",
+            "B6FF00",
+            "47E0FB",
+            "0EFFBB"
+        ]
+    },
+    "underthesea": {
+        "foreground": "011116",
+        "background": "FFFFFF",
+        "colors": [
+            "00A941",
+            "59819C",
+            "B2302D",
+            "5D7E19",
+            "00599D",
+            "459A86"
+        ]
+    },
+    "unikitty": {
+        "foreground": "0B0B0B",
+        "background": "FF8CD9",
+        "colors": [
+            "145FCD",
+            "FF36A2",
+            "6BD1BC",
+            "EEDF4B",
+            "BAFC8B",
+            "A80F20"
+        ]
+    },
+    "urple": {
+        "foreground": "1B1B23",
+        "background": "877A9B",
+        "colors": [
+            "564D9B",
+            "B0425B",
+            "37A415",
+            "808080",
+            "AD5C42",
+            "6C3CA1"
+        ]
+    },
+    "vaughn": {
+        "foreground": "25234F",
+        "background": "DCDCCC",
+        "colors": [
+            "5555FF",
+            "8CD0D3",
+            "DFAF8F",
+            "60B48A",
+            "705050",
+            "F08CC3"
+        ]
+    },
+    "vibrantink": {
+        "foreground": "000000",
+        "background": "FFFFFF",
+        "colors": [
+            "FFCC00",
+            "9933CC",
+            "44B4CC",
+            "44B4CC",
+            "CCFF04",
+            "FF6600"
+        ]
+    },
+    "violet_dark": {
+        "foreground": "1C1D1F",
+        "background": "708284",
+        "colors": [
+            "D13A82",
+            "C94C22",
+            "B4881D",
+            "85981C",
+            "32A198",
+            "2E8BCE"
+        ]
+    },
+    "violet_light": {
+        "foreground": "536870",
+        "background": "FCF4DC",
+        "colors": [
+            "B4881D",
+            "32A198",
+            "D13A82",
+            "85981C",
+            "2E8BCE",
+            "C94C22"
+        ]
+    },
+    "warmneon": {
+        "foreground": "404040",
+        "background": "AFDAB6",
+        "colors": [
+            "4261C5",
+            "F920FB",
+            "DAE145",
+            "E24346",
+            "2ABBD4",
+            "39B13A"
+        ]
+    },
+    "wez": {
+        "foreground": "000000",
+        "background": "B3B3B3",
+        "colors": [
+            "7ACACA",
+            "CC5555",
+            "5555CC",
+            "CDCD55",
+            "55CC55",
+            "CC55CC"
+        ]
+    },
+    "whimsy": {
+        "foreground": "29283B",
+        "background": "B3B0D6",
+        "colors": [
+            "5ECA89",
+            "AA7FF0",
+            "65AEF7",
+            "EF6487",
+            "43C1BE",
+            "FDD877"
+        ]
+    },
+    "wildcherry": {
+        "foreground": "1F1726",
+        "background": "DAFAFF",
+        "colors": [
+            "ECECEC",
+            "2AB250",
+            "FFD16F",
+            "C1B8B7",
+            "D94085",
+            "883CDC"
+        ]
+    },
+    "wombat": {
+        "foreground": "171717",
+        "background": "DEDACF",
+        "colors": [
+            "82FFF7",
+            "5DA9F6",
+            "E86AFF",
+            "FF615A",
+            "B1E969",
+            "EBD99C"
+        ]
+    },
+    "wryan": {
+        "foreground": "101010",
+        "background": "999993",
+        "colors": [
+            "395573",
+            "5E468C",
+            "31658C",
+            "287373",
+            "7C7C99",
+            "8C4665"
+        ]
+    },
+    "zenburn": {
+        "foreground": "3F3F3F",
+        "background": "DCDCCC",
+        "colors": [
+            "60B48A",
+            "506070",
+            "F0DFAF",
+            "DC8CC3",
+            "8CD0D3",
+            "705050"
+        ]
+    },
+    "slidehelper001": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "247BA0",
+            "70C1B3",
+            "B2DBBF",
+            "F3FFBD",
+            "FF1654",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper002": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "05668D",
+            "028090",
+            "00A896",
+            "02C39A",
+            "F0F3BD",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper003": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "50514F",
+            "F25F5C",
+            "FFE066",
+            "247BA0",
+            "70C1B3",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper004": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "6D6875",
+            "B5838D",
+            "E5989B",
+            "FFB4A2",
+            "FFCDB2",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper005": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "2B2D42",
+            "8D99AE",
+            "EDF2F4",
+            "EF233C",
+            "D90429",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper006": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "264653",
+            "2A9D8F",
+            "E9C46A",
+            "F4A261",
+            "E76F51",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper007": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "1A535C",
+            "4ECDC4",
+            "FF6B6B",
+            "FFE66D",
+            "F7FFF7",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper008": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "9D8189",
+            "F4ACB7",
+            "FFCAD4",
+            "FFE5D9",
+            "D8E2DC",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper009": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "ED6A5A",
+            "F4F1BB",
+            "9BC1BC",
+            "5CA4A9",
+            "E6EBE0",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper010": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "5BC0EB",
+            "FDE74C",
+            "9BC53D",
+            "E55934",
+            "FA7921",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper011": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "FE938C",
+            "E6B89C",
+            "EAD2AC",
+            "9CAFB7",
+            "4281A4",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper012": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0B132B",
+            "1C2541",
+            "3A506B",
+            "5BC0BE",
+            "6FFFE9",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper013": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "BCE784",
+            "5DD39E",
+            "348AA7",
+            "525174",
+            "513B56",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper014": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "114B5F",
+            "028090",
+            "E4FDE1",
+            "456990",
+            "F45B69",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper015": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "EF476F",
+            "FFD166",
+            "06D6A0",
+            "118AB2",
+            "073B4C",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper016": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "1985A1",
+            "4C5C68",
+            "46494C",
+            "C5C3C6",
+            "DCDCDD",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper017": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "9C89B8",
+            "F0A6CA",
+            "EFC3E6",
+            "F0E6EF",
+            "B8BEDD",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper018": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "003049",
+            "D62828",
+            "F77F00",
+            "FCBF49",
+            "EAE2B7",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper019": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "06AED5",
+            "086788",
+            "F0C808",
+            "FFF1D0",
+            "DD1C1A",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper020": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "22223B",
+            "4A4E69",
+            "9A8C98",
+            "C9ADA7",
+            "F2E9E4",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper021": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "114B5F",
+            "1A936F",
+            "88D498",
+            "C6DABF",
+            "F3E9D2",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper022": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "D8DBE2",
+            "A9BCD0",
+            "58A4B0",
+            "373F51",
+            "1B1B1E",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper023": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "13293D",
+            "006494",
+            "247BA0",
+            "1B98E0",
+            "E8F1F2",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper024": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0E103D",
+            "69306D",
+            "A5668B",
+            "D3BCC0",
+            "F2D7EE",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper025": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "F6511D",
+            "FFB400",
+            "00A6ED",
+            "7FB800",
+            "0D2C54",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper026": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3D5A80",
+            "98C1D9",
+            "EE6C4D",
+            "293241",
+            "E0FBFC",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper027": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3D315B",
+            "444B6E",
+            "708B75",
+            "9AB87A",
+            "F8F991",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper028": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "FFBF00",
+            "E83F6F",
+            "2274A5",
+            "32936F",
+            "F1F1F1",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper029": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "F0B67F",
+            "FE5F55",
+            "D6D1B1",
+            "C7EFCF",
+            "EEF5DB",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper030": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "FFB997",
+            "F67E7D",
+            "843B62",
+            "0B032D",
+            "74546A",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper031": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "CFDBD5",
+            "E8EDDF",
+            "F5CB5C",
+            "242423",
+            "333533",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper032": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "20BF55",
+            "0B4F6C",
+            "01BAEF",
+            "F1F1F1",
+            "757575",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper033": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "083D77",
+            "EBEBD3",
+            "F4D35E",
+            "EE964B",
+            "F95738",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper034": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "1BE7FF",
+            "6EEB83",
+            "E4FF1A",
+            "E8AA14",
+            "FF5714",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper035": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "7BDFF2",
+            "B2F7EF",
+            "EFF7F6",
+            "F7D6E0",
+            "F2B5D4",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper036": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "2D3142",
+            "4F5D75",
+            "BFC0C0",
+            "FFFFFF",
+            "EF8354",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper037": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "1B998B",
+            "2D3047",
+            "FFFD82",
+            "FF9B71",
+            "E84855",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper038": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "05668D",
+            "427AA1",
+            "EBF2FA",
+            "679436",
+            "A5BE00",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper039": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "847577",
+            "A6A2A2",
+            "CFD2CD",
+            "E5E6E4",
+            "FBFBF2",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper040": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "540D6E",
+            "EE4266",
+            "FFD23F",
+            "3BCEAC",
+            "0EAD69",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper041": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "A9DEF9",
+            "EDE7B1",
+            "F694C1",
+            "E4C1F9",
+            "D3F8E2",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper042": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "472D30",
+            "723D46",
+            "E26D5C",
+            "FFE1A8",
+            "C9CBA3",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper043": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "253237",
+            "5C6B73",
+            "9DB4C0",
+            "C2DFE3",
+            "E0FBFC",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper044": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "4A7C59",
+            "68B0AB",
+            "8FC0A9",
+            "C8D5B9",
+            "FAF3DD",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper045": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "5E6472",
+            "FFA69E",
+            "AED9E0",
+            "B8F2E6",
+            "FAF3DD",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper046": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "06D6A0",
+            "1B9AAA",
+            "EF476F",
+            "FFC43D",
+            "F8FFE5",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper047": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "4A7C59",
+            "68B0AB",
+            "8FC0A9",
+            "C8D5B9",
+            "FAF3DD",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper048": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "69585F",
+            "EF959D",
+            "FCDDBC",
+            "D9DBBC",
+            "B8D8BA",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper049": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "220901",
+            "621708",
+            "941B0C",
+            "BC3908",
+            "F6AA1C",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper050": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "FE4A49",
+            "2AB7CA",
+            "FED766",
+            "E6E6EA",
+            "F4F4F8",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper051": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "1E306E",
+            "563672",
+            "8E3C77",
+            "C6427B",
+            "FE4880",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper052": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "644CA2",
+            "3E77E9",
+            "FF5952",
+            "4FC775",
+            "FFD656",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper053": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3D3D3D",
+            "6059F7",
+            "6592FE",
+            "36C3FE",
+            "8C61FF",
+            "BFBFBF"
+        ]
+    },
+    "slidehelper054": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "002F2F",
+            "046380",
+            "A7A37E",
+            "E6E2AF",
+            "8C61FF",
+            "EFECCA"
+        ]
+    },
+    "slidehelper055": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "468966",
+            "FFF0A5",
+            "FFB03B",
+            "B64926",
+            "8E2800",
+            "EFECCA"
+        ]
+    },
+    "slidehelper056": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "2C3E50",
+            "E74C3C",
+            "ECF0F1",
+            "3498DB",
+            "2980B9",
+            "EFECCA"
+        ]
+    },
+    "slidehelper057": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "193441",
+            "3E606F",
+            "91AA9D",
+            "D1DBBD",
+            "FCFFF5",
+            "EFECCA"
+        ]
+    },
+    "slidehelper058": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "00A388",
+            "79BD8F",
+            "BEEB9F",
+            "FFFF9D",
+            "FF6138",
+            "EFECCA"
+        ]
+    },
+    "slidehelper059": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "004358",
+            "1F8A70",
+            "BEDB39",
+            "FFE11A",
+            "FD7400",
+            "EFECCA"
+        ]
+    },
+    "slidehelper060": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "105B63",
+            "BD4932",
+            "DB9E36",
+            "FFD34E",
+            "FFFAD5",
+            "EFECCA"
+        ]
+    },
+    "slidehelper061": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "B9121B",
+            "4C1B1B",
+            "BD8D46",
+            "F6E497",
+            "FCFAE1",
+            "EFECCA"
+        ]
+    },
+    "slidehelper062": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "DC3522",
+            "D9CB9E",
+            "374140",
+            "2A2C2B",
+            "1E1E20",
+            "EFECCA"
+        ]
+    },
+    "slidehelper063": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "2E0927",
+            "D90000",
+            "FF2D00",
+            "FF8C00",
+            "04756F",
+            "EFECCA"
+        ]
+    },
+    "slidehelper064": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "D8CAA8",
+            "5C832F",
+            "284907",
+            "382513",
+            "363942",
+            "EFECCA"
+        ]
+    },
+    "slidehelper065": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "10222B",
+            "95AB63",
+            "BDD684",
+            "E2F0D6",
+            "F6FFE0",
+            "EFECCA"
+        ]
+    },
+    "slidehelper066": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "2F2933",
+            "01A2A6",
+            "29D9C2",
+            "BDF271",
+            "FFFFA6",
+            "EFECCA"
+        ]
+    },
+    "slidehelper067": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "703030",
+            "2F343B",
+            "7E827A",
+            "E3CDA4",
+            "C77966",
+            "EFECCA"
+        ]
+    },
+    "slidehelper068": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "EA2E49",
+            "333745",
+            "77C4D3",
+            "DAEDE2",
+            "F6F792",
+            "EFECCA"
+        ]
+    },
+    "slidehelper069": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "26393D",
+            "40627C",
+            "D0A825",
+            "E8E595",
+            "FFFAE4",
+            "EFECCA"
+        ]
+    },
+    "slidehelper070": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "332532",
+            "644D52",
+            "F77A52",
+            "FF974F",
+            "A49A87",
+            "EFECCA"
+        ]
+    },
+    "slidehelper071": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "16193B",
+            "35478C",
+            "4E7AC7",
+            "7FB2F0",
+            "ADD5F7",
+            "EFECCA"
+        ]
+    },
+    "slidehelper072": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3E454C",
+            "2185C5",
+            "7ECEFD",
+            "FF7F66",
+            "FFF6E5",
+            "EFECCA"
+        ]
+    },
+    "slidehelper073": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "334D5C",
+            "45B29D",
+            "EFC94C",
+            "E27A3F",
+            "DF5A49",
+            "EFECCA"
+        ]
+    },
+    "slidehelper074": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "083643",
+            "476C5E",
+            "B1E001",
+            "CEF09D",
+            "B8ECD7",
+            "EFECCA"
+        ]
+    },
+    "slidehelper075": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "183152",
+            "375D81",
+            "ABC8E2",
+            "C4D7ED",
+            "E1E6FA",
+            "EFECCA"
+        ]
+    },
+    "slidehelper076": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "611427",
+            "1D2326",
+            "6A6A61",
+            "958976",
+            "DDDCC5",
+            "EFECCA"
+        ]
+    },
+    "slidehelper077": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "695D46",
+            "FF712C",
+            "A1E8D9",
+            "FFF6C5",
+            "CFC291",
+            "EFECCA"
+        ]
+    },
+    "slidehelper078": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "1D181F",
+            "3B424C",
+            "306E73",
+            "B29C85",
+            "FF5335",
+            "EFECCA"
+        ]
+    },
+    "slidehelper079": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "73603D",
+            "BF8A49",
+            "F2CA80",
+            "5E5A59",
+            "0D0D0D",
+            "EFECCA"
+        ]
+    },
+    "slidehelper080": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "25064C",
+            "36175E",
+            "553285",
+            "7B52AB",
+            "9768D1",
+            "EFECCA"
+        ]
+    },
+    "slidehelper081": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "6B0C22",
+            "D9042B",
+            "F4CB89",
+            "588C8C",
+            "011C26",
+            "EFECCA"
+        ]
+    },
+    "slidehelper082": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "31152B",
+            "723147",
+            "CC4452",
+            "E6B098",
+            "F9E4AD",
+            "EFECCA"
+        ]
+    },
+    "slidehelper083": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "FFBC67",
+            "685C79",
+            "AC6C82",
+            "DA727E",
+            "FFBC67",
+            "EFECCA"
+        ]
+    },
+    "slidehelper084": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "E84167",
+            "542733",
+            "30282A",
+            "55665E",
+            "C4D4CB",
+            "EFECCA"
+        ]
+    },
+    "slidehelper085": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0F2D40",
+            "194759",
+            "296B73",
+            "3E8C84",
+            "D8F2F0",
+            "EFECCA"
+        ]
+    },
+    "slidehelper086": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3FB8AF",
+            "7FC7AF",
+            "DAD8A7",
+            "FF9E9D",
+            "FF3D7F",
+            "EFECCA"
+        ]
+    },
+    "slidehelper087": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "141D29",
+            "233040",
+            "486273",
+            "72898F",
+            "BBD4D8",
+            "EFECCA"
+        ]
+    },
+    "slidehelper088": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3399CC",
+            "67B8DE",
+            "91C9E8",
+            "B4DCED",
+            "E8F8FF",
+            "EFECCA"
+        ]
+    },
+    "slidehelper089": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "334D5C",
+            "45B29D",
+            "EFC94C",
+            "E27A3F",
+            "DF5A49",
+            "EFECCA"
+        ]
+    },
+    "slidehelper090": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "A20D1E",
+            "BC0D35",
+            "DE264C",
+            "F0788C",
+            "F6B1C3",
+            "EFECCA"
+        ]
+    },
+    "slidehelper091": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "59D8E5",
+            "2F3738",
+            "647678",
+            "9FBCBF",
+            "D5FBFF",
+            "EFECCA"
+        ]
+    },
+    "slidehelper092": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "1A1F2B",
+            "1A1F2B",
+            "4A6491",
+            "85A5CC",
+            "D0E4F2",
+            "EFECCA"
+        ]
+    },
+    "slidehelper093": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "FF2151",
+            "FF7729",
+            "FFAD29",
+            "FFEBCA",
+            "1AB58A",
+            "EFECCA"
+        ]
+    },
+    "slidehelper094": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "9F3818",
+            "C33A1A",
+            "F84322",
+            "FFB05A",
+            "FFEBB0",
+            "EFECCA"
+        ]
+    },
+    "slidehelper095": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "212B40",
+            "C2E078",
+            "E2E8D2",
+            "BADCDD",
+            "547B97",
+            "EFECCA"
+        ]
+    },
+    "slidehelper096": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "171119",
+            "321433",
+            "660C47",
+            "B23467",
+            "CCBB51",
+            "EFECCA"
+        ]
+    },
+    "slidehelper097": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "002E40",
+            "2A5769",
+            "BDCFC7",
+            "FABD4A",
+            "FA9600",
+            "EFECCA"
+        ]
+    },
+    "slidehelper098": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0C274C",
+            "18709C",
+            "19BDC4",
+            "FFF3EE",
+            "EF4089",
+            "EFECCA"
+        ]
+    },
+    "slidehelper099": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "302B2F",
+            "696153",
+            "FFA600",
+            "9BB58F",
+            "FFD596",
+            "EFECCA"
+        ]
+    },
+    "slidehelper100": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "78C0F9",
+            "FE86A4",
+            "FFDBE6",
+            "FEEFFC",
+            "FFDDCE",
+            "EFECCA"
+        ]
+    },
+    "slidehelper101": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "425957",
+            "81AC8B",
+            "F2E5A2",
+            "F89883",
+            "D96666",
+            "EFECCA"
+        ]
+    },
+    "slidehelper102": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "183152",
+            "375D81",
+            "ABC8E2",
+            "C4D7ED",
+            "E1E6FA",
+            "EFECCA"
+        ]
+    },
+    "slidehelper103": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "961227",
+            "24262D",
+            "1C1F26",
+            "13171F",
+            "010712",
+            "EFECCA"
+        ]
+    },
+    "slidehelper104": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3D0D26",
+            "660A3E",
+            "891C56",
+            "B0276F",
+            "C93482",
+            "EFECCA"
+        ]
+    },
+    "slidehelper105": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "26140C",
+            "3D2216",
+            "784E3D",
+            "AB8574",
+            "D6BCB1",
+            "EFECCA"
+        ]
+    },
+    "slidehelper106": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3B3B3B",
+            "E84D5B",
+            "2BACB5",
+            "B4CCB9",
+            "F5ECD9",
+            "EFECCA"
+        ]
+    },
+    "slidehelper107": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3D0D26",
+            "660A3E",
+            "891C56",
+            "B0276F",
+            "C93482",
+            "EFECCA"
+        ]
+    },
+    "slidehelper108": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "F0AD44",
+            "385052",
+            "128085",
+            "C74029",
+            "FAE8CD",
+            "EFECCA"
+        ]
+    },
+    "slidehelper109": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "BF4904",
+            "D96704",
+            "F29D35",
+            "F2B950",
+            "F2DA91",
+            "EFECCA"
+        ]
+    },
+    "slidehelper110": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0B486B",
+            "3B8686",
+            "79BD9A",
+            "A8DBA8",
+            "CFF09E",
+            "EFECCA"
+        ]
+    },
+    "slidehelper111": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "CFF09E",
+            "A8877E",
+            "FF476C",
+            "FF7474",
+            "FFA49D",
+            "EFECCA"
+        ]
+    },
+    "slidehelper112": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0A7B83",
+            "2AA876",
+            "FFD265",
+            "F19C65",
+            "CE4D45",
+            "EFECCA"
+        ]
+    },
+    "slidehelper113": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "293033",
+            "293033",
+            "8C644C",
+            "C4BE90",
+            "FAFAC0",
+            "EFECCA"
+        ]
+    },
+    "slidehelper114": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3E3947",
+            "735360",
+            "D68684",
+            "F1B0B0",
+            "EBD0C4",
+            "EFECCA"
+        ]
+    },
+    "slidehelper115": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "324152",
+            "47535E",
+            "796466",
+            "C1836A",
+            "DEA677",
+            "EFECCA"
+        ]
+    },
+    "slidehelper116": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "F8555E",
+            "4C6A8D",
+            "0C9DA9",
+            "FBC38D",
+            "F14440",
+            "EFECCA"
+        ]
+    },
+    "slidehelper117": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "343844",
+            "2AB69D",
+            "E65848",
+            "FDC536",
+            "FCF2D7",
+            "EFECCA"
+        ]
+    },
+    "slidehelper118": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "233D4D",
+            "FE7F2D",
+            "FCCA46",
+            "A1C181",
+            "579C87",
+            "EFECCA"
+        ]
+    },
+    "slidehelper119": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "E23A59",
+            "44ADAD",
+            "3E506B",
+            "FCC82B",
+            "0F5E8C",
+            "EFECCA"
+        ]
+    },
+    "slidehelper120": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "B8C6D1",
+            "5A7284",
+            "D1C7B8",
+            "DFE8E6",
+            "0F5E8C",
+            "EFECCA"
+        ]
+    },
+    "slidehelper121": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "162238",
+            "324359",
+            "707F8C",
+            "D9D9D9",
+            "F2F2F0",
+            "EFECCA"
+        ]
+    },
+    "slidehelper122": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "324472",
+            "2693A1",
+            "EFA517",
+            "E86D1F",
+            "A41410",
+            "EFECCA"
+        ]
+    },
+    "slidehelper123": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "6699CC",
+            "FFF275",
+            "FF8C42",
+            "FF3C38",
+            "A23E48",
+            "EFECCA"
+        ]
+    },
+    "slidehelper124": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "26547C",
+            "EF476F",
+            "FFD166",
+            "06D6A0",
+            "8B7097",
+            "EFECCA"
+        ]
+    },
+    "slidehelper125": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3A86FF",
+            "8338EC",
+            "FF006E",
+            "FB5607",
+            "FFBE0B",
+            "EFECCA"
+        ]
+    },
+    "slidehelper126": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3C1642",
+            "086375",
+            "1DD3B0",
+            "AFFC41",
+            "B2FF9E",
+            "EFECCA"
+        ]
+    },
+    "slidehelper127": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "495867",
+            "577399",
+            "BDD5EA",
+            "F7F7FF",
+            "FE5F55",
+            "EFECCA"
+        ]
+    },
+    "slidehelper128": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "03256C",
+            "2541B2",
+            "1768AC",
+            "06BEE1",
+            "44D4FC",
+            "EFECCA"
+        ]
+    },
+    "slidehelper129": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "4C5454",
+            "FF715B",
+            "1EA896",
+            "523F38",
+            "727272",
+            "EFECCA"
+        ]
+    },
+    "slidehelper130": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "2B2D42",
+            "8D99AE",
+            "D80032",
+            "EF233C",
+            "EDF2F4",
+            "EFECCA"
+        ]
+    },
+    "slidehelper131": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "2F2235",
+            "3F3244",
+            "60495A",
+            "A9ACA9",
+            "BFC3BA",
+            "EFECCA"
+        ]
+    },
+    "slidehelper132": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0B0014",
+            "773344",
+            "D44D5C",
+            "E3B5A4",
+            "F5E9E2",
+            "EFECCA"
+        ]
+    },
+    "slidehelper133": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "36213E",
+            "554971",
+            "63768D",
+            "8AC6D0",
+            "B8F3FF",
+            "EFECCA"
+        ]
+    },
+    "slidehelper134": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0C0F0A",
+            "FF206E",
+            "41EAD4",
+            "53A5CC",
+            "FBFF12",
+            "EFECCA"
+        ]
+    },
+    "slidehelper135": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "FE5F55",
+            "F0B67F",
+            "D6D1B1",
+            "C7EFCF",
+            "EEF5DB",
+            "EFECCA"
+        ]
+    },
+    "slidehelper136": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "3F334D",
+            "574B60",
+            "7D8491",
+            "C0C5C1",
+            "EAF0CE",
+            "EFECCA"
+        ]
+    },
+    "slidehelper137": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0C120C",
+            "C20114",
+            "6D7275",
+            "C7D6D5",
+            "ECEBF3",
+            "EFECCA"
+        ]
+    },
+    "slidehelper138": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "CC444B",
+            "DA5552",
+            "DF7373",
+            "E39695",
+            "E4B1AB",
+            "EFECCA"
+        ]
+    },
+    "slidehelper139": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "9E0031",
+            "8E0045",
+            "770058",
+            "600047",
+            "44001A",
+            "EFECCA"
+        ]
+    },
+    "slidehelper140": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "040F0F",
+            "248232",
+            "2BA84A",
+            "2D3A3A",
+            "FCFFFC",
+            "EFECCA"
+        ]
+    },
+    "slidehelper141": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0D1B2A",
+            "1B263B",
+            "415A77",
+            "778DA9",
+            "E0E1DD",
+            "EFECCA"
+        ]
+    },
+    "slidehelper142": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "450920",
+            "A53860",
+            "DA627D",
+            "FFA5AB",
+            "F9DBBD",
+            "EFECCA"
+        ]
+    },
+    "slidehelper143": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "EB5E28",
+            "252422",
+            "403D39",
+            "CCC5B9",
+            "FFFCF2",
+            "EFECCA"
+        ]
+    },
+    "slidehelper144": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "07BEB8",
+            "3DCCC7",
+            "68D8D6",
+            "9CEAEF",
+            "C4FFF9",
+            "EFECCA"
+        ]
+    },
+    "slidehelper145": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "B71C1C",
+            "C62828",
+            "D32F2F",
+            "E53935",
+            "F44336",
+            "EF5350"
+        ]
+    },
+    "slidehelper146": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "880E4F",
+            "AD1457",
+            "C2185B",
+            "D81B60",
+            "E91E63",
+            "EC407A"
+        ]
+    },
+    "slidehelper147": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "4A148C",
+            "6A1B9A",
+            "7B1FA2",
+            "8E24AA",
+            "9C27B0",
+            "AB47BC"
+        ]
+    },
+    "slidehelper148": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "0277BD",
+            "0288D1",
+            "039BE5",
+            "03A9F4",
+            "29B6F6",
+            "4FC3F7"
+        ]
+    },
+    "slidehelper149": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "004D40",
+            "00695C",
+            "00796B",
+            "00897B",
+            "009688",
+            "26A69A"
+        ]
+    },
+    "slidehelper150": {
+        "foreground": "323232",
+        "background": "E3DED1",
+        "colors": [
+            "212121",
+            "424242",
+            "616161",
+            "757575",
+            "9E9E9E",
+            "9E9E9E"
+        ]
+    },
+    "caduceus": {
+        "foreground": "555C68",
+        "background": "ADB0BB",
+        "colors": [
+            "D186B2",
+            "2EB19B",
+            "ADDCEA",
+            "AA5F7C",
+            "1D565D",
+            "6B3138"
+        ]
+    }
+}
