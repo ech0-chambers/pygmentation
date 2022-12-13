@@ -2,7 +2,7 @@
     "newcastle": {
         "foreground": "3E3E3F",
         "background": "F2F3F4",
-        "colors" : [
+        "accents" : [
             "004271",
             "E4183E",
             "8890C7",
@@ -21,21 +21,15 @@
         "light" : {
             "foreground": "4c4f69",
             "background": "eff1f5",
-            "colors": [
-                "dc8a78",
-                "dd7878",
-                "ea76cb",
-                "8839ef",
-                "d20f39",
+            "accents": [
+                "dc8a78", 
+                "dd7878", 
                 "e64553",
-                "fe640b",
-                "df8e1d",
-                "40a02b",
                 "179299",
                 "04a5e5",
-                "209fb5",
-                "1e66f5",
-                "7287fd",
+                "7287fd"
+            ],
+            "surfaces": [
                 "5c5f77",
                 "6c6f85",
                 "7c7f93",
@@ -46,26 +40,29 @@
                 "ccd0da",
                 "e6e9ef",
                 "dce0e8"
-            ]
+            ],
+            "red": "d20f39",
+            "orange": "fe640b",
+            "yellow": "df8e1d",
+            "green": "40a02b",
+            "cyan": "209fb52",
+            "blue": "1e66f5",
+            "purple": "8839ef",
+            "magenta": "ea76cb"
         },
         "dark" : {
             "foreground": "cdd6f4",
             "background": "1e1e2e",
-            "colors" : [
+            "accents" : [
                 "f5e0dc",
                 "f2cdcd",
                 "f5c2e7",
-                "cba6f7",
-                "f38ba8",
                 "eba0ac",
-                "fab387",
-                "f9e2af",
-                "a6e3a1",
                 "94e2d5",
-                "89dceb",
                 "74c7ec",
-                "89b4fa",
-                "b4befe",
+                "b4befe"
+            ],
+            "surfaces" : [
                 "bac2de",
                 "a6adc8",
                 "9399b2",
@@ -76,13 +73,21 @@
                 "313244",
                 "181825",
                 "11111b"
-            ]
+            ],
+            "red": "f38ba8",
+            "orange": "fab387",
+            "yellow": "f9e2af",
+            "green": "a6e3a1",
+            "cyan": "89dceb",
+            "blue": "89b4fa",
+            "purple": "cba6f7"
+             
         }
     },
     "twilight": {
         "foreground": "24213E",
         "background": "E9EAEF",
-        "colors": [
+        "accents": [
             "E4BC50",
             "86C0C4",
             "E68E3A",
@@ -94,7 +99,7 @@
     "waveform": {
         "foreground": "073E87",
         "background": "C6E7FC",
-        "colors": [
+        "accents": [
             "30B6FD",
             "4584D3",
             "5CCF78",
@@ -106,7 +111,7 @@
     "verve": {
         "foreground": "666666",
         "background": "D2D2D2",
-        "colors": [
+        "accents": [
             "FF378B",
             "E40059",
             "9C017F",
@@ -118,7 +123,7 @@
     "urban": {
         "foreground": "424456",
         "background": "DEDEDE",
-        "colors": [
+        "accents": [
             "525389",
             "438086",
             "A04EA3",
@@ -130,7 +135,7 @@
     "trek": {
         "foreground": "4E3B30",
         "background": "FBEEC9",
-        "colors": [
+        "accents": [
             "F0A22E",
             "A5634D",
             "B58B80",
@@ -142,7 +147,7 @@
     "thatch": {
         "foreground": "1D3641",
         "background": "DFE6D0",
-        "colors": [
+        "accents": [
             "7499A4",
             "CFC60D",
             "99987F",
@@ -154,7 +159,7 @@
     "technic": {
         "foreground": "3B3B3B",
         "background": "D4D2D0",
-        "colors": [
+        "accents": [
             "6D9FAF",
             "CCAF0A",
             "8D89A4",
@@ -166,7 +171,7 @@
     "pushpin": {
         "foreground": "465E9C",
         "background": "CCDDEA",
-        "colors": [
+        "accents": [
             "FD9F22",
             "AA2B1E",
             "71685D",
@@ -178,7 +183,7 @@
     "perspective": {
         "foreground": "283138",
         "background": "FF8600",
-        "colors": [
+        "accents": [
             "828C9A",
             "D2610C",
             "80716A",
@@ -190,7 +195,7 @@
     "origin": {
         "foreground": "464653",
         "background": "DDE9EC",
-        "colors": [
+        "accents": [
             "717BA2",
             "9FB8CD",
             "D1D97A",
@@ -202,7 +207,7 @@
     "oriel": {
         "foreground": "565E6C",
         "background": "FFF39D",
-        "colors": [
+        "accents": [
             "FD8637",
             "7699D9",
             "B4301A",
@@ -214,7 +219,7 @@
     "opulent": {
         "foreground": "B13F9A",
         "background": "F4E7ED",
-        "colors": [
+        "accents": [
             "B83C67",
             "AC66BB",
             "DD6C37",
@@ -226,7 +231,7 @@
     "newsprint": {
         "foreground": "303030",
         "background": "DEDEE0",
-        "colors": [
+        "accents": [
             "AC0000",
             "726056",
             "AC956E",
@@ -238,7 +243,7 @@
     "module": {
         "foreground": "5A6378",
         "background": "D4D4D6",
-        "colors": [
+        "accents": [
             "F0AC00",
             "60B5CC",
             "E56C7D",
@@ -250,7 +255,7 @@
     "equity": {
         "foreground": "696464",
         "background": "E9E5DC",
-        "colors": [
+        "accents": [
             "D34716",
             "9B2D1F",
             "A28E6A",
@@ -262,7 +267,7 @@
     "elemental": {
         "foreground": "22211D",
         "background": "807A74",
-        "colors": [
+        "accents": [
             "497F7D",
             "98290F",
             "7F7111",
@@ -274,7 +279,7 @@
     "couture": {
         "foreground": "37302A",
         "background": "D0CCB9",
-        "colors": [
+        "accents": [
             "9D8D5B",
             "A09781",
             "85776D",
@@ -286,7 +291,7 @@
     "concourse": {
         "foreground": "464646",
         "background": "DEF5FA",
-        "colors": [
+        "accents": [
             "2CA1BF",
             "DA1F28",
             "EA641C",
@@ -298,7 +303,7 @@
     "composite": {
         "foreground": "5B6973",
         "background": "E7ECED",
-        "colors": [
+        "accents": [
             "97C722",
             "59B0B9",
             "DDAE01",
@@ -310,7 +315,7 @@
     "clarity": {
         "foreground": "D2533C",
         "background": "F3F2DC",
-        "colors": [
+        "accents": [
             "93A299",
             "AD8E66",
             "715F55",
@@ -322,7 +327,7 @@
     "civic": {
         "foreground": "646B86",
         "background": "C5D1D7",
-        "colors": [
+        "accents": [
             "D16248",
             "CCB400",
             "8CADAE",
@@ -334,7 +339,7 @@
     "black_tie": {
         "foreground": "46464A",
         "background": "E3DCCF",
-        "colors": [
+        "accents": [
             "6E6E73",
             "A7B789",
             "BEAE98",
@@ -346,7 +351,7 @@
     "austin": {
         "foreground": "3E3D2D",
         "background": "CAF278",
-        "colors": [
+        "accents": [
             "93C600",
             "71685A",
             "FE6701",
@@ -358,7 +363,7 @@
     "apothecary": {
         "foreground": "564B3C",
         "background": "ECEDD1",
-        "colors": [
+        "accents": [
             "92A198",
             "CF543F",
             "B5AE54",
@@ -370,7 +375,7 @@
     "apex": {
         "foreground": "69676D",
         "background": "C9C2D1",
-        "colors": [
+        "accents": [
             "CEB965",
             "9CB084",
             "6BB1C9",
@@ -382,7 +387,7 @@
     "angeles": {
         "foreground": "434342",
         "background": "CDD7D9",
-        "colors": [
+        "accents": [
             "787A7D",
             "F96A1B",
             "09A1D8",
@@ -394,7 +399,7 @@
     "adjacency": {
         "foreground": "675E47",
         "background": "DFDCB7",
-        "colors": [
+        "accents": [
             "A9A57C",
             "9CBEBD",
             "D2CB6D",
@@ -406,7 +411,7 @@
     "greyscale": {
         "foreground": "000000",
         "background": "F8F8F8",
-        "colors": [
+        "accents": [
             "DDDDDD",
             "B2B2B2",
             "969696",
@@ -418,7 +423,7 @@
     "office_default": {
         "foreground": "1F497D",
         "background": "EEECE1",
-        "colors": [
+        "accents": [
             "4F81BD",
             "C04F4C",
             "9BBB58",
@@ -430,7 +435,7 @@
     "office_2011": {
         "foreground": "1F487B",
         "background": "EEECE0",
-        "colors": [
+        "accents": [
             "5181B9",
             "BD5152",
             "9CBB5A",
@@ -442,7 +447,7 @@
     "advantage": {
         "foreground": "2C1330",
         "background": "C3AECC",
-        "colors": [
+        "accents": [
             "633363",
             "321141",
             "6A6897",
@@ -454,7 +459,7 @@
     "breeze": {
         "foreground": "09213A",
         "background": "D5EEF5",
-        "colors": [
+        "accents": [
             "2E7A9C",
             "274957",
             "E07724",
@@ -466,7 +471,7 @@
     "capital": {
         "foreground": "6F6E5C",
         "background": "7B8F96",
-        "colors": [
+        "accents": [
             "4B595F",
             "9B523B",
             "50483C",
@@ -478,7 +483,7 @@
     "essential": {
         "foreground": "D2272D",
         "background": "C8C7B0",
-        "colors": [
+        "accents": [
             "7A7A7A",
             "F3C10B",
             "576EB1",
@@ -490,7 +495,7 @@
     "executive": {
         "foreground": "2F5895",
         "background": "E4E9EF",
-        "colors": [
+        "accents": [
             "6175B0",
             "985455",
             "E48527",
@@ -502,7 +507,7 @@
     "infusion": {
         "foreground": "2E1F57",
         "background": "B7A8DE",
-        "colors": [
+        "accents": [
             "8B74CC",
             "C4E7C5",
             "C4A7E8",
@@ -514,7 +519,7 @@
     "inkwell": {
         "foreground": "584D2F",
         "background": "EFE6C4",
-        "colors": [
+        "accents": [
             "800B09",
             "480808",
             "7A530D",
@@ -526,7 +531,7 @@
     "inspiration": {
         "foreground": "2F2E29",
         "background": "9FA895",
-        "colors": [
+        "accents": [
             "74960C",
             "BACA86",
             "719EC3",
@@ -538,7 +543,7 @@
     "kilter": {
         "foreground": "308FC4",
         "background": "AEE7FA",
-        "colors": [
+        "accents": [
             "78C4EA",
             "F9A128",
             "F9690A",
@@ -550,7 +555,7 @@
     "median": {
         "foreground": "775F55",
         "background": "EBDDC3",
-        "colors": [
+        "accents": [
             "94B6D2",
             "DD8047",
             "A5AB81",
@@ -562,7 +567,7 @@
     "orbit": {
         "foreground": "7D9BA5",
         "background": "C1D0CB",
-        "colors": [
+        "accents": [
             "EEDB09",
             "9FE324",
             "138BE7",
@@ -574,7 +579,7 @@
     "perception": {
         "foreground": "333333",
         "background": "BBC0AA",
-        "colors": [
+        "accents": [
             "A2C61D",
             "DB7708",
             "E3C308",
@@ -586,7 +591,7 @@
     "pixel": {
         "foreground": "03C0C2",
         "background": "0396FC",
-        "colors": [
+        "accents": [
             "F6810A",
             "EFB01E",
             "FCEB87",
@@ -598,7 +603,7 @@
     "plaza": {
         "foreground": "333333",
         "background": "CCCCCC",
-        "colors": [
+        "accents": [
             "950404",
             "580304",
             "E84B08",
@@ -610,7 +615,7 @@
     "precedent": {
         "foreground": "333333",
         "background": "E4E5D4",
-        "colors": [
+        "accents": [
             "953234",
             "9A6D3A",
             "746E5F",
@@ -622,7 +627,7 @@
     "revolution": {
         "foreground": "1B3760",
         "background": "37ABEA",
-        "colors": [
+        "accents": [
             "0E5782",
             "DDF345",
             "54870C",
@@ -634,7 +639,7 @@
     "saddle": {
         "foreground": "AC6415",
         "background": "E8E4DB",
-        "colors": [
+        "accents": [
             "C4B17A",
             "9A5A1B",
             "72B3BA",
@@ -646,7 +651,7 @@
     "sketchbook": {
         "foreground": "4D1104",
         "background": "FFFFE6",
-        "colors": [
+        "accents": [
             "A13212",
             "E48334",
             "9DAF60",
@@ -658,7 +663,7 @@
     "sky": {
         "foreground": "1880C1",
         "background": "61BCE7",
-        "colors": [
+        "accents": [
             "0A3675",
             "94D7FA",
             "FCCC08",
@@ -670,7 +675,7 @@
     "soho": {
         "foreground": "47241C",
         "background": "CBD9DC",
-        "colors": [
+        "accents": [
             "61625D",
             "954D30",
             "655642",
@@ -682,7 +687,7 @@
     "solstice": {
         "foreground": "4F261C",
         "background": "E6DEC8",
-        "colors": [
+        "accents": [
             "3C8FA4",
             "FBB714",
             "BF3133",
@@ -694,7 +699,7 @@
     "spectrum": {
         "foreground": "25282F",
         "background": "EBE7E4",
-        "colors": [
+        "accents": [
             "950405",
             "F76709",
             "FABB06",
@@ -706,7 +711,7 @@
     "story": {
         "foreground": "212121",
         "background": "CED3D7",
-        "colors": [
+        "accents": [
             "2284C6",
             "722F99",
             "B50E20",
@@ -718,7 +723,7 @@
     "summer": {
         "foreground": "D16107",
         "background": "EEB31D",
-        "colors": [
+        "accents": [
             "53A5BE",
             "54C0A8",
             "82C154",
@@ -730,7 +735,7 @@
     "tradition": {
         "foreground": "58470D",
         "background": "D08E11",
-        "colors": [
+        "accents": [
             "684A0E",
             "770B16",
             "918443",
@@ -742,7 +747,7 @@
     "travelouge": {
         "foreground": "292515",
         "background": "83672D",
-        "colors": [
+        "accents": [
             "B64E1E",
             "A3241E",
             "47779D",
@@ -754,7 +759,7 @@
     "venture": {
         "foreground": "75834E",
         "background": "E7E9D0",
-        "colors": [
+        "accents": [
             "9EAF63",
             "D19910",
             "F0EC89",
@@ -766,7 +771,7 @@
     "aspect": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "F07F09",
             "9F2936",
             "1B587C",
@@ -778,7 +783,7 @@
     "blue_green": {
         "foreground": "373545",
         "background": "CEDBE6",
-        "colors": [
+        "accents": [
             "3494BA",
             "58B6C0",
             "75BDA7",
@@ -790,7 +795,7 @@
     "blue_ii": {
         "foreground": "335B74",
         "background": "DFE3E5",
-        "colors": [
+        "accents": [
             "1CADE4",
             "2683C6",
             "27CED7",
@@ -802,7 +807,7 @@
     "blue_warm": {
         "foreground": "242852",
         "background": "ACCBF9",
-        "colors": [
+        "accents": [
             "4A66AC",
             "629DD1",
             "297FD5",
@@ -814,7 +819,7 @@
     "blue": {
         "foreground": "17406D",
         "background": "DBEFF9",
-        "colors": [
+        "accents": [
             "0F6FC6",
             "009DD9",
             "0BD0D9",
@@ -826,7 +831,7 @@
     "grayscale": {
         "foreground": "000000",
         "background": "F8F8F8",
-        "colors": [
+        "accents": [
             "DDDDDD",
             "B2B2B2",
             "969696",
@@ -838,7 +843,7 @@
     "green_yellow": {
         "foreground": "455F51",
         "background": "E2DFCC",
-        "colors": [
+        "accents": [
             "99CB38",
             "63A537",
             "37A76F",
@@ -850,7 +855,7 @@
     "green": {
         "foreground": "455F51",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "549E39",
             "8AB833",
             "C0CF3A",
@@ -862,7 +867,7 @@
     "marquee": {
         "foreground": "5E5E5E",
         "background": "DDDDDD",
-        "colors": [
+        "accents": [
             "418AB3",
             "A6B727",
             "F69200",
@@ -874,7 +879,7 @@
     "office_2007_2010": {
         "foreground": "1F497D",
         "background": "EEECE1",
-        "colors": [
+        "accents": [
             "4F81BD",
             "C0504D",
             "9BBB59",
@@ -886,7 +891,7 @@
     "orange_red": {
         "foreground": "696464",
         "background": "E9E5DC",
-        "colors": [
+        "accents": [
             "D34817",
             "9B2D1F",
             "A28E6A",
@@ -898,7 +903,7 @@
     "orange": {
         "foreground": "637052",
         "background": "CCDDEA",
-        "colors": [
+        "accents": [
             "E48312",
             "BD582C",
             "865640",
@@ -910,7 +915,7 @@
     "paper": {
         "foreground": "444D26",
         "background": "FEFAC9",
-        "colors": [
+        "accents": [
             "A5B592",
             "F3A447",
             "E7BC29",
@@ -922,7 +927,7 @@
     "red_orange": {
         "foreground": "505046",
         "background": "EEECE1",
-        "colors": [
+        "accents": [
             "E84C22",
             "FFBD47",
             "B64926",
@@ -934,7 +939,7 @@
     "red_violet": {
         "foreground": "454551",
         "background": "D8D9DC",
-        "colors": [
+        "accents": [
             "E32D91",
             "C830CC",
             "4EA6DC",
@@ -946,7 +951,7 @@
     "red": {
         "foreground": "323232",
         "background": "E5C243",
-        "colors": [
+        "accents": [
             "A5300F",
             "D55816",
             "E19825",
@@ -958,7 +963,7 @@
     "slipstream": {
         "foreground": "212745",
         "background": "B4DCFA",
-        "colors": [
+        "accents": [
             "4E67C8",
             "5ECCF3",
             "A7EA52",
@@ -970,7 +975,7 @@
     "violet_ii": {
         "foreground": "632E62",
         "background": "EAE5EB",
-        "colors": [
+        "accents": [
             "92278F",
             "9B57D3",
             "755DD9",
@@ -982,7 +987,7 @@
     "violet": {
         "foreground": "373545",
         "background": "DCD8DC",
-        "colors": [
+        "accents": [
             "AD84C6",
             "8784C7",
             "5D739A",
@@ -994,7 +999,7 @@
     "yellow_orange": {
         "foreground": "4E3B30",
         "background": "FBEEC9",
-        "colors": [
+        "accents": [
             "F0A22E",
             "A5644E",
             "B58B80",
@@ -1006,7 +1011,7 @@
     "yellow": {
         "foreground": "39302A",
         "background": "E5DEDB",
-        "colors": [
+        "accents": [
             "FFCA08",
             "F8931D",
             "CE8D3E",
@@ -1018,7 +1023,7 @@
     "office_2020": {
         "foreground": "44546A",
         "background": "E7E6E6",
-        "colors": [
+        "accents": [
             "4472C4",
             "ED7D31",
             "A5A5A5",
@@ -1030,7 +1035,7 @@
     "3024_day": {
         "foreground": "4A4543",
         "background": "F7F7F7",
-        "colors": [
+        "accents": [
             "01A0E4",
             "B5E4F4",
             "01A252",
@@ -1042,7 +1047,7 @@
     "3024_night": {
         "foreground": "090300",
         "background": "A5A2A2",
-        "colors": [
+        "accents": [
             "B5E4F4",
             "A16A94",
             "01A0E4",
@@ -1054,7 +1059,7 @@
     "adventure": {
         "foreground": "040404",
         "background": "FEFFFF",
-        "colors": [
+        "accents": [
             "EEBB6E",
             "E5C499",
             "5DA602",
@@ -1066,7 +1071,7 @@
     "adventuretime": {
         "foreground": "1F1D45",
         "background": "F8DCC0",
-        "colors": [
+        "accents": [
             "0F4AC6",
             "4AB118",
             "665993",
@@ -1078,7 +1083,7 @@
     "afterglow": {
         "foreground": "212121",
         "background": "D0D0D0",
-        "colors": [
+        "accents": [
             "E5B567",
             "6C99BB",
             "7E8E50",
@@ -1090,7 +1095,7 @@
     "alienblood": {
         "foreground": "0F1610",
         "background": "637D75",
-        "colors": [
+        "accents": [
             "327F77",
             "47587F",
             "2F7E25",
@@ -1102,7 +1107,7 @@
     "andromeda": {
         "foreground": "262A33",
         "background": "E5E5E5",
-        "colors": [
+        "accents": [
             "BC3FBC",
             "E5E512",
             "2472C8",
@@ -1114,7 +1119,7 @@
     "argonaut": {
         "foreground": "0E1019",
         "background": "FFFAF4",
-        "colors": [
+        "accents": [
             "6D43A6",
             "FFB900",
             "008DF8",
@@ -1126,7 +1131,7 @@
     "arthur": {
         "foreground": "1C1C1C",
         "background": "DDEEDD",
-        "colors": [
+        "accents": [
             "B0C4DE",
             "DEB887",
             "6495ED",
@@ -1138,7 +1143,7 @@
     "ateliersulphurpool": {
         "foreground": "202746",
         "background": "979DB4",
-        "colors": [
+        "accents": [
             "C94922",
             "3D8FD1",
             "22A2C9",
@@ -1150,7 +1155,7 @@
     "atom": {
         "foreground": "161719",
         "background": "C5C8C6",
-        "colors": [
+        "accents": [
             "87C38A",
             "FFD7B1",
             "85BEFD",
@@ -1162,7 +1167,7 @@
     "atomonelight": {
         "foreground": "2A2C33",
         "background": "F9F9F9",
-        "colors": [
+        "accents": [
             "D2B67C",
             "3F953A",
             "3F953A",
@@ -1174,7 +1179,7 @@
     "ayu": {
         "foreground": "0F1419",
         "background": "E6E1CF",
-        "colors": [
+        "accents": [
             "F07178",
             "36A3D9",
             "FF3333",
@@ -1186,7 +1191,7 @@
     "ayu_light": {
         "foreground": "5C6773",
         "background": "FAFAFA",
-        "colors": [
+        "accents": [
             "86B300",
             "41A6D9",
             "F29718",
@@ -1198,7 +1203,7 @@
     "banana_blueberry": {
         "foreground": "191323",
         "background": "CCCCCC",
-        "colors": [
+        "accents": [
             "56B6C2",
             "E6C62F",
             "00BD9C",
@@ -1210,7 +1215,7 @@
     "batman": {
         "foreground": "1B1D1E",
         "background": "6F6F6F",
-        "colors": [
+        "accents": [
             "62605F",
             "C8BE46",
             "E6DC44",
@@ -1222,7 +1227,7 @@
     "belafonte_day": {
         "foreground": "45373C",
         "background": "D5CCBA",
-        "colors": [
+        "accents": [
             "989A9C",
             "97522C",
             "426A79",
@@ -1234,7 +1239,7 @@
     "belafonte_night": {
         "foreground": "20111B",
         "background": "968C83",
-        "colors": [
+        "accents": [
             "426A79",
             "97522C",
             "989A9C",
@@ -1246,7 +1251,7 @@
     "birdsofparadise": {
         "foreground": "2A1F1D",
         "background": "E0DBB7",
-        "colors": [
+        "accents": [
             "AC80A6",
             "6BA18A",
             "5A86AD",
@@ -1258,7 +1263,7 @@
     "blazer": {
         "foreground": "0D1926",
         "background": "D9E6F2",
-        "colors": [
+        "accents": [
             "7AB87A",
             "B87AB8",
             "B87A7A",
@@ -1270,7 +1275,7 @@
     "blue_matrix": {
         "foreground": "101116",
         "background": "00A2FF",
-        "colors": [
+        "accents": [
             "D57BFF",
             "FF5680",
             "00FF9C",
@@ -1282,7 +1287,7 @@
     "blueberrypie": {
         "foreground": "1C0C28",
         "background": "BABAB9",
-        "colors": [
+        "accents": [
             "EAB9A8",
             "90A5BD",
             "5CB1B3",
@@ -1294,7 +1299,7 @@
     "blulocodark": {
         "foreground": "1E2127",
         "background": "ABB2BF",
-        "colors": [
+        "accents": [
             "F81141",
             "8C62FD",
             "366F9A",
@@ -1306,7 +1311,7 @@
     "blulocolight": {
         "foreground": "2A2C33",
         "background": "F7F7F7",
-        "colors": [
+        "accents": [
             "C90E42",
             "1E44DD",
             "21883A",
@@ -1318,7 +1323,7 @@
     "borland": {
         "foreground": "0000A4",
         "background": "FFFF4E",
-        "colors": [
+        "accents": [
             "96CBFE",
             "A8FF60",
             "FF6C60",
@@ -1330,7 +1335,7 @@
     "breeze_terminal": {
         "foreground": "31363B",
         "background": "EFF0F1",
-        "colors": [
+        "accents": [
             "ED1515",
             "9B59B6",
             "11D116",
@@ -1342,7 +1347,7 @@
     "bright_lights": {
         "foreground": "191919",
         "background": "B3C9D7",
-        "colors": [
+        "accents": [
             "FF355B",
             "BA76E7",
             "76D4FF",
@@ -1354,7 +1359,7 @@
     "broadcast": {
         "foreground": "2B2B2B",
         "background": "E6E1DC",
-        "colors": [
+        "accents": [
             "519F50",
             "DA4939",
             "6E9CBE",
@@ -1366,7 +1371,7 @@
     "brogrammer": {
         "foreground": "131313",
         "background": "D6DBE5",
-        "colors": [
+        "accents": [
             "ECBA0F",
             "2DC55E",
             "1081D6",
@@ -1378,7 +1383,7 @@
     "builtin_dark": {
         "foreground": "000000",
         "background": "BBBBBB",
-        "colors": [
+        "accents": [
             "BB00BB",
             "BBBB00",
             "0000BB",
@@ -1390,7 +1395,7 @@
     "builtin_light": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "BBBB00",
             "BB0000",
             "00BB00",
@@ -1402,7 +1407,7 @@
     "builtin_pastel_dark": {
         "foreground": "000000",
         "background": "BBBBBB",
-        "colors": [
+        "accents": [
             "FF73FD",
             "FF6C60",
             "FFFFB6",
@@ -1414,7 +1419,7 @@
     "builtin_solarized_dark": {
         "foreground": "002B36",
         "background": "839496",
-        "colors": [
+        "accents": [
             "268BD2",
             "859900",
             "DC322F",
@@ -1426,7 +1431,7 @@
     "builtin_solarized_light": {
         "foreground": "657B83",
         "background": "FDF6E3",
-        "colors": [
+        "accents": [
             "B58900",
             "D33682",
             "2AA198",
@@ -1438,7 +1443,7 @@
     "builtin_tango_dark": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "75507B",
             "C4A000",
             "CC0000",
@@ -1450,7 +1455,7 @@
     "builtin_tango_light": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "3465A4",
             "4E9A06",
             "C4A000",
@@ -1462,7 +1467,7 @@
     "c64": {
         "foreground": "40318D",
         "background": "7869C4",
-        "colors": [
+        "accents": [
             "55A049",
             "67B6BD",
             "40318D",
@@ -1474,7 +1479,7 @@
     "calamity": {
         "foreground": "2F2833",
         "background": "D5CED9",
-        "colors": [
+        "accents": [
             "74D3DE",
             "E9D7A5",
             "3B79C7",
@@ -1486,7 +1491,7 @@
     "chalk": {
         "foreground": "2B2D2E",
         "background": "D2D8D9",
-        "colors": [
+        "accents": [
             "789B6A",
             "B23A52",
             "2A7FAC",
@@ -1498,7 +1503,7 @@
     "chalkboard": {
         "foreground": "29262F",
         "background": "D9E6F2",
-        "colors": [
+        "accents": [
             "C37372",
             "7372C3",
             "C2C372",
@@ -1510,7 +1515,7 @@
     "challengerdeep": {
         "foreground": "1E1C31",
         "background": "CBE1E7",
-        "colors": [
+        "accents": [
             "906CFF",
             "FF5458",
             "62D196",
@@ -1522,7 +1527,7 @@
     "chester": {
         "foreground": "2C3643",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FFC83F",
             "FA5E5B",
             "16C98D",
@@ -1534,7 +1539,7 @@
     "ciapre": {
         "foreground": "191C27",
         "background": "AEA47A",
-        "colors": [
+        "accents": [
             "5C4F4B",
             "CC8B3F",
             "48513B",
@@ -1546,7 +1551,7 @@
     "clrs": {
         "foreground": "262626",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "135CD0",
             "F8282A",
             "328A5D",
@@ -1558,7 +1563,7 @@
     "cobalt_neon": {
         "foreground": "142838",
         "background": "8FF586",
-        "colors": [
+        "accents": [
             "E9E75C",
             "781AA0",
             "8FF586",
@@ -1570,7 +1575,7 @@
     "cobalt2": {
         "foreground": "132738",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "00BBBB",
             "1460D2",
             "FFE50A",
@@ -1582,7 +1587,7 @@
     "coffee_theme": {
         "foreground": "000000",
         "background": "F5DEB3",
-        "colors": [
+        "accents": [
             "CA30C7",
             "C7C400",
             "0225C7",
@@ -1594,7 +1599,7 @@
     "crayonponyfish": {
         "foreground": "150707",
         "background": "68525A",
-        "colors": [
+        "accents": [
             "AB311B",
             "692F50",
             "E8A866",
@@ -1606,7 +1611,7 @@
     "cyberdyne": {
         "foreground": "151144",
         "background": "00FF92",
-        "colors": [
+        "accents": [
             "FF8373",
             "0071CF",
             "6BFFDD",
@@ -1618,7 +1623,7 @@
     "cyberpunk": {
         "foreground": "332A57",
         "background": "E5E5E5",
-        "colors": [
+        "accents": [
             "00BFFF",
             "FFFA6A",
             "DF95FF",
@@ -1630,7 +1635,7 @@
     "dark_pastel": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FFFF55",
             "55FFFF",
             "5555FF",
@@ -1642,7 +1647,7 @@
     "dark+": {
         "foreground": "0E0E0E",
         "background": "CCCCCC",
-        "colors": [
+        "accents": [
             "CD3131",
             "E5E510",
             "BC3FBC",
@@ -1654,7 +1659,7 @@
     "darkside": {
         "foreground": "222324",
         "background": "BABABA",
-        "colors": [
+        "accents": [
             "1C98E8",
             "E8341C",
             "F2D42C",
@@ -1666,7 +1671,7 @@
     "deep": {
         "foreground": "090909",
         "background": "CDCDCD",
-        "colors": [
+        "accents": [
             "D9BD26",
             "B052DA",
             "50D2DA",
@@ -1678,7 +1683,7 @@
     "desert": {
         "foreground": "333333",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FF2B2B",
             "FFA0A0",
             "FFDEAD",
@@ -1690,7 +1695,7 @@
     "dimmedmonokai": {
         "foreground": "1F1F1F",
         "background": "B9BCBA",
-        "colors": [
+        "accents": [
             "855C8D",
             "578FA4",
             "4F76A1",
@@ -1702,7 +1707,7 @@
     "django": {
         "foreground": "0B2F20",
         "background": "F8F8F8",
-        "colors": [
+        "accents": [
             "FFE862",
             "FD6209",
             "41A83E",
@@ -1714,7 +1719,7 @@
     "djangorebornagain": {
         "foreground": "051F14",
         "background": "DADEDC",
-        "colors": [
+        "accents": [
             "245032",
             "FD6209",
             "FFE862",
@@ -1726,7 +1731,7 @@
     "djangosmooth": {
         "foreground": "245032",
         "background": "F8F8F8",
-        "colors": [
+        "accents": [
             "989898",
             "FFE862",
             "41A83E",
@@ -1738,7 +1743,7 @@
     "doomone": {
         "foreground": "282C34",
         "background": "BBC2CF",
-        "colors": [
+        "accents": [
             "ECBE7B",
             "98BE65",
             "A9A1E1",
@@ -1750,7 +1755,7 @@
     "dotgov": {
         "foreground": "262C35",
         "background": "EBEBEB",
-        "colors": [
+        "accents": [
             "3D9751",
             "F6BB34",
             "17B2E0",
@@ -1762,7 +1767,7 @@
     "dracula+": {
         "foreground": "212121",
         "background": "F8F8F2",
-        "colors": [
+        "accents": [
             "8BE9FD",
             "C792EA",
             "FF5555",
@@ -1774,7 +1779,7 @@
     "dracula": {
         "foreground": "1E1F29",
         "background": "F8F8F2",
-        "colors": [
+        "accents": [
             "BD93F9",
             "50FA7B",
             "F1FA8C",
@@ -1786,7 +1791,7 @@
     "duotone_dark": {
         "foreground": "1F1D27",
         "background": "B7A1FF",
-        "colors": [
+        "accents": [
             "D9B76E",
             "FFC284",
             "DE8D40",
@@ -1798,7 +1803,7 @@
     "earthsong": {
         "foreground": "292520",
         "background": "E5C7A9",
-        "colors": [
+        "accents": [
             "C94234",
             "D0633D",
             "85C54C",
@@ -1810,7 +1815,7 @@
     "elementary": {
         "foreground": "181818",
         "background": "EFEFEF",
-        "colors": [
+        "accents": [
             "5AA513",
             "D71C15",
             "FDB40C",
@@ -1822,7 +1827,7 @@
     "encom": {
         "foreground": "000000",
         "background": "00A595",
-        "colors": [
+        "accents": [
             "FFD000",
             "0081FF",
             "008B00",
@@ -1834,7 +1839,7 @@
     "espresso_libre": {
         "foreground": "2A211C",
         "background": "B8A898",
-        "colors": [
+        "accents": [
             "0066FF",
             "F0E53A",
             "C5656B",
@@ -1846,7 +1851,7 @@
     "espresso": {
         "foreground": "323232",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "A5C261",
             "D25252",
             "D197D9",
@@ -1858,7 +1863,7 @@
     "fahrenheit": {
         "foreground": "000000",
         "background": "FFFFCE",
-        "colors": [
+        "accents": [
             "979797",
             "734C4D",
             "FECF75",
@@ -1870,7 +1875,7 @@
     "fideloper": {
         "foreground": "292F33",
         "background": "DBDAE0",
-        "colors": [
+        "accents": [
             "C0236F",
             "2E78C2",
             "EDB8AC",
@@ -1882,7 +1887,7 @@
     "firefoxdev": {
         "foreground": "0E1011",
         "background": "7C8FA4",
-        "colors": [
+        "accents": [
             "5EB83C",
             "A57706",
             "4B73A2",
@@ -1894,7 +1899,7 @@
     "firewatch": {
         "foreground": "1E2027",
         "background": "9BA2B2",
-        "colors": [
+        "accents": [
             "4D89C4",
             "D55119",
             "D95360",
@@ -1906,7 +1911,7 @@
     "fishtank": {
         "foreground": "232537",
         "background": "ECF0FE",
-        "colors": [
+        "accents": [
             "C6004A",
             "525FB8",
             "ACF157",
@@ -1918,7 +1923,7 @@
     "flat": {
         "foreground": "002240",
         "background": "2CC55D",
-        "colors": [
+        "accents": [
             "781AA0",
             "2C9370",
             "E58D11",
@@ -1930,7 +1935,7 @@
     "flatland": {
         "foreground": "1D1F21",
         "background": "B8DBEF",
-        "colors": [
+        "accents": [
             "695ABC",
             "5096BE",
             "F4EF6D",
@@ -1942,7 +1947,7 @@
     "floraverse": {
         "foreground": "0E0D15",
         "background": "DBD1B9",
-        "colors": [
+        "accents": [
             "42A38C",
             "1D6DA1",
             "B7077E",
@@ -1954,7 +1959,7 @@
     "forestblue": {
         "foreground": "051519",
         "background": "E2D8CD",
-        "colors": [
+        "accents": [
             "8ED0CE",
             "92D3A2",
             "F8818E",
@@ -1966,7 +1971,7 @@
     "framer": {
         "foreground": "111111",
         "background": "777777",
-        "colors": [
+        "accents": [
             "AA88FF",
             "00AAFF",
             "88DDFF",
@@ -1978,7 +1983,7 @@
     "frontenddelight": {
         "foreground": "1B1C1D",
         "background": "ADADAD",
-        "colors": [
+        "accents": [
             "F8511B",
             "F02E4F",
             "FA771D",
@@ -1990,7 +1995,7 @@
     "funforrest": {
         "foreground": "251200",
         "background": "DEC165",
-        "colors": [
+        "accents": [
             "DA8213",
             "BE8A13",
             "D6262B",
@@ -2002,7 +2007,7 @@
     "galaxy": {
         "foreground": "1D2837",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "1F9EE7",
             "944D95",
             "589DF6",
@@ -2014,7 +2019,7 @@
     "github": {
         "foreground": "3E3E3E",
         "background": "F4F4F4",
-        "colors": [
+        "accents": [
             "E94691",
             "003E8A",
             "F8EEC7",
@@ -2026,7 +2031,7 @@
     "glacier": {
         "foreground": "0C1115",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FB9435",
             "BD2523",
             "1F5872",
@@ -2038,7 +2043,7 @@
     "grape": {
         "foreground": "171423",
         "background": "9F9FA1",
-        "colors": [
+        "accents": [
             "8D35C9",
             "ED2261",
             "1FA91B",
@@ -2050,7 +2055,7 @@
     "grass": {
         "foreground": "13773D",
         "background": "FFF0A5",
-        "colors": [
+        "accents": [
             "950062",
             "00BBBB",
             "E7B000",
@@ -2062,7 +2067,7 @@
     "gruvbox_dark": {
         "foreground": "1E1E1E",
         "background": "E6D4A3",
-        "colors": [
+        "accents": [
             "868715",
             "CC881A",
             "377375",
@@ -2074,7 +2079,7 @@
     "gruvbox_light": {
         "foreground": "282828",
         "background": "FBF1C7",
-        "colors": [
+        "accents": [
             "8F3F71",
             "076678",
             "B57614",
@@ -2086,7 +2091,7 @@
     "hacktober": {
         "foreground": "141414",
         "background": "C9C9C9",
-        "colors": [
+        "accents": [
             "D08949",
             "206EC5",
             "B34538",
@@ -2098,7 +2103,7 @@
     "hardcore": {
         "foreground": "121212",
         "background": "A0A0A0",
-        "colors": [
+        "accents": [
             "F92672",
             "9E6FFE",
             "66D9EF",
@@ -2110,7 +2115,7 @@
     "harper": {
         "foreground": "010101",
         "background": "A8A49D",
-        "colors": [
+        "accents": [
             "489E48",
             "F5BFD7",
             "D6DA25",
@@ -2122,7 +2127,7 @@
     "highway": {
         "foreground": "222225",
         "background": "EDEDED",
-        "colors": [
+        "accents": [
             "D00E18",
             "384564",
             "FFCB3E",
@@ -2134,7 +2139,7 @@
     "hipster_green": {
         "foreground": "100B05",
         "background": "84C138",
-        "colors": [
+        "accents": [
             "00A600",
             "B200B2",
             "BFBF00",
@@ -2146,7 +2151,7 @@
     "hivacruz": {
         "foreground": "132638",
         "background": "EDE4E4",
-        "colors": [
+        "accents": [
             "AC9739",
             "6679CC",
             "C94922",
@@ -2158,7 +2163,7 @@
     "homebrew": {
         "foreground": "000000",
         "background": "00FF00",
-        "colors": [
+        "accents": [
             "B200B2",
             "00A600",
             "00A6B2",
@@ -2170,7 +2175,7 @@
     "hopscotch.256": {
         "foreground": "322931",
         "background": "B9B5B8",
-        "colors": [
+        "accents": [
             "C85E7C",
             "FDCC59",
             "149B93",
@@ -2182,7 +2187,7 @@
     "hopscotch": {
         "foreground": "322931",
         "background": "B9B5B8",
-        "colors": [
+        "accents": [
             "8FC13E",
             "1290BF",
             "DD464C",
@@ -2194,7 +2199,7 @@
     "hurtado": {
         "foreground": "000000",
         "background": "DBDBDB",
-        "colors": [
+        "accents": [
             "A5E055",
             "FD5FF1",
             "86E9FE",
@@ -2206,7 +2211,7 @@
     "hybrid": {
         "foreground": "161719",
         "background": "B7BCBA",
-        "colors": [
+        "accents": [
             "6E90B0",
             "B84D51",
             "B3BF5A",
@@ -2218,7 +2223,7 @@
     "ic_green_ppl": {
         "foreground": "2C2C2C",
         "background": "E0F1DC",
-        "colors": [
+        "accents": [
             "41A638",
             "50A096",
             "2EC3B9",
@@ -2230,7 +2235,7 @@
     "ic_orange_ppl": {
         "foreground": "262626",
         "background": "FFCB83",
-        "colors": [
+        "accents": [
             "C13900",
             "BD6D00",
             "F79500",
@@ -2242,7 +2247,7 @@
     "idea": {
         "foreground": "202020",
         "background": "ADADAD",
-        "colors": [
+        "accents": [
             "FC5256",
             "98B61C",
             "CCB444",
@@ -2254,7 +2259,7 @@
     "idletoes": {
         "foreground": "323232",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "7FE173",
             "BED6FF",
             "4099FF",
@@ -2266,7 +2271,7 @@
     "ir_black": {
         "foreground": "000000",
         "background": "F1F1F1",
-        "colors": [
+        "accents": [
             "FFFEB7",
             "A8FF60",
             "96CAFE",
@@ -2278,7 +2283,7 @@
     "jackie_brown": {
         "foreground": "2C1D16",
         "background": "FFCC2F",
-        "colors": [
+        "accents": [
             "2BAF2B",
             "BEBF00",
             "EF5734",
@@ -2290,7 +2295,7 @@
     "japanesque": {
         "foreground": "1E1E1E",
         "background": "F7F6EC",
-        "colors": [
+        "accents": [
             "A57FC4",
             "E9B32A",
             "389AAD",
@@ -2302,7 +2307,7 @@
     "jellybeans": {
         "foreground": "121212",
         "background": "DEDEDE",
-        "colors": [
+        "accents": [
             "FFBA7B",
             "E1C0FA",
             "E27373",
@@ -2314,7 +2319,7 @@
     "jetbrains_darcula": {
         "foreground": "202020",
         "background": "ADADAD",
-        "colors": [
+        "accents": [
             "126E00",
             "C2C300",
             "FA5355",
@@ -2326,7 +2331,7 @@
     "jubi": {
         "foreground": "262B33",
         "background": "C3D3DE",
-        "colors": [
+        "accents": [
             "576EA6",
             "6EBFC0",
             "90A94B",
@@ -2338,7 +2343,7 @@
     "kibble": {
         "foreground": "0E100A",
         "background": "F7F7F7",
-        "colors": [
+        "accents": [
             "8400FF",
             "C70031",
             "0798AB",
@@ -2350,7 +2355,7 @@
     "kolorit": {
         "foreground": "1D1A1E",
         "background": "EFECEC",
-        "colors": [
+        "accents": [
             "47D7A1",
             "DA6CDA",
             "FF5B82",
@@ -2362,7 +2367,7 @@
     "konsolas": {
         "foreground": "060606",
         "background": "C8C1C1",
-        "colors": [
+        "accents": [
             "AD1EDC",
             "42B0C8",
             "2323A5",
@@ -2374,7 +2379,7 @@
     "lab_fox": {
         "foreground": "2E2E2E",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FCA121",
             "6E49CB",
             "380D75",
@@ -2386,7 +2391,7 @@
     "laser": {
         "foreground": "030D18",
         "background": "F106E3",
-        "colors": [
+        "accents": [
             "FF8373",
             "09B4BD",
             "B4FB73",
@@ -2398,7 +2403,7 @@
     "later_this_evening": {
         "foreground": "222222",
         "background": "959595",
-        "colors": [
+        "accents": [
             "E5D289",
             "AFBA67",
             "C092D6",
@@ -2410,7 +2415,7 @@
     "lavandula": {
         "foreground": "050014",
         "background": "736E7D",
-        "colors": [
+        "accents": [
             "7F6F49",
             "5A3F7F",
             "7D1625",
@@ -2422,7 +2427,7 @@
     "liquidcarbon": {
         "foreground": "303030",
         "background": "AFC2C2",
-        "colors": [
+        "accents": [
             "559A70",
             "0099CC",
             "CCAC00",
@@ -2434,7 +2439,7 @@
     "liquidcarbontransparent": {
         "foreground": "000000",
         "background": "AFC2C2",
-        "colors": [
+        "accents": [
             "559A70",
             "7AC4CC",
             "0099CC",
@@ -2446,7 +2451,7 @@
     "liquidcarbontransparentinverse": {
         "foreground": "000000",
         "background": "AFC2C2",
-        "colors": [
+        "accents": [
             "7AC4CC",
             "CCAC00",
             "FF3030",
@@ -2458,7 +2463,7 @@
     "lovelace": {
         "foreground": "1D1F28",
         "background": "FDFDFD",
-        "colors": [
+        "accents": [
             "F37F97",
             "F2A272",
             "5ADECD",
@@ -2470,7 +2475,7 @@
     "man_page": {
         "foreground": "000000",
         "background": "FEF49C",
-        "colors": [
+        "accents": [
             "999900",
             "0000B2",
             "00A600",
@@ -2482,7 +2487,7 @@
     "material": {
         "foreground": "232322",
         "background": "EAEAEA",
-        "colors": [
+        "accents": [
             "457B24",
             "0E717C",
             "B7141F",
@@ -2494,7 +2499,7 @@
     "materialdark": {
         "foreground": "232322",
         "background": "E5E5E5",
-        "colors": [
+        "accents": [
             "457B24",
             "134EB2",
             "0E717C",
@@ -2506,7 +2511,7 @@
     "materialdarker": {
         "foreground": "212121",
         "background": "EEFFFF",
-        "colors": [
+        "accents": [
             "89DDFF",
             "FFCB6B",
             "C3E88D",
@@ -2518,7 +2523,7 @@
     "materialocean": {
         "foreground": "0F111A",
         "background": "8F93A2",
-        "colors": [
+        "accents": [
             "FFCB6B",
             "82AAFF",
             "C3E88D",
@@ -2530,7 +2535,7 @@
     "mathias": {
         "foreground": "000000",
         "background": "BBBBBB",
-        "colors": [
+        "accents": [
             "67D9F0",
             "FA2573",
             "C48DFF",
@@ -2542,7 +2547,7 @@
     "medallion": {
         "foreground": "1D1908",
         "background": "CAC296",
-        "colors": [
+        "accents": [
             "D3BD26",
             "616BB0",
             "B64C00",
@@ -2554,7 +2559,7 @@
     "midnight_in_mojave": {
         "foreground": "1E1E1E",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FF453A",
             "FFD60A",
             "5AC8FA",
@@ -2566,7 +2571,7 @@
     "mirage": {
         "foreground": "1B2738",
         "background": "A6B2C0",
-        "colors": [
+        "accents": [
             "FF9999",
             "7FB5FF",
             "85CC95",
@@ -2578,7 +2583,7 @@
     "misterioso": {
         "foreground": "2D3743",
         "background": "E1E1E0",
-        "colors": [
+        "accents": [
             "23D7D7",
             "338F86",
             "FF4242",
@@ -2590,7 +2595,7 @@
     "molokai": {
         "foreground": "121212",
         "background": "BBBBBB",
-        "colors": [
+        "accents": [
             "1080D0",
             "8700FF",
             "FA2573",
@@ -2602,7 +2607,7 @@
     "monalisa": {
         "foreground": "120B0D",
         "background": "F7D66A",
-        "colors": [
+        "accents": [
             "636232",
             "9B291C",
             "588056",
@@ -2614,7 +2619,7 @@
     "monokai_remastered": {
         "foreground": "0C0C0C",
         "background": "D9D9D9",
-        "colors": [
+        "accents": [
             "9D65FF",
             "FD971F",
             "58D1EB",
@@ -2626,7 +2631,7 @@
     "monokai_soda": {
         "foreground": "1A1A1A",
         "background": "C4C5B5",
-        "colors": [
+        "accents": [
             "98E024",
             "58D1EB",
             "9D65FF",
@@ -2638,7 +2643,7 @@
     "monokai_vivid": {
         "foreground": "121212",
         "background": "F9F9F9",
-        "colors": [
+        "accents": [
             "FA2934",
             "98E123",
             "F800F8",
@@ -2650,7 +2655,7 @@
     "n0tch2k": {
         "foreground": "222222",
         "background": "A0A0A0",
-        "colors": [
+        "accents": [
             "A95551",
             "767676",
             "666666",
@@ -2662,7 +2667,7 @@
     "neopolitan": {
         "foreground": "271F19",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "61CE3C",
             "8DA6CE",
             "253B76",
@@ -2674,7 +2679,7 @@
     "neutron": {
         "foreground": "1C1E22",
         "background": "E6E8EF",
-        "colors": [
+        "accents": [
             "5AB977",
             "A4799D",
             "B54036",
@@ -2686,7 +2691,7 @@
     "night_owlish_light": {
         "foreground": "403F53",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "D3423E",
             "4876D6",
             "08916A",
@@ -2698,7 +2703,7 @@
     "nightlion_v1": {
         "foreground": "000000",
         "background": "BBBBBB",
-        "colors": [
+        "accents": [
             "BB00BB",
             "5FDE8F",
             "BB0000",
@@ -2710,7 +2715,7 @@
     "nightlion_v2": {
         "foreground": "171717",
         "background": "BBBBBB",
-        "colors": [
+        "accents": [
             "04F623",
             "64D0F0",
             "CE6FDB",
@@ -2722,7 +2727,7 @@
     "nocturnal_winter": {
         "foreground": "0D0D17",
         "background": "E6E5E5",
-        "colors": [
+        "accents": [
             "09CD7E",
             "FF2B6D",
             "3182E0",
@@ -2734,7 +2739,7 @@
     "nord": {
         "foreground": "2E3440",
         "background": "D8DEE9",
-        "colors": [
+        "accents": [
             "EBCB8B",
             "BF616A",
             "A3BE8C",
@@ -2746,7 +2751,7 @@
     "novel": {
         "foreground": "3B2322",
         "background": "DFDBC3",
-        "colors": [
+        "accents": [
             "0000CC",
             "CC00CC",
             "0087CC",
@@ -2758,7 +2763,7 @@
     "obsidian": {
         "foreground": "283033",
         "background": "CDCDCD",
-        "colors": [
+        "accents": [
             "00BBBB",
             "FECD22",
             "BB00BB",
@@ -2770,7 +2775,7 @@
     "ocean": {
         "foreground": "224FBC",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "990000",
             "999900",
             "00A600",
@@ -2782,7 +2787,7 @@
     "oceanicmaterial": {
         "foreground": "1C262B",
         "background": "C2C8D7",
-        "colors": [
+        "accents": [
             "8800A0",
             "FFEA2E",
             "40A33F",
@@ -2794,7 +2799,7 @@
     "ollie": {
         "foreground": "222125",
         "background": "8A8DAE",
-        "colors": [
+        "accents": [
             "1FA6AC",
             "B08528",
             "AC2E31",
@@ -2806,7 +2811,7 @@
     "onehalfdark": {
         "foreground": "282C34",
         "background": "DCDFE4",
-        "colors": [
+        "accents": [
             "56B6C2",
             "61AFEF",
             "E5C07B",
@@ -2818,7 +2823,7 @@
     "onehalflight": {
         "foreground": "383A42",
         "background": "FAFAFA",
-        "colors": [
+        "accents": [
             "A626A4",
             "0184BC",
             "50A14F",
@@ -2830,7 +2835,7 @@
     "operator_mono_dark": {
         "foreground": "191919",
         "background": "C3CAC2",
-        "colors": [
+        "accents": [
             "4387CF",
             "CA372D",
             "72D5C6",
@@ -2842,7 +2847,7 @@
     "overnight_slumber": {
         "foreground": "0E1729",
         "background": "CED2D6",
-        "colors": [
+        "accents": [
             "8DABE1",
             "C792EB",
             "FFCB8B",
@@ -2854,7 +2859,7 @@
     "pandora": {
         "foreground": "141E43",
         "background": "E1E1E1",
-        "colors": [
+        "accents": [
             "FF4242",
             "23D7D7",
             "9414E6",
@@ -2866,7 +2871,7 @@
     "paraiso_dark": {
         "foreground": "2F1E2E",
         "background": "A39E9B",
-        "colors": [
+        "accents": [
             "5BC4BF",
             "FEC418",
             "EF6155",
@@ -2878,7 +2883,7 @@
     "parasio_dark": {
         "foreground": "2F1E2E",
         "background": "A39E9B",
-        "colors": [
+        "accents": [
             "06B6EF",
             "EF6155",
             "FEC418",
@@ -2890,7 +2895,7 @@
     "paulmillr": {
         "foreground": "000000",
         "background": "F2F2F2",
-        "colors": [
+        "accents": [
             "79FF0F",
             "B449BE",
             "396BD7",
@@ -2902,7 +2907,7 @@
     "pencildark": {
         "foreground": "212121",
         "background": "F1F1F1",
-        "colors": [
+        "accents": [
             "10A778",
             "A89C14",
             "008EC4",
@@ -2914,7 +2919,7 @@
     "pencillight": {
         "foreground": "424242",
         "background": "F1F1F1",
-        "colors": [
+        "accents": [
             "008EC4",
             "20A5BA",
             "10A778",
@@ -2926,7 +2931,7 @@
     "piatto_light": {
         "foreground": "414141",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "3C5EA8",
             "A454B2",
             "66781E",
@@ -2938,7 +2943,7 @@
     "pnevma": {
         "foreground": "1C1C1C",
         "background": "D0D0D0",
-        "colors": [
+        "accents": [
             "8ADBB4",
             "D7AF87",
             "A36666",
@@ -2950,7 +2955,7 @@
     "popping_and_locking": {
         "foreground": "181921",
         "background": "EBDBB2",
-        "colors": [
+        "accents": [
             "B16286",
             "D79921",
             "98971A",
@@ -2962,7 +2967,7 @@
     "primary": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "DB4437",
             "DB4437",
             "4285F4",
@@ -2974,7 +2979,7 @@
     "pro_light": {
         "foreground": "191919",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "ED66E8",
             "3B75FF",
             "4ED2DE",
@@ -2986,7 +2991,7 @@
     "pro": {
         "foreground": "000000",
         "background": "F2F2F2",
-        "colors": [
+        "accents": [
             "990000",
             "B200B2",
             "00A600",
@@ -2998,7 +3003,7 @@
     "purple_rain": {
         "foreground": "21084A",
         "background": "FFFBF6",
-        "colors": [
+        "accents": [
             "9BE205",
             "00A2FA",
             "815BB5",
@@ -3010,7 +3015,7 @@
     "purplepeter": {
         "foreground": "2A1A4A",
         "background": "ECE7FA",
-        "colors": [
+        "accents": [
             "BA8CFF",
             "FF796D",
             "E78FCD",
@@ -3022,7 +3027,7 @@
     "rapture": {
         "foreground": "111E2A",
         "background": "C0C9E5",
-        "colors": [
+        "accents": [
             "FC644D",
             "7AFDE1",
             "FFF09B",
@@ -3034,7 +3039,7 @@
     "rebecca": {
         "foreground": "292A44",
         "background": "E8E6ED",
-        "colors": [
+        "accents": [
             "DD7755",
             "04DBB5",
             "BF9CF9",
@@ -3046,7 +3051,7 @@
     "red_alert": {
         "foreground": "762423",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "E979D7",
             "D62E4E",
             "BEB86B",
@@ -3058,7 +3063,7 @@
     "red_planet": {
         "foreground": "222222",
         "background": "C2B790",
-        "colors": [
+        "accents": [
             "5B8390",
             "8C3432",
             "69819E",
@@ -3070,7 +3075,7 @@
     "red_sands": {
         "foreground": "7A251E",
         "background": "D7C9A7",
-        "colors": [
+        "accents": [
             "BB00BB",
             "E7B000",
             "0072FF",
@@ -3082,7 +3087,7 @@
     "relaxed": {
         "foreground": "353A44",
         "background": "D9D9D9",
-        "colors": [
+        "accents": [
             "6A8799",
             "909D63",
             "C9DFFF",
@@ -3094,7 +3099,7 @@
     "rippedcasts": {
         "foreground": "2B2B2B",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "BFBB1F",
             "75A5B0",
             "A8FF60",
@@ -3106,7 +3111,7 @@
     "rouge_2": {
         "foreground": "17182B",
         "background": "A2A3AA",
-        "colors": [
+        "accents": [
             "DBCDAB",
             "969E92",
             "8AB6C1",
@@ -3118,7 +3123,7 @@
     "royal": {
         "foreground": "100815",
         "background": "514968",
-        "colors": [
+        "accents": [
             "B49D27",
             "23801C",
             "8AAABE",
@@ -3130,7 +3135,7 @@
     "ryuuko": {
         "foreground": "2C3941",
         "background": "ECECEC",
-        "colors": [
+        "accents": [
             "B1A990",
             "66907D",
             "B18A73",
@@ -3142,7 +3147,7 @@
     "sakura": {
         "foreground": "18131E",
         "background": "DD7BDC",
-        "colors": [
+        "accents": [
             "6964AB",
             "41AF1A",
             "BC7053",
@@ -3154,7 +3159,7 @@
     "scarlet_protocol": {
         "foreground": "1C153D",
         "background": "E41951",
-        "colors": [
+        "accents": [
             "0271B6",
             "FAF945",
             "FF0051",
@@ -3166,7 +3171,7 @@
     "seafoam_pastel": {
         "foreground": "243435",
         "background": "D4E7D4",
-        "colors": [
+        "accents": [
             "ADA16D",
             "729494",
             "728C62",
@@ -3178,7 +3183,7 @@
     "seashells": {
         "foreground": "09141B",
         "background": "DEB88D",
-        "colors": [
+        "accents": [
             "027C9B",
             "D15123",
             "1E4950",
@@ -3190,7 +3195,7 @@
     "seti": {
         "foreground": "111213",
         "background": "CACECD",
-        "colors": [
+        "accents": [
             "E0C64F",
             "8EC43D",
             "43A5D5",
@@ -3202,7 +3207,7 @@
     "shades_of_purple": {
         "foreground": "1E1D40",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FFE700",
             "FF2C70",
             "D90429",
@@ -3214,7 +3219,7 @@
     "shaman": {
         "foreground": "001015",
         "background": "405555",
-        "colors": [
+        "accents": [
             "5E8BAA",
             "00599D",
             "B2302D",
@@ -3226,7 +3231,7 @@
     "slate": {
         "foreground": "222222",
         "background": "35B1D2",
-        "colors": [
+        "accents": [
             "15AB9C",
             "264B49",
             "E2A8BF",
@@ -3238,7 +3243,7 @@
     "sleepyhollow": {
         "foreground": "121214",
         "background": "AF9A91",
-        "colors": [
+        "accents": [
             "B55600",
             "5F63B4",
             "91773F",
@@ -3250,7 +3255,7 @@
     "smyck": {
         "foreground": "1B1B1B",
         "background": "F7F7F7",
-        "colors": [
+        "accents": [
             "7DA900",
             "B84131",
             "BA8ACC",
@@ -3262,7 +3267,7 @@
     "snazzy": {
         "foreground": "1E1F29",
         "background": "EBECE6",
-        "colors": [
+        "accents": [
             "FC4346",
             "49BAFF",
             "50FB7C",
@@ -3274,7 +3279,7 @@
     "softserver": {
         "foreground": "242626",
         "background": "99A3A2",
-        "colors": [
+        "accents": [
             "6BA58F",
             "6B8FA3",
             "A2686A",
@@ -3286,7 +3291,7 @@
     "solarized_darcula": {
         "foreground": "3D3F41",
         "background": "D2D8D9",
-        "colors": [
+        "accents": [
             "2075C7",
             "629655",
             "F24840",
@@ -3298,7 +3303,7 @@
     "solarized_dark___patched": {
         "foreground": "001E27",
         "background": "708284",
-        "colors": [
+        "accents": [
             "A57706",
             "259286",
             "D11C24",
@@ -3310,7 +3315,7 @@
     "solarized_dark_higher_contrast": {
         "foreground": "001E27",
         "background": "9CC2C3",
-        "colors": [
+        "accents": [
             "2176C7",
             "259286",
             "A57706",
@@ -3322,7 +3327,7 @@
     "spacedust": {
         "foreground": "0A1E24",
         "background": "ECF0C1",
-        "colors": [
+        "accents": [
             "5CAB96",
             "06AFC7",
             "E3CD7B",
@@ -3334,7 +3339,7 @@
     "spacegray_eighties_dull": {
         "foreground": "222222",
         "background": "C9C6BC",
-        "colors": [
+        "accents": [
             "7C8FA5",
             "92B477",
             "A5789E",
@@ -3346,7 +3351,7 @@
     "spacegray_eighties": {
         "foreground": "222222",
         "background": "BDBAAE",
-        "colors": [
+        "accents": [
             "5486C0",
             "81A764",
             "57C2C1",
@@ -3358,7 +3363,7 @@
     "spacegray": {
         "foreground": "20242D",
         "background": "B3B8C3",
-        "colors": [
+        "accents": [
             "E5C179",
             "7D8FA4",
             "85A7A5",
@@ -3370,7 +3375,7 @@
     "spiderman": {
         "foreground": "1B1D1E",
         "background": "E3E3E3",
-        "colors": [
+        "accents": [
             "E60813",
             "2C3FFF",
             "2435DB",
@@ -3382,7 +3387,7 @@
     "spring": {
         "foreground": "4D4D4C",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "3E999F",
             "FF4D83",
             "1FC95B",
@@ -3394,7 +3399,7 @@
     "square": {
         "foreground": "1A1A1A",
         "background": "ACACAB",
-        "colors": [
+        "accents": [
             "B6377D",
             "C9CAEC",
             "A9CDEB",
@@ -3406,7 +3411,7 @@
     "subliminal": {
         "foreground": "282C35",
         "background": "D4D4D4",
-        "colors": [
+        "accents": [
             "5FB3B3",
             "E15A60",
             "FFE2A9",
@@ -3418,7 +3423,7 @@
     "sundried": {
         "foreground": "1A1818",
         "background": "C9C9C9",
-        "colors": [
+        "accents": [
             "A7463D",
             "9D602A",
             "9C814F",
@@ -3430,7 +3435,7 @@
     "symfonic": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "DC322F",
             "FF8400",
             "56DB3A",
@@ -3442,7 +3447,7 @@
     "synthwave_everything": {
         "foreground": "2A2139",
         "background": "F0EFF1",
-        "colors": [
+        "accents": [
             "C792EA",
             "F97E72",
             "72F1B8",
@@ -3454,7 +3459,7 @@
     "synthwave": {
         "foreground": "000000",
         "background": "DAD9C7",
-        "colors": [
+        "accents": [
             "2186EC",
             "12C3E2",
             "1EBB2B",
@@ -3466,7 +3471,7 @@
     "tango_adapted": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "00D0D6",
             "C17ECC",
             "F0CB00",
@@ -3478,7 +3483,7 @@
     "tango_half_adapted": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "E2C000",
             "00BDC3",
             "A96CB3",
@@ -3490,7 +3495,7 @@
     "teerb": {
         "foreground": "262626",
         "background": "D0D0D0",
-        "colors": [
+        "accents": [
             "D7AF87",
             "86AED6",
             "8ADBB4",
@@ -3502,7 +3507,7 @@
     "terminal_basic": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "999900",
             "00A6B2",
             "990000",
@@ -3514,7 +3519,7 @@
     "thayer_bright": {
         "foreground": "1B1D1E",
         "background": "F8F8F8",
-        "colors": [
+        "accents": [
             "F4FD22",
             "38C8B5",
             "2757D6",
@@ -3526,7 +3531,7 @@
     "the_hulk": {
         "foreground": "1B1D1E",
         "background": "B5B5B5",
-        "colors": [
+        "accents": [
             "2525F5",
             "13CE30",
             "641F74",
@@ -3538,7 +3543,7 @@
     "tinacious_design_(dark)": {
         "foreground": "1D1D26",
         "background": "CBCBF0",
-        "colors": [
+        "accents": [
             "00CBFF",
             "00CECA",
             "FF3399",
@@ -3550,7 +3555,7 @@
     "tinacious_design_(light)": {
         "foreground": "1D1D26",
         "background": "F8F8FF",
-        "colors": [
+        "accents": [
             "CC66FF",
             "00CECA",
             "00D364",
@@ -3562,7 +3567,7 @@
     "tomorrow_night_blue": {
         "foreground": "002451",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FFEEAD",
             "D1F1A9",
             "BBDAFF",
@@ -3574,7 +3579,7 @@
     "tomorrow_night_bright": {
         "foreground": "000000",
         "background": "EAEAEA",
-        "colors": [
+        "accents": [
             "70C0B1",
             "C397D8",
             "E7C547",
@@ -3586,7 +3591,7 @@
     "tomorrow_night_burns": {
         "foreground": "151515",
         "background": "A1B0B8",
-        "colors": [
+        "accents": [
             "D3494E",
             "DF9395",
             "FC595F",
@@ -3598,7 +3603,7 @@
     "tomorrow_night_eighties": {
         "foreground": "2D2D2D",
         "background": "CCCCCC",
-        "colors": [
+        "accents": [
             "CC99CC",
             "66CCCC",
             "FFCC66",
@@ -3610,7 +3615,7 @@
     "tomorrow_night": {
         "foreground": "1D1F21",
         "background": "C5C8C6",
-        "colors": [
+        "accents": [
             "8ABEB7",
             "B294BB",
             "F0C674",
@@ -3622,7 +3627,7 @@
     "tomorrow": {
         "foreground": "4D4D4C",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "4271AE",
             "718C00",
             "C82829",
@@ -3634,7 +3639,7 @@
     "toychest": {
         "foreground": "24364B",
         "background": "31D07B",
-        "colors": [
+        "accents": [
             "DB8E27",
             "35A08F",
             "8A5EDC",
@@ -3646,7 +3651,7 @@
     "treehouse": {
         "foreground": "191919",
         "background": "786B53",
-        "colors": [
+        "accents": [
             "AA820C",
             "58859A",
             "97363D",
@@ -3658,7 +3663,7 @@
     "twilight_terminal": {
         "foreground": "141414",
         "background": "FFFFD4",
-        "colors": [
+        "accents": [
             "44474A",
             "C2A86C",
             "AFB97A",
@@ -3670,7 +3675,7 @@
     "ubuntu": {
         "foreground": "300A24",
         "background": "EEEEEC",
-        "colors": [
+        "accents": [
             "75507B",
             "3465A4",
             "06989A",
@@ -3682,7 +3687,7 @@
     "ultraviolent": {
         "foreground": "242728",
         "background": "C1C1C1",
-        "colors": [
+        "accents": [
             "FFF727",
             "D731FF",
             "FF0090",
@@ -3694,7 +3699,7 @@
     "underthesea": {
         "foreground": "011116",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "00A941",
             "59819C",
             "B2302D",
@@ -3706,7 +3711,7 @@
     "unikitty": {
         "foreground": "0B0B0B",
         "background": "FF8CD9",
-        "colors": [
+        "accents": [
             "145FCD",
             "FF36A2",
             "6BD1BC",
@@ -3718,7 +3723,7 @@
     "urple": {
         "foreground": "1B1B23",
         "background": "877A9B",
-        "colors": [
+        "accents": [
             "564D9B",
             "B0425B",
             "37A415",
@@ -3730,7 +3735,7 @@
     "vaughn": {
         "foreground": "25234F",
         "background": "DCDCCC",
-        "colors": [
+        "accents": [
             "5555FF",
             "8CD0D3",
             "DFAF8F",
@@ -3742,7 +3747,7 @@
     "vibrantink": {
         "foreground": "000000",
         "background": "FFFFFF",
-        "colors": [
+        "accents": [
             "FFCC00",
             "9933CC",
             "44B4CC",
@@ -3754,7 +3759,7 @@
     "violet_dark": {
         "foreground": "1C1D1F",
         "background": "708284",
-        "colors": [
+        "accents": [
             "D13A82",
             "C94C22",
             "B4881D",
@@ -3766,7 +3771,7 @@
     "violet_light": {
         "foreground": "536870",
         "background": "FCF4DC",
-        "colors": [
+        "accents": [
             "B4881D",
             "32A198",
             "D13A82",
@@ -3778,7 +3783,7 @@
     "warmneon": {
         "foreground": "404040",
         "background": "AFDAB6",
-        "colors": [
+        "accents": [
             "4261C5",
             "F920FB",
             "DAE145",
@@ -3790,7 +3795,7 @@
     "wez": {
         "foreground": "000000",
         "background": "B3B3B3",
-        "colors": [
+        "accents": [
             "7ACACA",
             "CC5555",
             "5555CC",
@@ -3802,7 +3807,7 @@
     "whimsy": {
         "foreground": "29283B",
         "background": "B3B0D6",
-        "colors": [
+        "accents": [
             "5ECA89",
             "AA7FF0",
             "65AEF7",
@@ -3814,7 +3819,7 @@
     "wildcherry": {
         "foreground": "1F1726",
         "background": "DAFAFF",
-        "colors": [
+        "accents": [
             "ECECEC",
             "2AB250",
             "FFD16F",
@@ -3826,7 +3831,7 @@
     "wombat": {
         "foreground": "171717",
         "background": "DEDACF",
-        "colors": [
+        "accents": [
             "82FFF7",
             "5DA9F6",
             "E86AFF",
@@ -3838,7 +3843,7 @@
     "wryan": {
         "foreground": "101010",
         "background": "999993",
-        "colors": [
+        "accents": [
             "395573",
             "5E468C",
             "31658C",
@@ -3850,7 +3855,7 @@
     "zenburn": {
         "foreground": "3F3F3F",
         "background": "DCDCCC",
-        "colors": [
+        "accents": [
             "60B48A",
             "506070",
             "F0DFAF",
@@ -3862,7 +3867,7 @@
     "slidehelper001": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "247BA0",
             "70C1B3",
             "B2DBBF",
@@ -3874,7 +3879,7 @@
     "slidehelper002": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "05668D",
             "028090",
             "00A896",
@@ -3886,7 +3891,7 @@
     "slidehelper003": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "50514F",
             "F25F5C",
             "FFE066",
@@ -3898,7 +3903,7 @@
     "slidehelper004": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "6D6875",
             "B5838D",
             "E5989B",
@@ -3910,7 +3915,7 @@
     "slidehelper005": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "2B2D42",
             "8D99AE",
             "EDF2F4",
@@ -3922,7 +3927,7 @@
     "slidehelper006": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "264653",
             "2A9D8F",
             "E9C46A",
@@ -3934,7 +3939,7 @@
     "slidehelper007": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "1A535C",
             "4ECDC4",
             "FF6B6B",
@@ -3946,7 +3951,7 @@
     "slidehelper008": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "9D8189",
             "F4ACB7",
             "FFCAD4",
@@ -3958,7 +3963,7 @@
     "slidehelper009": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "ED6A5A",
             "F4F1BB",
             "9BC1BC",
@@ -3970,7 +3975,7 @@
     "slidehelper010": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "5BC0EB",
             "FDE74C",
             "9BC53D",
@@ -3982,7 +3987,7 @@
     "slidehelper011": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "FE938C",
             "E6B89C",
             "EAD2AC",
@@ -3994,7 +3999,7 @@
     "slidehelper012": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0B132B",
             "1C2541",
             "3A506B",
@@ -4006,7 +4011,7 @@
     "slidehelper013": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "BCE784",
             "5DD39E",
             "348AA7",
@@ -4018,7 +4023,7 @@
     "slidehelper014": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "114B5F",
             "028090",
             "E4FDE1",
@@ -4030,7 +4035,7 @@
     "slidehelper015": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "EF476F",
             "FFD166",
             "06D6A0",
@@ -4042,7 +4047,7 @@
     "slidehelper016": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "1985A1",
             "4C5C68",
             "46494C",
@@ -4054,7 +4059,7 @@
     "slidehelper017": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "9C89B8",
             "F0A6CA",
             "EFC3E6",
@@ -4066,7 +4071,7 @@
     "slidehelper018": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "003049",
             "D62828",
             "F77F00",
@@ -4078,7 +4083,7 @@
     "slidehelper019": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "06AED5",
             "086788",
             "F0C808",
@@ -4090,7 +4095,7 @@
     "slidehelper020": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "22223B",
             "4A4E69",
             "9A8C98",
@@ -4102,7 +4107,7 @@
     "slidehelper021": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "114B5F",
             "1A936F",
             "88D498",
@@ -4114,7 +4119,7 @@
     "slidehelper022": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "D8DBE2",
             "A9BCD0",
             "58A4B0",
@@ -4126,7 +4131,7 @@
     "slidehelper023": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "13293D",
             "006494",
             "247BA0",
@@ -4138,7 +4143,7 @@
     "slidehelper024": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0E103D",
             "69306D",
             "A5668B",
@@ -4150,7 +4155,7 @@
     "slidehelper025": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "F6511D",
             "FFB400",
             "00A6ED",
@@ -4162,7 +4167,7 @@
     "slidehelper026": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3D5A80",
             "98C1D9",
             "EE6C4D",
@@ -4174,7 +4179,7 @@
     "slidehelper027": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3D315B",
             "444B6E",
             "708B75",
@@ -4186,7 +4191,7 @@
     "slidehelper028": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "FFBF00",
             "E83F6F",
             "2274A5",
@@ -4198,7 +4203,7 @@
     "slidehelper029": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "F0B67F",
             "FE5F55",
             "D6D1B1",
@@ -4210,7 +4215,7 @@
     "slidehelper030": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "FFB997",
             "F67E7D",
             "843B62",
@@ -4222,7 +4227,7 @@
     "slidehelper031": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "CFDBD5",
             "E8EDDF",
             "F5CB5C",
@@ -4234,7 +4239,7 @@
     "slidehelper032": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "20BF55",
             "0B4F6C",
             "01BAEF",
@@ -4246,7 +4251,7 @@
     "slidehelper033": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "083D77",
             "EBEBD3",
             "F4D35E",
@@ -4258,7 +4263,7 @@
     "slidehelper034": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "1BE7FF",
             "6EEB83",
             "E4FF1A",
@@ -4270,7 +4275,7 @@
     "slidehelper035": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "7BDFF2",
             "B2F7EF",
             "EFF7F6",
@@ -4282,7 +4287,7 @@
     "slidehelper036": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "2D3142",
             "4F5D75",
             "BFC0C0",
@@ -4294,7 +4299,7 @@
     "slidehelper037": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "1B998B",
             "2D3047",
             "FFFD82",
@@ -4306,7 +4311,7 @@
     "slidehelper038": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "05668D",
             "427AA1",
             "EBF2FA",
@@ -4318,7 +4323,7 @@
     "slidehelper039": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "847577",
             "A6A2A2",
             "CFD2CD",
@@ -4330,7 +4335,7 @@
     "slidehelper040": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "540D6E",
             "EE4266",
             "FFD23F",
@@ -4342,7 +4347,7 @@
     "slidehelper041": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "A9DEF9",
             "EDE7B1",
             "F694C1",
@@ -4354,7 +4359,7 @@
     "slidehelper042": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "472D30",
             "723D46",
             "E26D5C",
@@ -4366,7 +4371,7 @@
     "slidehelper043": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "253237",
             "5C6B73",
             "9DB4C0",
@@ -4378,7 +4383,7 @@
     "slidehelper044": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "4A7C59",
             "68B0AB",
             "8FC0A9",
@@ -4390,7 +4395,7 @@
     "slidehelper045": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "5E6472",
             "FFA69E",
             "AED9E0",
@@ -4402,7 +4407,7 @@
     "slidehelper046": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "06D6A0",
             "1B9AAA",
             "EF476F",
@@ -4414,7 +4419,7 @@
     "slidehelper047": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "4A7C59",
             "68B0AB",
             "8FC0A9",
@@ -4426,7 +4431,7 @@
     "slidehelper048": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "69585F",
             "EF959D",
             "FCDDBC",
@@ -4438,7 +4443,7 @@
     "slidehelper049": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "220901",
             "621708",
             "941B0C",
@@ -4450,7 +4455,7 @@
     "slidehelper050": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "FE4A49",
             "2AB7CA",
             "FED766",
@@ -4462,7 +4467,7 @@
     "slidehelper051": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "1E306E",
             "563672",
             "8E3C77",
@@ -4474,7 +4479,7 @@
     "slidehelper052": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "644CA2",
             "3E77E9",
             "FF5952",
@@ -4486,7 +4491,7 @@
     "slidehelper053": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3D3D3D",
             "6059F7",
             "6592FE",
@@ -4498,7 +4503,7 @@
     "slidehelper054": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "002F2F",
             "046380",
             "A7A37E",
@@ -4510,7 +4515,7 @@
     "slidehelper055": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "468966",
             "FFF0A5",
             "FFB03B",
@@ -4522,7 +4527,7 @@
     "slidehelper056": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "2C3E50",
             "E74C3C",
             "ECF0F1",
@@ -4534,7 +4539,7 @@
     "slidehelper057": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "193441",
             "3E606F",
             "91AA9D",
@@ -4546,7 +4551,7 @@
     "slidehelper058": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "00A388",
             "79BD8F",
             "BEEB9F",
@@ -4558,7 +4563,7 @@
     "slidehelper059": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "004358",
             "1F8A70",
             "BEDB39",
@@ -4570,7 +4575,7 @@
     "slidehelper060": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "105B63",
             "BD4932",
             "DB9E36",
@@ -4582,7 +4587,7 @@
     "slidehelper061": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "B9121B",
             "4C1B1B",
             "BD8D46",
@@ -4594,7 +4599,7 @@
     "slidehelper062": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "DC3522",
             "D9CB9E",
             "374140",
@@ -4606,7 +4611,7 @@
     "slidehelper063": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "2E0927",
             "D90000",
             "FF2D00",
@@ -4618,7 +4623,7 @@
     "slidehelper064": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "D8CAA8",
             "5C832F",
             "284907",
@@ -4630,7 +4635,7 @@
     "slidehelper065": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "10222B",
             "95AB63",
             "BDD684",
@@ -4642,7 +4647,7 @@
     "slidehelper066": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "2F2933",
             "01A2A6",
             "29D9C2",
@@ -4654,7 +4659,7 @@
     "slidehelper067": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "703030",
             "2F343B",
             "7E827A",
@@ -4666,7 +4671,7 @@
     "slidehelper068": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "EA2E49",
             "333745",
             "77C4D3",
@@ -4678,7 +4683,7 @@
     "slidehelper069": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "26393D",
             "40627C",
             "D0A825",
@@ -4690,7 +4695,7 @@
     "slidehelper070": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "332532",
             "644D52",
             "F77A52",
@@ -4702,7 +4707,7 @@
     "slidehelper071": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "16193B",
             "35478C",
             "4E7AC7",
@@ -4714,7 +4719,7 @@
     "slidehelper072": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3E454C",
             "2185C5",
             "7ECEFD",
@@ -4726,7 +4731,7 @@
     "slidehelper073": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "334D5C",
             "45B29D",
             "EFC94C",
@@ -4738,7 +4743,7 @@
     "slidehelper074": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "083643",
             "476C5E",
             "B1E001",
@@ -4750,7 +4755,7 @@
     "slidehelper075": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "183152",
             "375D81",
             "ABC8E2",
@@ -4762,7 +4767,7 @@
     "slidehelper076": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "611427",
             "1D2326",
             "6A6A61",
@@ -4774,7 +4779,7 @@
     "slidehelper077": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "695D46",
             "FF712C",
             "A1E8D9",
@@ -4786,7 +4791,7 @@
     "slidehelper078": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "1D181F",
             "3B424C",
             "306E73",
@@ -4798,7 +4803,7 @@
     "slidehelper079": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "73603D",
             "BF8A49",
             "F2CA80",
@@ -4810,7 +4815,7 @@
     "slidehelper080": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "25064C",
             "36175E",
             "553285",
@@ -4822,7 +4827,7 @@
     "slidehelper081": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "6B0C22",
             "D9042B",
             "F4CB89",
@@ -4834,7 +4839,7 @@
     "slidehelper082": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "31152B",
             "723147",
             "CC4452",
@@ -4846,7 +4851,7 @@
     "slidehelper083": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "FFBC67",
             "685C79",
             "AC6C82",
@@ -4858,7 +4863,7 @@
     "slidehelper084": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "E84167",
             "542733",
             "30282A",
@@ -4870,7 +4875,7 @@
     "slidehelper085": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0F2D40",
             "194759",
             "296B73",
@@ -4882,7 +4887,7 @@
     "slidehelper086": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3FB8AF",
             "7FC7AF",
             "DAD8A7",
@@ -4894,7 +4899,7 @@
     "slidehelper087": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "141D29",
             "233040",
             "486273",
@@ -4906,7 +4911,7 @@
     "slidehelper088": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3399CC",
             "67B8DE",
             "91C9E8",
@@ -4918,7 +4923,7 @@
     "slidehelper089": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "334D5C",
             "45B29D",
             "EFC94C",
@@ -4930,7 +4935,7 @@
     "slidehelper090": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "A20D1E",
             "BC0D35",
             "DE264C",
@@ -4942,7 +4947,7 @@
     "slidehelper091": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "59D8E5",
             "2F3738",
             "647678",
@@ -4954,7 +4959,7 @@
     "slidehelper092": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "1A1F2B",
             "1A1F2B",
             "4A6491",
@@ -4966,7 +4971,7 @@
     "slidehelper093": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "FF2151",
             "FF7729",
             "FFAD29",
@@ -4978,7 +4983,7 @@
     "slidehelper094": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "9F3818",
             "C33A1A",
             "F84322",
@@ -4990,7 +4995,7 @@
     "slidehelper095": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "212B40",
             "C2E078",
             "E2E8D2",
@@ -5002,7 +5007,7 @@
     "slidehelper096": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "171119",
             "321433",
             "660C47",
@@ -5014,7 +5019,7 @@
     "slidehelper097": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "002E40",
             "2A5769",
             "BDCFC7",
@@ -5026,7 +5031,7 @@
     "slidehelper098": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0C274C",
             "18709C",
             "19BDC4",
@@ -5038,7 +5043,7 @@
     "slidehelper099": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "302B2F",
             "696153",
             "FFA600",
@@ -5050,7 +5055,7 @@
     "slidehelper100": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "78C0F9",
             "FE86A4",
             "FFDBE6",
@@ -5062,7 +5067,7 @@
     "slidehelper101": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "425957",
             "81AC8B",
             "F2E5A2",
@@ -5074,7 +5079,7 @@
     "slidehelper102": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "183152",
             "375D81",
             "ABC8E2",
@@ -5086,7 +5091,7 @@
     "slidehelper103": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "961227",
             "24262D",
             "1C1F26",
@@ -5098,7 +5103,7 @@
     "slidehelper104": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3D0D26",
             "660A3E",
             "891C56",
@@ -5110,7 +5115,7 @@
     "slidehelper105": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "26140C",
             "3D2216",
             "784E3D",
@@ -5122,7 +5127,7 @@
     "slidehelper106": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3B3B3B",
             "E84D5B",
             "2BACB5",
@@ -5134,7 +5139,7 @@
     "slidehelper107": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3D0D26",
             "660A3E",
             "891C56",
@@ -5146,7 +5151,7 @@
     "slidehelper108": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "F0AD44",
             "385052",
             "128085",
@@ -5158,7 +5163,7 @@
     "slidehelper109": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "BF4904",
             "D96704",
             "F29D35",
@@ -5170,7 +5175,7 @@
     "slidehelper110": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0B486B",
             "3B8686",
             "79BD9A",
@@ -5182,7 +5187,7 @@
     "slidehelper111": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "CFF09E",
             "A8877E",
             "FF476C",
@@ -5194,7 +5199,7 @@
     "slidehelper112": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0A7B83",
             "2AA876",
             "FFD265",
@@ -5206,7 +5211,7 @@
     "slidehelper113": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "293033",
             "293033",
             "8C644C",
@@ -5218,7 +5223,7 @@
     "slidehelper114": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3E3947",
             "735360",
             "D68684",
@@ -5230,7 +5235,7 @@
     "slidehelper115": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "324152",
             "47535E",
             "796466",
@@ -5242,7 +5247,7 @@
     "slidehelper116": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "F8555E",
             "4C6A8D",
             "0C9DA9",
@@ -5254,7 +5259,7 @@
     "slidehelper117": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "343844",
             "2AB69D",
             "E65848",
@@ -5266,7 +5271,7 @@
     "slidehelper118": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "233D4D",
             "FE7F2D",
             "FCCA46",
@@ -5278,7 +5283,7 @@
     "slidehelper119": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "E23A59",
             "44ADAD",
             "3E506B",
@@ -5290,7 +5295,7 @@
     "slidehelper120": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "B8C6D1",
             "5A7284",
             "D1C7B8",
@@ -5302,7 +5307,7 @@
     "slidehelper121": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "162238",
             "324359",
             "707F8C",
@@ -5314,7 +5319,7 @@
     "slidehelper122": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "324472",
             "2693A1",
             "EFA517",
@@ -5326,7 +5331,7 @@
     "slidehelper123": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "6699CC",
             "FFF275",
             "FF8C42",
@@ -5338,7 +5343,7 @@
     "slidehelper124": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "26547C",
             "EF476F",
             "FFD166",
@@ -5350,7 +5355,7 @@
     "slidehelper125": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3A86FF",
             "8338EC",
             "FF006E",
@@ -5362,7 +5367,7 @@
     "slidehelper126": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3C1642",
             "086375",
             "1DD3B0",
@@ -5374,7 +5379,7 @@
     "slidehelper127": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "495867",
             "577399",
             "BDD5EA",
@@ -5386,7 +5391,7 @@
     "slidehelper128": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "03256C",
             "2541B2",
             "1768AC",
@@ -5398,7 +5403,7 @@
     "slidehelper129": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "4C5454",
             "FF715B",
             "1EA896",
@@ -5410,7 +5415,7 @@
     "slidehelper130": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "2B2D42",
             "8D99AE",
             "D80032",
@@ -5422,7 +5427,7 @@
     "slidehelper131": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "2F2235",
             "3F3244",
             "60495A",
@@ -5434,7 +5439,7 @@
     "slidehelper132": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0B0014",
             "773344",
             "D44D5C",
@@ -5446,7 +5451,7 @@
     "slidehelper133": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "36213E",
             "554971",
             "63768D",
@@ -5458,7 +5463,7 @@
     "slidehelper134": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0C0F0A",
             "FF206E",
             "41EAD4",
@@ -5470,7 +5475,7 @@
     "slidehelper135": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "FE5F55",
             "F0B67F",
             "D6D1B1",
@@ -5482,7 +5487,7 @@
     "slidehelper136": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "3F334D",
             "574B60",
             "7D8491",
@@ -5494,7 +5499,7 @@
     "slidehelper137": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0C120C",
             "C20114",
             "6D7275",
@@ -5506,7 +5511,7 @@
     "slidehelper138": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "CC444B",
             "DA5552",
             "DF7373",
@@ -5518,7 +5523,7 @@
     "slidehelper139": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "9E0031",
             "8E0045",
             "770058",
@@ -5530,7 +5535,7 @@
     "slidehelper140": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "040F0F",
             "248232",
             "2BA84A",
@@ -5542,7 +5547,7 @@
     "slidehelper141": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0D1B2A",
             "1B263B",
             "415A77",
@@ -5554,7 +5559,7 @@
     "slidehelper142": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "450920",
             "A53860",
             "DA627D",
@@ -5566,7 +5571,7 @@
     "slidehelper143": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "EB5E28",
             "252422",
             "403D39",
@@ -5578,7 +5583,7 @@
     "slidehelper144": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "07BEB8",
             "3DCCC7",
             "68D8D6",
@@ -5590,7 +5595,7 @@
     "slidehelper145": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "B71C1C",
             "C62828",
             "D32F2F",
@@ -5602,7 +5607,7 @@
     "slidehelper146": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "880E4F",
             "AD1457",
             "C2185B",
@@ -5614,7 +5619,7 @@
     "slidehelper147": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "4A148C",
             "6A1B9A",
             "7B1FA2",
@@ -5626,7 +5631,7 @@
     "slidehelper148": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "0277BD",
             "0288D1",
             "039BE5",
@@ -5638,7 +5643,7 @@
     "slidehelper149": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "004D40",
             "00695C",
             "00796B",
@@ -5650,7 +5655,7 @@
     "slidehelper150": {
         "foreground": "323232",
         "background": "E3DED1",
-        "colors": [
+        "accents": [
             "212121",
             "424242",
             "616161",
@@ -5662,7 +5667,7 @@
     "caduceus": {
         "foreground": "555C68",
         "background": "ADB0BB",
-        "colors": [
+        "accents": [
             "D186B2",
             "2EB19B",
             "ADDCEA",

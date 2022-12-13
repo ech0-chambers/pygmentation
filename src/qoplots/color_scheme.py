@@ -1,12 +1,14 @@
+from __future__ import annotations
 
 # ToDo: 
 # - Allow for colour dict to specify separate accent or surface colours, as well as specific colours to use as red, orange, etc. (without adding duplicate colours)
 # - Amend ColorFamily to have a default, which will normally be base unless base is too similar to the light or dark color, in which case it will be a lighter or darker variant.
 # - ColorScheme should take a dictionary instead of colors, foreground, background, etc. as separate arguments.
 
-from typing import List
+from typing import List, Tuple
 import math
 import numpy as np
+from abc import ABC, abstractmethod
 
 from enum import Enum
 
@@ -14,6 +16,7 @@ from enum import Enum
 
 
 class EnumEx(Enum):
+    # Extended enum class that allows for comparison with integers and other enums more consistently
     def __eq__(self, other):
         from enum import Enum
         # return self is other or (type(other) == Enum and self.value == other.value) or (type(other) == int and self.value == other)
@@ -76,126 +79,315 @@ class EnumEx(Enum):
             return self.value != other.value
         return self.value != other
 
+# Abstract base class for all color models
 
-class RGB:
+class ColorModel(ABC):
+    # two properties *must* be set before __init__ is called: _string_format and _bounds
+    def __init__(self, abc: float | List[float], b: float = None, c: float = None):
+        if isinstance(abc, list) or isinstance(abc, tuple):
+            _abc = abc
+        else:
+            _abc = [abc, b, c]
+        # check bounds. Each inherited class should have a _bounds property that is a list of tuples, one for each component. `None` if unbounded
+        if len(self._bounds) != 3:
+            raise ValueError(f"ColorModel._bounds should have 3 items, but has {len(self._bounds)}")
+        for i, (a, b) in enumerate(self._bounds):
+            if a is not None and _abc[i] < a:
+                raise ValueError(f"Component {i} of {self.__class__.__name__} is out of bounds: {_abc[i]} < {a}")
+            if b is not None and _abc[i] > b:
+                raise ValueError(f"Component {i} of {self.__class__.__name__} is out of bounds: {_abc[i]} > {b}")
+        self._a = _abc[0]
+        self._b = _abc[1]
+        self._c = _abc[2]
+    
+    def __eq__(self, other):
+        if type(other) != type(self):
+            return False
+        return self._a == other._a and self._b == other._b and self._c == other._c
+    
+    def __iter__(self):
+        return iter((self._a, self._b, self._c))
+
+    def __repr__(self):
+        return self._string_format.format(self._a, self._b, self._c)
+    
+    @abstractmethod
+    def to_full_rgb(self) -> Tuple[float]:
+        # This should return a tuple of 3 floats [0,1], not ints, to maintain as much precision as possible
+        pass
+
+    @abstractmethod
+    def from_full_rgb(rgb: Tuple[float]):
+        # This should take a tuple of 3 floats [0,1], not ints, to maintain as much precision as possible
+        pass
+
+    def convert_to(self, new_model: str | type[ColorModel]):
+        if isinstance(new_model, str):
+            new_model = new_model.lower()
+            if new_model == "rgb":
+                return RGB.from_full_rgb(self.to_full_rgb())
+            if new_model == "hsl":
+                return HSL.from_full_rgb(self.to_full_rgb())
+            if new_model == "hsv":
+                return HSV.from_full_rgb(self.to_full_rgb())
+            if new_model == "xyz":
+                return XYZ.from_full_rgb(self.to_full_rgb())
+            if new_model == "lab":
+                return LAB.from_full_rgb(self.to_full_rgb())
+            if new_model == "hex":
+                r,g,b = self.to_full_rgb()
+                # r,g,b need to be ints, round correctly
+                r = int(round(r * 255))
+                g = int(round(g * 255))
+                b = int(round(b * 255))
+                return f"{r:02X}{g:02X}{b:02X}"
+            if new_model == "css":
+                r,g,b = self.to_full_rgb()
+                # r,g,b need to be ints, round correctly
+                r = int(round(r * 255))
+                g = int(round(g * 255))
+                b = int(round(b * 255))
+                return f"#{r:02X}{g:02X}{b:02X}"
+            
+            raise ValueError(f"Unknown color model: {new_model}")
+        return new_model.from_full_rgb(self.to_full_rgb())
+
+    def as_tuple(self):
+        return (self._a, self._b, self._c)
+
+class RGB(ColorModel):
     def __init__(self, rgb: int | List[int], g: int = None, b: int = None):
-        if isinstance(rgb, list) or isinstance(rgb, tuple):
-            self.r = rgb[0]
-            self.g = rgb[1]
-            self.b = rgb[2]
-        else:
-            self.r = rgb
-            self.g = g
-            self.b = b
+        self._bounds = ((0, 255), (0, 255), (0, 255))
+        self._string_format = "RGB({}, {}, {})"
+        # call super
+        super().__init__(rgb, g, b)
 
-    def __repr__(self):
-        return f'RGB({self.r}, {self.g}, {self.b})'
+    def to_full_rgb(self) -> Tuple[float]:
+        return (self._a / 255, self._b / 255, self._c / 255)
+    
+    @classmethod
+    def from_full_rgb(cls, rgb: Tuple[float]):
+        return cls((rgb[0] * 255, rgb[1] * 255, rgb[2] * 255))
 
-    def __str__(self):
-        return f'RGB({self.r}, {self.g}, {self.b})'
+    @property
+    def r(self):
+        return self._a
+    
+    @property
+    def g(self):
+        return self._b
 
-    def __eq__(self, other):
-        return self.r == other.r and self.g == other.g and self.b == other.b
+    @property
+    def b(self):
+        return self._c
+    
+    @classmethod
+    def from_hex(cls, hex: str):
+        return cls(tuple(int(hex.lstrip('#')[i:i+2], 16) for i in (0, 2, 4)))
 
-    # iterator compatibility
-    def __iter__(self):
-        return iter((self.r, self.g, self.b))
 
-
-class HSL:
+class HSL(ColorModel):
     def __init__(self, hsl: int | List[int], s: int = None, l: int = None):
-        if isinstance(hsl, list) or isinstance(hsl, tuple):
-            self.h = hsl[0]
-            self.s = hsl[1]
-            self.l = hsl[2]
+        self._bounds = ((0, 360), (0, 1), (0, 1))
+        self._string_format = "HSL({:.0f}\u00b0, {:.0%}, {:.0%})"
+        # call super
+        super().__init__(hsl, s, l)
+    
+    def to_full_rgb(self) -> Tuple[float]:
+        # https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
+        c = (1 - abs(2 * self.l - 1)) * self.s
+        x = c * (1 - abs((self.h / 60) % 2 - 1))
+        m = self.l - c / 2
+        if self.h < 60:
+            return (c + m, x + m, m)
+        if self.h < 120:
+            return (x + m, c + m, m)
+        if self.h < 180:
+            return (m, c + m, x + m)
+        if self.h < 240:
+            return (m, x + m, c + m)
+        if self.h < 300:
+            return (x + m, m, c + m)
+        return (c + m, m, x + m)
+
+    @classmethod
+    def from_full_rgb(cls, rgb: Tuple[float]):
+        # https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
+        r, g, b = rgb
+        cmax = max(r, g, b)
+        cmin = min(r, g, b)
+        delta = cmax - cmin
+        if delta == 0:
+            h = 0
+        elif cmax == r:
+            h = 60 * (((g - b) / delta) % 6)
+        elif cmax == g:
+            h = 60 * (((b - r) / delta) + 2)
+        elif cmax == b:
+            h = 60 * (((r - g) / delta) + 4)
+        l = (cmax + cmin) / 2
+        if delta == 0:
+            s = 0
         else:
-            self.h = hsl
-            self.s = s
-            self.l = l
+            s = delta / (1 - abs(2 * l - 1))
+        return cls((h, s, l))
 
-    def __repr__(self):
-        return f'HSL({self.h}, {self.s}, {self.l})'
+    @property
+    def h(self):
+        return self._a
 
-    def __str__(self):
-        return f'HSL({self.h}, {self.s}, {self.l})'
+    @property
+    def s(self):
+        return self._b
 
-    def __eq__(self, other):
-        return self.h == other.h and self.s == other.s and self.l == other.l
-
-    def __iter__(self):
-        return iter((self.h, self.s, self.l))
+    @property
+    def l(self):
+        return self._c
 
 
-class HSV:
+
+class HSV(ColorModel):
     def __init__(self, hsv: int | List[int], s: int = None, v: int = None):
-        if isinstance(hsv, list) or isinstance(hsv, tuple):
-            self.h = hsv[0]
-            self.s = hsv[1]
-            self.v = hsv[2]
+        self._bounds = ((0, 360), (0, 1), (0, 1))
+        self._string_format = "HSV({:.0f}\u00b0, {:.0%}, {:.0%})"
+        # call super
+        super().__init__(hsv, s, v)
+    
+    def to_full_rgb(self) -> Tuple[float]:
+        # https://en.wikipedia.org/wiki/HSL_and_HSV#HSV_to_RGB
+        c = self.v * self.s
+        x = c * (1 - abs((self.h / 60) % 2 - 1))
+        m = self.v - c
+        if self.h < 60:
+            return (c + m, x + m, m)
+        if self.h < 120:
+            return (x + m, c + m, m)
+        if self.h < 180:
+            return (m, c + m, x + m)
+        if self.h < 240:
+            return (m, x + m, c + m)
+        if self.h < 300:
+            return (x + m, m, c + m)
+        return (c + m, m, x + m)
+    
+    @classmethod
+    def from_full_rgb(cls, rgb: Tuple[float]):
+        # https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
+        r, g, b = rgb
+        cmax = max(r, g, b)
+        cmin = min(r, g, b)
+        delta = cmax - cmin
+        if delta == 0:
+            h = 0
+        elif cmax == r:
+            h = 60 * (((g - b) / delta) % 6)
+        elif cmax == g:
+            h = 60 * (((b - r) / delta) + 2)
+        elif cmax == b:
+            h = 60 * (((r - g) / delta) + 4)
+        v = cmax
+        if cmax == 0:
+            s = 0
         else:
-            self.h = hsv
-            self.s = s
-            self.v = v
+            s = delta / cmax
+        return cls((h, s, v))
+    
+    @property
+    def h(self):
+        return self._a
+    
+    @property
+    def s(self):
+        return self._b
+    
+    @property
+    def v(self):
+        return self._c
 
-    def __repr__(self):
-        return f'HSV({self.h}, {self.s}, {self.v})'
 
-    def __str__(self):
-        return f'HSV({self.h}, {self.s}, {self.v})'
-
-    def __eq__(self, other):
-        return self.h == other.h and self.s == other.s and self.v == other.v
-
-    def __iter__(self):
-        return iter((self.h, self.s, self.v))
-
-
-class XYZ:
+class XYZ(ColorModel):
     def __init__(self, xyz: int | List[int], y: int = None, z: int = None):
-        if isinstance(xyz, list) or isinstance(xyz, tuple):
-            self.x = xyz[0]
-            self.y = xyz[1]
-            self.z = xyz[2]
-        else:
-            self.x = xyz
-            self.y = y
-            self.z = z
+        self._bounds = ((0, None), (0, None), (0, None))
+        self._string_format = "XYZ({}, {}, {})"
+        # call super
+        super().__init__(xyz, y, z)
+    
+    def to_full_rgb(self) -> Tuple[float]:
+        x, y, z = (x / 100 for x in (self.x, self.y, self.z))
+        r = x * 3.2406 + y * -1.5372 + z * -0.4986
+        g = x * -0.9689 + y * 1.8758 + z * 0.0415
+        b = x * 0.0557 + y * -0.2040 + z * 1.0570
+        r = 12.92 * r if r <= 0.0031308 else (1.055 * r ** (1 / 2.4)) - 0.055
+        g = 12.92 * g if g <= 0.0031308 else (1.055 * g ** (1 / 2.4)) - 0.055
+        b = 12.92 * b if b <= 0.0031308 else (1.055 * b ** (1 / 2.4)) - 0.055
+        return (r, g, b)
+    
+    @classmethod
+    def from_full_rgb(cls, rgb: Tuple[float]):
+        r, g, b = (x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in rgb)
+        x = r * 0.4124 + g * 0.3576 + b * 0.1805
+        y = r * 0.2126 + g * 0.7152 + b * 0.0722
+        z = r * 0.0193 + g * 0.1192 + b * 0.9505
+        return cls((x * 100, y * 100, z * 100))
+    
+    @property
+    def x(self):
+        return self._a
 
-    def __repr__(self):
-        return f'XYZ({self.x}, {self.y}, {self.z})'
+    @property
+    def y(self):
+        return self._b
 
-    def __str__(self):
-        return f'XYZ({self.x}, {self.y}, {self.z})'
-
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y and self.z == other.z
-
-    def __iter__(self):
-        return iter((self.x, self.y, self.z))
+    @property
+    def z(self):
+        return self._c
 
 
-class LAB:
+class LAB(ColorModel):
     def __init__(self, lab: int | List[int], a: int = None, b: int = None):
-        if isinstance(lab, list) or isinstance(lab, tuple):
-            self.l = lab[0]
-            self.a = lab[1]
-            self.b = lab[2]
-        else:
-            self.l = lab
-            self.a = a
-            self.b = b
+        self._bounds = ((0, None), (None, None), (None, None))
+        self._string_format = "LAB({}, {}, {})"
+        # call super
+        super().__init__(lab, a, b)
+    
+    def _to_xyz(self) -> XYZ:
+        # https://en.wikipedia.org/wiki/CIELAB_color_space
+        def f(t):
+            if t > 6 / 29:
+                return t ** 3
+            return (t - 4 / 29) / 7.787
+        y = (self.l + 16) / 116
+        x = self.a / 500 + y
+        z = y - self.b / 200
+        return XYZ((95.047 * f(x), 100 * f(y), 108.883 * f(z)))
 
-    def __repr__(self):
-        return f'LAB({self.l}, {self.a}, {self.b})'
+    @classmethod
+    def _from_xyz(cls, xyz: XYZ):
+        # https://en.wikipedia.org/wiki/CIELAB_color_space
+        def f(t):
+            delta = 6 / 29
+            if t > delta ** 3:
+                return t ** (1 / 3)
+            return t / (3 * delta ** 2) + 4 / 29
+        
+        Xn = 95.0489
+        Yn = 100
+        Zn = 108.8840
+        x = f(xyz.x / Xn)
+        y = f(xyz.y / Yn)
+        z = f(xyz.z / Zn)
+        return cls((116 * y - 16, 500 * (x - y), 200 * (y - z)))
 
-    def __str__(self):
-        return f'LAB({self.l}, {self.a}, {self.b})'
 
-    def __eq__(self, other):
-        return self.l == other.l and self.a == other.a and self.b == other.b
+    def to_full_rgb(self) -> Tuple[float]:
+        # lab to rgb, using xyz as an intermediate step
+        return self._to_xyz().to_full_rgb()
+    
+    @classmethod
+    def from_full_rgb(cls, rgb: Tuple[float]):
+        # rgb to lab, using xyz as an intermediate step
+        return cls._from_xyz(XYZ.from_full_rgb(rgb))
 
-    def __iter__(self):
-        return iter((self.l, self.a, self.b))
 
 
 class Color:
@@ -223,160 +415,13 @@ class Color:
         self._xyz = None
         self._lab = None
 
-    # Converters
-    # - hex to rgb
-    # - rgb to hex
-    # - rgb to hsl
-    # - hsl to rgb
-    # - rgb to hsv
-    # - hsv to rgb
-    # - rgb to xyz
-    # - xyz to rgb
-    # - rgb to lab
-    # - lab to rgb
-    @staticmethod
-    def hex_to_rgb(hex: str) -> RGB:
-        return RGB(tuple(int(hex[i:i+2], 16) for i in (0, 2, 4)))
-
-    @staticmethod
-    def rgb_to_hex(rgb: tuple | RGB) -> str:
-        return ''.join(f'{x:02x}' for x in rgb)
-
-    @staticmethod
-    def rgb_to_hsl(rgb: tuple | RGB) -> HSL:
-        r, g, b = (x / 255 for x in rgb)
-        cmax = max(r, g, b)
-        cmin = min(r, g, b)
-        delta = cmax - cmin
-        if delta == 0:
-            h = 0
-        elif cmax == r:
-            h = 60 * (((g - b) / delta) % 6)
-        elif cmax == g:
-            h = 60 * (((b - r) / delta) + 2)
-        elif cmax == b:
-            h = 60 * (((r - g) / delta) + 4)
-        l = (cmax + cmin) / 2
-        if delta == 0:
-            s = 0
-        else:
-            s = delta / (1 - abs(2 * l - 1))
-        return HSL(h, s, l)
-
-    @staticmethod
-    def hsl_to_rgb(hsl: tuple | HSL) -> RGB:
-        h, s, l = hsl
-        c = (1 - abs(2 * l - 1)) * s
-        x = c * (1 - abs((h / 60) % 2 - 1))
-        m = l - c / 2
-        if h < 60:
-            r, g, b = c, x, 0
-        elif h < 120:
-            r, g, b = x, c, 0
-        elif h < 180:
-            r, g, b = 0, c, x
-        elif h < 240:
-            r, g, b = 0, x, c
-        elif h < 300:
-            r, g, b = x, 0, c
-        else:
-            r, g, b = c, 0, x
-        return RGB(tuple(int(255 * (x + m)) for x in (r, g, b)))
-
-    @staticmethod
-    def rgb_to_hsv(rgb: tuple | RGB) -> HSV:
-        r, g, b = (x / 255 for x in rgb)
-        cmax = max(r, g, b)
-        cmin = min(r, g, b)
-        delta = cmax - cmin
-        if delta == 0:
-            h = 0
-        elif cmax == r:
-            h = 60 * (((g - b) / delta) % 6)
-        elif cmax == g:
-            h = 60 * (((b - r) / delta) + 2)
-        elif cmax == b:
-            h = 60 * (((r - g) / delta) + 4)
-        v = cmax
-        if cmax == 0:
-            s = 0
-        else:
-            s = delta / cmax
-        return HSV(h, s, v)
-
-    @staticmethod
-    def hsv_to_rgb(hsv: tuple | HSV) -> RGB:
-        h, s, v = hsv
-        c = v * s
-        x = c * (1 - abs((h / 60) % 2 - 1))
-        m = v - c
-        if h < 60:
-            r, g, b = c, x, 0
-        elif h < 120:
-            r, g, b = x, c, 0
-        elif h < 180:
-            r, g, b = 0, c, x
-        elif h < 240:
-            r, g, b = 0, x, c
-        elif h < 300:
-            r, g, b = x, 0, c
-        else:
-            r, g, b = c, 0, x
-        return RGB(tuple(int(255 * (x + m)) for x in (r, g, b)))
-
-    @staticmethod
-    def rgb_to_xyz(rgb: tuple | RGB) -> XYZ:
-        r, g, b = (x / 255 for x in rgb)
-        r = r / 12.92 if r <= 0.04045 else ((r + 0.055) / 1.055) ** 2.4
-        g = g / 12.92 if g <= 0.04045 else ((g + 0.055) / 1.055) ** 2.4
-        b = b / 12.92 if b <= 0.04045 else ((b + 0.055) / 1.055) ** 2.4
-        x = r * 0.4124 + g * 0.3576 + b * 0.1805
-        y = r * 0.2126 + g * 0.7152 + b * 0.0722
-        z = r * 0.0193 + g * 0.1192 + b * 0.9505
-        return XYZ(x * 100, y * 100, z * 100)
-
-    @staticmethod
-    def xyz_to_rgb(xyz: tuple | XYZ) -> RGB:
-        x, y, z = (x / 100 for x in xyz)
-        r = x * 3.2406 + y * -1.5372 + z * -0.4986
-        g = x * -0.9689 + y * 1.8758 + z * 0.0415
-        b = x * 0.0557 + y * -0.2040 + z * 1.0570
-        r = 12.92 * r if r <= 0.0031308 else (1.055 * r ** (1 / 2.4)) - 0.055
-        g = 12.92 * g if g <= 0.0031308 else (1.055 * g ** (1 / 2.4)) - 0.055
-        b = 12.92 * b if b <= 0.0031308 else (1.055 * b ** (1 / 2.4)) - 0.055
-        return RGB(tuple(int(255 * x) for x in (r, g, b)))
-
-    @staticmethod
-    def rgb_to_lab(rgb: tuple | RGB) -> LAB:
-        x, y, z = Color.rgb_to_xyz(rgb)
-        x /= 95.047
-        y /= 100.000
-        z /= 108.883
-        x = x ** (1 / 3) if x > 0.008856 else (7.787 * x) + (16 / 116)
-        y = y ** (1 / 3) if y > 0.008856 else (7.787 * y) + (16 / 116)
-        z = z ** (1 / 3) if z > 0.008856 else (7.787 * z) + (16 / 116)
-        l = (116 * y) - 16
-        a = 500 * (x - y)
-        b = 200 * (y - z)
-        return LAB(l, a, b)
-
-    @staticmethod
-    def lab_to_rgb(lab: tuple | LAB) -> RGB:
-        l, a, b = lab
-        y = (l + 16) / 116
-        x = a / 500 + y
-        z = y - b / 200
-        x = x ** 3 if x > 0.206893 else (x - 16 / 116) / 7.787
-        y = y ** 3 if y > 0.206893 else (y - 16 / 116) / 7.787
-        z = z ** 3 if z > 0.206893 else (z - 16 / 116) / 7.787
-        x *= 95.047
-        y *= 100.000
-        z *= 108.883
-        return Color.xyz_to_rgb((x, y, z))
 
     @staticmethod
     def from_hsl(hsl: tuple | HSL):
-        return Color(Color.rgb_to_hex(Color.hsl_to_rgb(hsl)))
+        if isinstance(hsl, tuple) or isinstance(hsl, list):
+            hsl = HSL(*hsl)
+        return Color(hsl.convert_to("hex"))
+
 
     # Getters and setters
 
@@ -404,56 +449,66 @@ class Color:
     @property
     def rgb(self) -> tuple:
         if self._rgb is None:
-            self._rgb = Color.hex_to_rgb(self.hex)
+            self._rgb = RGB.from_hex(self.hex)
         return self._rgb
 
     @rgb.setter
-    def rgb(self, value: tuple):
-        self._hex = Color.rgb_to_hex(value)
+    def rgb(self, value: tuple | RGB):
+        if isinstance(value, tuple) or isinstance(value, list):
+            value = RGB(*value)
+        self._hex = value.convert_to("hex")
         self.clear_cache()
 
     @property
     def hsl(self) -> tuple:
         if self._hsl is None:
-            self._hsl = Color.rgb_to_hsl(self.rgb)
+            self._hsl = self.rgb.convert_to("hsl")
         return self._hsl
 
     @hsl.setter
-    def hsl(self, value: tuple):
-        self._hex = Color.rgb_to_hex(Color.hsl_to_rgb(value))
+    def hsl(self, value: tuple | HSL):
+        if isinstance(value, tuple) or isinstance(value, list):
+            value = HSL(*value)
+        self._hex = value.convert_to("hex")
         self.clear_cache()
 
     @property
     def hsv(self) -> tuple:
         if self._hsv is None:
-            self._hsv = Color.rgb_to_hsv(self.rgb)
+            self._hsv = self.rgb.convert_to("hsv")
         return self._hsv
 
     @hsv.setter
-    def hsv(self, value: tuple):
-        self._hex = Color.rgb_to_hex(Color.hsv_to_rgb(value))
+    def hsv(self, value: tuple | HSV):
+        if isinstance(value, tuple) or isinstance(value, list):
+            value = HSV(*value)
+        self._hex = value.convert_to("hex")
         self.clear_cache()
 
     @property
     def xyz(self) -> tuple:
         if self._xyz is None:
-            self._xyz = Color.rgb_to_xyz(self.rgb)
+            self._xyz = self.rgb.convert_to("xyz")
         return self._xyz
 
     @xyz.setter
-    def xyz(self, value: tuple):
-        self._hex = Color.rgb_to_hex(Color.xyz_to_rgb(value))
+    def xyz(self, value: tuple | XYZ):
+        if isinstance(value, tuple) or isinstance(value, list):
+            value = XYZ(*value)
+        self._hex = value.convert_to("hex")
         self.clear_cache()
 
     @property
     def lab(self) -> tuple:
         if self._lab is None:
-            self._lab = Color.rgb_to_lab(self.rgb)
+            self._lab = self.rgb.convert_to("lab")
         return self._lab
 
     @lab.setter
-    def lab(self, value: tuple):
-        self._hex = Color.rgb_to_hex(Color.lab_to_rgb(value))
+    def lab(self, value: tuple | LAB):
+        if isinstance(value, tuple) or isinstance(value, list):
+            value = LAB(*value)
+        self._hex = value.convert_to("hex")
         self.clear_cache()
 
     @property
@@ -601,7 +656,9 @@ class Color:
         if in_place:
             self.hsl = HSL(self.hsl.h, self.hsl.s, new_l)
         else:
-            return Color(Color.rgb_to_hex(Color.hsl_to_rgb(HSL(self.hsl.h, self.hsl.s, new_l))))
+            return Color(
+                HSL(self.hsl.h, self.hsl.s, new_l).convert_to("hex")
+            )
 
     def darken(self, amount: float, in_place: bool = False):
         if amount > 1:
@@ -610,7 +667,9 @@ class Color:
         if in_place:
             self.hsl = HSL(self.hsl.h, self.hsl.s, new_l)
         else:
-            return Color(Color.rgb_to_hex(Color.hsl_to_rgb(HSL(self.hsl.h, self.hsl.s, new_l))))
+            return Color(
+                HSL(self.hsl.h, self.hsl.s, new_l).convert_to("hex")
+            )
 
     def hue_diff(self, other):
         # Return the signed difference in hue between self and other, in degrees, accounting for wrapping at 360
@@ -626,29 +685,15 @@ class Color:
         if in_place:
             self.hsl = HSL(new_h, new_s, new_l)
         else:
-            return Color(Color.rgb_to_hex(Color.hsl_to_rgb(HSL(new_h, new_s, new_l))))
+            return Color(
+                HSL(new_h, new_s, new_l).convert_to("hex")
+            )
 
     def __str__(self):
-        return self.to_string(format="hex-hash")
+        return self.to_string(format="css")
 
-    def to_string(self, format="hex-hash"):
-        if format == "hex-hash":
-            return f"#{self.hex}"
-        if format == "hex":
-            return self.hex
-        if format == "rgb":
-            return f"rgb({self.r}, {self.g}, {self.b})"
-        if format == "hsl":
-            deg = "\u00b0"
-            return f"hsl({self.h:.0f}{deg}, {self.s * 100:.0f}%, {self.l * 100:.0f}%)"
-        if format == "hsv":
-            deg = "\u00b0"
-            return f"hsv({self.h:.0f}{deg}, {self.s * 100:.0f}%, {self.v * 100:.0f}%)"
-        if format == "xyz":
-            return f"xyz({self.x}, {self.y}, {self.z})"
-        if format == "lab":
-            return f"lab({self.l_lab}, {self.a_lab}, {self.b_lab})"
-        return f"#{self.hex}"
+    def to_string(self, format="css"):
+        return str(self.rgb.convert_to(format))
 
     def is_lighter_than(self, other):
         return self.hsl.l > other.hsl.l
@@ -832,6 +877,8 @@ class ColorFamily:
             else:
                 self.variants.append(self._base)
 
+        self._default = self._base
+        
     def __getitem__(self, index):
         if index == 0:
             return self._base
@@ -840,6 +887,10 @@ class ColorFamily:
     @property
     def base(self):
         return self._base
+
+    @property
+    def default(self):
+        return self._default
 
     @property
     def _1(self):
@@ -874,9 +925,9 @@ class ColorFamily:
         return self.variants[0]
 
     def __str__(self):
-        return self.to_string(format="hex-hash")
+        return self.to_string(format="css")
 
-    def to_string(self, format="hex-hash", variant="base"):
+    def to_string(self, format="css", variant="base"):
         if variant == "base":
             return self._base.to_string(format)
         elif variant == "lightest":
@@ -931,21 +982,41 @@ class ColorScheme:
 
     def __init__(
         self,
-        colors: List[str] | List[Color],
-        foreground: str | Color = None,
-        background: str | Color = None,
+        # colors: List[str] | List[Color],
+        # foreground: str | Color = None,
+        # background: str | Color = None,
+        scheme: dict,
         scheme_type: SchemeType | str = SchemeType.LIGHT
     ):
+    # scheme dict must have the following properties:
+    # - At least one of the following keys:
+    #   - "colors": List[str] | List[Color]
+    #   - "accents": List[str] | List[Color]
+    # - optionally:
+    #   - "surfaces": List[str] | List[Color]
+    # - optionally, or required if "colors" is not specified:
+    #   - "foreground": str | Color
+    #   - "background": str | Color
+    # - optionally as many or few of:
+    #   - "red": str | Color
+    #   - "orange": str | Color
+    #   - "yellow": str | Color
+    #   - "green": str | Color
+    #   - "cyan": str | Color
+    #   - "blue": str | Color
+    #   - "purple": str | Color
+    #   - "magenta": str | Color
         self._colors = None
-        self._red = None
-        self._orange = None
-        self._yellow = None
-        self._green = None
-        self._blue = None
-        self._purple = None
-        self._cyan = None
-        self._magenta = None
+        self._presets = {}
         self._distinct = None
+
+        if isinstance(scheme_type, str):
+            if scheme_type.lower() == "light":
+                scheme_type = SchemeType.LIGHT
+            elif scheme_type.lower() == "dark":
+                scheme_type = SchemeType.DARK
+            elif scheme_type.lower() == "empty":
+                scheme_type = SchemeType.EMPTY
 
         if scheme_type == SchemeType.EMPTY:
             self._accents = None
@@ -955,78 +1026,118 @@ class ColorScheme:
             self._surfaces = None
             return
 
-        # convert all colors to Color objects if they're not already
-        for i in range(len(colors)):
-            if isinstance(colors[i], str):
-                colors[i] = Color(colors[i])
-
-        if foreground is not None:
-            if isinstance(foreground, str):
-                foreground = Color(foreground)
-        else:
-            if scheme_type == SchemeType.LIGHT:
-                # find the darkest color
-                foreground = min(colors, key=lambda c: c.l)
-            else:
-                # find the lightest color
-                foreground = max(colors, key=lambda c: c.l)
-
-        if background is not None:
-            if isinstance(background, str):
-                background = Color(background)
-        else:
-            if scheme_type == SchemeType.LIGHT:
-                # find the lightest color
-                background = max(colors, key=lambda c: c.l)
-            else:
-                # find the darkest color
-                background = min(colors, key=lambda c: c.l)
-
-        if isinstance(scheme_type, str):
-            if scheme_type.lower() == "light":
-                scheme_type = SchemeType.LIGHT
-            elif scheme_type.lower() == "dark":
-                scheme_type = SchemeType.DARK
-            else:
-                raise ValueError(f"Invalid scheme type '{scheme_type}'")
-
         self._scheme_type = scheme_type
-
         self._accents = []
         self._surfaces = []
+        
+        # verify that the scheme has a valid structure:
+        if "colors" not in scheme or scheme["colors"] is None or len(scheme["colors"]) == 0:
+            if "accents" not in scheme or scheme["accents"] is None or len(scheme["accents"]) == 0:
+                raise ValueError("Scheme must have at least one of the following keys: 'colors', 'accents', which cannot be empty.")
+            if "foreground" not in scheme or scheme["foreground"] is None or len(scheme["foreground"]) == 0: #string len, not list len
+                raise ValueError("Without a 'colors' key, `scheme` must have a 'foreground' key, which cannot be empty.")
+            if "background" not in scheme or scheme["background"] is None or len(scheme["background"]) == 0:
+                raise ValueError("Without a 'colors' key, `scheme` must have a 'background' key, which cannot be empty.")
+        
+        if "colors" in scheme and scheme["colors"] is not None and len(scheme["colors"]) > 0:
+            colors = [Color(c) if isinstance(c, str) else c for c in scheme["colors"]]
+        else:
+            colors = None
+        
+        if "accents" in scheme and scheme["accents"] is not None and len(scheme["accents"]) > 0:
+            accents = [Color(c) if isinstance(c, str) else c for c in scheme["accents"]]
+        else:
+            accents = None
+        
+        if "surfaces" in scheme and scheme["surfaces"] is not None and len(scheme["surfaces"]) > 0:
+            surfaces = [Color(c) if isinstance(c, str) else c for c in scheme["surfaces"]]
+        else:
+            surfaces = None
 
-        for color in colors:
-            if color.s_hsv < ColorScheme.saturation_threshold[self._scheme_type.name.lower()]:
-                self._surfaces.append(
-                    ColorFamily(
-                        color,
-                        foreground,
-                        background,
-                        self._scheme_type
-                    )
-                )
-            elif color.distance_to(foreground) < 10 or color.distance_to(background) < 10:
-                self._surfaces.append(
-                    ColorFamily(
-                        color,
-                        foreground,
-                        background,
-                        self._scheme_type
-                    )
-                )
+
+        # start by getting foreground and background. 
+        if "foreground" in scheme and scheme["foreground"] is not None:
+            foreground = Color(scheme["foreground"])
+        else:
+            if scheme_type == SchemeType.LIGHT:
+                foreground = min(colors, key = lambda c: c.l)
             else:
-                self._accents.append(
-                    ColorFamily(
-                        color,
-                        foreground,
-                        background,
-                        self._scheme_type
-                    )
-                )
+                foreground = max(colors, key = lambda c: c.l)
+            # remove foreground from colors
+            colors.remove(foreground)
 
+        if "background" in scheme and scheme["background"] is not None:
+            background = Color(scheme["background"])
+        else:
+            if scheme_type == SchemeType.LIGHT:
+                background = max(colors, key = lambda c: c.l)
+            else:
+                background = min(colors, key = lambda c: c.l)
+            # remove background from colors
+            colors.remove(background)
+        
+        
+        # start by adding any accents to scheme._accents
+        if accents is not None:
+            self._accents.extend(accents)
+        
+        if surfaces is not None:
+            self._surfaces.extend(surfaces)
+
+        # now sort the remaining colors into the appropriate categories
+        if colors is not None:
+            for color in colors:
+                if color.s_hsv < ColorScheme.saturation_threshold[self._scheme_type.name.lower()]:
+                    self._surfaces.append(color)
+                elif color.distance_to(foreground) < 10 or color.distance_to(background) < 10:
+                    self._surfaces.append(color)
+                else:
+                    self._accents.append(color)
+
+        for i, color in enumerate(self._surfaces):
+            self._surfaces[i] = ColorFamily(
+                color,
+                foreground,
+                background,
+                self._scheme_type
+            )
+        
         # sort surfaces. If the scheme is light, sort from lightest to darkest. If the scheme is dark, sort from darkest to lightest.
         self._surfaces.sort(key=lambda c: c.base.l,
                             reverse=self._scheme_type == SchemeType.DARK)
+        
+        for i, color in enumerate(self._accents):
+            self._accents[i] = ColorFamily(
+                color,
+                foreground,
+                background,
+                self._scheme_type
+            )
+        
+        # Handle presets
+        for name in ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "magenta"]:
+            if name in scheme:
+                c_hex = scheme[name]
+                if isinstance(c_hex, str):
+                    c_hex = Color(c_hex)
+                i, c = self._get_internal_color_index(c_hex)
+                if i is not None:
+                    if c == "Accent":
+                        self._presets[name] = self._accents[i]
+                    elif c == "Surface":
+                        self._presets[name] = self._surfaces[i]
+                else:
+                    # add to accents
+                    self._accents.append(ColorFamily(
+                        c_hex,
+                        foreground,
+                        background,
+                        self._scheme_type
+                    ))
+                    self._presets[name] = self._accents[-1]
+        
+        # TODO: set defaults for accents if the base is not appropriate
+
 
         self._foreground = ColorFamily(
             foreground,
@@ -1104,8 +1215,8 @@ class ColorScheme:
 
     @property
     def red(self):
-        if self._red is None:
-            self._red = self.get_closest_color(
+        if "red" not in self._presets:
+            self._presets["red"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         0,
@@ -1117,12 +1228,12 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._red
+        return self._presets["red"]
 
     @property
     def orange(self):
-        if self._orange is None:
-            self._orange = self.get_closest_color(
+        if "orange" not in self._presets:
+            self._presets["orange"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         30,
@@ -1134,12 +1245,12 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._orange
+        return self._presets["orange"]
 
     @property
     def yellow(self):
-        if self._yellow is None:
-            self._yellow = self.get_closest_color(
+        if "yellow" not in self._presets:
+            self._presets["yellow"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         60,
@@ -1151,12 +1262,12 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._yellow
+        return self._presets["yellow"]
 
     @property
     def green(self):
-        if self._green is None:
-            self._green = self.get_closest_color(
+        if "green" not in self._presets:
+            self._presets["green"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         120,
@@ -1168,12 +1279,12 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._green
+        return self._presets["green"]
 
     @property
     def cyan(self):
-        if self._cyan is None:
-            self._cyan = self.get_closest_color(
+        if "cyan" not in self._presets:
+            self._presets["cyan"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         180,
@@ -1185,12 +1296,12 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._cyan
+        return self._presets["cyan"]
 
     @property
     def blue(self):
-        if self._blue is None:
-            self._blue = self.get_closest_color(
+        if "blue" not in self._presets:
+            self._presets["blue"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         220, # Err towards cyan instead of purple
@@ -1202,12 +1313,12 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._blue
+        return self._presets["blue"]
 
     @property
     def purple(self):
-        if self._purple is None:
-            self._purple = self.get_closest_color(
+        if "purple" not in self._presets:
+            self._presets["purple"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         270,
@@ -1219,12 +1330,12 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._purple
+        return self._presets["purple"]
 
     @property
     def magenta(self):
-        if self._magenta is None:
-            self._magenta = self.get_closest_color(
+        if "magenta" not in self._presets:
+            self._presets["magenta"] = self.get_closest_color(
                 Color.from_hsl(
                     (
                         300,
@@ -1236,7 +1347,7 @@ class ColorScheme:
                 ),
                 accents_only=True
             )
-        return self._magenta
+        return self._presets["magenta"]
 
     @property
     def info(self):
@@ -1316,12 +1427,13 @@ class ColorScheme:
             return None, None
         elif isinstance(color, str):
             for i, c in enumerate(self._accents):
-                if c.name == color or c.base.hex == color.replace("#", ""):
+                if (hasattr(c, "name") and c.name == color) or c.base.hex == color.replace("#", ""):
                     return i, "Accent"
             for i, c in enumerate(self._surfaces):
-                if c.name == color or c.base.hex == color.replace("#", ""):
+                if (hasattr(c, "name") and c.name == color) or c.base.hex == color.replace("#", ""):
                     return i, "Surface"
             return None, None
+
 
     def to_latex(self):
         out_string = []
@@ -1363,8 +1475,6 @@ class ColorScheme:
     @staticmethod
     def _empty():
         return ColorScheme(
-            [],
-            "#000000",
-            "#FFFFFF",
+            {},
             scheme_type=SchemeType.EMPTY
         )

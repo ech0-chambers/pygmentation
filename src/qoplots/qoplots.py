@@ -49,9 +49,7 @@ def init(scheme: str = "twilight", scheme_type: str | SchemeType = "light", doc_
                 scheme_dict["foreground"], scheme_dict["background"] = scheme_dict["background"], scheme_dict["foreground"]
     # this.Scheme = ColorScheme(
     Scheme = ColorScheme(
-        scheme_dict["colors"],
-        scheme_dict["foreground"],
-        scheme_dict["background"],
+        scheme_dict,
         scheme_type
     )
 
