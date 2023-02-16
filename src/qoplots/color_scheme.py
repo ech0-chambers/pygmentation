@@ -961,6 +961,22 @@ class ColorFamily:
                 f"\\definecolor{{{name}_{i + 1}}}{{HTML}}{{{self.variants[i].to_string('hex')}}}")
         return "\n".join(out_string)
 
+    def to_css(self, name: str = None):
+        if name is None:
+            name = self._name
+        if name is None:
+            name = self._base.to_string("hex")
+        if name.startswith("--"):
+            name = name[2:]
+        if not name.startswith("clr") and not name.startswith("color") and not name.startswith("colour"):
+            name = f"clr-{name}"
+        out_string = []
+        out_string.append(f"--{name}: {self._base.to_string('css')};")
+        for i in range(5):
+            out_string.append(
+                f"--{name}-{i + 1}: {self.variants[i].to_string('css')};")
+        return "\n".join(out_string)
+
 
 class ColorScheme:
 
@@ -1478,3 +1494,40 @@ class ColorScheme:
             {},
             scheme_type=SchemeType.EMPTY
         )
+
+    def to_css(self):
+        out_string = []
+        out_string += self.foreground.to_css("foreground").splitlines()
+        out_string += self.background.to_css("background").splitlines()
+        for i, color in enumerate(self.accents):
+            out_string += color.to_css(f"accent{i+1}").splitlines()
+        for i, color in enumerate(self.surfaces):
+            out_string += color.to_css(f"surface{i+1}").splitlines()
+        
+        for c, name in zip(
+            [self.red, self.orange, self.yellow, self.green,
+                self.cyan, self.blue, self.purple, self.magenta],
+            ["red", "orange", "yellow", "green",
+                "cyan", "blue", "purple", "magenta"]
+        ):
+            i, t = self._get_internal_color_index(c)
+            if i is None:
+                raise ValueError(
+                    f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}")
+            out_string += [
+                f"--clr-{name}: var(--{t}{i+1});"
+            ] + [
+                f"--clr-{name}-{j+1}: var(--{t}{i+1}-{j+1});" for j in range(5)
+            ]
+        
+        for c, name in zip([self.info, self.success, self.warning, self.error], ["info", "success", "warning", "error"]):
+            i, t = self._get_internal_color_index(c)
+            if i is None:
+                raise ValueError(
+                    f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}")
+            out_string += [
+                f"--clr-{name}: var(--{t}{i+1});"
+            ] + [
+                f"--clr-{name}-{j+1}: var(--{t}{i+1}-{j+1});" for j in range(5)
+            ]
+        return "\n".join(out_string)
