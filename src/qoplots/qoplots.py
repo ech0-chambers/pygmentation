@@ -7,6 +7,17 @@ from .scheme import schemes_json as schemes_json
 
 import sys
 
+from rich.panel import Panel
+from rich.table import Table
+from rich.text import Text
+from rich.console import Console
+from rich.style import Style
+from rich.color import Color as RichColor
+from rich import print as rprint
+from rich import box
+
+
+
 # this is a pointer to the module object instance itself.
 # this = sys.modules[__name__]
 
@@ -20,7 +31,7 @@ class DocType(EnumEx):
 Scheme = None
 schemes_json = Path(__file__).parent / "color_schemes.json"
 
-def init(scheme: str = "twilight", scheme_type: str | SchemeType = "light", doc_type: str | DocType = "report"):
+def set_scheme(scheme: str = "twilight", scheme_type: str | SchemeType = "light"):
     global Scheme, schemes_json
     # this = sys.modules[__name__]
     
@@ -29,8 +40,6 @@ def init(scheme: str = "twilight", scheme_type: str | SchemeType = "light", doc_
     
     if isinstance(scheme_type, str):
         scheme_type = SchemeType[scheme_type.upper()]
-    if isinstance(doc_type, str):
-        doc_type = DocType[doc_type.upper()]
     
     if not scheme in all_schemes:
         raise ValueError(f"Scheme {scheme} not found")
@@ -52,6 +61,14 @@ def init(scheme: str = "twilight", scheme_type: str | SchemeType = "light", doc_
         scheme_dict,
         scheme_type
     )
+
+def init(scheme: str = "twilight", scheme_type: str | SchemeType = "light", doc_type: str | DocType = "report"):
+    
+
+    if isinstance(doc_type, str):
+        doc_type = DocType[doc_type.upper()]
+
+    set_scheme(scheme, scheme_type)
 
     # Get a matplotlib cycler object for the color scheme, from Scheme.distinct[:].base, then Scheme.distinct[:].lightest, then Scheme.distinct[:].darkest
     # color_cycler = cycler(color = 
@@ -154,3 +171,217 @@ def init(scheme: str = "twilight", scheme_type: str | SchemeType = "light", doc_
 
 def get_scheme() -> ColorScheme:
     return Scheme
+
+def _set_color(rgb, g = None, b = None):
+    ansi_escape = "\x1b["
+    if g is None and b is None:
+        r, g, b = rgb
+    else:
+        r = rgb
+    return ansi_escape + "38;2;" + str(r) + ";" + str(g) + ";" + str(b) + "m"
+
+def _set_background(rgb, g = None, b = None):
+    ansi_escape = "\x1b["
+    if g is None and b is None:
+        r, g, b = rgb
+    else:
+        r = rgb
+    return ansi_escape + "48;2;" + str(r) + ";" + str(g) + ";" + str(b) + "m"
+
+def _reset_color():
+    ansi_escape = "\x1b["
+    return ansi_escape + "0m"
+
+
+def _get_preset(scheme, color):
+    for p in [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "cyan",
+        "blue",
+        "purple",
+        "magenta",
+    ]:
+        if eval(f"scheme.{p}.base") == color.base:
+            return p
+    return None
+
+
+
+
+def square(col, variant = None):
+    if variant is None:
+        c = col.base.rgb 
+    else:
+        c = col[variant].rgb
+    return Text("█████\n█████", style=Style(color = RichColor.from_rgb(*c)))
+
+
+
+def show_scheme(scheme = None, name = None, save = False):
+    if name is None:
+        name = "Colour Scheme"
+    if scheme is None:
+        scheme = Scheme
+    console = Console(record = save)
+    width = console.size.width
+    if width > 115:
+        show_scheme_wide(scheme, name, save)
+        return
+    def add_row(name, colour, alias = None):
+        col1 = Text().append(name + ":\n", style = Style(color = RichColor.from_rgb(*scheme.foreground.base.rgb)))
+        if alias is not None:
+            col1.append(f"({alias.capitalize()})", style=Style(color = RichColor.from_rgb(*scheme.accents[0].base.rgb)))
+        table.add_row(
+            col1,
+            square(colour),
+            "  ",
+            square(colour, 1),
+            square(colour, 2),
+            square(colour, 3),
+            square(colour, 4),
+            square(colour, 5)
+        )
+    
+    def add_empty_row():
+        table.add_row(*["" for _ in range(8)])
+
+    table = Table(show_header = False, box=box.SIMPLE, leading = 1, padding = 0)
+    table.add_column("Name", justify="right")
+    table.add_column("Base", justify="center")
+    table.add_column("", justify="center")
+    table.add_column("1", justify="center")
+    table.add_column("2", justify="center")
+    table.add_column("3", justify="center")
+    table.add_column("4", justify="center")
+    table.add_column("5", justify="center")
+
+    add_row("Foreground", scheme.foreground)
+    add_row("Background", scheme.background)
+    add_empty_row()
+    for i, col in enumerate(scheme.accents):
+        alias = _get_preset(scheme, col)
+        add_row(f"Accent {i+1}", col, alias = alias)
+    if len(scheme.surfaces) > 0:
+        add_empty_row()
+        for i, col in enumerate(scheme.surfaces):
+            add_row(f"Surface {i+1}", col)
+    
+    panel = Panel.fit(table, title = name, style = Style(bgcolor = RichColor.from_rgb(*scheme.background.base.rgb), color = RichColor.from_rgb(*scheme.foreground.base.rgb)))
+    console.print(panel)
+    if save:
+        console.save_svg(f"{name}.svg".replace(" ", "_"))
+
+
+def show_scheme_wide(scheme = None, name = None, save = False):
+    if name is None:
+        name = "Colour Scheme"
+    if scheme is None:
+        scheme = Scheme
+    def add_row(left, right = None):
+
+        l_name = Text().append(f'{left["name"]}:\n', style = foreground_style)
+        if left["alias"] is not None:
+            l_name.append(f"({left['alias'].capitalize()})", style=accent_style)
+        if right is None:
+            table.add_row(
+                l_name,
+                square(left["colour"]),
+                "  ",
+                square(left["colour"], 1),
+                square(left["colour"], 2),
+                square(left["colour"], 3),
+                square(left["colour"], 4),
+                square(left["colour"], 5),
+                "  ",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            )
+            return
+        r_name = Text().append(f'{right["name"]}:\n', style = foreground_style)
+        if right["alias"] is not None:
+            r_name.append(f"({right['alias'].capitalize()})", style=accent_style)
+        
+        table.add_row(
+            l_name,
+            square(left["colour"]),
+            "  ",
+            square(left["colour"], 1),
+            square(left["colour"], 2),
+            square(left["colour"], 3),
+            square(left["colour"], 4),
+            square(left["colour"], 5),
+            "  ",
+            r_name,
+            square(right["colour"]),
+            "  ",
+            square(right["colour"], 1),
+            square(right["colour"], 2),
+            square(right["colour"], 3),
+            square(right["colour"], 4),
+            square(right["colour"], 5)
+        )
+    
+    def add_empty_row():
+        table.add_row(
+            *["" for i in range(17)]
+        )
+
+    foreground_style = Style(color = RichColor.from_rgb(*scheme.foreground.base.rgb))
+    accent_style = Style(color = RichColor.from_rgb(*scheme.accents[0].base.rgb))
+
+    table = Table(show_header = True, box=box.SIMPLE, leading = 1, padding = 0)
+
+    table.add_column("Name", justify="right")
+    table.add_column("Base", justify="center")
+    table.add_column("", justify="center")
+    table.add_column("1", justify="center")
+    table.add_column("2", justify="center")
+    table.add_column("3", justify="center")
+    table.add_column("4", justify="center")
+    table.add_column("5", justify="center")
+    table.add_column("", justify="center")
+    table.add_column("Name", justify="right")
+    table.add_column("Base", justify="center")
+    table.add_column("", justify="center")
+    table.add_column("1", justify="center")
+    table.add_column("2", justify="center")
+    table.add_column("3", justify="center")
+    table.add_column("4", justify="center")
+    table.add_column("5", justify="center")
+
+    add_row({"name": "Foreground", "colour": scheme.foreground, "alias": None}, {"name": "Background", "colour": scheme.background, "alias": None})
+    add_empty_row()
+    for i in range(0, len(scheme.accents), 2):
+        l_alias = _get_preset(scheme, scheme.accents[i])
+        left = {"name": f"Accent {i+1}", "colour": scheme.accents[i], "alias": l_alias}
+        if i+1 < len(scheme.accents):
+            r_alias = _get_preset(scheme, scheme.accents[i+1])
+            right = {"name": f"Accent {i+2}", "colour": scheme.accents[i+1], "alias": r_alias}
+        else:
+            right = None
+        add_row(left, right)
+    
+    if len(scheme.surfaces) > 0:
+        add_empty_row()
+        for i in range(0, len(scheme.surfaces), 2):
+            left = {"name": f"Surface {i+1}", "colour": scheme.surfaces[i], "alias": None}
+            if i+1 < len(scheme.surfaces):
+                right = {"name": f"Surface {i+2}", "colour": scheme.surfaces[i+1], "alias": None}
+            else:
+                right = None
+            add_row(left, right)
+    
+    console = Console(record = save)
+    panel = Panel.fit(table, title = name, style = Style(bgcolor = RichColor.from_rgb(*scheme.background.base.rgb), color = RichColor.from_rgb(*scheme.foreground.base.rgb)), padding = (1,2))
+    console.print(panel)
+    if save:
+        console.save_svg(f"{name}.svg".replace(" ", "_"))

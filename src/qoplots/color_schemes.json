@@ -1,8 +1,52 @@
 {
+    "rose_pine": {
+        "light": {
+            "foreground": "575279",
+            "background": "faf4ed",
+            "accents": [
+                "b4637a",
+                "ea9d34",
+                "d7827e",
+                "286983",
+                "56949f",
+                "907aa9"
+            ],
+            "surfaces": [
+                "fffaf3",
+                "f2e9e1",
+                "9893a5",
+                "797593",
+                "f4ede8",
+                "dfdad9",
+                "cecacd"
+            ]
+        },
+        "dark" : {
+            "foreground": "e0def4",
+            "background": "232136",
+            "accents": [
+                "eb6f92",
+                "f6c177",
+                "ea9a97",
+                "3e8fb0",
+                "9ccfd8",
+                "c4a7e7"
+            ],
+            "surfaces": [
+                "2a273f",
+                "393552",
+                "6e6a86",
+                "908caa",
+                "2a283e",
+                "44415a",
+                "56526e"
+            ]
+        }
+    },
     "newcastle": {
         "foreground": "3E3E3F",
         "background": "F2F3F4",
-        "accents" : [
+        "accents": [
             "004271",
             "E4183E",
             "8890C7",
@@ -18,12 +62,12 @@
         ]
     },
     "catppuccin": {
-        "light" : {
+        "light": {
             "foreground": "4c4f69",
             "background": "eff1f5",
             "accents": [
-                "dc8a78", 
-                "dd7878", 
+                "dc8a78",
+                "dd7878",
                 "e64553",
                 "179299",
                 "04a5e5",
@@ -50,10 +94,10 @@
             "purple": "8839ef",
             "magenta": "ea76cb"
         },
-        "dark" : {
+        "dark": {
             "foreground": "cdd6f4",
             "background": "1e1e2e",
-            "accents" : [
+            "accents": [
                 "f5e0dc",
                 "f2cdcd",
                 "f5c2e7",
@@ -62,7 +106,7 @@
                 "74c7ec",
                 "b4befe"
             ],
-            "surfaces" : [
+            "surfaces": [
                 "bac2de",
                 "a6adc8",
                 "9399b2",
@@ -81,7 +125,6 @@
             "cyan": "89dceb",
             "blue": "89b4fa",
             "purple": "cba6f7"
-             
         }
     },
     "twilight": {

@@ -85,7 +85,7 @@ class ColorModel(ABC):
     # two properties *must* be set before __init__ is called: _string_format and _bounds
     def __init__(self, abc: float | List[float], b: float = None, c: float = None):
         if isinstance(abc, list) or isinstance(abc, tuple):
-            _abc = abc
+            _abc = list(abc)
         else:
             _abc = [abc, b, c]
         # check bounds. Each inherited class should have a _bounds property that is a list of tuples, one for each component. `None` if unbounded
@@ -93,9 +93,19 @@ class ColorModel(ABC):
             raise ValueError(f"ColorModel._bounds should have 3 items, but has {len(self._bounds)}")
         for i, (a, b) in enumerate(self._bounds):
             if a is not None and _abc[i] < a:
-                raise ValueError(f"Component {i} of {self.__class__.__name__} is out of bounds: {_abc[i]} < {a}")
+                # if it's only under by a small amount, we can just set it to the min value
+                if a == 0:
+                    _abc[i] = 0
+                elif _abc[i] / a > 0.9999:
+                    _abc[i] = a
+                else:
+                    raise ValueError(f"Component {i} of {self.__class__.__name__} is out of bounds: {_abc[i]} < {a}")
             if b is not None and _abc[i] > b:
-                raise ValueError(f"Component {i} of {self.__class__.__name__} is out of bounds: {_abc[i]} > {b}")
+                # if it's only over by a small amount, we can just set it to the max value
+                if _abc[i] / b < 1.0001:
+                    _abc[i] = b
+                else:
+                    raise ValueError(f"Component {i} of {self.__class__.__name__} is out of bounds: {_abc[i]} > {b}")
         self._a = _abc[0]
         self._b = _abc[1]
         self._c = _abc[2]
@@ -190,6 +200,11 @@ class HSL(ColorModel):
     def __init__(self, hsl: int | List[int], s: int = None, l: int = None):
         self._bounds = ((0, 360), (0, 1), (0, 1))
         self._string_format = "HSL({:.0f}\u00b0, {:.0%}, {:.0%})"
+        if isinstance(hsl, list) or isinstance(hsl, tuple):
+            hsl = list(hsl)
+            hsl[0] = hsl[0] % 360 # pre-emtively mod 360 so that boundary checking is okay
+        else:
+            hsl = hsl % 360
         # call super
         super().__init__(hsl, s, l)
     
