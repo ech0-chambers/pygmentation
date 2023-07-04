@@ -1,20 +1,9 @@
 from .color_scheme import ColorScheme, Color, ColorFamily, SchemeType, EnumEx
 import json
 from pathlib import Path
-from cycler import cycler
-import matplotlib.pyplot as plt
 from .scheme import schemes_json as schemes_json
 
 import sys
-
-from rich.panel import Panel
-from rich.table import Table
-from rich.text import Text
-from rich.console import Console
-from rich.style import Style
-from rich.color import Color as RichColor
-from rich import print as rprint
-from rich import box
 
 
 
@@ -63,6 +52,10 @@ def set_scheme(scheme: str = "twilight", scheme_type: str | SchemeType = "light"
     )
 
 def init(scheme: str = "twilight", scheme_type: str | SchemeType = "light", doc_type: str | DocType = "report"):
+
+
+    from cycler import cycler
+    import matplotlib.pyplot as plt
     
 
     if isinstance(doc_type, str):
@@ -212,6 +205,9 @@ def _get_preset(scheme, color):
 
 
 def square(col, variant = None):
+    from rich.text import Text
+    from rich.style import Style
+    from rich.color import Color as RichColor
     if variant is None:
         c = col.base.rgb 
     else:
@@ -221,6 +217,13 @@ def square(col, variant = None):
 
 
 def show_scheme(scheme = None, name = None, save = False):
+    from rich.panel import Panel
+    from rich.table import Table
+    from rich.text import Text
+    from rich.console import Console
+    from rich.style import Style
+    from rich.color import Color as RichColor
+    from rich import box
     if name is None:
         name = "Colour Scheme"
     if scheme is None:
@@ -276,6 +279,13 @@ def show_scheme(scheme = None, name = None, save = False):
 
 
 def show_scheme_wide(scheme = None, name = None, save = False):
+    from rich.panel import Panel
+    from rich.table import Table
+    from rich.text import Text
+    from rich.console import Console
+    from rich.style import Style
+    from rich.color import Color as RichColor
+    from rich import box
     if name is None:
         name = "Colour Scheme"
     if scheme is None:
