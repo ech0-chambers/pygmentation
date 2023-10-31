@@ -1,4 +1,5 @@
 from __future__ import annotations
+from io import StringIO
 
 # ToDo: 
 # - Allow for colour dict to specify separate accent or surface colours, as well as specific colours to use as red, orange, etc. (without adding duplicate colours)
@@ -694,6 +695,10 @@ class Color:
         # Move self towards other by amount, in place or not, in hsl space
         if amount > 1:
             amount /= 100
+        if amount == 0:
+            return self
+        if amount == 1:
+            return other
         new_h = self.hsl.h + self.hue_diff(other) * amount
         new_s = self.hsl.s + (other.hsl.s - self.hsl.s) * amount
         new_l = self.hsl.l + (other.hsl.l - self.hsl.l) * amount
@@ -991,6 +996,23 @@ class ColorFamily:
             out_string.append(
                 f"--{name}-{i + 1}: {self.variants[i].to_string('css')};")
         return "\n".join(out_string)
+    
+    def to_javascript(self, name: str = None):
+        if name is None:
+            name = self._name
+        if name is None:
+            name = self._base.to_string("hex")
+        
+        out_string = StringIO()
+        out_string.write(f"{name}: {{\n")
+        out_string.write(f"  base: '{self._base.to_string('css')}',\n")
+        for i in range(5):
+            out_string.write(f"  {i + 1}: '{self.variants[i].to_string('css')}',\n")
+        out_string.write("}")
+        return out_string.getvalue()
+
+
+        
 
 
 class ColorScheme:
@@ -1439,29 +1461,41 @@ class ColorScheme:
 
         return self._distinct
 
-    def _get_internal_color_index(self, color):
+    def _get_internal_color_index(self, color, css = False):
         if isinstance(color, Color):
             for i, c in enumerate(self._accents):
                 if c.base == color:
+                    if css:
+                        return i, "accent"
                     return i, "Accent"
             for i, c in enumerate(self._surfaces):
                 if c.base == color:
+                    if css:
+                        return i, "surface"
                     return i, "Surface"
             return None, None
         elif isinstance(color, ColorFamily):
             for i, c in enumerate(self._accents):
                 if c == color:
+                    if css:
+                        return i, "accent"
                     return i, "Accent"
             for i, c in enumerate(self._surfaces):
                 if c == color:
+                    if css:
+                        return i, "surface"
                     return i, "Surface"
             return None, None
         elif isinstance(color, str):
             for i, c in enumerate(self._accents):
                 if (hasattr(c, "name") and c.name == color) or c.base.hex == color.replace("#", ""):
+                    if css:
+                        return i, "accent"
                     return i, "Accent"
             for i, c in enumerate(self._surfaces):
                 if (hasattr(c, "name") and c.name == color) or c.base.hex == color.replace("#", ""):
+                    if css:
+                        return i, "surface"
                     return i, "Surface"
             return None, None
 
@@ -1512,6 +1546,7 @@ class ColorScheme:
 
     def to_css(self):
         out_string = []
+        out_string += [":root {"]
         out_string += self.foreground.to_css("foreground").splitlines()
         out_string += self.background.to_css("background").splitlines()
         for i, color in enumerate(self.accents):
@@ -1525,24 +1560,62 @@ class ColorScheme:
             ["red", "orange", "yellow", "green",
                 "cyan", "blue", "purple", "magenta"]
         ):
-            i, t = self._get_internal_color_index(c)
+            i, t = self._get_internal_color_index(c, css = True)
             if i is None:
                 raise ValueError(
                     f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}")
             out_string += [
-                f"--clr-{name}: var(--{t}{i+1});"
+                f"--clr-{name}: var(--clr-{t}{i+1});"
             ] + [
-                f"--clr-{name}-{j+1}: var(--{t}{i+1}-{j+1});" for j in range(5)
+                f"--clr-{name}-{j+1}: var(--clr-{t}{i+1}-{j+1});" for j in range(5)
             ]
         
         for c, name in zip([self.info, self.success, self.warning, self.error], ["info", "success", "warning", "error"]):
-            i, t = self._get_internal_color_index(c)
+            i, t = self._get_internal_color_index(c, css = True)
             if i is None:
                 raise ValueError(
                     f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}")
             out_string += [
-                f"--clr-{name}: var(--{t}{i+1});"
+                f"--clr-{name}: var(--clr-{t}{i+1});"
             ] + [
-                f"--clr-{name}-{j+1}: var(--{t}{i+1}-{j+1});" for j in range(5)
+                f"--clr-{name}-{j+1}: var(--clr-{t}{i+1}-{j+1});" for j in range(5)
             ]
+        out_string += ["}"]
         return "\n".join(out_string)
+    
+    def to_javascript(self):
+        # return the scheme as a json object
+        out_string = StringIO()
+        out_string.write("const colors = {\n")
+        out_string.write(self.foreground.to_javascript("foreground") + ",\n")
+        out_string.write(self.background.to_javascript("background") + ",\n")
+        for i, color in enumerate(self.accents):
+            out_string.write(color.to_javascript(f"accent{i+1}") + ",\n")
+        for i, color in enumerate(self.surfaces):
+            out_string.write(color.to_javascript(f"surface{i+1}") + ",\n")
+
+        out_string.write("};\n")
+        out_string.write("colors.accents = {\n")
+        for i in range(len(self.accents)):
+            out_string.write(f"  {i+1}: colors.accent{i+1},\n")
+        out_string.write("};\n")
+        out_string.write("colors.surfaces = {\n")
+        for i in range(len(self.surfaces)):
+            out_string.write(f"  {i+1}: colors.surface{i+1},\n")
+        out_string.write("};\n")
+        for c, name in zip(
+            [self.red, self.orange, self.yellow, self.green,
+                self.cyan, self.blue, self.purple, self.magenta],
+            ["red", "orange", "yellow", "green",
+                "cyan", "blue", "purple", "magenta"]
+        ):
+            i, t = self._get_internal_color_index(c, css = True)
+            if i is None:
+                raise ValueError(
+                    f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}")
+            out_string.write(
+                f"colors.{name} = colors.{t}{i+1};\n"
+            )
+        return out_string.getvalue()
+
+

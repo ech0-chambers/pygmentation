@@ -19,14 +19,17 @@ class DocType(EnumEx):
 # this.schemes_json = Path(__file__).parent / "color_schemes.json"
 Scheme = None
 schemes_json = Path(__file__).parent / "color_schemes.json"
+with open(schemes_json, "r") as f:
+    all_schemes = json.load(f)
+
+def get_available_schemes():
+    # returns a list of the names of all available schemes
+    return list(all_schemes.keys())
 
 def set_scheme(scheme: str = "twilight", scheme_type: str | SchemeType = "light"):
-    global Scheme, schemes_json
+    global Scheme, schemes_json, all_schemes
     # this = sys.modules[__name__]
-    
-    with open(schemes_json, "r") as f:
-        all_schemes = json.load(f)
-    
+
     if isinstance(scheme_type, str):
         scheme_type = SchemeType[scheme_type.upper()]
     
@@ -216,7 +219,7 @@ def square(col, variant = None):
 
 
 
-def show_scheme(scheme = None, name = None, save = False):
+def show_scheme(scheme = None, name = None, save = False, filepath = None):
     from rich.panel import Panel
     from rich.table import Table
     from rich.text import Text
@@ -231,7 +234,7 @@ def show_scheme(scheme = None, name = None, save = False):
     console = Console(record = save)
     width = console.size.width
     if width > 115:
-        show_scheme_wide(scheme, name, save)
+        show_scheme_wide(scheme, name, save, filepath)
         return
     def add_row(name, colour, alias = None):
         col1 = Text().append(name + ":\n", style = Style(color = RichColor.from_rgb(*scheme.foreground.base.rgb)))
@@ -275,10 +278,13 @@ def show_scheme(scheme = None, name = None, save = False):
     panel = Panel.fit(table, title = name, style = Style(bgcolor = RichColor.from_rgb(*scheme.background.base.rgb), color = RichColor.from_rgb(*scheme.foreground.base.rgb)))
     console.print(panel)
     if save:
-        console.save_svg(f"{name}.svg".replace(" ", "_"))
+        if filepath is None:
+            filepath = Path(f"{name}.svg".replace(" ", "_"))
+        
+        console.save_svg(filepath)
 
 
-def show_scheme_wide(scheme = None, name = None, save = False):
+def show_scheme_wide(scheme = None, name = None, save = False, filepath = None):
     from rich.panel import Panel
     from rich.table import Table
     from rich.text import Text
@@ -394,4 +400,7 @@ def show_scheme_wide(scheme = None, name = None, save = False):
     panel = Panel.fit(table, title = name, style = Style(bgcolor = RichColor.from_rgb(*scheme.background.base.rgb), color = RichColor.from_rgb(*scheme.foreground.base.rgb)), padding = (1,2))
     console.print(panel)
     if save:
-        console.save_svg(f"{name}.svg".replace(" ", "_"))
+        if filepath is None:
+            filepath = Path(f"{name}.svg".replace(" ", "_"))
+        
+        console.save_svg(filepath)

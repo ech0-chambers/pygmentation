@@ -1,4 +1,39 @@
 {
+    "nemo": {
+        "foreground": "112A3C",
+        "background": "C4C2D1",
+        "accents" : [
+            "6182B5",
+            "AF3127",
+            "D99C37",
+            "90A954",
+            "C5B868",
+            "FAC764",
+            "DAC0A6"
+        ]
+    },
+    "nord_night": {
+        "foreground": "2E3440",
+        "background": "ECEFF4",
+        "accents": [
+            "5E81AC",
+            "88C0D0",
+            "81A1C1",
+            "BF616A",
+            "D08770",
+            "EBCB8B",
+            "A3BE8C",
+            "B48EAD",
+            "8FBCBB"
+        ],
+        "surfaces": [
+            "3B4252",
+            "434C5E",
+            "4C566A",
+            "D8DEE9",
+            "E5E9F0"
+        ]
+    },
     "rose_pine": {
         "light": {
             "foreground": "575279",
@@ -9,7 +44,8 @@
                 "d7827e",
                 "286983",
                 "56949f",
-                "907aa9"
+                "907aa9",
+                "54668c"
             ],
             "surfaces": [
                 "fffaf3",
