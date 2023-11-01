@@ -665,10 +665,10 @@ class Color:
 
     # Methods
 
-    def lighten(self, amount: float, in_place: bool = False):
+    def lighten(self, amount: float, in_place: bool = False, target_lightness: float = 1):
         if amount > 1:
             amount /= 100
-        new_l = 1 - (1 - self.hsl.l) * (1 - amount)
+        new_l = target_lightness - (target_lightness - self.hsl.l) * (1 - amount)
         if in_place:
             self.hsl = HSL(self.hsl.h, self.hsl.s, new_l)
         else:
@@ -676,10 +676,10 @@ class Color:
                 HSL(self.hsl.h, self.hsl.s, new_l).convert_to("hex")
             )
 
-    def darken(self, amount: float, in_place: bool = False):
+    def darken(self, amount: float, in_place: bool = False, target_lightness: float = 0):
         if amount > 1:
             amount /= 100
-        new_l = self.hsl.l * (1 - amount)
+        new_l = target_lightness + (self.hsl.l - target_lightness) * (1 - amount)
         if in_place:
             self.hsl = HSL(self.hsl.h, self.hsl.s, new_l)
         else:
@@ -887,13 +887,13 @@ class ColorFamily:
                     self.variants.append(
                         self._base.move_to_color(self._dark, -amount))
                 else:
-                    self.variants.append(self._base.darken(-amount))
+                    self.variants.append(self._base.darken(-amount, target_lightness=min(self._dark.l, 0.2)))
             elif amount > 0:
                 if use_light:
                     self.variants.append(
                         self._base.move_to_color(self._light, amount))
                 else:
-                    self.variants.append(self._base.lighten(amount))
+                    self.variants.append(self._base.lighten(amount, target_lightness=max(self._light.l, 0.8)))
             else:
                 self.variants.append(self._base)
 
@@ -1259,7 +1259,7 @@ class ColorScheme:
     # hues:
     # * red: 0
     # * orange: 30
-    # * yellow: 60
+    # * yellow: 50
     # * green: 120
     # * cyan: 180
     # * blue: 240
@@ -1306,7 +1306,7 @@ class ColorScheme:
             self._presets["yellow"] = self.get_closest_color(
                 Color.from_hsl(
                     (
-                        60,
+                        50,
                         ColorScheme.similarity_vals[self._scheme_type.name.lower(
                         )]["s"],
                         ColorScheme.similarity_vals[self._scheme_type.name.lower(
@@ -1586,7 +1586,7 @@ class ColorScheme:
     def to_javascript(self):
         # return the scheme as a json object
         out_string = StringIO()
-        out_string.write("const colors = {\n")
+        out_string.write("const colours = {\n")
         out_string.write(self.foreground.to_javascript("foreground") + ",\n")
         out_string.write(self.background.to_javascript("background") + ",\n")
         for i, color in enumerate(self.accents):
@@ -1595,13 +1595,13 @@ class ColorScheme:
             out_string.write(color.to_javascript(f"surface{i+1}") + ",\n")
 
         out_string.write("};\n")
-        out_string.write("colors.accents = {\n")
+        out_string.write("colours.accents = {\n")
         for i in range(len(self.accents)):
-            out_string.write(f"  {i+1}: colors.accent{i+1},\n")
+            out_string.write(f"  {i+1}: colours.accent{i+1},\n")
         out_string.write("};\n")
-        out_string.write("colors.surfaces = {\n")
+        out_string.write("colours.surfaces = {\n")
         for i in range(len(self.surfaces)):
-            out_string.write(f"  {i+1}: colors.surface{i+1},\n")
+            out_string.write(f"  {i+1}: colours.surface{i+1},\n")
         out_string.write("};\n")
         for c, name in zip(
             [self.red, self.orange, self.yellow, self.green,
@@ -1614,7 +1614,7 @@ class ColorScheme:
                 raise ValueError(
                     f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}")
             out_string.write(
-                f"colors.{name} = colors.{t}{i+1};\n"
+                f"colours.{name} = colours.{t}{i+1};\n"
             )
         return out_string.getvalue()
 

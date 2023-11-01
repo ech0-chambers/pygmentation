@@ -233,7 +233,7 @@ def show_scheme(scheme = None, name = None, save = False, filepath = None):
         scheme = Scheme
     console = Console(record = save)
     width = console.size.width
-    if width > 115:
+    if width >= 112:
         show_scheme_wide(scheme, name, save, filepath)
         return
     def add_row(name, colour, alias = None):
