@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 import difflib
+import re
 from typing import List
 from rich.console import Console
 from rich.prompt import IntPrompt
@@ -9,6 +10,7 @@ def parse_args():
     # qoplots show <scheme> [variant] -- Show a scheme in the terminal, optionally only showing the light or dark variant (default: both)
     # qoplots save -f <filename> <scheme> [variant] -- Save a .svg file of a scheme, optionally only saving the light or dark variant (default: both)
     # qoplots write -f <filename> -t <latex|css> <scheme> [variant] -- Write a .tex or .css file of a scheme, optionally only saving the light or dark variant (default: both). -t is optional, inferred from filename extension if not provided.
+    # qoplots list <pattern> -- List all available schemes, with a sample of each. If pattern is provided, only schemes matching the pattern are listed (accepts standard shell wildcards)
 
     parser = argparse.ArgumentParser(prog = "qoplots", description = "A command-line tool for generating color schemes for quantum optics plots.")
     subparsers = parser.add_subparsers(dest = "command", required = True)
@@ -27,6 +29,9 @@ def parse_args():
     write_parser.add_argument("-t", "--type", choices = ["latex", "css", "js"], help = "The type of file to write (default: inferred from filename extension)")
     write_parser.add_argument("scheme", help = "The name of the scheme to write")
     write_parser.add_argument("variant", nargs = "?", default = "both", choices = ["both", "light", "dark"], help = "The variant of the scheme to write (default: both)")
+
+    list_parser = subparsers.add_parser("list", help = "List all available schemes, with a sample of each. If pattern is provided, only schemes matching the pattern are listed (accepts standard shell wildcards)")
+    list_parser.add_argument("pattern", nargs = "?", default = "*", help = "A pattern to match against scheme names (default: *)")
 
     return parser.parse_args()
 
@@ -60,7 +65,7 @@ if __name__ == "__main__":
     args = parse_args()
     available = get_available_schemes()
 
-    if args.scheme not in available:
+    if args.command != "list" and args.scheme not in available:
         args.scheme = handle_unknown_scheme(args.scheme)
 
     if args.command == "show":
@@ -125,6 +130,27 @@ if __name__ == "__main__":
                     f.write(get_scheme().to_css())
                 elif filetype == "js":
                     f.write(get_scheme().to_javascript())
-
+    elif args.command == "list":
+        # sort available schemes alphabetically
+        available.sort()
+        pattern = args.pattern.replace("*", ".*").replace("?", ".")
+        matches = [s for s in available if re.fullmatch(pattern, s)]
+        if len(matches) == 0:
+            print(f"No schemes match pattern `{args.pattern}`")
+            quit(1)
+        from rich.table import Table
+        from rich.text import Text
+        from rich.style import Style
+        table = Table(show_lines = True)
+        table.add_column("Name", justify="center")
+        table.add_column("Sample", justify="center")
+        for scheme in matches:
+            set_scheme(scheme)
+            table.add_row(
+                Text(scheme, style = f"bold {get_scheme().foreground} on {get_scheme().background}"),
+                get_scheme().to_rich_swatch()
+            )
+        console = Console()
+        console.print(table)
 
         

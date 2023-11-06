@@ -859,7 +859,7 @@ class ColorFamily:
         too_light = (not use_light and self._base.l > 0.8) or (
             use_light and self._base.l / self._light.l > 0.95)
         too_dark = (not use_dark and self._base.l < 0.2) or (
-            use_dark and self._dark.l / self._base.l > 0.95)
+            use_dark and self._base.l > 0 and self._dark.l / self._base.l > 0.95)
 
         amounts = [0] * 5
 
@@ -1240,6 +1240,8 @@ class ColorScheme:
             for color in self.colors:
                 if color.name is not None and index.lower() == color.name.lower():
                     return color
+            if index in ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "magenta", "info", "success", "warning", "error"]:
+                return getattr(self, index)
             raise KeyError(f"Color with name '{index}' not found")
         else:
             raise TypeError(f"Invalid index type '{type(index)}'")
@@ -1619,3 +1621,15 @@ class ColorScheme:
         return out_string.getvalue()
 
 
+    def to_rich_swatch(self):
+        from rich.text import Text
+        text = Text()
+        text += Text("\u2588\u2588", style = self.foreground.base.css)
+        text += Text("\u2588\u2588", style = self.background.base.css)
+        # for color in self.accents:
+        #     text += Text("\u2588\u2588", style = color.base.css)
+        # for color in self.surfaces:
+        #     text += Text("\u2588\u2588", style = color.base.css)
+        for color in ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "magenta"]:
+            text += Text("\u2588\u2588", style = getattr(self, color).base.css)
+        return text

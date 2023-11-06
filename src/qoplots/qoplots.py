@@ -404,3 +404,4 @@ def show_scheme_wide(scheme = None, name = None, save = False, filepath = None):
             filepath = Path(f"{name}.svg".replace(" ", "_"))
         
         console.save_svg(filepath)
+

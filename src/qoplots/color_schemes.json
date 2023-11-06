@@ -12,7 +12,7 @@
             "DAC0A6"
         ]
     },
-    "nord_night": {
+    "nord": {
         "foreground": "2E3440",
         "background": "ECEFF4",
         "accents": [
@@ -2815,7 +2815,7 @@
             "F5F17A"
         ]
     },
-    "nord": {
+    "nord_terminal": {
         "foreground": "2E3440",
         "background": "D8DEE9",
         "accents": [
