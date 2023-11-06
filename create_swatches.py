@@ -35,5 +35,5 @@ with open(post_file, "w") as f:
         svg_file = swatches_dir / f"{i}.svg"
         with open(svg_file, "w") as f2:
             f2.write(svg)
-        contents = contents.replace(m.group(0), f"![{background}](./.swatches/{i}.svg)")
+        contents = contents.replace(m.group(0), f"![{background}](.swatches/{i}.svg)")
     f.write(contents)

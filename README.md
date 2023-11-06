@@ -31,14 +31,14 @@ Predominantly, `qoplots` is a library for handling colour schemes. Each scheme c
 
 
 
-For example, in the Nord colour scheme - [https://www.nordtheme.com/](https://www.nordtheme.com/) - one of the accent colours is this red: ![#BF616A](./.swatches/0.svg). This is the 'base' for this colour family. There are then 5 variants, labelled `1` to `5`, which are as follows:
-- `1`: ![#DBA5AA](./.swatches/1.svg)
-- `2`: ![#CD838A](./.swatches/2.svg)
-- `3`: ![#983E46](./.swatches/3.svg)
-- `4`: ![#7E333A](./.swatches/4.svg)
-- `5`: ![#63282E](./.swatches/5.svg)
+For example, in the Nord colour scheme - [https://www.nordtheme.com/](https://www.nordtheme.com/) - one of the accent colours is this red: ![#BF616A](.swatches/0.svg). This is the 'base' for this colour family. There are then 5 variants, labelled `1` to `5`, which are as follows:
+- `1`: ![#DBA5AA](.swatches/1.svg)
+- `2`: ![#CD838A](.swatches/2.svg)
+- `3`: ![#983E46](.swatches/3.svg)
+- `4`: ![#7E333A](.swatches/4.svg)
+- `5`: ![#63282E](.swatches/5.svg)
 
-Although the exact shades differ depending on the scheme (as discussed in the later sections), they will always be organised such that `1` has the most contrast with the background colour (which is in this case ![#2E3440](./.swatches/6.svg)) and `5` will have the least contrast. For dark colour schemes, this means that they are ordered from light to dark; for light schemes, from dark to light.
+Although the exact shades differ depending on the scheme (as discussed in the later sections), they will always be organised such that `1` has the most contrast with the background colour (which is in this case ![#2E3440](.swatches/6.svg)) and `5` will have the least contrast. For dark colour schemes, this means that they are ordered from light to dark; for light schemes, from dark to light.
 
 As a full scheme, this gives access to a wide range of variations on each colour. Again taking the Nord theme as an example, all available colours and variants are shown in the image below, which is the output from running the command `qoplots show nord dark`:
 
@@ -50,14 +50,14 @@ While colours are always available via their index (for example, as `scheme.acce
 
 | Name    | Hue Angle | Reference (Light)                                          | Reference (Dark)                                           |
 |---------|-----------|------------------------------------------------------------|------------------------------------------------------------|
-| Red    | 0&deg;    | ![#BD0000](./.swatches/7.svg) | ![#D52A2A](./.swatches/8.svg) |
-| Orange | 30&deg;   | ![#BD5F00](./.swatches/9.svg) | ![#D5802A](./.swatches/10.svg) |
-| Yellow | 50&deg;   | ![#BD9D00](./.swatches/11.svg) | ![#D5B82A](./.swatches/12.svg) |
-| Green  | 120&deg;  | ![#00BD00](./.swatches/13.svg) | ![#2AD52A](./.swatches/14.svg) |
-| Cyan   | 180&deg;  | ![#00BDBD](./.swatches/15.svg) | ![#2AD5D5](./.swatches/16.svg) |
-| Blue   | 240&deg;  | ![#0000BD](./.swatches/17.svg) | ![#2A2AD5](./.swatches/18.svg) |
-| Purple | 270&deg;  | ![#5E00BD](./.swatches/19.svg) | ![#802AD5](./.swatches/20.svg) |
-| Magenta| 300&deg;  | ![#BD00BD](./.swatches/21.svg) | ![#D52AD5](./.swatches/22.svg) |
+| Red    | 0&deg;    | ![#BD0000](.swatches/7.svg) | ![#D52A2A](.swatches/8.svg) |
+| Orange | 30&deg;   | ![#BD5F00](.swatches/9.svg) | ![#D5802A](.swatches/10.svg) |
+| Yellow | 50&deg;   | ![#BD9D00](.swatches/11.svg) | ![#D5B82A](.swatches/12.svg) |
+| Green  | 120&deg;  | ![#00BD00](.swatches/13.svg) | ![#2AD52A](.swatches/14.svg) |
+| Cyan   | 180&deg;  | ![#00BDBD](.swatches/15.svg) | ![#2AD5D5](.swatches/16.svg) |
+| Blue   | 240&deg;  | ![#0000BD](.swatches/17.svg) | ![#2A2AD5](.swatches/18.svg) |
+| Purple | 270&deg;  | ![#5E00BD](.swatches/19.svg) | ![#802AD5](.swatches/20.svg) |
+| Magenta| 300&deg;  | ![#BD00BD](.swatches/21.svg) | ![#D52AD5](.swatches/22.svg) |
 
 Four additional aliases are available, 
 - Error (alias for red)
@@ -65,11 +65,11 @@ Four additional aliases are available,
 - Success (alias for green)
 - Info (alias for blue)
 
-All aliases will be assigned, although some aliases may be assigned to the same colour (for example in the Nord theme, `purple` and `magenta` both refer to the same colour: ![#B48EAD](./.swatches/23.svg)). Aliases are then accessible by (for example) `scheme.red.base` or `scheme.error.base`.
+All aliases will be assigned, although some aliases may be assigned to the same colour (for example in the Nord theme, `purple` and `magenta` both refer to the same colour: ![#B48EAD](.swatches/23.svg)). Aliases are then accessible by (for example) `scheme.red.base` or `scheme.error.base`.
 
 Colour similarity is determined using the CIE Delta E 2000 Color-Difference algorithm; this involves converting the colour (provided in hex format) first into the L\*ab colour space, then using the CIEDE2000 algorithm to determine a perceptually uniform distance between the colours. Most colour spaces (such as RGB, HSL, or hsb) are not perceptually uniform. In the HSL colour space, colours are expressed as a hue (expressed as an angle in degrees), saturation (expressed as a percentage), and lightness (expressed as a percentage). "Pure" colours (such as `#ff0000` in the RGB colour space) have a saturation of 100% and a lightness of 50%. 
 
-However, the perceived visual change between a hue of 100&deg; (![#55ff00](./.swatches/24.svg)) and a hue of 130&deg; (![#00ff2b](./.swatches/25.svg)) is clearly significantly less than the change between a hue of 260&deg; (![#5500ff](./.swatches/26.svg)) and a hue of 290&deg; (![#d400ff](./.swatches/27.svg)), despite the fact that the separation in the HSL colour space is the same. The L\*ab colour space is designed to be perceptually uniform, and it is much closer to achieving this goal than the RGB or HSL colour spaces. However, it is not actually perceptually uniform, so the CIEDE2000 algorithm includes a number of corrections to account for this. This will never be perfect, but it produces noticeably better results (even for such a relatively simple task) than directly using RGB (as many projects do) or other colour spaces.
+However, the perceived visual change between a hue of 100&deg; (![#55ff00](.swatches/24.svg)) and a hue of 130&deg; (![#00ff2b](.swatches/25.svg)) is clearly significantly less than the change between a hue of 260&deg; (![#5500ff](.swatches/26.svg)) and a hue of 290&deg; (![#d400ff](.swatches/27.svg)), despite the fact that the separation in the HSL colour space is the same. The L\*ab colour space is designed to be perceptually uniform, and it is much closer to achieving this goal than the RGB or HSL colour spaces. However, it is not actually perceptually uniform, so the CIEDE2000 algorithm includes a number of corrections to account for this. This will never be perfect, but it produces noticeably better results (even for such a relatively simple task) than directly using RGB (as many projects do) or other colour spaces.
 
 ## Variation Generation
 
@@ -124,12 +124,12 @@ For example, with the dark version of the Nord theme, the red colour is shown in
 | 5       | $80\%$ darker  | <span class="swatch" style = "background: #291113; color: #ECEFF4;">#291113</span> | <span class="swatch" style = "background: #63282E; color: #ECEFF4;">#63282E</span> | -->
 | Variant | Modification   | Basic | With Foreground/Background |
 | ------- | -------------- | ----- | -------------------------- |
-| 1       | $50\%$ lighter | ![#DFB0B4](./.swatches/28.svg) | ![#DBA5AA](./.swatches/1.svg) |
-| 2       | $25\%$ lighter | ![#CF898F](./.swatches/30.svg) | ![#CD838A](./.swatches/2.svg) |
-| base    | -              | ![#BF616A](./.swatches/0.svg) | ![#BF616A](./.swatches/0.svg) |
-| 3       | $40\%$ darker  | ![#7B3239](./.swatches/34.svg) | ![#983E46](./.swatches/3.svg) |
-| 4       | $60\%$ darker  | ![#522126](./.swatches/36.svg) | ![#7E333A](./.swatches/4.svg) |
-| 5       | $80\%$ darker  | ![#291113](./.swatches/38.svg) | ![#63282E](./.swatches/5.svg) |
+| 1       | $50\%$ lighter | ![#DFB0B4](.swatches/28.svg) | ![#DBA5AA](.swatches/1.svg) |
+| 2       | $25\%$ lighter | ![#CF898F](.swatches/30.svg) | ![#CD838A](.swatches/2.svg) |
+| base    | -              | ![#BF616A](.swatches/0.svg) | ![#BF616A](.swatches/0.svg) |
+| 3       | $40\%$ darker  | ![#7B3239](.swatches/34.svg) | ![#983E46](.swatches/3.svg) |
+| 4       | $60\%$ darker  | ![#522126](.swatches/36.svg) | ![#7E333A](.swatches/4.svg) |
+| 5       | $80\%$ darker  | ![#291113](.swatches/38.svg) | ![#63282E](.swatches/5.svg) |
 
 This usually produces more aesthetically pleasing variations, but with slightly less contrast. However, clamping the values to $20\%$ and $80\%$ helps to ensure that the variants are still distinct from the background and foreground colours, respectively.
 
