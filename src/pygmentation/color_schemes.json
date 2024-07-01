@@ -1,4 +1,31 @@
 {
+    "bluetit_berries": {
+        "foreground": "161829",
+        "background": "E8EADF",
+        "accents": [
+            "464E70",
+            "590219",
+            "A6445E",
+            "BF9004",
+            "ECD879",
+            "9EB9A6"
+        ]
+    },
+    "lighthouse": {
+        "foreground": "071D2A",
+        "background": "FFEAD2",
+        "accents": [
+            "80A2BF",
+            "466273",
+            "F2B872",
+            "612139",
+            "009D97",
+            "DD9F4A"
+        ],
+        "surfaces": [
+            "8C5E35"
+        ]
+    },
     "nemo": {
         "foreground": "112A3C",
         "background": "C4C2D1",
@@ -83,8 +110,8 @@
         "foreground": "3E3E3F",
         "background": "F2F3F4",
         "accents": [
-            "004271",
-            "E4183E",
+            "0C355E",
+            "DC1433",
             "8890C7",
             "FDBE11",
             "01B2B0",
@@ -201,14 +228,17 @@
     },
     "urban": {
         "foreground": "424456",
-        "background": "DEDEDE",
+        "background": "F5F5F5",
         "accents": [
             "525389",
             "438086",
             "A04EA3",
             "C46730",
             "8E6243",
-            "6296B7"
+            "6296B7",
+            "8F3939",
+            "D6B654",
+            "4F8A66"
         ]
     },
     "trek": {
@@ -2409,7 +2439,7 @@
     },
     "jubi": {
         "foreground": "262B33",
-        "background": "C3D3DE",
+        "background": "DAE2E8",
         "accents": [
             "576EA6",
             "6EBFC0",

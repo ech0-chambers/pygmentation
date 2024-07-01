@@ -1,4 +1,4 @@
-# qoplots 
+# pygmentation 
 A quality-of-life package for colour schemes and matplotlib plots.
 
 
@@ -18,46 +18,46 @@ A quality-of-life package for colour schemes and matplotlib plots.
 
 ## Requirements
 
-`qoplots` relies on the following python packages:
+`pygmentation` relies on the following python packages:
  - `numpy`
  - `matplotlib`
  - `rich`
 
 ## Colour Schemes
 
-Predominantly, `qoplots` is a library for handling colour schemes. Each scheme consists of a background colour family, a foreground colour family, and some number of accent and (optionally) surface colour families. Each colour family consists of six variants: the 'base' colour (the colour which is supplied directly), and 5 automatically generated variants. The exact generation of these variants is discussed in the later sections.
+Predominantly, `pygmentation` is a library for handling colour schemes. Each scheme consists of a background colour family, a foreground colour family, and some number of accent and (optionally) surface colour families. Each colour family consists of six variants: the 'base' colour (the colour which is supplied directly), and 5 automatically generated variants. The exact generation of these variants is discussed in the later sections.
 
 
 
 
 
-For example, in the Nord colour scheme - [https://www.nordtheme.com/](https://www.nordtheme.com/) - one of the accent colours is this red: ![#BF616A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/0.svg). This is the 'base' for this colour family. There are then 5 variants, labelled `1` to `5`, which are as follows:
-- `1`: ![#DBA5AA](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/1.svg)
-- `2`: ![#CD838A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/2.svg)
-- `3`: ![#983E46](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/3.svg)
-- `4`: ![#7E333A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/4.svg)
-- `5`: ![#63282E](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/5.svg)
+For example, in the Nord colour scheme - [https://www.nordtheme.com/](https://www.nordtheme.com/) - one of the accent colours is this red: ![#BF616A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/0.svg). This is the 'base' for this colour family. There are then 5 variants, labelled `1` to `5`, which are as follows:
+- `1`: ![#DBA5AA](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/1.svg)
+- `2`: ![#CD838A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/2.svg)
+- `3`: ![#983E46](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/3.svg)
+- `4`: ![#7E333A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/4.svg)
+- `5`: ![#63282E](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/5.svg)
 
-Although the exact shades differ depending on the scheme (as discussed in the later sections), they will always be organised such that `1` has the most contrast with the background colour (which is in this case ![#2E3440](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/6.svg)) and `5` will have the least contrast. For dark colour schemes, this means that they are ordered from light to dark; for light schemes, from dark to light.
+Although the exact shades differ depending on the scheme (as discussed in the later sections), they will always be organised such that `1` has the most contrast with the background colour (which is in this case ![#2E3440](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/6.svg)) and `5` will have the least contrast. For dark colour schemes, this means that they are ordered from light to dark; for light schemes, from dark to light.
 
-As a full scheme, this gives access to a wide range of variations on each colour. Again taking the Nord theme as an example, all available colours and variants are shown in the image below, which is the output from running the command `qoplots show nord dark`:
+As a full scheme, this gives access to a wide range of variations on each colour. Again taking the Nord theme as an example, all available colours and variants are shown in the image below, which is the output from running the command `pygmentation show nord dark`:
 
-![Output from `qoplots show nord dark`](nord.svg)
+![Output from `pygmentation show nord dark`](nord.svg)
 
 ## Colour Aliases
 
-While colours are always available via their index (for example, as `scheme.accents[0].base`), some colours are also available under aliases. When a scheme is loaded, `qoplots` checks all accent colours to find which is the closest to a set of standard colours. These are as follows, with the reference hue in brackets followed by the reference colour for light and dark schemes respectively:
+While colours are always available via their index (for example, as `scheme.accents[0].base`), some colours are also available under aliases. When a scheme is loaded, `pygmentation` checks all accent colours to find which is the closest to a set of standard colours. These are as follows, with the reference hue in brackets followed by the reference colour for light and dark schemes respectively:
 
 | Name    | Hue Angle | Reference (Light)                                          | Reference (Dark)                                           |
 |---------|-----------|------------------------------------------------------------|------------------------------------------------------------|
-| Red    | 0&deg;    | ![#BD0000](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/7.svg) | ![#D52A2A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/8.svg) |
-| Orange | 30&deg;   | ![#BD5F00](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/9.svg) | ![#D5802A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/10.svg) |
-| Yellow | 50&deg;   | ![#BD9D00](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/11.svg) | ![#D5B82A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/12.svg) |
-| Green  | 120&deg;  | ![#00BD00](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/13.svg) | ![#2AD52A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/14.svg) |
-| Cyan   | 180&deg;  | ![#00BDBD](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/15.svg) | ![#2AD5D5](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/16.svg) |
-| Blue   | 240&deg;  | ![#0000BD](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/17.svg) | ![#2A2AD5](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/18.svg) |
-| Purple | 270&deg;  | ![#5E00BD](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/19.svg) | ![#802AD5](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/20.svg) |
-| Magenta| 300&deg;  | ![#BD00BD](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/21.svg) | ![#D52AD5](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/22.svg) |
+| Red    | 0&deg;    | ![#BD0000](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/7.svg) | ![#D52A2A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/8.svg) |
+| Orange | 30&deg;   | ![#BD5F00](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/9.svg) | ![#D5802A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/10.svg) |
+| Yellow | 50&deg;   | ![#BD9D00](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/11.svg) | ![#D5B82A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/12.svg) |
+| Green  | 120&deg;  | ![#00BD00](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/13.svg) | ![#2AD52A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/14.svg) |
+| Cyan   | 180&deg;  | ![#00BDBD](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/15.svg) | ![#2AD5D5](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/16.svg) |
+| Blue   | 240&deg;  | ![#0000BD](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/17.svg) | ![#2A2AD5](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/18.svg) |
+| Purple | 270&deg;  | ![#5E00BD](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/19.svg) | ![#802AD5](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/20.svg) |
+| Magenta| 300&deg;  | ![#BD00BD](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/21.svg) | ![#D52AD5](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/22.svg) |
 
 Four additional aliases are available, 
 - Error (alias for red)
@@ -65,11 +65,11 @@ Four additional aliases are available,
 - Success (alias for green)
 - Info (alias for blue)
 
-All aliases will be assigned, although some aliases may be assigned to the same colour (for example in the Nord theme, `purple` and `magenta` both refer to the same colour: ![#B48EAD](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/23.svg)). Aliases are then accessible by (for example) `scheme.red.base` or `scheme.error.base`.
+All aliases will be assigned, although some aliases may be assigned to the same colour (for example in the Nord theme, `purple` and `magenta` both refer to the same colour: ![#B48EAD](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/23.svg)). Aliases are then accessible by (for example) `scheme.red.base` or `scheme.error.base`.
 
 Colour similarity is determined using the CIE Delta E 2000 Color-Difference algorithm; this involves converting the colour (provided in hex format) first into the L\*ab colour space, then using the CIEDE2000 algorithm to determine a perceptually uniform distance between the colours. Most colour spaces (such as RGB, HSL, or hsb) are not perceptually uniform. In the HSL colour space, colours are expressed as a hue (expressed as an angle in degrees), saturation (expressed as a percentage), and lightness (expressed as a percentage). "Pure" colours (such as `#ff0000` in the RGB colour space) have a saturation of 100% and a lightness of 50%. 
 
-However, the perceived visual change between a hue of 100&deg; (![#55ff00](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/24.svg)) and a hue of 130&deg; (![#00ff2b](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/25.svg)) is clearly significantly less than the change between a hue of 260&deg; (![#5500ff](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/26.svg)) and a hue of 290&deg; (![#d400ff](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/27.svg)), despite the fact that the separation in the HSL colour space is the same. The L\*ab colour space is designed to be perceptually uniform, and it is much closer to achieving this goal than the RGB or HSL colour spaces. However, it is not actually perceptually uniform, so the CIEDE2000 algorithm includes a number of corrections to account for this. This will never be perfect, but it produces noticeably better results (even for such a relatively simple task) than directly using RGB (as many projects do) or other colour spaces.
+However, the perceived visual change between a hue of 100&deg; (![#55ff00](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/24.svg)) and a hue of 130&deg; (![#00ff2b](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/25.svg)) is clearly significantly less than the change between a hue of 260&deg; (![#5500ff](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/26.svg)) and a hue of 290&deg; (![#d400ff](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/27.svg)), despite the fact that the separation in the HSL colour space is the same. The L\*ab colour space is designed to be perceptually uniform, and it is much closer to achieving this goal than the RGB or HSL colour spaces. However, it is not actually perceptually uniform, so the CIEDE2000 algorithm includes a number of corrections to account for this. This will never be perfect, but it produces noticeably better results (even for such a relatively simple task) than directly using RGB (as many projects do) or other colour spaces.
 
 ## Variation Generation
 
@@ -124,25 +124,25 @@ For example, with the dark version of the Nord theme, the red colour is shown in
 | 5       | $80\%$ darker  | <span class="swatch" style = "background: #291113; color: #ECEFF4;">#291113</span> | <span class="swatch" style = "background: #63282E; color: #ECEFF4;">#63282E</span> | -->
 | Variant | Modification   | Basic | With Foreground/Background |
 | ------- | -------------- | ----- | -------------------------- |
-| 1       | $50\%$ lighter | ![#DFB0B4](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/28.svg) | ![#DBA5AA](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/1.svg) |
-| 2       | $25\%$ lighter | ![#CF898F](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/30.svg) | ![#CD838A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/2.svg) |
-| base    | -              | ![#BF616A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/0.svg) | ![#BF616A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/0.svg) |
-| 3       | $40\%$ darker  | ![#7B3239](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/34.svg) | ![#983E46](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/3.svg) |
-| 4       | $60\%$ darker  | ![#522126](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/36.svg) | ![#7E333A](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/4.svg) |
-| 5       | $80\%$ darker  | ![#291113](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/38.svg) | ![#63282E](https://github.com/pbrookeschambers/qoplots/blob/main/.swatches/5.svg) |
+| 1       | $50\%$ lighter | ![#DFB0B4](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/28.svg) | ![#DBA5AA](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/1.svg) |
+| 2       | $25\%$ lighter | ![#CF898F](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/30.svg) | ![#CD838A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/2.svg) |
+| base    | -              | ![#BF616A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/0.svg) | ![#BF616A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/0.svg) |
+| 3       | $40\%$ darker  | ![#7B3239](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/34.svg) | ![#983E46](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/3.svg) |
+| 4       | $60\%$ darker  | ![#522126](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/36.svg) | ![#7E333A](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/4.svg) |
+| 5       | $80\%$ darker  | ![#291113](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/38.svg) | ![#63282E](https://github.com/pbrookeschambers/pygmentation/blob/main/.swatches/5.svg) |
 
 This usually produces more aesthetically pleasing variations, but with slightly less contrast. However, clamping the values to $20\%$ and $80\%$ helps to ensure that the variants are still distinct from the background and foreground colours, respectively.
 
 ## Usage
 
-`qoplots` can be used as a python library or via the command line interface. 
+`pygmentation` can be used as a python library or via the command line interface. 
 
 ### Python Library
 
-The usual use of `qoplots` will be to set default styling for `matplotlib` plots. To be safe, `qoplots` should be imported before `matplotlib`:
+The usual use of `pygmentation` will be to set default styling for `matplotlib` plots. To be safe, `pygmentation` should be imported before `matplotlib`:
 
 ```python
-import qoplots.qoplots as qp
+import pygmentation.pygmentation as qp
 qp.init("rose_pine", "light")
 import matplotlib.pyplot as plt
 
@@ -223,46 +223,46 @@ A `Colour` object contains a single colour, as well as methods for converting be
 
 ### Command Line Interface
 
-`qoplots` can be used as a command line tool when run as a module (with `python3 -m qoplots`). There are three main commands: `show`, `save`, and `write`. These will be described fully below. `show` will display a given scheme in the terminal -- this is useful for quickly checking what colours are available in a given scheme. `save` will act the same as `show` but additionally saves the output to an SVG file. `write` will write the colour scheme to a file in a given format for use outside of python.
+`pygmentation` can be used as a command line tool when run as a module (with `python3 -m pygmentation`). There are three main commands: `show`, `save`, and `write`. These will be described fully below. `show` will display a given scheme in the terminal -- this is useful for quickly checking what colours are available in a given scheme. `save` will act the same as `show` but additionally saves the output to an SVG file. `write` will write the colour scheme to a file in a given format for use outside of python.
 
-For all commands, if the scheme name is not recognised `qoplots` will search the available schemes for similar names, and present a list of the closest matches. It will then wait for confirmation from the user. Unless you are certain that the scheme name is correct, do not assume that `qoplots` will exit without user input.
+For all commands, if the scheme name is not recognised `pygmentation` will search the available schemes for similar names, and present a list of the closest matches. It will then wait for confirmation from the user. Unless you are certain that the scheme name is correct, do not assume that `pygmentation` will exit without user input.
 
-*In the examples below, the command is shown simply as `qoplots`, not `python3 -m qoplots`. This is for brevity, but an alias can be created to shorten the command if desired.*
+*In the examples below, the command is shown simply as `pygmentation`, not `python3 -m pygmentation`. This is for brevity, but an alias can be created to shorten the command if desired.*
 
 #### `show`
 
-`qoplots show` takes one required argument, the name of the colour scheme to display. This can be followed by an optional argument, the type of colour scheme to display (either `light`, `dark`, or `both`). The default is to display both the light and dark variants. This is rendered using the `rich` library, and requires a minimum terminal width of 56 characters to render correctly. It also requires your terminal emulator to support full colour. For example, the output shown in the first section for the Nord scheme would be produced by:
+`pygmentation show` takes one required argument, the name of the colour scheme to display. This can be followed by an optional argument, the type of colour scheme to display (either `light`, `dark`, or `both`). The default is to display both the light and dark variants. This is rendered using the `rich` library, and requires a minimum terminal width of 56 characters to render correctly. It also requires your terminal emulator to support full colour. For example, the output shown in the first section for the Nord scheme would be produced by:
 ```bash
-qoplots show nord dark
+pygmentation show nord dark
 ```
 
 #### `save`
 
-`qoplots save` takes the same arguments as `show`, but additionally takes an output file name. This is passed by the `-f` or `--filename` flag, which is required. If both the light and dark variants are to be saved, the file name will be adjusted to include the type of colour scheme (otherwise, it is used directly with no changes). For example, the following command will save the light and dark variants of the Nord scheme to `nord_light.svg` and `nord_dark.svg` respectively:
+`pygmentation save` takes the same arguments as `show`, but additionally takes an output file name. This is passed by the `-f` or `--filename` flag, which is required. If both the light and dark variants are to be saved, the file name will be adjusted to include the type of colour scheme (otherwise, it is used directly with no changes). For example, the following command will save the light and dark variants of the Nord scheme to `nord_light.svg` and `nord_dark.svg` respectively:
 ```bash
-qoplots save -f nord.svg nord
+pygmentation save -f nord.svg nord
 ```
 
-The target file *must* be an SVG file. It is saved via the python `rich` library, so is again dependent on your terminal emulator as it is effectively recording the output of `qoplots show` and saving it to a file.
+The target file *must* be an SVG file. It is saved via the python `rich` library, so is again dependent on your terminal emulator as it is effectively recording the output of `pygmentation show` and saving it to a file.
 
 #### `write`
 
-`qoplots write` takes up to four arguments:
+`pygmentation write` takes up to four arguments:
 - `-f` or `--filename`: The name of the file to write to. If both light and dark variants are to be written, the filename will be bodified to include `_light` and `_dark`. This is required.
-- `-t` or `--type`: The type of file to write. If provided, this should be one of `css`, `js`, or `latex`. If not provided, qoplots will attempt to infer this from the filename.
+- `-t` or `--type`: The type of file to write. If provided, this should be one of `css`, `js`, or `latex`. If not provided, pygmentation will attempt to infer this from the filename.
 - `scheme_name` (positional): The name of the scheme to write. This is required.
 - `scheme_type` (positional): If provided, this should be one of `light`, `dark`, or `both` (default). Writes only the specified type of scheme. If not provided, writes both light and dark variants.
 
 A minimal example would be:
 ```bash
-qoplots write -f nord.css nord
+pygmentation write -f nord.css nord
 ```
 
 This would produce two files, `nord_light.css` and `nord_dark.css`, containing the light and dark variants of the Nord scheme respectively. The exact format of the output is described below.
 
 A second example would be:
 ```bash
-qoplots write -f "ctp.txt" -t latex catppuccin dark
+pygmentation write -f "ctp.txt" -t latex catppuccin dark
 ```
 
 This would produce a single file `ctp.txt` containing the dark variant of the Catppuccin scheme in LaTeX format ([https://github.com/catppuccin/catppuccin](https://github.com/catppuccin/catppuccin)). The file extension is not used to determine the output format, so the file name can be anything. The output format is determined by the `-t` or `--type` flag, which is required if the file name does not contain a recognised extension.

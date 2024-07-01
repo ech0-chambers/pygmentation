@@ -1,4 +1,4 @@
-# qoplots 
+# pygmentation 
 A quality-of-life package for colour schemes and matplotlib plots.
 
 
@@ -18,14 +18,14 @@ A quality-of-life package for colour schemes and matplotlib plots.
 
 ## Requirements
 
-`qoplots` relies on the following python packages:
+`pygmentation` relies on the following python packages:
  - `numpy`
  - `matplotlib`
  - `rich`
 
 ## Colour Schemes
 
-Predominantly, `qoplots` is a library for handling colour schemes. Each scheme consists of a background colour family, a foreground colour family, and some number of accent and (optionally) surface colour families. Each colour family consists of six variants: the 'base' colour (the colour which is supplied directly), and 5 automatically generated variants. The exact generation of these variants is discussed in the later sections.
+Predominantly, `pygmentation` is a library for handling colour schemes. Each scheme consists of a background colour family, a foreground colour family, and some number of accent and (optionally) surface colour families. Each colour family consists of six variants: the 'base' colour (the colour which is supplied directly), and 5 automatically generated variants. The exact generation of these variants is discussed in the later sections.
 
 
 
@@ -40,13 +40,13 @@ For example, in the Nord colour scheme - [https://www.nordtheme.com/](https://ww
 
 Although the exact shades differ depending on the scheme (as discussed in the later sections), they will always be organised such that `1` has the most contrast with the background colour (which is in this case swatch(#2E3440, #ECEFF4)) and `5` will have the least contrast. For dark colour schemes, this means that they are ordered from light to dark; for light schemes, from dark to light.
 
-As a full scheme, this gives access to a wide range of variations on each colour. Again taking the Nord theme as an example, all available colours and variants are shown in the image below, which is the output from running the command `qoplots show nord dark`:
+As a full scheme, this gives access to a wide range of variations on each colour. Again taking the Nord theme as an example, all available colours and variants are shown in the image below, which is the output from running the command `pygmentation show nord dark`:
 
-![Output from `qoplots show nord dark`](nord.svg)
+![Output from `pygmentation show nord dark`](nord.svg)
 
 ## Colour Aliases
 
-While colours are always available via their index (for example, as `scheme.accents[0].base`), some colours are also available under aliases. When a scheme is loaded, `qoplots` checks all accent colours to find which is the closest to a set of standard colours. These are as follows, with the reference hue in brackets followed by the reference colour for light and dark schemes respectively:
+While colours are always available via their index (for example, as `scheme.accents[0].base`), some colours are also available under aliases. When a scheme is loaded, `pygmentation` checks all accent colours to find which is the closest to a set of standard colours. These are as follows, with the reference hue in brackets followed by the reference colour for light and dark schemes respectively:
 
 | Name    | Hue Angle | Reference (Light)                                          | Reference (Dark)                                           |
 |---------|-----------|------------------------------------------------------------|------------------------------------------------------------|
@@ -135,14 +135,14 @@ This usually produces more aesthetically pleasing variations, but with slightly 
 
 ## Usage
 
-`qoplots` can be used as a python library or via the command line interface. 
+`pygmentation` can be used as a python library or via the command line interface. 
 
 ### Python Library
 
-The usual use of `qoplots` will be to set default styling for `matplotlib` plots. To be safe, `qoplots` should be imported before `matplotlib`:
+The usual use of `pygmentation` will be to set default styling for `matplotlib` plots. To be safe, `pygmentation` should be imported before `matplotlib`:
 
 ```python
-import qoplots.qoplots as qp
+import pygmentation.pygmentation as qp
 qp.init("rose_pine", "light")
 import matplotlib.pyplot as plt
 
@@ -223,46 +223,46 @@ A `Colour` object contains a single colour, as well as methods for converting be
 
 ### Command Line Interface
 
-`qoplots` can be used as a command line tool when run as a module (with `python3 -m qoplots`). There are three main commands: `show`, `save`, and `write`. These will be described fully below. `show` will display a given scheme in the terminal -- this is useful for quickly checking what colours are available in a given scheme. `save` will act the same as `show` but additionally saves the output to an SVG file. `write` will write the colour scheme to a file in a given format for use outside of python.
+`pygmentation` can be used as a command line tool when run as a module (with `python3 -m pygmentation`). There are three main commands: `show`, `save`, and `write`. These will be described fully below. `show` will display a given scheme in the terminal -- this is useful for quickly checking what colours are available in a given scheme. `save` will act the same as `show` but additionally saves the output to an SVG file. `write` will write the colour scheme to a file in a given format for use outside of python.
 
-For all commands, if the scheme name is not recognised `qoplots` will search the available schemes for similar names, and present a list of the closest matches. It will then wait for confirmation from the user. Unless you are certain that the scheme name is correct, do not assume that `qoplots` will exit without user input.
+For all commands, if the scheme name is not recognised `pygmentation` will search the available schemes for similar names, and present a list of the closest matches. It will then wait for confirmation from the user. Unless you are certain that the scheme name is correct, do not assume that `pygmentation` will exit without user input.
 
-*In the examples below, the command is shown simply as `qoplots`, not `python3 -m qoplots`. This is for brevity, but an alias can be created to shorten the command if desired.*
+*In the examples below, the command is shown simply as `pygmentation`, not `python3 -m pygmentation`. This is for brevity, but an alias can be created to shorten the command if desired.*
 
 #### `show`
 
-`qoplots show` takes one required argument, the name of the colour scheme to display. This can be followed by an optional argument, the type of colour scheme to display (either `light`, `dark`, or `both`). The default is to display both the light and dark variants. This is rendered using the `rich` library, and requires a minimum terminal width of 56 characters to render correctly. It also requires your terminal emulator to support full colour. For example, the output shown in the first section for the Nord scheme would be produced by:
+`pygmentation show` takes one required argument, the name of the colour scheme to display. This can be followed by an optional argument, the type of colour scheme to display (either `light`, `dark`, or `both`). The default is to display both the light and dark variants. This is rendered using the `rich` library, and requires a minimum terminal width of 56 characters to render correctly. It also requires your terminal emulator to support full colour. For example, the output shown in the first section for the Nord scheme would be produced by:
 ```bash
-qoplots show nord dark
+pygmentation show nord dark
 ```
 
 #### `save`
 
-`qoplots save` takes the same arguments as `show`, but additionally takes an output file name. This is passed by the `-f` or `--filename` flag, which is required. If both the light and dark variants are to be saved, the file name will be adjusted to include the type of colour scheme (otherwise, it is used directly with no changes). For example, the following command will save the light and dark variants of the Nord scheme to `nord_light.svg` and `nord_dark.svg` respectively:
+`pygmentation save` takes the same arguments as `show`, but additionally takes an output file name. This is passed by the `-f` or `--filename` flag, which is required. If both the light and dark variants are to be saved, the file name will be adjusted to include the type of colour scheme (otherwise, it is used directly with no changes). For example, the following command will save the light and dark variants of the Nord scheme to `nord_light.svg` and `nord_dark.svg` respectively:
 ```bash
-qoplots save -f nord.svg nord
+pygmentation save -f nord.svg nord
 ```
 
-The target file *must* be an SVG file. It is saved via the python `rich` library, so is again dependent on your terminal emulator as it is effectively recording the output of `qoplots show` and saving it to a file.
+The target file *must* be an SVG file. It is saved via the python `rich` library, so is again dependent on your terminal emulator as it is effectively recording the output of `pygmentation show` and saving it to a file.
 
 #### `write`
 
-`qoplots write` takes up to four arguments:
+`pygmentation write` takes up to four arguments:
 - `-f` or `--filename`: The name of the file to write to. If both light and dark variants are to be written, the filename will be bodified to include `_light` and `_dark`. This is required.
-- `-t` or `--type`: The type of file to write. If provided, this should be one of `css`, `js`, or `latex`. If not provided, qoplots will attempt to infer this from the filename.
+- `-t` or `--type`: The type of file to write. If provided, this should be one of `css`, `js`, or `latex`. If not provided, pygmentation will attempt to infer this from the filename.
 - `scheme_name` (positional): The name of the scheme to write. This is required.
 - `scheme_type` (positional): If provided, this should be one of `light`, `dark`, or `both` (default). Writes only the specified type of scheme. If not provided, writes both light and dark variants.
 
 A minimal example would be:
 ```bash
-qoplots write -f nord.css nord
+pygmentation write -f nord.css nord
 ```
 
 This would produce two files, `nord_light.css` and `nord_dark.css`, containing the light and dark variants of the Nord scheme respectively. The exact format of the output is described below.
 
 A second example would be:
 ```bash
-qoplots write -f "ctp.txt" -t latex catppuccin dark
+pygmentation write -f "ctp.txt" -t latex catppuccin dark
 ```
 
 This would produce a single file `ctp.txt` containing the dark variant of the Catppuccin scheme in LaTeX format ([https://github.com/catppuccin/catppuccin](https://github.com/catppuccin/catppuccin)). The file extension is not used to determine the output format, so the file name can be anything. The output format is determined by the `-t` or `--type` flag, which is required if the file name does not contain a recognised extension.

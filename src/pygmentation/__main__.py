@@ -7,12 +7,12 @@ from rich.console import Console
 from rich.prompt import IntPrompt
 
 def parse_args():
-    # qoplots show <scheme> [variant] -- Show a scheme in the terminal, optionally only showing the light or dark variant (default: both)
-    # qoplots save -f <filename> <scheme> [variant] -- Save a .svg file of a scheme, optionally only saving the light or dark variant (default: both)
-    # qoplots write -f <filename> -t <latex|css> <scheme> [variant] -- Write a .tex or .css file of a scheme, optionally only saving the light or dark variant (default: both). -t is optional, inferred from filename extension if not provided.
-    # qoplots list <pattern> -- List all available schemes, with a sample of each. If pattern is provided, only schemes matching the pattern are listed (accepts standard shell wildcards)
+    # pygmentation show <scheme> [variant] -- Show a scheme in the terminal, optionally only showing the light or dark variant (default: both)
+    # pygmentation save -f <filename> <scheme> [variant] -- Save a .svg file of a scheme, optionally only saving the light or dark variant (default: both)
+    # pygmentation write -f <filename> -t <latex|css> <scheme> [variant] -- Write a .tex or .css file of a scheme, optionally only saving the light or dark variant (default: both). -t is optional, inferred from filename extension if not provided.
+    # pygmentation list <pattern> -- List all available schemes, with a sample of each. If pattern is provided, only schemes matching the pattern are listed (accepts standard shell wildcards)
 
-    parser = argparse.ArgumentParser(prog = "qoplots", description = "A command-line tool for generating color schemes for quantum optics plots.")
+    parser = argparse.ArgumentParser(prog = "pygmentation", description = "A command-line tool for generating color schemes for quantum optics plots.")
     subparsers = parser.add_subparsers(dest = "command", required = True)
 
     show_parser = subparsers.add_parser("show", help = "Show a scheme in the terminal, optionally only showing the light or dark variant (default: both)")
@@ -60,7 +60,7 @@ def multiple_choice_prompt(prompt: str, choices: List[str], default: int = 1) ->
 
 
 if __name__ == "__main__":
-    from .qoplots import show_scheme, set_scheme, get_scheme, get_available_schemes
+    from .pygmentation import show_scheme, set_scheme, get_scheme, get_available_schemes
 
     args = parse_args()
     available = get_available_schemes()
