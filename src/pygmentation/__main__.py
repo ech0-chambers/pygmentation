@@ -24,9 +24,9 @@ def parse_args():
     save_parser.add_argument("scheme", help = "The name of the scheme to save")
     save_parser.add_argument("variant", nargs = "?", default = "both", choices = ["both", "light", "dark"], help = "The variant of the scheme to save (default: both)")
 
-    write_parser = subparsers.add_parser("write", help = "Write a .tex or .css file of a scheme, optionally only saving the light or dark variant (default: both)")
+    write_parser = subparsers.add_parser("write", help = "Write a .tex, .css, .tcss (textual css), or .js file of a scheme, optionally only saving the light or dark variant (default: both)")
     write_parser.add_argument("-f", "--filename", required = True, help = "The name of the file to save")
-    write_parser.add_argument("-t", "--type", choices = ["latex", "css", "js"], help = "The type of file to write (default: inferred from filename extension)")
+    write_parser.add_argument("-t", "--type", choices = ["latex", "css", "tcss", "js"], help = "The type of file to write (default: inferred from filename extension)")
     write_parser.add_argument("scheme", help = "The name of the scheme to write")
     write_parser.add_argument("variant", nargs = "?", default = "both", choices = ["both", "light", "dark"], help = "The variant of the scheme to write (default: both)")
 
@@ -97,10 +97,12 @@ if __name__ == "__main__":
             filetype = "latex"
         elif filepath.suffix == ".css":
             filetype = "css"
+        elif filepath.suffix == ".tcss":
+            filetype = "tcss"
         elif filepath.suffix == ".js":
             filetype = "js"
         else:
-            raise ValueError("Filename must have .tex, .css or .js extension, or type must be specified with -t/--type")
+            raise ValueError("Filename must have .tex, .css, .tcss or .js extension, or type must be specified with -t/--type")
         
         if args.variant == "both":
             light_filepath = filepath.with_name(filepath.stem + "_light" + filepath.suffix)
@@ -111,6 +113,8 @@ if __name__ == "__main__":
                     f.write(get_scheme().to_latex())
                 elif filetype == "css":
                     f.write(get_scheme().to_css())
+                elif filetype == "tcss":
+                    f.write(get_scheme().to_textual())
                 elif filetype == "js":
                     f.write(get_scheme().to_javascript())
             set_scheme(args.scheme, "dark")
@@ -119,6 +123,8 @@ if __name__ == "__main__":
                     f.write(get_scheme().to_latex())
                 elif filetype == "css":
                     f.write(get_scheme().to_css())
+                elif filetype == "tcss":
+                    f.write(get_scheme().to_textual())
                 elif filetype == "js":
                     f.write(get_scheme().to_javascript())
         else:
@@ -128,6 +134,8 @@ if __name__ == "__main__":
                     f.write(get_scheme().to_latex())
                 elif filetype == "css":
                     f.write(get_scheme().to_css())
+                elif filetype == "tcss":
+                    f.write(get_scheme().to_textual())
                 elif filetype == "js":
                     f.write(get_scheme().to_javascript())
     elif args.command == "list":

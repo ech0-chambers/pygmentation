@@ -1040,6 +1040,21 @@ class ColorFamily:
             out_string.write(f"  {i + 1}: '{self.variants[i].to_string('css')}',\n")
         out_string.write("}")
         return out_string.getvalue()
+    
+    def to_textual(self, name: str = None):
+        if name is None:
+            name = self._name
+        if name is None:
+            name = self._base.to_string("hex")
+
+        if not name.startswith("$"):
+            name = f"${name}"
+
+        out_string = []
+        out_string.append(f"{name}: {self._base.to_string('css')};")
+        for i in range(5):
+            out_string.append(f"{name}-{i + 1}: {self.variants[i].to_string('css')};")
+        return "\n".join(out_string)
 
 
 class ColorScheme:
@@ -1730,6 +1745,54 @@ class ColorScheme:
             ]
         out_string += ["}"]
         return "\n".join(out_string)
+
+    def to_textual(self):
+        out_string = []
+        out_string += self.foreground.to_textual("foreground").splitlines()
+        out_string += self.background.to_textual("background").splitlines()
+        for i, color in enumerate(self.accents):
+            out_string += color.to_textual(f"accent{i+1}").splitlines()
+        for i, color in enumerate(self.surfaces):
+            out_string += color.to_textual(f"surface{i+1}").splitlines()
+        
+        for c, name in zip(
+            [
+                self.red,
+                self.orange,
+                self.yellow,
+                self.green,
+                self.cyan,
+                self.blue,
+                self.purple,
+                self.magenta,
+            ],
+            ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "magenta"],
+        ):
+            i, t = self._get_internal_color_index(c, css=True)
+            if i is None:
+                raise ValueError(
+                    f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}"
+                )
+            out_string += [f"${name}: ${t}{i+1};"] + [
+                f"${name}-{j+1}: ${t}{i+1}-{j+1};" for j in range(5)
+            ]
+
+        for c, name in zip(
+            [self.info, self.success, self.warning, self.error],
+            ["info", "success", "warning", "error"],
+        ):
+            i, t = self._get_internal_color_index(c, css=True)
+            if i is None:
+                raise ValueError(
+                    f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}"
+                )
+            out_string += [f"${name}: ${t}{i+1};"] + [
+                f"${name}-{j+1}: ${t}{i+1}-{j+1};" for j in range(5)
+            ]
+
+        return "\n".join(out_string)
+        
+
 
     def to_javascript(self):
         # return the scheme as a json object

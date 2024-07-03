@@ -1,5 +1,5 @@
 # pygmentation 
-A quality-of-life package for colour schemes and matplotlib plots.
+A quality-of-life package for colour schemes and matplotlib plots. ***Note:** This is not in any way affiliated with the `pygments` package.*
 
 
 - [Requirements](#requirements)
@@ -142,20 +142,20 @@ This usually produces more aesthetically pleasing variations, but with slightly 
 The usual use of `pygmentation` will be to set default styling for `matplotlib` plots. To be safe, `pygmentation` should be imported before `matplotlib`:
 
 ```python
-import pygmentation.pygmentation as qp
-qp.init("rose_pine", "light")
+import pygmentation.pygmentation as pyg
+pyg.init("rose_pine", "light")
 import matplotlib.pyplot as plt
 
 # Continue as normal. No further changes to matplotlib are required.
 ```
 
-The function `qp.init` takes three arguments: the name of the colour scheme, the type (`"light"` or `"dark"`), and the target document type (`"report"` or `"presentation"`). The document type will determine certain aspects of the styling, such as the aspect ratio, the font size, default text and axis colour, and so on. Examples are seen below for the `rose_pine` colour scheme. Note that no additional styling was specified. For the `"report"` style, the background is transparent where possible, with only the plot area having a solid background. 
+The function `pyg.init` takes three arguments: the name of the colour scheme, the type (`"light"` or `"dark"`), and the target document type (`"report"` or `"presentation"`). The document type will determine certain aspects of the styling, such as the aspect ratio, the font size, default text and axis colour, and so on. Examples are seen below for the `rose_pine` colour scheme. Note that no additional styling was specified. For the `"report"` style, the background is transparent where possible, with only the plot area having a solid background. 
 
 ![Report style](sample_report.svg)
 
 ![Presentation style](sample_presentation.svg)
 
-Within python, the current colour scheme is available via the `qp.get_scheme()` function. This returns a `ColourScheme` object. 
+Within python, the current colour scheme is available via the `pyg.get_scheme()` function. This returns a `ColourScheme` object. 
 
 #### `ColourScheme` object
 
