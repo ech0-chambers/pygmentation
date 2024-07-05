@@ -10,7 +10,7 @@ def parse_args():
     # pygmentation show <scheme> [variant] -- Show a scheme in the terminal, optionally only showing the light or dark variant (default: both)
     # pygmentation save -f <filename> <scheme> [variant] -- Save a .svg file of a scheme, optionally only saving the light or dark variant (default: both)
     # pygmentation write -f <filename> -t <latex|css> <scheme> [variant] -- Write a .tex or .css file of a scheme, optionally only saving the light or dark variant (default: both). -t is optional, inferred from filename extension if not provided.
-    # pygmentation list <pattern> -- List all available schemes, with a sample of each. If pattern is provided, only schemes matching the pattern are listed (accepts standard shell wildcards)
+    # pygmentation list --names-only <pattern> -- List all available schemes, with a sample of each. If pattern is provided, only schemes matching the pattern are listed (accepts standard shell wildcards). If --names-nly, just prints the names with no sample
 
     parser = argparse.ArgumentParser(prog = "pygmentation", description = "A command-line tool for generating color schemes for quantum optics plots.")
     subparsers = parser.add_subparsers(dest = "command", required = True)
@@ -31,6 +31,7 @@ def parse_args():
     write_parser.add_argument("variant", nargs = "?", default = "both", choices = ["both", "light", "dark"], help = "The variant of the scheme to write (default: both)")
 
     list_parser = subparsers.add_parser("list", help = "List all available schemes, with a sample of each. If pattern is provided, only schemes matching the pattern are listed (accepts standard shell wildcards)")
+    list_parser.add_argument("--names-only", action = "store_true", help = "Just print the names of the schemes with no sample")
     list_parser.add_argument("pattern", nargs = "?", default = "*", help = "A pattern to match against scheme names (default: *)")
 
     return parser.parse_args()
@@ -141,11 +142,20 @@ if __name__ == "__main__":
     elif args.command == "list":
         # sort available schemes alphabetically
         available.sort()
-        pattern = args.pattern.replace("*", ".*").replace("?", ".")
+        names_only = args.names_only
+        pattern = args.pattern
+        if pattern.startswith("re:"):
+            pattern = pattern[3:]
+        else:
+            pattern = pattern.replace("*", ".*").replace("?", ".")
         matches = [s for s in available if re.fullmatch(pattern, s)]
         if len(matches) == 0:
             print(f"No schemes match pattern `{args.pattern}`")
             quit(1)
+        if names_only:
+            for scheme in matches:
+                print(scheme)
+            quit(0)
         from rich.table import Table
         from rich.text import Text
         from rich.style import Style

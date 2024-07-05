@@ -1048,7 +1048,7 @@ class ColorFamily:
             name = self._base.to_string("hex")
 
         if not name.startswith("$"):
-            name = f"${name}"
+            name = f"$clr-{name}"
 
         out_string = []
         out_string.append(f"{name}: {self._base.to_string('css')};")
@@ -1773,8 +1773,8 @@ class ColorScheme:
                 raise ValueError(
                     f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}"
                 )
-            out_string += [f"${name}: ${t}{i+1};"] + [
-                f"${name}-{j+1}: ${t}{i+1}-{j+1};" for j in range(5)
+            out_string += [f"$clr-{name}: $clr-{t}{i+1};"] + [
+                f"$clr-{name}-{j+1}: $clr-{t}{i+1}-{j+1};" for j in range(5)
             ]
 
         for c, name in zip(
@@ -1786,8 +1786,8 @@ class ColorScheme:
                 raise ValueError(
                     f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}"
                 )
-            out_string += [f"${name}: ${t}{i+1};"] + [
-                f"${name}-{j+1}: ${t}{i+1}-{j+1};" for j in range(5)
+            out_string += [f"$clr-{name}: $clr-{t}{i+1};"] + [
+                f"$clr-{name}-{j+1}: $clr-{t}{i+1}-{j+1};" for j in range(5)
             ]
 
         return "\n".join(out_string)
