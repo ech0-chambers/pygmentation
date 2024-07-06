@@ -3,3 +3,5 @@ tmp.py
 nord.css
 **/__pycache__/
 nord.js
+**/*.egg-info/
+src/build/

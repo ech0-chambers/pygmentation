@@ -1,3 +1,4 @@
+from typing import List
 from .color_scheme import ColorScheme, Color, ColorFamily, SchemeType, EnumEx
 import json
 from pathlib import Path
@@ -505,3 +506,106 @@ def show_scheme_wide(scheme=None, name=None, save=False, filepath=None, show_cod
             filepath = Path(f"{name}.svg".replace(" ", "_"))
 
         console.save_svg(filepath)
+
+
+from rich.console import Console
+from rich.prompt import IntPrompt
+import difflib
+import re
+
+
+def handle_unknown_scheme(scheme_name: str) -> str:
+    console = Console()
+    similar = difflib.get_close_matches(scheme_name, get_available_schemes())
+    if len(similar) == 0:
+        console.print(f"Unknown scheme: {scheme_name}. I could not find any similar schemes.")
+        quit(1)
+
+    similar.append("None of the above (quit)")
+    index = multiple_choice_prompt(f"Unknown scheme: {scheme_name}. Did you mean:", similar)
+    if index == len(similar):
+        quit(1)
+    return similar[index - 1]
+
+def multiple_choice_prompt(prompt: str, choices: List[str], default: int = 1) -> str:
+    console = Console()
+    console.print(prompt)
+    for i, choice in enumerate(choices):
+        console.print(f" [bold]{i+1: >2d}[/bold]. {choice}" + (" [dim](default)[/dim]" if i == default - 1 else ""))
+    response = IntPrompt.ask(f"Choose 1 to {len(choices)}", default = default)
+    return response
+
+
+def show(scheme_name: str, variant: str) -> None:
+    if variant in ["light", "both"]:
+        set_scheme(scheme_name)
+        show_scheme(name = f"{scheme_name} (light)")
+    if variant in ["dark", "both"]:
+        set_scheme(scheme_name, "dark")
+        show_scheme(name = f"{scheme_name} (dark)")
+
+def save(filename: str, scheme_name: str, variant: str) -> None:
+    filepath = Path(filename)
+    if filepath.suffix != ".svg":
+        raise ValueError("Filename must have .svg extension")
+    if variant == "both":
+        light_filepath = filepath.with_name(filepath.stem + "_light.svg")
+        dark_filepath = filepath.with_name(filepath.stem + "_dark.svg")
+        set_scheme(scheme_name, "light")
+        show_scheme(name = f"{scheme_name} (light)", save = True, filepath = light_filepath)
+        set_scheme(scheme_name, "dark")
+        show_scheme(name = f"{scheme_name} (dark)", save = True, filepath = dark_filepath)
+    else:
+        set_scheme(scheme_name, variant)
+        show_scheme(name = f"{scheme_name} ({variant})", save = True, filepath = filepath)
+
+
+def write(filename: str, scheme_name: str, variant: str, filetype: str) -> None:
+    format_function_map = {
+        "latex": "to_latex",
+        "css": "to_css",
+        "tcss": "to_textual",
+        "js": "to_javascript"
+    }
+
+    filepath = Path(filename)
+    if variant == "both":
+        light_filepath = filepath.with_name(filepath.stem + "_light" + filepath.suffix)
+        dark_filepath = filepath.with_name(filepath.stem + "_dark" + filepath.suffix)
+        set_scheme(scheme_name, "light")
+        with open(light_filepath, "w") as f:
+            f.write(getattr(get_scheme(), format_function_map[filetype])())
+        set_scheme(scheme_name, "dark")
+        with open(dark_filepath, "w") as f:
+            f.write(getattr(get_scheme(), format_function_map[filetype])())
+        return
+    set_scheme(scheme_name, variant)
+    with open(filepath, "w") as f:
+        f.write(getattr(get_scheme(), format_function_map[filetype])())
+
+def list_schemes(names_only: bool, pattern: str, available: List[str], print_schemes: bool) -> List[str]:
+    matches = [s for s in available if re.fullmatch(pattern, s)]
+    if len(matches) == 0:
+        print(f"No schemes match pattern `{pattern}`")
+        quit(1)
+    if names_only:
+        if print_schemes:
+            for scheme in matches:
+                print(scheme)
+        return matches
+    if print_schemes:
+        from rich.table import Table
+        from rich.text import Text
+        from rich.style import Style
+        table = Table(show_lines = True)
+        table.add_column("Name", justify="center")
+        table.add_column("Sample", justify="center")
+        for scheme in matches:
+            set_scheme(scheme)
+            table.add_row(
+                Text(scheme, style = f"bold {get_scheme().foreground} on {get_scheme().background}"),
+                get_scheme().to_rich_swatch()
+            )
+        console = Console()
+        console.print(table)
+    return matches
