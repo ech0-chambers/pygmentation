@@ -1027,6 +1027,27 @@ class ColorFamily:
             out_string.append(f"--{name}-{i + 1}: {self.variants[i].to_string('css')};")
         return "\n".join(out_string)
 
+    def to_css_rgb(self, name: str = None):
+        if name is None:
+            name = self._name
+        if name is None:
+            name = self._base.to_string("hex")
+        if name.startswith("--"):
+            name = name[2:]
+        if (
+            not name.startswith("clr")
+            and not name.startswith("color")
+            and not name.startswith("colour")
+        ):
+            name = f"clr-{name}"
+        out_string = []
+        out_string.append(f"--{name}-rgb: {', '.join(map(str, self._base.rgb))};")
+        for i in range(5):
+            out_string.append(
+                f"--{name}-{i + 1}-rgb: {', '.join(map(str, self.variants[i].rgb))};"
+            )
+        return "\n".join(out_string)
+
     def to_javascript(self, name: str = None):
         if name is None:
             name = self._name
@@ -1703,11 +1724,15 @@ class ColorScheme:
         out_string = []
         out_string += [":root {"]
         out_string += self.foreground.to_css("foreground").splitlines()
+        out_string += self.foreground.to_css_rgb("foreground").splitlines()
         out_string += self.background.to_css("background").splitlines()
+        out_string += self.background.to_css_rgb("background").splitlines()
         for i, color in enumerate(self.accents):
             out_string += color.to_css(f"accent{i+1}").splitlines()
+            out_string += color.to_css_rgb(f"accent{i+1}").splitlines()
         for i, color in enumerate(self.surfaces):
             out_string += color.to_css(f"surface{i+1}").splitlines()
+            out_string += color.to_css_rgb(f"surface{i+1}").splitlines()
 
         for c, name in zip(
             [
@@ -1730,6 +1755,10 @@ class ColorScheme:
             out_string += [f"--clr-{name}: var(--clr-{t}{i+1});"] + [
                 f"--clr-{name}-{j+1}: var(--clr-{t}{i+1}-{j+1});" for j in range(5)
             ]
+            out_string += [f"--clr-{name}-rgb: var(--clr-{t}{i+1}-rgb);"] + [
+                f"--clr-{name}-{j+1}-rgb: var(--clr-{t}{i+1}-{j+1}-rgb);"
+                for j in range(5)
+            ]
 
         for c, name in zip(
             [self.info, self.success, self.warning, self.error],
@@ -1742,6 +1771,10 @@ class ColorScheme:
                 )
             out_string += [f"--clr-{name}: var(--clr-{t}{i+1});"] + [
                 f"--clr-{name}-{j+1}: var(--clr-{t}{i+1}-{j+1});" for j in range(5)
+            ]
+            out_string += [f"--clr-{name}-rgb: var(--clr-{t}{i+1}-rgb);"] + [
+                f"--clr-{name}-{j+1}-rgb: var(--clr-{t}{i+1}-{j+1}-rgb);"
+                for j in range(5)
             ]
         out_string += ["}"]
         return "\n".join(out_string)
