@@ -35,5 +35,5 @@ with open(post_file, "w") as f:
         svg_file = swatches_dir / f"{i}.svg"
         with open(svg_file, "w") as f2:
             f2.write(svg)
-        contents = contents.replace(m.group(0), f"![{background}](https://github.com/ech0-chambers/pygmentation/blob/main/.swatches/{i}.svg)")
+        contents = contents.replace(m.group(0), f"![{background}](https://raw.githubusercontent.com/ech0-chambers/pygmentation/blob/main/.swatches/{i}.svg)")
     f.write(contents)
