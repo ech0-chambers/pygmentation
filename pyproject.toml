@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygmentation"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
     {name = "Peter Brookes Chambers"}
 ]
@@ -17,5 +17,20 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+dependencies = [
+    "numpy",
+    "rich",
+]
+
 [project.urls]
 Homepage = "https://github.com/ech0-chambers/pygmentation"
+
+[project.scripts]
+pygmentation = "pygmentation.__main__:main"
+
+[tool.setuptools]
+packages = ["pygmentation"]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"pygmentation" = ["colour_schemes.json"]

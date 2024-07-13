@@ -75,8 +75,18 @@ def init(
     doc_type: str | DocType = "report",
     transparent: bool = False,
 ):
-    from cycler import cycler
-    import matplotlib.pyplot as plt
+    try:
+        from cycler import cycler
+    except ImportError:
+        raise ImportError(
+            "The 'cycler' package is required for this function. Please install it using 'pip install cycler'."
+        )
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError:
+        raise ImportError(
+            "The 'matplotlib' package is required for this function. Please install it using 'pip install matplotlib'. If you only wanted to use the colour scheme functionality, you can use the 'set_scheme' function instead."
+        )
 
     if isinstance(doc_type, str):
         doc_type = DocType[doc_type.upper()]

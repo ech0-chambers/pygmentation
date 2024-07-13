@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='pygmentation',
-    version='0.1',
+    version='0.1.1',
     packages=['pygmentation'],
     install_requires=[
         "numpy",
