@@ -386,7 +386,7 @@ class LAB(ColorModel):
                 return t**3
             return (t - 4 / 29) / 7.787
 
-        y = (self.l + 16) / 116
+        y = (self.L + 16) / 116
         x = self.a / 500 + y
         z = y - self.b / 200
         return XYZ((95.047 * f(x), 100 * f(y), 108.883 * f(z)))
@@ -416,6 +416,18 @@ class LAB(ColorModel):
     def from_full_rgb(cls, rgb: Tuple[float]):
         # rgb to lab, using xyz as an intermediate step
         return cls._from_xyz(XYZ.from_full_rgb(rgb))
+
+    @property
+    def L(self):
+        return self._a
+    
+    @property
+    def a(self):
+        return self._b
+    
+    @property
+    def b(self):
+        return self._c
 
 
 class Color:

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygmentation"
-version = "0.1.1"
+version = "0.1.3"
 authors = [
     {name = "Peter Brookes Chambers"}
 ]
@@ -33,4 +33,4 @@ packages = ["pygmentation"]
 package-dir = {"" = "src"}
 
 [tool.setuptools.package-data]
-"pygmentation" = ["colour_schemes.json"]
+pygmentation = ["color_schemes.json"]
