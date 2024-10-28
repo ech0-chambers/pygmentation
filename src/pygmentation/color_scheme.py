@@ -6,7 +6,7 @@ from io import StringIO
 # - Amend ColorFamily to have a default, which will normally be base unless base is too similar to the light or dark color, in which case it will be a lighter or darker variant.
 # - ColorScheme should take a dictionary instead of colors, foreground, background, etc. as separate arguments.
 
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 import math
 import numpy as np
 from abc import ABC, abstractmethod
@@ -655,7 +655,7 @@ class Color:
 
     @property
     def l_lab(self) -> int:
-        return self.lab.l
+        return self.lab.L
 
     @l_lab.setter
     def l_lab(self, value: int):
@@ -1090,6 +1090,99 @@ class ColorFamily:
         return "\n".join(out_string)
 
 
+    def to_less(self, name: Optional[str] = None):
+        if name is None:
+            name = self._name
+        if name is None:
+            name = self._base.to_string("hex")
+        
+        if not name.startswith("@"):
+            name = f"@clr-{name}"
+
+        out_string = []
+        out_string.append(f"{name}: {self._base.to_string('css')};")
+        for i in range(5):
+            out_string.append(f"{name}-{i + 1}: {self.variants[i].to_string('css')};")
+        return "\n".join(out_string)
+
+def clamp(val, min_val, max_val):
+    return max(min(val, max_val), min_val)
+
+
+def generate_auto_surfaces(foreground: ColorFamily, background: ColorFamily, scheme_type: SchemeType) -> List[ColorFamily]:
+    # dark_scheme = scheme_type == SchemeType.DARK
+    # dark = background if dark_scheme else foreground
+    # light = foreground if dark_scheme else background
+    # hue = background.h
+    # start_saturation = background.s
+    # end_saturation = clamp(background.s, 0.05, 0.2) if dark_scheme else clamp(background.s, 0.05, 0.5)
+    # start_lightness = clamp(dark.l * 0.5, 0, 0.1) if dark_scheme else clamp(light.l * 1.25, 0.75, 0.975)
+    # end_lightness = clamp(light.l * 0.5, min(dark.l * 1.25, 1), 0.5) if dark_scheme else clamp(dark.l / 1.25, max(light.l * 0.75, 0), 0.5)
+    # # create 6 colours with the same hue as the background, but with varying saturation and lightness
+    # sats = [start_saturation + (end_saturation - start_saturation) * i / 5 for i in range(6)]
+    # lights = [start_lightness + (end_lightness - start_lightness) * i / 5 for i in range(6)]
+    # # lights = [light ** (1/2) for light in lights]
+    # colors = []
+    # for s, l in zip(sats, lights):
+    #     try:
+    #         colors.append(ColorFamily(
+    #             Color.from_hsl((hue, s, l)), 
+    #             light = light,
+    #             dark = dark,
+    #             scheme_type=scheme_type
+    #         ))
+    #     except ValueError as e:
+    #         print(f"Error creating color family: {e}")
+    #         from rich.console import Console
+    #         console = Console()
+    #         console.print_exception(show_locals=True)
+    
+    # # sort by lightness
+    # colors.sort(key=lambda c: c.base.l, reverse=scheme_type == SchemeType.DARK)
+    # return colors
+    
+    # we should create 3 darker than background and 3 lighter than background. For a dark scheme:
+    # - the 3 darker should be between the background and black
+    # - the 3 lighter should be between the background and midpoint of background and foreground
+    # inverse for a light scheme
+
+    dark_scheme = scheme_type == SchemeType.DARK
+    base: Color = background
+    hue_prior = base.h
+    sat_prior = base.s
+    dark = Color("000000") if dark_scheme else base.move_to_color(foreground, 0.5)
+    light = base.move_to_color(foreground, 0.5) if dark_scheme else Color("FFFFFF")
+    hue_after = base.h
+    sat_after = base.s
+    if hue_prior != hue_after:
+        raise ValueError("Hue changed during color generation")
+    if sat_prior != sat_after:
+        raise ValueError("Saturation changed during color generation")
+    new_colors = []
+    # darker colors
+    light_sep = (base.l - dark.l) / (6 if dark_scheme else 4)
+    sat_sep = (base.s - dark.s) / (6 if dark_scheme else 4)
+    for i in range(1, 4):
+        new_colors.append(ColorFamily(
+            Color.from_hsl((base.h, base.s - sat_sep * i, base.l - light_sep * i)),
+            light=light,
+            dark=dark,
+            scheme_type=scheme_type
+        ))
+    # lighter colors
+    light_sep = (light.l - base.l) / (4 if dark_scheme else 6)
+    sat_sep = (light.s - base.s) / (4 if dark_scheme else 6)
+    for i in range(1, 4):
+        new_colors.append(ColorFamily(
+            Color.from_hsl((base.h, base.s + sat_sep * i, base.l + light_sep * i)),
+            light=light,
+            dark=dark,
+            scheme_type=scheme_type
+        ))
+    # sort by lightness
+    new_colors.sort(key=lambda c: c.base.l, reverse=scheme_type == SchemeType.DARK)
+    return new_colors
+
 class ColorScheme:
 
     similarity_vals = {"light": {"s": 1, "l": 0.37}, "dark": {"s": 0.67, "l": 0.5}}
@@ -1140,11 +1233,13 @@ class ColorScheme:
             self._background = None
             self._scheme_type = SchemeType.EMPTY
             self._surfaces = None
+            self._auto_surfaces = None
             return
 
         self._scheme_type = scheme_type
         self._accents = []
         self._surfaces = []
+        self._auto_surfaces=[]
 
         # verify that the scheme has a valid structure:
         if (
@@ -1295,46 +1390,48 @@ class ColorScheme:
 
         # TODO: set defaults for accents if the base is not appropriate
 
-        # If we have fewer than 5 surface colours, generate more.
-        if len(self.surfaces) <= 5:
-            new_base = Color.from_hsl(
-                (
-                    background.h,
-                    min(0.1, background.s),
-                    background.l,
-                )
-            )
-            new_base.lighten(0.1)
-            new_surface_light = Color(background.hex if background.l > foreground.l else foreground.hex)
-            new_surface_dark = Color(foreground.hex if background.l > foreground.l else background.hex)
-            new_surface_light.l = min(1, new_surface_light.l + 0.05)
-            new_surface_dark.l = max(0, new_surface_dark.l - 0.05)
-            new_surfaces = ColorFamily(
-                new_base, 
-                light = new_surface_light,
-                dark = new_surface_dark,
-                scheme_type = self._scheme_type, 
-                force_variants=True
-            )
+        # # ~~If we have fewer than 5 surface colours, generate more.~~
+        # ~~if len(self.surfaces) <= 5:~~
+        # always generate new surfaces and save them in auto_surfaces
+        # new_base = Color.from_hsl(
+        #     (
+        #         background.h,
+        #         min(0.1, background.s),
+        #         background.l,
+        #     )
+        # )
+        # new_base.lighten(0.1)
+        # new_surface_light = Color(background.hex if background.l > foreground.l else foreground.hex)
+        # new_surface_dark = Color(foreground.hex if background.l > foreground.l else background.hex)
+        # new_surface_light.l = min(1, new_surface_light.l + 0.05)
+        # new_surface_dark.l = max(0, new_surface_dark.l - 0.05)
+        # new_surfaces = ColorFamily(
+        #     new_base, 
+        #     light = new_surface_light,
+        #     dark = new_surface_dark,
+        #     scheme_type = self._scheme_type, 
+        #     force_variants=True
+        # )
 
-            for i in range(0, 6):
-                if new_surfaces[i].h == 0 or new_surfaces[i].h == 360:
-                    new_surfaces[i].h = new_base.h
-            self._surfaces.extend(
-                [
-                    ColorFamily(
-                        new_surfaces[i],
-                        light = foreground,
-                        dark = background,
-                        scheme_type = self._scheme_type
-                    )
-                    for i in range(0, 6)
-                ]
-            )
-            # sort the surfaces again
-            self._surfaces.sort(
-                key=lambda c: c.base.l, reverse=self._scheme_type == SchemeType.DARK
-            )
+        # for i in range(0, 6):
+        #     if new_surfaces[i].h == 0 or new_surfaces[i].h == 360:
+        #         new_surfaces[i].h = new_base.h
+        # self._auto_surfaces.extend(
+        #     [
+        #         ColorFamily(
+        #             new_surfaces[i],
+        #             light = foreground,
+        #             dark = background,
+        #             scheme_type = self._scheme_type
+        #         )
+        #         for i in range(0, 6)
+        #     ]
+        # )
+        # self._auto_surfaces.sort(
+        #     key=lambda c: c.base.l, reverse=self._scheme_type == SchemeType.DARK
+        # )
+
+        self._auto_surfaces = generate_auto_surfaces(foreground, background, self._scheme_type)
 
         self._foreground = ColorFamily(
             foreground, foreground, background, self._scheme_type
@@ -1350,6 +1447,10 @@ class ColorScheme:
     @property
     def surfaces(self):
         return self._surfaces
+
+    @property
+    def auto_surfaces(self):
+        return self._auto_surfaces
 
     @property
     def foreground(self):
@@ -1685,6 +1786,8 @@ class ColorScheme:
             out_string += color.to_latex(f"Accent{i+1}").splitlines()
         for i, color in enumerate(self.surfaces):
             out_string += color.to_latex(f"Surface{i+1}").splitlines()
+        for i, color in enumerate(self.auto_surfaces):
+            out_string += color.to_latex(f"AutoSurface{i+1}").splitlines()
 
         for c, name in zip(
             [
@@ -1745,6 +1848,9 @@ class ColorScheme:
         for i, color in enumerate(self.surfaces):
             out_string += color.to_css(f"surface{i+1}").splitlines()
             out_string += color.to_css_rgb(f"surface{i+1}").splitlines()
+        for i, color in enumerate(self.auto_surfaces):
+            out_string += color.to_css(f"auto-surface{i+1}").splitlines()
+            out_string += color.to_css_rgb(f"auto-surface{i+1}").splitlines()
 
         for c, name in zip(
             [
@@ -1799,6 +1905,8 @@ class ColorScheme:
             out_string += color.to_textual(f"accent{i+1}").splitlines()
         for i, color in enumerate(self.surfaces):
             out_string += color.to_textual(f"surface{i+1}").splitlines()
+        for i, color in enumerate(self.auto_surfaces):
+            out_string += color.to_textual(f"auto-surface{i+1}").splitlines()
         
         for c, name in zip(
             [
@@ -1837,7 +1945,52 @@ class ColorScheme:
 
         return "\n".join(out_string)
         
+    def to_less(self) -> str:
+        out_string = []
+        out_string += self.foreground.to_less("foreground").splitlines()
+        out_string += self.background.to_less("background").splitlines()
+        for i, color in enumerate(self.accents):
+            out_string += color.to_less(f"accent{i+1}").splitlines()
+        for i, color in enumerate(self.surfaces):
+            out_string += color.to_less(f"surface{i+1}").splitlines()
+        for i, color in enumerate(self.auto_surfaces):
+            out_string += color.to_less(f"auto-surface{i+1}").splitlines()
+        for c, name in zip(
+            [
+                self.red,
+                self.orange,
+                self.yellow,
+                self.green,
+                self.cyan,
+                self.blue,
+                self.purple,
+                self.magenta,
+            ],
+            ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "magenta"],
+        ):
+            i, t = self._get_internal_color_index(c, css=True)
+            if i is None:
+                raise ValueError(
+                    f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}"
+                )
+            out_string += [f"@clr-{name}: @clr-{t}{i+1};"] + [
+                f"@clr-{name}-{j+1}: @clr-{t}{i+1}-{j+1};" for j in range(5)
+            ]
 
+        for c, name in zip(
+            [self.info, self.success, self.warning, self.error],
+            ["info", "success", "warning", "error"],
+        ):
+            i, t = self._get_internal_color_index(c, css=True)
+            if i is None:
+                raise ValueError(
+                    f"Could not find color {c} in color scheme, even though it currently exists as self.{name.lower()}"
+                )
+            out_string += [f"@clr-{name}: @clr-{t}{i+1};"] + [
+                f"@clr-{name}-{j+1}: @clr-{t}{i+1}-{j+1};" for j in range(5)
+            ]
+
+        return "\n".join(out_string)
 
     def to_javascript(self):
         # return the scheme as a json object

@@ -170,29 +170,39 @@ def init(
         "font.serif": "Computer Modern Roman",
         "text.color": Scheme.foreground.css,
         "font.size": 12 if doc_type == DocType.REPORT else 16,
-        "figure.facecolor": Scheme.background.base.css
-        if doc_type == DocType.PRESENTATION and not transparent
-        else "none",
+        "figure.facecolor": (
+            Scheme.background.base.css
+            if doc_type == DocType.PRESENTATION and not transparent
+            else "none"
+        ),
         "axes.facecolor": Scheme.background.base.css if not transparent else "none",
         "legend.facecolor": Scheme.background._5.css,
         "legend.edgecolor": Scheme.foreground.css,
         "legend.framealpha": 0.5,
         "legend.fancybox": True,
         "axes.prop_cycle": color_cycler,
-        "axes.edgecolor": Scheme.foreground.css
-        if doc_type == DocType.REPORT
-        else Scheme.distinct[0].css,
-        "axes.labelcolor": Scheme.foreground.css
-        if doc_type == DocType.REPORT
-        else Scheme.distinct[0].css,
+        "axes.edgecolor": (
+            Scheme.foreground.css
+            if doc_type == DocType.REPORT
+            else Scheme.distinct[0].css
+        ),
+        "axes.labelcolor": (
+            Scheme.foreground.css
+            if doc_type == DocType.REPORT
+            else Scheme.distinct[0].css
+        ),
         "axes.spines.top": True if doc_type == DocType.REPORT else False,
         "axes.spines.right": True if doc_type == DocType.REPORT else False,
-        "xtick.color": Scheme.foreground.css
-        if doc_type == DocType.REPORT
-        else Scheme.distinct[0].css,
-        "ytick.color": Scheme.foreground.css
-        if doc_type == DocType.REPORT
-        else Scheme.distinct[0].css,
+        "xtick.color": (
+            Scheme.foreground.css
+            if doc_type == DocType.REPORT
+            else Scheme.distinct[0].css
+        ),
+        "ytick.color": (
+            Scheme.foreground.css
+            if doc_type == DocType.REPORT
+            else Scheme.distinct[0].css
+        ),
         "figure.figsize": (6.4, 4.8) if doc_type == DocType.REPORT else (8, 4.5),
         "figure.dpi": 300,
         # "figure.constrained_layout.use": True,
@@ -263,7 +273,18 @@ def square(col, variant=None):
     return Text("█████\n█████", style=Style(color=RichColor.from_rgb(*c)))
 
 
-def show_scheme(scheme=None, name=None, save=False, filepath=None, show_codes = False):
+show_code_map = {
+    "hex": lambda c: c.hex,
+    "rgb": lambda c: f"{c.r:.0f}, {c.g:.0f}, {c.b:.0f}",
+    "hsl": lambda c: f"{c.h:.0f}, {c.s * 100:.0f}%, {c.l * 100:.0f}%",
+    "hsv": lambda c: f"{c.h_hsv:.0f}, {c.s_hsv * 100:.0f}%, {c.v * 100:.0f}%",
+    "Lab": lambda c: f"{c.l_lab:.0f}, {c.a:.0f}, {c.b:.0f}",
+}
+
+
+def show_scheme(
+    scheme=None, name=None, save=False, filepath=None, show_codes=False, code_type="hex"
+):
     from rich.panel import Panel
     from rich.table import Table
     from rich.text import Text
@@ -278,8 +299,8 @@ def show_scheme(scheme=None, name=None, save=False, filepath=None, show_codes = 
         scheme = Scheme
     console = Console(record=save)
     width = console.size.width
-    if width >= 112:
-        show_scheme_wide(scheme, name, save, filepath)
+    if width >= 112 and not (show_codes and code_type != "hex"):
+        show_scheme_wide(scheme, name, save, filepath, show_codes, code_type)
         return
 
     def add_row(name, colour, alias=None):
@@ -303,15 +324,21 @@ def show_scheme(scheme=None, name=None, save=False, filepath=None, show_codes = 
             square(colour, 5),
         )
         if show_codes:
+            # table.add_row(
+            #     col1,
+            #     colour.base.hex,
+            #     "  ",
+            #     colour[1].hex,
+            #     colour[2].hex,
+            #     colour[3].hex,
+            #     colour[4].hex,
+            #     colour[5].hex,
+            # )
             table.add_row(
                 col1,
-                colour.base.hex,
+                show_code_map[code_type](colour.base),
                 "  ",
-                colour[1].hex,
-                colour[2].hex,
-                colour[3].hex,
-                colour[4].hex,
-                colour[5].hex,
+                *[show_code_map[code_type](colour[i]) for i in range(1, 6)],
             )
 
     def add_empty_row():
@@ -337,6 +364,9 @@ def show_scheme(scheme=None, name=None, save=False, filepath=None, show_codes = 
         add_empty_row()
         for i, col in enumerate(scheme.surfaces):
             add_row(f"Surface {i+1}", col)
+    add_empty_row()
+    for i, col in enumerate(scheme.auto_surfaces):
+        add_row(f"Auto\nSurface {i+1}", col)
 
     panel = Panel.fit(
         table,
@@ -354,7 +384,9 @@ def show_scheme(scheme=None, name=None, save=False, filepath=None, show_codes = 
         console.save_svg(filepath)
 
 
-def show_scheme_wide(scheme=None, name=None, save=False, filepath=None, show_codes = False):
+def show_scheme_wide(
+    scheme=None, name=None, save=False, filepath=None, show_codes=False, code_type="hex"
+):
     from rich.panel import Panel
     from rich.table import Table
     from rich.text import Text
@@ -416,26 +448,37 @@ def show_scheme_wide(scheme=None, name=None, save=False, filepath=None, show_cod
             square(right["colour"], 4),
             square(right["colour"], 5),
         )
-    if show_codes:
-        table.add_row(
-            "",
-            left["colour"].base.hex,
-            "  ",
-            left["colour"][1].hex,
-            left["colour"][2].hex,
-            left["colour"][3].hex,
-            left["colour"][4].hex,
-            left["colour"][5].hex,
-            "  ",
-            "",
-            right["colour"].base.hex,
-            "  ",
-            right["colour"][1].hex,
-            right["colour"][2].hex,
-            right["colour"][3].hex,
-            right["colour"][4].hex,
-            right["colour"][5].hex,
-        )
+        if show_codes:
+            # table.add_row(
+            #     "",
+            #     left["colour"].base.hex,
+            #     "  ",
+            #     left["colour"][1].hex,
+            #     left["colour"][2].hex,
+            #     left["colour"][3].hex,
+            #     left["colour"][4].hex,
+            #     left["colour"][5].hex,
+            #     "  ",
+            #     "",
+            #     right["colour"].base.hex,
+            #     "  ",
+            #     right["colour"][1].hex,
+            #     right["colour"][2].hex,
+            #     right["colour"][3].hex,
+            #     right["colour"][4].hex,
+            #     right["colour"][5].hex,
+            # )
+            table.add_row(
+                "",
+                show_code_map[code_type](left["colour"].base),
+                "  ",
+                *[show_code_map[code_type](left["colour"][i]) for i in range(1, 6)],
+                "  ",
+                "",
+                show_code_map[code_type](right["colour"].base),
+                "  ",
+                *[show_code_map[code_type](right["colour"][i]) for i in range(1, 6)],
+            )
 
     def add_empty_row():
         table.add_row(*["" for i in range(17)])
@@ -500,6 +543,23 @@ def show_scheme_wide(scheme=None, name=None, save=False, filepath=None, show_cod
                 right = None
             add_row(left, right)
 
+    add_empty_row()
+    for i in range(0, len(scheme.auto_surfaces), 2):
+        left = {
+            "name": f"Auto\nSurface {i+1}",
+            "colour": scheme.auto_surfaces[i],
+            "alias": None,
+        }
+        if i + 1 < len(scheme.auto_surfaces):
+            right = {
+                "name": f"Auto\nSurface {i+2}",
+                "colour": scheme.auto_surfaces[i + 1],
+                "alias": None,
+            }
+        else:
+            right = None
+        add_row(left, right)
+
     console = Console(record=save)
     panel = Panel.fit(
         table,
@@ -528,31 +588,40 @@ def handle_unknown_scheme(scheme_name: str) -> str:
     console = Console()
     similar = difflib.get_close_matches(scheme_name, get_available_schemes())
     if len(similar) == 0:
-        console.print(f"Unknown scheme: {scheme_name}. I could not find any similar schemes.")
+        console.print(
+            f"Unknown scheme: {scheme_name}. I could not find any similar schemes."
+        )
         quit(1)
 
     similar.append("None of the above (quit)")
-    index = multiple_choice_prompt(f"Unknown scheme: {scheme_name}. Did you mean:", similar)
+    index = multiple_choice_prompt(
+        f"Unknown scheme: {scheme_name}. Did you mean:", similar
+    )
     if index == len(similar):
         quit(1)
     return similar[index - 1]
+
 
 def multiple_choice_prompt(prompt: str, choices: List[str], default: int = 1) -> str:
     console = Console()
     console.print(prompt)
     for i, choice in enumerate(choices):
-        console.print(f" [bold]{i+1: >2d}[/bold]. {choice}" + (" [dim](default)[/dim]" if i == default - 1 else ""))
-    response = IntPrompt.ask(f"Choose 1 to {len(choices)}", default = default)
+        console.print(
+            f" [bold]{i+1: >2d}[/bold]. {choice}"
+            + (" [dim](default)[/dim]" if i == default - 1 else "")
+        )
+    response = IntPrompt.ask(f"Choose 1 to {len(choices)}", default=default)
     return response
 
 
-def show(scheme_name: str, variant: str) -> None:
+def show(scheme_name: str, variant: str, show_codes: bool = False, code_type: str = "hex") -> None:
     if variant in ["light", "both"]:
         set_scheme(scheme_name)
-        show_scheme(name = f"{scheme_name} (light)")
+        show_scheme(name=f"{scheme_name} (light)", show_codes = show_codes, code_type = code_type)
     if variant in ["dark", "both"]:
         set_scheme(scheme_name, "dark")
-        show_scheme(name = f"{scheme_name} (dark)")
+        show_scheme(name=f"{scheme_name} (dark)", show_codes = show_codes, code_type = code_type)
+
 
 def save(filename: str, scheme_name: str, variant: str) -> None:
     filepath = Path(filename)
@@ -562,12 +631,12 @@ def save(filename: str, scheme_name: str, variant: str) -> None:
         light_filepath = filepath.with_name(filepath.stem + "_light.svg")
         dark_filepath = filepath.with_name(filepath.stem + "_dark.svg")
         set_scheme(scheme_name, "light")
-        show_scheme(name = f"{scheme_name} (light)", save = True, filepath = light_filepath)
+        show_scheme(name=f"{scheme_name} (light)", save=True, filepath=light_filepath)
         set_scheme(scheme_name, "dark")
-        show_scheme(name = f"{scheme_name} (dark)", save = True, filepath = dark_filepath)
+        show_scheme(name=f"{scheme_name} (dark)", save=True, filepath=dark_filepath)
     else:
         set_scheme(scheme_name, variant)
-        show_scheme(name = f"{scheme_name} ({variant})", save = True, filepath = filepath)
+        show_scheme(name=f"{scheme_name} ({variant})", save=True, filepath=filepath)
 
 
 def write(filename: str, scheme_name: str, variant: str, filetype: str) -> None:
@@ -575,7 +644,8 @@ def write(filename: str, scheme_name: str, variant: str, filetype: str) -> None:
         "latex": "to_latex",
         "css": "to_css",
         "tcss": "to_textual",
-        "js": "to_javascript"
+        "less": "to_less",
+        "js": "to_javascript",
     }
 
     filepath = Path(filename)
@@ -593,7 +663,14 @@ def write(filename: str, scheme_name: str, variant: str, filetype: str) -> None:
     with open(filepath, "w") as f:
         f.write(getattr(get_scheme(), format_function_map[filetype])())
 
-def list_schemes(names_only: bool, pattern: str, available: List[str], print_schemes: bool) -> List[str]:
+
+def list_schemes(
+    names_only: bool,
+    pattern: str,
+    available: List[str],
+    print_schemes: bool,
+    dark: bool = False,
+) -> List[str]:
     matches = [s for s in available if re.fullmatch(pattern, s)]
     if len(matches) == 0:
         print(f"No schemes match pattern `{pattern}`")
@@ -607,14 +684,18 @@ def list_schemes(names_only: bool, pattern: str, available: List[str], print_sch
         from rich.table import Table
         from rich.text import Text
         from rich.style import Style
-        table = Table(show_lines = True)
+
+        table = Table(show_lines=True)
         table.add_column("Name", justify="center")
         table.add_column("Sample", justify="center")
         for scheme in matches:
-            set_scheme(scheme)
+            set_scheme(scheme, "dark" if dark else "light")
             table.add_row(
-                Text(scheme, style = f"bold {get_scheme().foreground} on {get_scheme().background}"),
-                get_scheme().to_rich_swatch()
+                Text(
+                    scheme,
+                    style=f"bold {get_scheme().foreground} on {get_scheme().background}",
+                ),
+                get_scheme().to_rich_swatch(),
             )
         console = Console()
         console.print(table)
