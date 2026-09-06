@@ -23,6 +23,10 @@ schemes_json = Path(__file__).parent / "color_schemes.json"
 with open(schemes_json, "r") as f:
     all_schemes = json.load(f)
 
+user_schemes = Path("~/.config/pygmentation/color_schemes.json").expanduser()
+if user_schemes.exists():
+    with open(user_schemes, "r") as f:
+        all_schemes.update(json.load(f))
 
 def get_available_schemes():
     # returns a list of the names of all available schemes
@@ -246,6 +250,7 @@ def _reset_color():
 
 
 def _get_preset(scheme, color):
+    aliases = []
     for p in [
         "red",
         "orange",
@@ -257,7 +262,9 @@ def _get_preset(scheme, color):
         "magenta",
     ]:
         if eval(f"scheme.{p}.base") == color.base:
-            return p
+            aliases.append(p)
+    if aliases:
+        return aliases
     return None
 
 
@@ -309,10 +316,13 @@ def show_scheme(
             style=Style(color=RichColor.from_rgb(*scheme.foreground.base.rgb)),
         )
         if alias is not None:
-            col1.append(
-                f"({alias.capitalize()})",
-                style=Style(color=RichColor.from_rgb(*scheme.accents[0].base.rgb)),
-            )
+            if not isinstance(alias, (list, tuple)):
+                alias = [alias]
+            for a in alias:
+                col1.append(
+                    f"({a.capitalize()})",
+                    style=Style(color=RichColor.from_rgb(*scheme.accents[0].base.rgb)),
+                )
         table.add_row(
             col1,
             square(colour),
@@ -403,7 +413,10 @@ def show_scheme_wide(
     def add_row(left, right=None):
         l_name = Text().append(f'{left["name"]}:\n', style=foreground_style)
         if left["alias"] is not None:
-            l_name.append(f"({left['alias'].capitalize()})", style=accent_style)
+            if not isinstance(left["alias"], (list, tuple)):
+                left["alias"] = [left["alias"]]
+            for a in left["alias"]:
+                l_name.append(f"({a.capitalize()})", style=accent_style)
         if right is None:
             table.add_row(
                 l_name,
@@ -427,7 +440,10 @@ def show_scheme_wide(
             return
         r_name = Text().append(f'{right["name"]}:\n', style=foreground_style)
         if right["alias"] is not None:
-            r_name.append(f"({right['alias'].capitalize()})", style=accent_style)
+            if not isinstance(right["alias"], (list, tuple)):
+                right["alias"] = [right["alias"]]
+            for a in right["alias"]:
+                r_name.append(f"({a.capitalize()})", style=accent_style)
 
         table.add_row(
             l_name,

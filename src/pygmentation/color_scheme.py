@@ -1,5 +1,6 @@
 from __future__ import annotations
 from io import StringIO
+from collections import Counter
 
 # ToDo:
 # - Allow for colour dict to specify separate accent or surface colours, as well as specific colours to use as red, orange, etc. (without adding duplicate colours)
@@ -420,11 +421,11 @@ class LAB(ColorModel):
     @property
     def L(self):
         return self._a
-    
+
     @property
     def a(self):
         return self._b
-    
+
     @property
     def b(self):
         return self._c
@@ -713,21 +714,37 @@ class Color:
         # Return the signed difference in hue between self and other, in degrees, accounting for wrapping at 360
         return (other.hsl.h - self.hsl.h + 180) % 360 - 180
 
+    # def move_to_color(self, other, amount: float, in_place: bool = False):
+    #     # Move self towards other by amount, in place or not, in hsl space
+    #     if amount > 1:
+    #         amount /= 100
+    #     if amount == 0:
+    #         return self
+    #     if amount == 1:
+    #         return other
+    #     new_h = self.hsl.h + self.hue_diff(other) * amount
+    #     new_s = self.hsl.s + (other.hsl.s - self.hsl.s) * amount
+    #     new_l = self.hsl.l + (other.hsl.l - self.hsl.l) * amount
+    #     if in_place:
+    #         self.hsl = HSL(new_h, new_s, new_l)
+    #     else:
+    #         return Color(HSL(new_h, new_s, new_l).convert_to("hex"))
+        
     def move_to_color(self, other, amount: float, in_place: bool = False):
-        # Move self towards other by amount, in place or not, in hsl space
+        # Move self towards other by amount, in place or not, in L*ab space
         if amount > 1:
             amount /= 100
         if amount == 0:
             return self
         if amount == 1:
             return other
-        new_h = self.hsl.h + self.hue_diff(other) * amount
-        new_s = self.hsl.s + (other.hsl.s - self.hsl.s) * amount
-        new_l = self.hsl.l + (other.hsl.l - self.hsl.l) * amount
+        new_L = self.lab.L + (other.lab.L - self.lab.L) * amount
+        new_a = self.lab.a + (other.lab.a - self.lab.a) * amount
+        new_b = self.lab.b + (other.lab.b - self.lab.b) * amount
         if in_place:
-            self.hsl = HSL(new_h, new_s, new_l)
+            self.lab = LAB(new_L, new_a, new_b)
         else:
-            return Color(HSL(new_h, new_s, new_l).convert_to("hex"))
+            return Color(LAB(new_L, new_a, new_b).convert_to("hex"))
 
     def __str__(self):
         return self.to_string(format="css")
@@ -844,6 +861,7 @@ class ColorFamily:
         dark: Color | str = None,
         scheme_type: SchemeType | str = SchemeType.LIGHT,
         force_variants: bool = False,
+        is_main: bool = False,  # Should be True for the foreground and background colours. Will use 50% lightness for the extreme.
         name=None,
     ):
         if isinstance(base, str):
@@ -896,16 +914,28 @@ class ColorFamily:
 
         if self._scheme_type == SchemeType.LIGHT:
             if too_light:
-                amounts = [-0.9, -0.75, -0.5, -0.25, -0.1]
+                if is_main:
+                    amounts = [-0.5, -0.25, -0.15, -0.1, -0.05]
+                else:
+                    amounts = [-0.9, -0.75, -0.5, -0.25, -0.1]
             elif too_dark:
-                amounts = [0.1, 0.25, 0.5, 0.75, 0.9]
+                if is_main:
+                    amounts = [0.05, 0.1, 0.15, 0.25, 0.5]
+                else:
+                    amounts = [0.1, 0.25, 0.5, 0.75, 0.9]
             else:
                 amounts = [-0.5, -0.25, 0.4, 0.6, 0.8]
         elif self._scheme_type == SchemeType.DARK:
             if too_light:
-                amounts = [-0.1, -0.25, -0.5, -0.75, -0.9]
+                if is_main:
+                    amounts = [-0.05, -0.1, -0.15, -0.25, -0.5]
+                else:
+                    amounts = [-0.1, -0.25, -0.5, -0.75, -0.9]
             elif too_dark:
-                amounts = [0.9, 0.75, 0.5, 0.25, 0.1]
+                if is_main:
+                    amounts = [0.5, 0.25, 0.15, 0.1, 0.05]
+                else:
+                    amounts = [0.9, 0.75, 0.5, 0.25, 0.1]
             else:
                 amounts = [0.5, 0.25, -0.4, -0.6, -0.8]
         else:
@@ -1073,7 +1103,7 @@ class ColorFamily:
             out_string.write(f"  {i + 1}: '{self.variants[i].to_string('css')}',\n")
         out_string.write("}")
         return out_string.getvalue()
-    
+
     def to_textual(self, name: str = None):
         if name is None:
             name = self._name
@@ -1089,13 +1119,12 @@ class ColorFamily:
             out_string.append(f"{name}-{i + 1}: {self.variants[i].to_string('css')};")
         return "\n".join(out_string)
 
-
     def to_less(self, name: Optional[str] = None):
         if name is None:
             name = self._name
         if name is None:
             name = self._base.to_string("hex")
-        
+
         if not name.startswith("@"):
             name = f"@clr-{name}"
 
@@ -1105,11 +1134,14 @@ class ColorFamily:
             out_string.append(f"{name}-{i + 1}: {self.variants[i].to_string('css')};")
         return "\n".join(out_string)
 
+
 def clamp(val, min_val, max_val):
     return max(min(val, max_val), min_val)
 
 
-def generate_auto_surfaces(foreground: ColorFamily, background: ColorFamily, scheme_type: SchemeType) -> List[ColorFamily]:
+def generate_auto_surfaces(
+    foreground: ColorFamily, background: ColorFamily, scheme_type: SchemeType
+) -> List[ColorFamily]:
     # dark_scheme = scheme_type == SchemeType.DARK
     # dark = background if dark_scheme else foreground
     # light = foreground if dark_scheme else background
@@ -1126,7 +1158,7 @@ def generate_auto_surfaces(foreground: ColorFamily, background: ColorFamily, sch
     # for s, l in zip(sats, lights):
     #     try:
     #         colors.append(ColorFamily(
-    #             Color.from_hsl((hue, s, l)), 
+    #             Color.from_hsl((hue, s, l)),
     #             light = light,
     #             dark = dark,
     #             scheme_type=scheme_type
@@ -1136,11 +1168,11 @@ def generate_auto_surfaces(foreground: ColorFamily, background: ColorFamily, sch
     #         from rich.console import Console
     #         console = Console()
     #         console.print_exception(show_locals=True)
-    
+
     # # sort by lightness
     # colors.sort(key=lambda c: c.base.l, reverse=scheme_type == SchemeType.DARK)
     # return colors
-    
+
     # we should create 3 darker than background and 3 lighter than background. For a dark scheme:
     # - the 3 darker should be between the background and black
     # - the 3 lighter should be between the background and midpoint of background and foreground
@@ -1163,25 +1195,30 @@ def generate_auto_surfaces(foreground: ColorFamily, background: ColorFamily, sch
     light_sep = (base.l - dark.l) / (6 if dark_scheme else 4)
     sat_sep = (base.s - dark.s) / (6 if dark_scheme else 4)
     for i in range(1, 4):
-        new_colors.append(ColorFamily(
-            Color.from_hsl((base.h, base.s - sat_sep * i, base.l - light_sep * i)),
-            light=light,
-            dark=dark,
-            scheme_type=scheme_type
-        ))
+        new_colors.append(
+            ColorFamily(
+                Color.from_hsl((base.h, base.s - sat_sep * i, base.l - light_sep * i)),
+                light=light,
+                dark=dark,
+                scheme_type=scheme_type,
+            )
+        )
     # lighter colors
     light_sep = (light.l - base.l) / (4 if dark_scheme else 6)
     sat_sep = (light.s - base.s) / (4 if dark_scheme else 6)
     for i in range(1, 4):
-        new_colors.append(ColorFamily(
-            Color.from_hsl((base.h, base.s + sat_sep * i, base.l + light_sep * i)),
-            light=light,
-            dark=dark,
-            scheme_type=scheme_type
-        ))
+        new_colors.append(
+            ColorFamily(
+                Color.from_hsl((base.h, base.s + sat_sep * i, base.l + light_sep * i)),
+                light=light,
+                dark=dark,
+                scheme_type=scheme_type,
+            )
+        )
     # sort by lightness
     new_colors.sort(key=lambda c: c.base.l, reverse=scheme_type == SchemeType.DARK)
     return new_colors
+
 
 class ColorScheme:
 
@@ -1239,7 +1276,7 @@ class ColorScheme:
         self._scheme_type = scheme_type
         self._accents = []
         self._surfaces = []
-        self._auto_surfaces=[]
+        self._auto_surfaces = []
 
         # verify that the scheme has a valid structure:
         if (
@@ -1406,10 +1443,10 @@ class ColorScheme:
         # new_surface_light.l = min(1, new_surface_light.l + 0.05)
         # new_surface_dark.l = max(0, new_surface_dark.l - 0.05)
         # new_surfaces = ColorFamily(
-        #     new_base, 
+        #     new_base,
         #     light = new_surface_light,
         #     dark = new_surface_dark,
-        #     scheme_type = self._scheme_type, 
+        #     scheme_type = self._scheme_type,
         #     force_variants=True
         # )
 
@@ -1431,13 +1468,15 @@ class ColorScheme:
         #     key=lambda c: c.base.l, reverse=self._scheme_type == SchemeType.DARK
         # )
 
-        self._auto_surfaces = generate_auto_surfaces(foreground, background, self._scheme_type)
+        self._auto_surfaces = generate_auto_surfaces(
+            foreground, background, self._scheme_type
+        )
 
         self._foreground = ColorFamily(
-            foreground, foreground, background, self._scheme_type
+            foreground, foreground, background, self._scheme_type, is_main=True
         )
         self._background = ColorFamily(
-            background, foreground, background, self._scheme_type
+            background, foreground, background, self._scheme_type, is_main=True
         )
 
     @property
@@ -1526,153 +1565,199 @@ class ColorScheme:
     @property
     def red(self):
         if "red" not in self._presets:
-            self._presets["red"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        0,
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            # self._presets["red"] = self.get_closest_color(
+            #     Color.from_hsl(
+            #         (
+            #             0,
+            #             ColorScheme.similarity_vals[self._scheme_type.name.lower()][
+            #                 "s"
+            #             ],
+            #             ColorScheme.similarity_vals[self._scheme_type.name.lower()][
+            #                 "l"
+            #             ],
+            #         )
+            #     ),
+            #     accents_only=True,
+            # )
+            cols = [
+                self.get_closest_color(Color.from_hsl((0, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((0, 50, 50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["red"] = col
+
         return self._presets["red"]
 
     @property
     def orange(self):
         if "orange" not in self._presets:
-            self._presets["orange"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        30,
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            cols = [
+                self.get_closest_color(Color.from_hsl((30, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((30, 0.50, 0.50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["orange"] = col
+
         return self._presets["orange"]
 
     @property
     def yellow(self):
         if "yellow" not in self._presets:
-            self._presets["yellow"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        50,
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            cols = [
+                self.get_closest_color(Color.from_hsl((50, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((50, 0.50, 0.50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["yellow"] = col
+
         return self._presets["yellow"]
 
     @property
     def green(self):
         if "green" not in self._presets:
-            self._presets["green"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        120,
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            cols = [
+                self.get_closest_color(Color.from_hsl((120, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((120, 0.50, 0.50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["green"] = col
+
         return self._presets["green"]
 
     @property
     def cyan(self):
         if "cyan" not in self._presets:
-            self._presets["cyan"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        180,
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            cols = [
+                self.get_closest_color(Color.from_hsl((180, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((180, 0.50, 0.50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["cyan"] = col
+
         return self._presets["cyan"]
 
     @property
     def blue(self):
         if "blue" not in self._presets:
-            self._presets["blue"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        220,  # Err towards cyan instead of purple
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            cols = [
+                self.get_closest_color(Color.from_hsl((220, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((220, 0.50, 0.50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["blue"] = col
+
         return self._presets["blue"]
 
     @property
     def purple(self):
         if "purple" not in self._presets:
-            self._presets["purple"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        270,
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            cols = [
+                self.get_closest_color(Color.from_hsl((270, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((270, 0.50, 0.50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["purple"] = col
+
         return self._presets["purple"]
 
     @property
     def magenta(self):
         if "magenta" not in self._presets:
-            self._presets["magenta"] = self.get_closest_color(
-                Color.from_hsl(
-                    (
-                        300,
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "s"
-                        ],
-                        ColorScheme.similarity_vals[self._scheme_type.name.lower()][
-                            "l"
-                        ],
+            cols = [
+                self.get_closest_color(Color.from_hsl((300, s, l)), accents_only=True)
+                for s in [0.30, 0.50, 0.80]
+                for l in [0.30, 0.50, 0.80]
+            ]
+            c = Counter(cols)
+            common = c.most_common(2)
+            if len(common) == 1:
+                col = common[0][0]
+            else:
+                if common[0][1] == common[1][1]:
+                    col = self.get_closest_color(
+                        Color.from_hsl((300, 0.50, 0.50)), accents_only=True
                     )
-                ),
-                accents_only=True,
-            )
+                else:
+                    col = common[0][0]
+            self._presets["magenta"] = col
+
         return self._presets["magenta"]
 
     @property
@@ -1907,7 +1992,7 @@ class ColorScheme:
             out_string += color.to_textual(f"surface{i+1}").splitlines()
         for i, color in enumerate(self.auto_surfaces):
             out_string += color.to_textual(f"auto-surface{i+1}").splitlines()
-        
+
         for c, name in zip(
             [
                 self.red,
@@ -1944,7 +2029,7 @@ class ColorScheme:
             ]
 
         return "\n".join(out_string)
-        
+
     def to_less(self) -> str:
         out_string = []
         out_string += self.foreground.to_less("foreground").splitlines()
@@ -2002,6 +2087,8 @@ class ColorScheme:
             out_string.write(color.to_javascript(f"accent{i+1}") + ",\n")
         for i, color in enumerate(self.surfaces):
             out_string.write(color.to_javascript(f"surface{i+1}") + ",\n")
+        for i, color in enumerate(self.auto_surfaces):
+            out_string.write(color.to_javascript(f"auto_surface{i+1}") + ",\n")
 
         out_string.write("};\n")
         out_string.write("colours.accents = {\n")
