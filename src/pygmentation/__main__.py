@@ -2,7 +2,13 @@ import argparse
 from pathlib import Path
 from rich.console import Console
 from rich.prompt import IntPrompt
-from .pygmentation import show_scheme, set_scheme, get_scheme, get_available_schemes, handle_unknown_scheme, show, save, write, list_schemes
+import sys
+from rich.console import Console
+from .exceptions import SchemeNotFoundError
+from .registry import SchemeRegistry
+from .pygmentation import show_scheme, set_scheme, get_scheme, get_available_schemes, prompt_similar_scheme, show, save, write, list_schemes
+
+console = Console()
 
 def parse_args():
     # pygmentation show [--show-codes|-s] [--code-type-c <hex|rgb|hsl|hsv|Lab>] <scheme> [variant] -- Show a scheme in the terminal, optionally only showing the light or dark variant (default: both)
@@ -38,21 +44,42 @@ def parse_args():
     return parser.parse_args()
 
 
-def main():
+def error(message: str):
+    console.print(f"[bold red]Error:[/bold red] {message}")
+
+def warning(message: str):
+    console.print(f"[bold orange]Warning:[/bold orange] {message}")
+
+def success(message: str):
+    console.print(f"[bold green]Success:[/bold green] {message}")
+
+def info(message: str):
+    console.print(f"[bold blue]Info:[/bold blue] {message}")
+
+
+
+def main() -> int:
 
     args = parse_args()
-    available = get_available_schemes()
+    
+    registry = SchemeRegistry()
 
-    if args.command != "list" and args.scheme not in available:
-        args.scheme = handle_unknown_scheme(args.scheme)
-
+    try:
+        scheme = registry.get(args.scheme, args.variant)
+    except SchemeNotFoundError as err:
+        resolved = prompt_similar_scheme(err.scheme, err.available)
+        if not resolved:
+            error(f"Unknown scheme '{err.scheme}'.")
+            return 1
+        scheme = registry.get(resolved, args.variant)
+    
     if args.command == "show":
-        show(args.scheme, args.variant, args.show_codes, args.code_type)
-        return
+        show(scheme, args.variant, args.show_codes, args.code_type)
+        return 0
     
     if args.command == "save":
-        save(args.filename, args.scheme, args.variant)
-        return
+        save(args.filename, scheme, args.variant)
+        return 0
         
     if args.command == "write":
         filepath = Path(args.filename)
@@ -69,11 +96,11 @@ def main():
             filetype = format_map[filepath.suffix]
         else:
             raise ValueError(f"Filename must have {', '.join(list(format_map.keys())[:-1])}, or {list(format_map.keys())[-1]} extension, or type must be specified with -t/--type")
-        write(args.filename, args.scheme, args.variant, filetype)
+        write(args.filename, scheme, args.variant, filetype)
         
     elif args.command == "list":
         # sort available schemes alphabetically
-        available.sort()
+        available = sorted(registry.available)
         names_only = args.names_only
         pattern = args.pattern
         if pattern.startswith("re:"):
@@ -81,6 +108,8 @@ def main():
         else:
             pattern = pattern.replace("*", ".*").replace("?", ".")
         list_schemes(names_only, pattern, available, True, args.variant.lower() == "dark")
+    return 0
 
 if __name__ == "__main__":
-    main()
+    result = main()
+    sys.exit(result)

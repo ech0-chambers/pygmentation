@@ -1,5 +1,6 @@
 from typing import List
-from .color_scheme import ColorScheme, Color, ColorFamily, SchemeType, EnumEx
+from .color_scheme import ColorScheme, Color, ColorFamily, SchemeType
+from enum import IntEnum, StrEnum
 import json
 from pathlib import Path
 from .scheme import schemes_json as schemes_json
@@ -7,17 +8,13 @@ from .scheme import schemes_json as schemes_json
 import sys
 
 
-# this is a pointer to the module object instance itself.
-# this = sys.modules[__name__]
 
 
-class DocType(EnumEx):
+class DocType(IntEnum):
     REPORT = 1
     PRESENTATION = 2
 
 
-# this.Scheme = None
-# this.schemes_json = Path(__file__).parent / "color_schemes.json"
 Scheme = None
 schemes_json = Path(__file__).parent / "color_schemes.json"
 with open(schemes_json, "r") as f:
@@ -37,7 +34,6 @@ def set_scheme(
     scheme: str = "twilight", scheme_type: str | SchemeType = "light"
 ) -> Scheme:
     global Scheme, schemes_json, all_schemes
-    # this = sys.modules[__name__]
 
     if isinstance(scheme_type, str):
         scheme_type = SchemeType[scheme_type.upper()]
@@ -67,7 +63,6 @@ def set_scheme(
                     scheme_dict["background"],
                     scheme_dict["foreground"],
                 )
-    # this.Scheme = ColorScheme(
     Scheme = ColorScheme(scheme_dict, scheme_type)
 
     return Scheme
@@ -98,12 +93,6 @@ def init(
     scheme = set_scheme(scheme, scheme_type)
 
     # Get a matplotlib cycler object for the color scheme, from Scheme.distinct[:].base, then Scheme.distinct[:].lightest, then Scheme.distinct[:].darkest
-    # color_cycler = cycler(color =
-    #     [c.base.css for c in this.Scheme.distinct] +
-    #     [c.base.css for c in this.Scheme.distinct] +
-    #     [c.base.css for c in this.Scheme.distinct],
-    #     linestyle = ["-"] * len(this.Scheme.distinct) + ["--"] * len(this.Scheme.distinct) + [":"] * len(this.Scheme.distinct)
-    # )
 
     color_cycler = cycler(
         color=[c.base.css for c in Scheme.distinct]
@@ -261,7 +250,8 @@ def _get_preset(scheme, color):
         "purple",
         "magenta",
     ]:
-        if eval(f"scheme.{p}.base") == color.base:
+        color_family = getattr(scheme, p, None)
+        if color_family is not None and color_family.base == color.base:
             aliases.append(p)
     if aliases:
         return aliases
@@ -600,21 +590,21 @@ import difflib
 import re
 
 
-def handle_unknown_scheme(scheme_name: str) -> str:
+def prompt_similar_scheme(scheme_name: str) -> str | None:
     console = Console()
     similar = difflib.get_close_matches(scheme_name, get_available_schemes())
     if len(similar) == 0:
         console.print(
             f"Unknown scheme: {scheme_name}. I could not find any similar schemes."
         )
-        quit(1)
+        return None
 
     similar.append("None of the above (quit)")
     index = multiple_choice_prompt(
         f"Unknown scheme: {scheme_name}. Did you mean:", similar
     )
     if index == len(similar):
-        quit(1)
+        return None
     return similar[index - 1]
 
 
