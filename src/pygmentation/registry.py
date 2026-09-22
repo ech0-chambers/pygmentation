@@ -8,6 +8,7 @@ class SchemeRegistry:
     def __init__(self, schemes_file: Path | None = None):
         self._schemes_file = schemes_file or Path(__file__).parent / "color_schemes.json"
         self._schemes: dict[str, dict] = self._load()
+        self.available = list(self._schemes.keys())
 
     def _load(self) -> dict[str, dict]:
         with open(self._schemes_file, "r", encoding="utf-8") as f:
