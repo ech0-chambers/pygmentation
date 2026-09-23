@@ -29,6 +29,8 @@ class ColorModel(ABC):
                 if high is not None and val > high:
                     raise ValueError(f"Value {val} is above maximum {high}")
 
+        self._a, self._b, self._c = fields(self)
+
     @abstractmethod
     def to_full_rgb(self) -> tuple[float]:
         # This should return a tuple of 3 floats [0,1], not ints, to maintain as much precision as possible
@@ -73,6 +75,14 @@ class ColorModel(ABC):
     def as_tuple(self):
         return (self._a, self._b, self._c)
 
+    def _with_a(self, val: float) -> ColorModel:
+        return self.__class__(val, self._b, self._c)
+
+    def _with_b(self, val: float) -> ColorModel:
+        return self.__class__(self._a, val, self._c)
+    
+    def _with_c(self, val: float) -> ColorModel:
+        return self.__class__(self._a, self._b, val)
 
 @dataclass(frozen = True, slots = True)
 class RGB(ColorModel):
@@ -81,6 +91,11 @@ class RGB(ColorModel):
     b: int
     clamp: InitVar[bool] = False
     BOUNDS: ClassVar[Final] = ((0, 255), (0, 255), (0, 255))
+
+    def _normalize(self):
+        object.__setattr__(self, "r", int(round(self.r)))
+        object.__setattr__(self, "g", int(round(self.g)))
+        object.__setattr__(self, "b", int(round(self.b)))
 
     def to_full_rgb(self) -> tuple[float, float, float]:
         return (self.r / 255, self.g / 255, self.b / 255)
@@ -92,6 +107,18 @@ class RGB(ColorModel):
     @classmethod
     def from_hex(cls, hex: str):
         return cls(tuple(int(hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)))
+
+    def to_hex(self) -> str:
+        return 
+
+    def with_r(self, val) -> RGB:
+        return self._with_a(val)
+    
+    def with_g(self, val) -> RGB:
+        return self._with_b(val)
+    
+    def with_b(self, val) -> RGB:
+        return self._with_c(val)
 
 @dataclass(frozen = True, slots = True)
 class HSL(ColorModel):
@@ -142,6 +169,16 @@ class HSL(ColorModel):
         else:
             s = delta / (1 - abs(2 * l - 1))
         return cls(h, s, l)
+
+    def with_h(self, val) -> RGB:
+        return self._with_a(val)
+    
+    def with_s(self, val) -> RGB:
+        return self._with_b(val)
+    
+    def with_l(self, val) -> RGB:
+        return self._with_c(val)
+
 
 
 @dataclass(frozen = True, slots = True)
@@ -194,6 +231,16 @@ class HSV(ColorModel):
             s = delta / cmax
         return cls(h, s, v)
 
+    
+    def with_h(self, val) -> RGB:
+        return self._with_a(val)
+    
+    def with_s(self, val) -> RGB:
+        return self._with_b(val)
+    
+    def with_v(self, val) -> RGB:
+        return self._with_c(val)
+
 @dataclass(frozen = True, slots = True)
 class XYZ(ColorModel):
     x: float
@@ -221,6 +268,15 @@ class XYZ(ColorModel):
         y = r * 0.2126 + g * 0.7152 + b * 0.0722
         z = r * 0.0193 + g * 0.1192 + b * 0.9505
         return cls(x * 100, y * 100, z * 100)
+    
+    def with_x(self, val) -> RGB:
+        return self._with_a(val)
+    
+    def with_y(self, val) -> RGB:
+        return self._with_b(val)
+    
+    def with_z(self, val) -> RGB:
+        return self._with_c(val)
 
 @dataclass(frozen = True, slots = True)
 class LAB(ColorModel):
@@ -268,3 +324,142 @@ class LAB(ColorModel):
     def from_full_rgb(cls, rgb: tuple[float, float, float]):
         # rgb to lab, using xyz as an intermediate step
         return cls._from_xyz(XYZ.from_full_rgb(rgb))
+
+    def with_l(self, val) -> RGB:
+        return self._with_a(val)
+    
+    def with_a(self, val) -> RGB:
+        return self._with_b(val)
+    
+    def with_b(self, val) -> RGB:
+        return self._with_c(val)
+
+    
+@dataclass(frozen = True, slots = True)
+class OKLAB(ColorModel):
+    l: float
+    a: float
+    b: float
+    clamp: InitVar[bool] = False
+    BOUNDS = ((0, None), (None, None), (None, None))
+
+    def _to_xyz(self) -> XYZ:
+        # https://en.wikipedia.org/wiki/Oklab_color_space
+        M_1_inv = [
+            [ 1.22701385, -0.55779996,  0.28125615],
+            [-0.04058018,  1.11225687, -0.07167668],
+            [-0.07638128, -0.42148198,  1.58616322]
+        ]
+        M_2_inv = [
+            [ 1.        ,  0.39633779,  0.21580376],
+            [ 1.00000001, -0.10556134, -0.06385417],
+            [ 1.00000005, -0.08948418, -1.29148554]
+        ]
+
+        l = M_2_inv[0][0] * self.L + M_2_inv[0][1] * self.a + M_2_inv[0][2] * self.b
+        m = M_2_inv[1][0] * self.L + M_2_inv[1][1] * self.a + M_2_inv[1][2] * self.b
+        s = M_2_inv[2][0] * self.L + M_2_inv[2][1] * self.a + M_2_inv[2][2] * self.b
+
+        l = l ** 3
+        m = m ** 3
+        s = s ** s
+
+        x = M_1_inv[0][0] * l + M_1_inv[0][1] * m + M_1_inv[0][2] * s
+        y = M_1_inv[1][0] * l + M_1_inv[1][1] * m + M_1_inv[1][2] * s
+        z = M_1_inv[2][0] * l + M_1_inv[2][1] * m + M_1_inv[2][2] * s
+
+        return XYZ(x, y, z)
+
+    @classmethod
+    def _from_xyz(cls, xyz: XYZ):
+        # https://en.wikipedia.org/wiki/Oklab_color_space
+        
+        M_1 = [
+            [ 0.8189330101,  0.3618667242, -0.1288597137],
+            [ 0.0329845436,  0.9293118715,  0.0361456387],
+            [ 0.0482003018,  0.2643662691,  0.6338517070]
+        ]
+        M_2 = [
+            [ 0.2104542553,  0.7936177850, -0.0040720468],
+            [ 1.9779984951, -2.4285922020,  0.4505937099],
+            [ 0.0259040371,  0.7827717662, -0.8086757660]
+        ]
+
+        l = M_1[0][0] * xyz.x + M_1[0][1] * xyz.y + M_1[0][2] * xyz.z
+        m = M_1[1][0] * xyz.x + M_1[1][1] * xyz.y + M_1[1][2] * xyz.z
+        s = M_1[2][0] * xyz.x + M_1[2][1] * xyz.y + M_1[2][2] * xyz.z
+
+        l = l ** (1/3)
+        m = m ** (1/3)
+        s = s ** (1/3)
+
+        
+        L = M_2[0][0] * l + M_2[0][1] * m + M_2[0][2] * s
+        a = M_2[1][0] * l + M_2[1][1] * m + M_2[1][2] * s
+        b = M_2[2][0] * l + M_2[2][1] * m + M_2[2][2] * s
+
+        return cls(L, a, b)
+
+    
+    def to_full_rgb(self) -> tuple[float, float, float]:
+        # lab to rgb, using xyz as an intermediate step
+        return self._to_xyz().to_full_rgb()
+
+    @classmethod
+    def from_full_rgb(cls, rgb: tuple[float, float, float]):
+        # rgb to lab, using xyz as an intermediate step
+        return cls._from_xyz(XYZ.from_full_rgb(rgb))
+
+    def with_l(self, val) -> RGB:
+        return self._with_a(val)
+    
+    def with_a(self, val) -> RGB:
+        return self._with_b(val)
+    
+    def with_b(self, val) -> RGB:
+        return self._with_c(val)
+
+
+@dataclass(frozen = True, slots = True)
+class OKLCH(ColorModel):
+    l: float
+    c: float
+    h: float
+    clamp: InitVar[bool] = False
+    BOUNDS = ((0, None), (None, None), (None, None))
+
+    def _normalize(self):
+        object.__setattr__(self, "h", float(self.h % 360))
+
+    @classmethod
+    def _from_oklab(cls, oklab: OKLAB) -> OKLCH:
+        L = oklab.l
+        C = (oklab.a ** 2 + oklab.b ** 2) ** (1/2)
+        h = math.degrees(math.atan2(oklab.a, oklab.b))
+        return cls(L, C, h)
+
+    def _to_oklab(self) -> OKLAB:
+        L = self.l
+        a = self.c * math.cos(math.radians(self.h))
+        b = self.c * math.sin(math.radians(self.h))
+        return OKLAB(L, a, b)
+
+    
+    def to_full_rgb(self) -> tuple[float, float, float]:
+        # lab to rgb, using xyz as an intermediate step
+        return self._to_oklab().to_full_rgb()
+
+    @classmethod
+    def from_full_rgb(cls, rgb: tuple[float, float, float]):
+        # rgb to lab, using xyz as an intermediate step
+        return cls._from_oklab(OKLAB.from_full_rgb(rgb))
+
+    def with_l(self, val) -> RGB:
+        return self._with_a(val)
+    
+    def with_c(self, val) -> RGB:
+        return self._with_b(val)
+    
+    def with_h(self, val) -> RGB:
+        return self._with_c(val)
+    
