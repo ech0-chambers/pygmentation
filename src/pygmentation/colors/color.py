@@ -185,6 +185,12 @@ class Color:
 
         return deltaE
 
+    def is_darker_than(self, other: Color):
+        return self.oklab.l < other.oklab.l
+
+    def is_lighter_than(self, other: Color):
+        return self.oklab.l > other.oklab.l
+
     def __eq__(self, other) -> bool:
         return self.hex == other.hex
 
