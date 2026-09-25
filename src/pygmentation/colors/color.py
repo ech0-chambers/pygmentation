@@ -5,9 +5,12 @@ import math
 class Color:
     def __init__(self, color: str | ColorModel):
         if isinstance(color, str):
-            color = RGB.from_hex(color)
+            self._oklab = RGB.from_hex(color).convert_to("oklab")
+        elif isinstance(color, OKLAB):
+            self._oklab = color
+        else:
+            self._oklab = color.convert_to("oklab")
 
-        self._full_rgb = color.to_full_rgb()
 
     @cached_property
     def hex(self) -> str:
@@ -19,31 +22,31 @@ class Color:
 
     @cached_property
     def rgb(self) -> RGB:
-        return RGB.from_full_rgb(*self._full_rgb)
+        return self._oklab.convert_to("rgb")
 
     @cached_property
     def hsl(self) -> HSL:
-        return HSL.from_full_rgb(*self._full_rgb)
+        return self._oklab.convert_to("hsl")
 
     @cached_property
     def hsv(self) -> HSV:
-        return HSV.from_full_rgb(*self._full_rgb)
+        return self._oklab.convert_to("hsv")
 
     @cached_property
     def xyz(self) -> XYZ:
-        return XYZ.from_full_rgb(*self._full_rgb)
+        return self._oklab.convert_to("xyz")
 
     @cached_property
     def lab(self) -> LAB:
-        return LAB.from_full_rgb(*self._full_rgb)
+        return self._oklab.convert_to("lab")
 
     @cached_property
     def oklab(self) -> OKLAB:
-        return OKLAB.from_full_rgb(*self._full_rgb)
+        return self._oklab
     
     @cached_property
     def oklch(self) -> OKLCH:
-        return OKLCH.from_full_rgb(*self._full_rgb)
+        return self._oklab.convert_to("oklch")
 
     @property
     def r(self) -> int:
