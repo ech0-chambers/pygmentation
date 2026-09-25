@@ -8,19 +8,22 @@ from dataclasses import dataclass, InitVar, fields
 class ColorModel(ABC):
     BOUNDS: tuple[tuple[float | None, float | None], ...] = ()
 
-    @abstractmethod
     def _normalize(self):
         # To allow for things like hue wrapping before bounds are checked.
         pass
 
-    def __post_init__(self):
+    def __post_init__(self, clamp: bool = False):
 
         self._normalize()
 
-        if self.clamp:
+        if clamp:
             for field, (low, high) in zip(fields(self), self.BOUNDS):
                 val = getattr(self, field.name)
-                object.__setattr__(self, field.name, min(high, max(low, val)))
+                if low is not None and val < low:
+                    val = low
+                if high is not None and val > high:
+                    val = high
+                object.__setattr__(self, field.name, val)
         else:
             for field, (low, high) in zip(fields(self), self.BOUNDS):
                 val = getattr(self, field.name)
@@ -29,7 +32,29 @@ class ColorModel(ABC):
                 if high is not None and val > high:
                     raise ValueError(f"Value {val} is above maximum {high}")
 
-        self._a, self._b, self._c = fields(self)
+    def __iter__(self):
+        for f in fields(self):
+            yield getattr(self, f.name)
+
+    def __getitem__(self, index: int) -> float | int:
+        return self.as_tuple()[index]
+
+    def __len__(self) -> int:
+        # We could maybe return a fixed 3, but it's possible we could expand to include rgba or cymk at some point
+        return len(self.as_tuple())
+
+    @property
+    def _a(self) -> float:
+        return self[0]
+    
+    @property
+    def _b(self) -> float:
+        return self[1]
+
+    @property
+    def _c(self) -> float:
+        return self[2]
+
 
     @abstractmethod
     def to_full_rgb(self) -> tuple[float]:
@@ -41,6 +66,14 @@ class ColorModel(ABC):
         # This should take a tuple of 3 floats [0,1], not ints, to maintain as much precision as possible
         pass
 
+    @staticmethod
+    def _check_rgb_args(rgb: tuple[float] | tuple[tuple[float]]) -> tuple[float]:
+        if len(rgb) == 1 and isinstance(rgb[0], (tuple, list)):
+            rgb = rgb[0]
+        if not len(rgb) == 3:
+            raise ValueError(f"Expected 3 rgb values, but received {len(rgb)}")
+        return rgb
+
     def convert_to(self, new_model: str | type[ColorModel]):
         if isinstance(new_model, str):
             new_model = new_model.lower()
@@ -51,9 +84,38 @@ class ColorModel(ABC):
             if new_model == "hsv":
                 return HSV.from_full_rgb(self.to_full_rgb())
             if new_model == "xyz":
+                # If possible, avoid translating via rgb for these colour spaces with wider gamut
+                if isinstance(self, LAB):
+                    return self._to_xyz()
+                if isinstance(self, OKLAB):
+                    return self._to_xyz()
+                if isinstance(self, OKLCH):
+                    return self._to_oklab()._to_xyz()
                 return XYZ.from_full_rgb(self.to_full_rgb())
             if new_model == "lab":
+                if isinstance(self, XYZ):
+                    return LAB._from_xyz(self)
+                if isinstance(self, OKLAB):
+                    return LAB._from_xyz(self._to_xyz())
+                if isinstance(self, OKLCH):
+                    return LAB._from_xyz(self._to_oklab()._to_xyz())
                 return LAB.from_full_rgb(self.to_full_rgb())
+            if new_model == "oklab":
+                if isinstance(self, XYZ):
+                    return OKLAB._from_xyz(self)
+                if isinstance(self, LAB):
+                    return OKLAB._from_xyz(self._to_xyz())
+                if isinstance(self, OKLCH):
+                    return self._to_oklab()
+                return OKLAB.from_full_rgb(self.to_full_rgb())
+            if new_model == "oklch":
+                if isinstance(self, XYZ):
+                    return OKLCH._from_oklab(OKLAB._from_xyz(self))
+                if isinstance(self, LAB):
+                    return OKLCH._from_oklab(OKLAB._from_xyz(self._to_xyz()))
+                if isinstance(self, OKLAB):
+                    return OKLCH._from_oklab(self)
+                return OKLCH.from_full_rgb(self.to_full_rgb())
             if new_model == "hex":
                 r, g, b = self.to_full_rgb()
                 # r,g,b need to be ints, round correctly
@@ -73,7 +135,7 @@ class ColorModel(ABC):
         return new_model.from_full_rgb(self.to_full_rgb())
 
     def as_tuple(self):
-        return (self._a, self._b, self._c)
+        return tuple(self)
 
     def _with_a(self, val: float) -> ColorModel:
         return self.__class__(val, self._b, self._c)
@@ -101,15 +163,16 @@ class RGB(ColorModel):
         return (self.r / 255, self.g / 255, self.b / 255)
 
     @classmethod
-    def from_full_rgb(cls, rgb: tuple[float, float, float]):
-        return cls(map(lambda x: int(round(x * 255)), rgb))
+    def from_full_rgb(cls, *rgb: tuple[float, float, float]):
+        rgb = cls._check_rgb_args(rgb)
+        return cls(*(min(255, max(0, int(round(x * 255)))) for x in rgb))
 
     @classmethod
     def from_hex(cls, hex: str):
-        return cls(tuple(int(hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)))
+        return cls(*(int(hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)))
 
     def to_hex(self) -> str:
-        return 
+        return f"{self.r:0>2X}{self.g:0>2X}{self.b:0>2X}"
 
     def with_r(self, val) -> RGB:
         return self._with_a(val)
@@ -149,8 +212,9 @@ class HSL(ColorModel):
         return (c + m, m, x + m)
         
     @classmethod
-    def from_full_rgb(cls, rgb: tuple[float]):
+    def from_full_rgb(cls, *rgb: tuple[float]):
         # https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
+        rgb = cls._check_rgb_args(rgb)
         r, g, b = rgb
         cmax = max(r, g, b)
         cmin = min(r, g, b)
@@ -210,8 +274,9 @@ class HSV(ColorModel):
         return (c + m, m, x + m)
         
     @classmethod
-    def from_full_rgb(cls, rgb: tuple[float]):
+    def from_full_rgb(cls, *rgb: tuple[float]):
         # https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
+        rgb = cls._check_rgb_args(rgb)
         r, g, b = rgb
         cmax = max(r, g, b)
         cmin = min(r, g, b)
@@ -260,7 +325,8 @@ class XYZ(ColorModel):
         return (r, g, b)
 
     @classmethod
-    def from_full_rgb(cls, rgb: tuple[float]):
+    def from_full_rgb(cls, *rgb: tuple[float]):
+        rgb = cls._check_rgb_args(rgb)
         r, g, b = (
             x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in rgb
         )
@@ -293,10 +359,10 @@ class LAB(ColorModel):
                 return t**3
             return (t - 4 / 29) / 7.787
 
-        y = (self.L + 16) / 116
+        y = (self.l + 16) / 116
         x = self.a / 500 + y
         z = y - self.b / 200
-        return XYZ((95.047 * f(x), 100 * f(y), 108.883 * f(z)))
+        return XYZ(95.047 * f(x), 100 * f(y), 108.883 * f(z), clamp = True)
 
     @classmethod
     def _from_xyz(cls, xyz: XYZ):
@@ -321,8 +387,9 @@ class LAB(ColorModel):
         return self._to_xyz().to_full_rgb()
 
     @classmethod
-    def from_full_rgb(cls, rgb: tuple[float, float, float]):
+    def from_full_rgb(cls, *rgb: tuple[float, float, float]):
         # rgb to lab, using xyz as an intermediate step
+        rgb = cls._check_rgb_args(rgb)
         return cls._from_xyz(XYZ.from_full_rgb(rgb))
 
     def with_l(self, val) -> RGB:
@@ -356,19 +423,19 @@ class OKLAB(ColorModel):
             [ 1.00000005, -0.08948418, -1.29148554]
         ]
 
-        l = M_2_inv[0][0] * self.L + M_2_inv[0][1] * self.a + M_2_inv[0][2] * self.b
-        m = M_2_inv[1][0] * self.L + M_2_inv[1][1] * self.a + M_2_inv[1][2] * self.b
-        s = M_2_inv[2][0] * self.L + M_2_inv[2][1] * self.a + M_2_inv[2][2] * self.b
+        l = M_2_inv[0][0] * self.l + M_2_inv[0][1] * self.a + M_2_inv[0][2] * self.b
+        m = M_2_inv[1][0] * self.l + M_2_inv[1][1] * self.a + M_2_inv[1][2] * self.b
+        s = M_2_inv[2][0] * self.l + M_2_inv[2][1] * self.a + M_2_inv[2][2] * self.b
 
         l = l ** 3
         m = m ** 3
-        s = s ** s
+        s = s ** 3
 
         x = M_1_inv[0][0] * l + M_1_inv[0][1] * m + M_1_inv[0][2] * s
         y = M_1_inv[1][0] * l + M_1_inv[1][1] * m + M_1_inv[1][2] * s
         z = M_1_inv[2][0] * l + M_1_inv[2][1] * m + M_1_inv[2][2] * s
 
-        return XYZ(x, y, z)
+        return XYZ(x * 100, y * 100, z * 100, clamp = True)
 
     @classmethod
     def _from_xyz(cls, xyz: XYZ):
@@ -385,9 +452,14 @@ class OKLAB(ColorModel):
             [ 0.0259040371,  0.7827717662, -0.8086757660]
         ]
 
-        l = M_1[0][0] * xyz.x + M_1[0][1] * xyz.y + M_1[0][2] * xyz.z
-        m = M_1[1][0] * xyz.x + M_1[1][1] * xyz.y + M_1[1][2] * xyz.z
-        s = M_1[2][0] * xyz.x + M_1[2][1] * xyz.y + M_1[2][2] * xyz.z
+        X, Y, Z = xyz
+        X /= 100
+        Y /= 100
+        Z /= 100
+
+        l = M_1[0][0] * X + M_1[0][1] * Y + M_1[0][2] * Z
+        m = M_1[1][0] * X + M_1[1][1] * Y + M_1[1][2] * Z
+        s = M_1[2][0] * X + M_1[2][1] * Y + M_1[2][2] * Z
 
         l = l ** (1/3)
         m = m ** (1/3)
@@ -406,8 +478,9 @@ class OKLAB(ColorModel):
         return self._to_xyz().to_full_rgb()
 
     @classmethod
-    def from_full_rgb(cls, rgb: tuple[float, float, float]):
+    def from_full_rgb(cls, *rgb: tuple[float, float, float]):
         # rgb to lab, using xyz as an intermediate step
+        rgb = cls._check_rgb_args(rgb)
         return cls._from_xyz(XYZ.from_full_rgb(rgb))
 
     def with_l(self, val) -> RGB:
@@ -435,7 +508,7 @@ class OKLCH(ColorModel):
     def _from_oklab(cls, oklab: OKLAB) -> OKLCH:
         L = oklab.l
         C = (oklab.a ** 2 + oklab.b ** 2) ** (1/2)
-        h = math.degrees(math.atan2(oklab.a, oklab.b))
+        h = math.degrees(math.atan2(oklab.b, oklab.a))
         return cls(L, C, h)
 
     def _to_oklab(self) -> OKLAB:
@@ -450,8 +523,9 @@ class OKLCH(ColorModel):
         return self._to_oklab().to_full_rgb()
 
     @classmethod
-    def from_full_rgb(cls, rgb: tuple[float, float, float]):
-        # rgb to lab, using xyz as an intermediate step
+    def from_full_rgb(cls, *rgb: tuple[float, float, float]):
+        # rgb to lab, using oklab as an intermediate step
+        rgb = cls._check_rgb_args(rgb)
         return cls._from_oklab(OKLAB.from_full_rgb(rgb))
 
     def with_l(self, val) -> RGB:

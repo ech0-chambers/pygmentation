@@ -1,7 +1,7 @@
 import copy
 import json
 from pathlib import Path
-from pygmentation.color_scheme import ColorScheme, SchemeType
+from pygmentation.colors.scheme import ColorScheme, SchemeType
 from pygmentation.exceptions import SchemeNotFoundError
 
 class SchemeRegistry:
@@ -26,9 +26,14 @@ class SchemeRegistry:
         
         # Deep copy ensures original registry data remains pristine
         raw_data = copy.deepcopy(self._schemes[name])
-        return ColorScheme.from_dict(name, raw_data, variant=variant)
+        if variant.name.lower() in raw_data:
+            raw_data = raw_data[variant.name.lower()]
+        return ColorScheme(raw_data, variant)
 
     def has_scheme(self, name: str, variant: SchemeType = SchemeType.LIGHT) -> bool:
         return name in self._schemes
+
+    def list_available(self) -> list[str]:
+        return self.available
 
 registry = SchemeRegistry()

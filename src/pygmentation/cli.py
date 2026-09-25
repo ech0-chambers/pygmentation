@@ -16,14 +16,15 @@ from rich import box
 from .colors.scheme import SchemeType, Color, ColorFamily, ColorScheme
 from .registry import registry
 from .exceptions import SchemeNotFoundError
+from .exporters import get_exporter
 
 # Formatter mappings for color code representations (e.g. hex, rgb, hsl, hsv, Lab)
 show_code_map: dict[str, Callable[[Any], str]] = {
     "hex": lambda c: c.hex,
     "rgb": lambda c: f"{c.r:.0f}, {c.g:.0f}, {c.b:.0f}",
     "hsl": lambda c: f"{c.h:.0f}, {c.s * 100:.0f}%, {c.l * 100:.0f}%",
-    "hsv": lambda c: f"{c.h_hsv:.0f}, {c.s_hsv * 100:.0f}%, {c.v * 100:.0f}%",
-    "lab": lambda c: f"{c.l_lab:.0f}, {c.a:.0f}, {c.b:.0f}",
+    "hsv": lambda c: f"{c.hsv.h:.0f}, {c.hsv.s * 100:.0f}%, {c.hsv.v * 100:.0f}%",
+    "lab": lambda c: f"{c.lab.l:.0f}, {c.lab.a:.0f}, {c.lab.b:.0f}",
 }
 
 console = Console()
@@ -172,6 +173,15 @@ def multiple_choice_prompt(prompt: str, choices: list[str], default: int = 1) ->
 def swatch(color: Color) -> Text:
     return Text("█████\n█████", style=Style(color=RichColor.from_rgb(*color.rgb)))
 
+def scheme_swatch(scheme: ColorScheme) -> Text:
+    swatch = Text()
+    swatch.append("  ", style = Style(bgcolor=RichColor.from_rgb(*scheme.foreground.base.rgb)))
+    swatch.append("  ", style = Style(bgcolor=RichColor.from_rgb(*scheme.background.base.rgb)))
+    swatch.append("  ")
+    for accent in scheme.accents:
+        swatch.append("  ", style = Style(bgcolor=RichColor.from_rgb(*accent.base.rgb)))
+
+    return swatch
 
 def family_to_row(
     color_family: ColorFamily,
@@ -239,7 +249,7 @@ def show_scheme(
         name = "Colour Scheme"
     console.record = filepath is not None
     width = console.size.width
-    # width decisions need a bit more thought if code_type is given.
+    # TODO: width decisions need a bit more thought if code_type is given.
 
     table = Table(show_header=False, box=box.SIMPLE, leading=1, padding=0)
 
@@ -305,6 +315,9 @@ def show_scheme(
 
     rows = [r for r in rows if r]
 
+    for row in rows:
+        table.add_row(*row)
+
     panel = Panel.fit(
         table,
         title = name,
@@ -361,15 +374,17 @@ def cli_write(
     variant: str = "both",
     filetype: str | None = None,
 ) -> None:
-    format_function_map = {
-        "latex": "to_latex",
-        "css": "to_css",
-        "tcss": "to_textual",
-        "less": "to_less",
-        "js": "to_javascript",
-    }
-
+    
     filepath = Path(filename)
+
+    if filetype is None:
+        filetype = filepath.suffix
+    exporter = get_exporter(filetype)
+    if exporter is None:
+        raise ValueError(f"Could not find an exporter for files of type `{filetype}`")
+
+    exporter = exporter()
+
     if variant == "both":
         light_filepath = filepath.with_name(filepath.stem + "_light" + filepath.suffix)
         dark_filepath = filepath.with_name(filepath.stem + "_dark" + filepath.suffix)
@@ -379,12 +394,10 @@ def cli_write(
 
     if variant in ["light", "both"]:
         scheme = registry.get(scheme_name, SchemeType.LIGHT)
-        with open(light_filepath, "w+") as f:
-            f.write(getattr(scheme, format_function_map[filetype])())
+        exporter.save(scheme, light_filepath)
     if variant in ["dark", "both"]:
         scheme = registry.get(scheme_name, SchemeType.DARK)
-        with open(dark_filepath, "w+") as f:
-            f.write(getattr(scheme, format_function_map[filetype])())
+        exporter.save(scheme, dark_filepath)
 
 
 def get_schemes_by_pattern(pattern: str) -> list[str]:
@@ -393,7 +406,7 @@ def get_schemes_by_pattern(pattern: str) -> list[str]:
 
 def cli_list(
     names_only: bool = False,
-    pattern: str = "*",
+    pattern: str = ".*",
     variant: str = "light",
 ) -> int:
     matches = get_schemes_by_pattern(pattern)
@@ -416,7 +429,7 @@ def cli_list(
                 scheme_name,
                 style = f"bold {scheme.foreground.base.css} on {scheme.background.base.css}"
             ),
-            scheme.to_rich_swatch()
+            scheme_swatch(scheme)
         )
     console.print(table)
 
@@ -442,12 +455,12 @@ def main(argv: list[str] | None = None) -> int:
         scheme_name = resolved
 
     if args.command == "show":
-        cli_show(scheme_name, args.variant, args.show_codes, args.code_type)
+        cli_show(scheme_name, args.variant, args.code_type)
         return 0
 
     if args.command == "save":
         cli_save(
-            scheme_name, args.variant, args.filename, args.show_codes, args.code_type
+            args.filename, scheme_name, args.variant, args.code_type
         )
         return 0
 

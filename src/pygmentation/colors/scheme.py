@@ -61,7 +61,7 @@ class ColorFamily:
             self._base.oklab.l / self._light.oklab.l > 0.9
         )
         too_dark = not force_variants and (
-            self._base.oklab.l / self._dark.oklab.l < 0.2
+            self._base.oklab.l - self._dark.oklab.l < 0.2
         )
 
         amounts = [0] * 5
@@ -131,7 +131,10 @@ class ColorFamily:
             abs(amount), min(self.__MAX_TARGET_LIGHTNESS, self._light.oklab.l)
         )
 
-    def __getitem(self, index: int) -> Color:
+    def __getitem__(self, index: int) -> Color:
+        if isinstance(index, slice):
+            return [self[i] for i in range(len(self.variants) + 1)[index]]
+        
         if index == 0:
             return self._base
         return self.variants[index - 1]
@@ -155,6 +158,28 @@ class ColorFamily:
     @property
     def hex(self) -> str:
         return self.base.hex
+
+    def index(self, color: Color) -> int | None:
+        # returns 0 if the color is this family's base, 1-5 if it's a variant, or None if it doesn't appear in this family.
+        if color == self.base:
+            return 0
+        if color in self.variants:
+            idx = self.variants.index(color)
+            return idx + 1
+        return None
+
+    def __eq__(self, other: ColorFamily) -> bool:
+        if not isinstance(other, ColorFamily):
+            return False
+        return (
+            self.base == other.base
+            and self._light == other._light
+            and self._dark == other._dark
+            and self._scheme_type == other._scheme_type
+        )
+
+    def __hash__(self):
+        return hash((self.base, self._light, self._dark, self._scheme_type))
 
 
 class ColorScheme:
@@ -219,18 +244,17 @@ class ColorScheme:
                     f'scheme["accents"] must be a list of hex strings, not a list of {type(v)}'
                 )
 
-        if "surfaces" in scheme:
-            surfaces = scheme["surfaces"]
-            if surfaces is not None and not isinstance(surfaces, list):
-                raise ValueError(
-                    f'If provided, scheme["surfaces"] must be a list of hex strings, not {type(surfaces)}'
-                )
-            if surfaces is not None:
-                for s in surfaces:
-                    if not isinstance(s, str):
-                        raise ValueError(
-                            f'If provided, scheme["surfaces"] must be a list of hex strings, not a list of {type(s)}'
-                        )
+        surfaces = scheme.get("surfaces")
+        if surfaces is not None and not isinstance(surfaces, list):
+            raise ValueError(
+                f'If provided, scheme["surfaces"] must be a list of hex strings, not {type(surfaces)}'
+            )
+        if surfaces is not None:
+            for s in surfaces:
+                if not isinstance(s, str):
+                    raise ValueError(
+                        f'If provided, scheme["surfaces"] must be a list of hex strings, not a list of {type(s)}'
+                    )
 
         foreground = Color(scheme["foreground"])
         background = Color(scheme["background"])
@@ -279,7 +303,7 @@ class ColorScheme:
             key=lambda c: c.base.oklab.l, reverse=self._scheme_type == SchemeType.DARK
         )
 
-        self._aliases = self.determine_alises() 
+        self._aliases = self.determine_aliases()
 
         # List of accent colours excluding any that are too similar to other accents
         self._distinct_accents = [self._accents[0]]
@@ -293,22 +317,24 @@ class ColorScheme:
         while len(self._distinct_accents) < len(self._accents):
             next_color = max(
                 self._accents,
-                key=lambda c: min(distances[c][d] for d in self._distinct_colors),
+                key=lambda c: min(distances[c][d] for d in self._distinct_accents),
             )
-            dist = min(distances[next_color][d] for d in self._distinct_colors)
-
+            dist = min(distances[next_color][d] for d in self._distinct_accents)
             if dist < self.__DISTINCT_THRESHOLD:
                 break
+            self._distinct_accents.append(next_color)
 
-        # Re-order back to accent color order. If the user wants them in contrast order, they should use ColorScheme.contrast()
-        self._distinct_accents = [c for c in self._accents if c in self._distinct_accents]
+        # Re-order back to accent color order. If the user wants them in contrast order, they should use ColorScheme.high_contrast()
+        self._distinct_accents = [
+            c for c in self._accents if c in self._distinct_accents
+        ]
 
         # TODO: Maybe choose more appropriate lightness for the base color if the accents are not suitable
 
-    def determine_alises(self):
+    def determine_aliases(self):
         reuse_penalty = 12
 
-        bg_oklab = self._background.oklab
+        bg_oklab = self._background.base.oklab
 
         background_compensation = 0.2
 
@@ -319,12 +345,16 @@ class ColorScheme:
         for alias_name, target in self.__ALIAS_COLORS.items():
             # Include a small compensation for the perceptual shift due to the background hue.
             # Instead of changing the accent color, we'll shift the target in the opposite direction
-            target_l = target.oklab.l
-            target_a = target.oklab.a + bg_oklab.a * background_compensation
-            target_b = target.oklab.b + bg_oklab.b * background_compensation
-            target = OKLAB(target_l, target_a, target_b)
+            target_oklab = target._to_oklab()
+            target_l = target_oklab.l
+            target_a = target_oklab.a + bg_oklab.a * background_compensation
+            target_b = target_oklab.b + bg_oklab.b * background_compensation
+            target_color = Color(OKLAB(target_l, target_a, target_b))
+
+            cost_matrix[alias_name] = {}
+
             for accent in self._accents:
-                cost_matrix[alias_name][accent.base] = accent.distance_to(target)
+                cost_matrix[alias_name][accent.base] = accent.base.distance_to(target_color)
 
         aliases_by_confidence = sorted(
             self.__ALIAS_COLORS.keys(),
@@ -340,7 +370,13 @@ class ColorScheme:
             resolved[alias_name] = best_accent
             assigned_counts[best_accent] += 1
 
+        return resolved
+
     def high_contrast(self, n: int) -> list[ColorFamily]:
+        if n <= 0:
+            return []
+        if n == 1:
+            return [self._accents[0]]
         if n >= len(self._accents):
             return self._accents.copy()
 
@@ -363,6 +399,29 @@ class ColorScheme:
 
         return best_subset or self._accents[:n]
 
+    @property
+    def foreground(self) -> ColorFamily:
+        return self._foreground
+
+    @property
+    def background(self) -> ColorFamily:
+        return self._background
+
+    @property
+    def accents(self) -> list[ColorFamily]:
+        return self._accents
+
+    @property
+    def surfaces(self) -> list[ColorFamily]:
+        return self._surfaces
+
+    @property
+    def auto_surfaces(self) -> list[ColorFamily]:
+        return self._auto_surfaces
+
+    @property
+    def aliases(self) -> dict[str, ColorFamily]:
+        return self._aliases
 
     @property
     def red(self) -> ColorFamily:
@@ -415,3 +474,23 @@ class ColorScheme:
     def info(self):
         return self.blue
 
+    def get_canonical_name(
+        self, color_family: ColorFamily
+    ) -> tuple[str, int | None] | None:
+        if self.foreground == color_family:
+            return "foreground", None
+
+        if self.background == color_family:
+            return "background", None
+
+        for i, accent in enumerate(self.accents):
+            if accent == color_family:
+                return "accents", i
+
+        for i, surface in enumerate(self.surfaces):
+            if surface == color_family:
+                return "surfaces", i
+
+        for i, surface in enumerate(self.auto_surfaces):
+            if surface == color_family:
+                return "auto_surfaces", i

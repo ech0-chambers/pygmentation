@@ -14,6 +14,10 @@ class Color:
         return self.rgb.to_hex()
 
     @cached_property
+    def css(self) -> str:
+        return "#" + self.hex
+
+    @cached_property
     def rgb(self) -> RGB:
         return RGB.from_full_rgb(*self._full_rgb)
 
@@ -38,7 +42,7 @@ class Color:
         return OKLAB.from_full_rgb(*self._full_rgb)
     
     @cached_property
-    def oklch(self) -> OKLAB:
+    def oklch(self) -> OKLCH:
         return OKLCH.from_full_rgb(*self._full_rgb)
 
     @property
@@ -110,8 +114,12 @@ class Color:
         new_b = self.oklab.b + (other.oklab.b - self.oklab.b) * amount
         return Color(OKLAB(new_l, new_a, new_b))
         
-    def distance_to(self, other):
+    def distance_to(self, other: Color | ColorModel | str) -> float:
         # Returns a measure of similarity between self and other, based on https://github.com/hamada147/IsThisColourSimilar
+
+        if not isinstance(other, Color):
+            other = Color(other)
+
         lab1 = self.lab
         lab2 = other.lab
 
@@ -192,6 +200,8 @@ class Color:
         return self.oklab.l > other.oklab.l
 
     def __eq__(self, other) -> bool:
+        if not isinstance(other, Color):
+            return False
         return self.hex == other.hex
 
     def __hash__(self):
