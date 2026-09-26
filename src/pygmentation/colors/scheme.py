@@ -23,8 +23,8 @@ class ColorFamily:
         scheme_type: SchemeType | str,
         light: Color | str | ColorModel | None = None,
         dark: Color | str | ColorModel | None = None,
-        force_variants: bool = False,
         is_main: bool = False,
+        variants: list[Color | ColorModel | str] | None = None,
     ):
         if not isinstance(base, Color):
             base = Color(base)
@@ -56,13 +56,17 @@ class ColorFamily:
         self._dark = dark
         self._scheme_type = scheme_type
 
+        if variants is not None:
+            if len(variants) != 5:
+                raise ValueError(
+                    f"ColorFamily requires exactly 5 variants, got {len(variants)}"
+                )
+            self.variants = [v if isinstance(v, Color) else Color(v) for v in variants]
+            return
+
         # We check if the base colour is too dark to have darker variants, or too light to have lighter variants
-        too_light = not force_variants and (
-            self._base.oklab.l / self._light.oklab.l > 0.9
-        )
-        too_dark = not force_variants and (
-            self._base.oklab.l - self._dark.oklab.l < 0.2
-        )
+        too_light = self._base.oklab.l / self._light.oklab.l > 0.9
+        too_dark = self._base.oklab.l - self._dark.oklab.l < 0.2
 
         amounts = [0] * 5
 
@@ -134,7 +138,7 @@ class ColorFamily:
     def __getitem__(self, index: int) -> Color:
         if isinstance(index, slice):
             return [self[i] for i in range(len(self.variants) + 1)[index]]
-        
+
         if index == 0:
             return self._base
         return self.variants[index - 1]
@@ -176,10 +180,19 @@ class ColorFamily:
             and self._light == other._light
             and self._dark == other._dark
             and self._scheme_type == other._scheme_type
+            and tuple(self.variants) == tuple(other.variants)
         )
 
     def __hash__(self):
-        return hash((self.base, self._light, self._dark, self._scheme_type))
+        return hash(
+            (
+                self.base,
+                tuple(self.variants),
+                self._light,
+                self._dark,
+                self._scheme_type,
+            )
+        )
 
 
 class ColorScheme:
@@ -214,13 +227,12 @@ class ColorScheme:
             self._background = None
             self._scheme_type = SchemeType.EMPTY
             self._surfaces = None
-            self._auto_surfaces = None
+            self._auto_surface = None
             return
 
         self._scheme_type = scheme_type
         self._accents = []
         self._surfaces = []
-        self._auto_surfaces = []
 
         # Verify scheme dict structure
         for key in ["foreground", "background", "accents"]:
@@ -268,10 +280,10 @@ class ColorScheme:
                 foreground, background = background, foreground
 
         self._foreground = ColorFamily(
-            foreground, self._scheme_type, background, foreground, False, True
+            foreground, self._scheme_type, background, foreground, True
         )
         self._background = ColorFamily(
-            background, self._scheme_type, background, foreground, False, True
+            background, self._scheme_type, background, foreground, True
         )
 
         for color in scheme["accents"]:
@@ -281,7 +293,6 @@ class ColorScheme:
                     self._scheme_type,
                     background,
                     foreground,
-                    False,
                     False,
                 )
             )
@@ -294,7 +305,6 @@ class ColorScheme:
                         self._scheme_type,
                         background,
                         foreground,
-                        False,
                         False,
                     )
                 )
@@ -329,6 +339,8 @@ class ColorScheme:
             c for c in self._accents if c in self._distinct_accents
         ]
 
+        self._auto_surface = self._generate_auto_surface()
+
         # TODO: Maybe choose more appropriate lightness for the base color if the accents are not suitable
 
     def determine_aliases(self):
@@ -354,7 +366,9 @@ class ColorScheme:
             cost_matrix[alias_name] = {}
 
             for accent in self._accents:
-                cost_matrix[alias_name][accent.base] = accent.base.distance_to(target_color)
+                cost_matrix[alias_name][accent.base] = accent.base.distance_to(
+                    target_color
+                )
 
         aliases_by_confidence = sorted(
             self.__ALIAS_COLORS.keys(),
@@ -399,6 +413,57 @@ class ColorScheme:
 
         return best_subset or self._accents[:n]
 
+    def _generate_auto_surface(self) -> ColorFamily:
+        bg_color = self.background.base
+        bg_oklch = bg_color.oklch
+        dark_scheme = self._scheme_type == SchemeType.DARK
+
+        target_l = 0 if dark_scheme else 1
+        headroom = abs(target_l - bg_oklch.l)
+
+        # If we have no headroom (i.e, starting from pure white or black), we'll flip direction.
+        # This means things will be similar to background.variants
+        if headroom < 0.08:
+            target_l = 0.2 if dark_scheme else 0.85
+            headroom = abs(target_l - bg_oklch.l)
+
+        chroma = bg_oklch.c
+        hue = bg_oklch.h
+
+        # If background has no chroma, infuse a little from foreground.
+        # If that's *also* achromatic, try first accent color
+        if chroma < 0.01:
+            if self.foreground.base.oklch.c > 0.02:
+                hue = self.foreground.base.oklch.h
+                chroma = 0.015
+            elif self.accents[0].base.oklch.c > 0.02:
+                hue = self.accents[0].base.oklch.h
+                chroma = 0.015
+            # Could be an achromatic palette, so we'll give up here
+
+        # We'll have 5 variants + the base from 15% to 85% of the available headroom
+        variants = []
+        step_fractions = [(i + 1) / 7 for i in range(6)]
+
+        for t in step_fractions:
+            new_l = bg_oklch.l + (target_l - bg_oklch.l) * t
+            # reduce chroma to hopefully avoid unpleasant RGB clipping near lightness extremes
+            new_c = chroma * (1 - 0.5 * t)
+
+            surface_color = Color(OKLCH(new_l, new_c, hue))
+            variants.append(surface_color)
+
+        variants.sort(key=lambda c: c.oklab.l, reverse=not dark_scheme)
+
+        return ColorFamily(
+            variants[0],
+            self._scheme_type,
+            self.foreground.base if dark_scheme else self.background.base,
+            self.background.base if dark_scheme else self.foreground.base,
+            is_main=False,
+            variants=variants[1:],
+        )
+
     @property
     def foreground(self) -> ColorFamily:
         return self._foreground
@@ -416,8 +481,8 @@ class ColorScheme:
         return self._surfaces
 
     @property
-    def auto_surfaces(self) -> list[ColorFamily]:
-        return self._auto_surfaces
+    def auto_surface(self) -> list[ColorFamily]:
+        return self._auto_surface
 
     @property
     def aliases(self) -> dict[str, ColorFamily]:
@@ -491,6 +556,5 @@ class ColorScheme:
             if surface == color_family:
                 return "surfaces", i
 
-        for i, surface in enumerate(self.auto_surfaces):
-            if surface == color_family:
-                return "auto_surfaces", i
+        if self.auto_surface == color_family:
+            return "auto_surface", None

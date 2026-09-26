@@ -303,15 +303,15 @@ def show_scheme(
             ))
     # Auto-surfaces
     rows.append([" "] * 8)
-    for i, surface in enumerate(scheme.auto_surfaces):
-        rows.extend(family_to_row(
-            surface,
-            f"Auto-Surface {i+1}",
-            scheme.foreground.base,
-            [],
-            scheme.accents[0].base,
-            code_type
-        ))
+
+    rows.extend(family_to_row(
+        scheme.auto_surface,
+        "Auto-Surface",
+        scheme.foreground.base,
+        [],
+        scheme.accents[0].base,
+        code_type
+    ))
 
     rows = [r for r in rows if r]
 
@@ -322,8 +322,8 @@ def show_scheme(
         table,
         title = name,
         style = Style(
-            color = RichColor.from_rgb(*scheme.background.base.rgb),
-            bgcolor = RichColor.from_rgb(*scheme.foreground.base.rgb),
+            color = RichColor.from_rgb(*scheme.foreground.base.rgb),
+            bgcolor = RichColor.from_rgb(*scheme.background.base.rgb),
         )
     )
 

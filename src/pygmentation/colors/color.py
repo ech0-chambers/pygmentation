@@ -2,6 +2,7 @@ from .models import ColorModel, RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH
 from functools import cached_property
 import math
 
+
 class Color:
     def __init__(self, color: str | ColorModel):
         if isinstance(color, str):
@@ -10,7 +11,6 @@ class Color:
             self._oklab = color
         else:
             self._oklab = color.convert_to("oklab")
-
 
     @cached_property
     def hex(self) -> str:
@@ -43,7 +43,7 @@ class Color:
     @cached_property
     def oklab(self) -> OKLAB:
         return self._oklab
-    
+
     @cached_property
     def oklch(self) -> OKLCH:
         return self._oklab.convert_to("oklch")
@@ -51,22 +51,26 @@ class Color:
     @property
     def r(self) -> int:
         return self.rgb.r
+
     @property
     def g(self) -> int:
         return self.rgb.g
+
     @property
     def b(self) -> int:
         return self.rgb.b
+
     @property
     def h(self) -> int:
         return self.hsl.h
+
     @property
     def s(self) -> int:
         return self.hsl.s
+
     @property
     def l(self) -> int:
         return self.hsl.l
-
 
     def with_r(self, r: float) -> Color:
         return Color(self.rgb.with_r(r))
@@ -92,13 +96,13 @@ class Color:
 
         new_l = self.oklab.l + (target_lightness - self.oklab.l) * amount
         return Color(self.oklab.with_l(new_l))
-    
+
     def darken(self, amount: float, target_lightness: float = 0) -> Color:
-            if amount > 1:
-                amount /= 100
-    
-            new_l = self.oklab.l - (self.oklab.l - target_lightness) * amount
-            return Color(self.oklab.with_l(new_l))
+        if amount > 1:
+            amount /= 100
+
+        new_l = self.oklab.l - (self.oklab.l - target_lightness) * amount
+        return Color(self.oklab.with_l(new_l))
 
     tint = lighten
     shade = darken
@@ -116,8 +120,8 @@ class Color:
         new_a = self.oklab.a + (other.oklab.a - self.oklab.a) * amount
         new_b = self.oklab.b + (other.oklab.b - self.oklab.b) * amount
         return Color(OKLAB(new_l, new_a, new_b))
-        
-    def distance_to(self, other: Color | ColorModel | str) -> float:
+
+    def distance_to_CIEDE2000(self, other: Color | ColorModel | str) -> float:
         # Returns a measure of similarity between self and other, based on https://github.com/hamada147/IsThisColourSimilar
 
         if not isinstance(other, Color):
@@ -195,6 +199,19 @@ class Color:
         )
 
         return deltaE
+
+    def distance_to(self, other: Color | ColorModel | str) -> float:
+
+        # Euclidean distance in OKLAB space
+
+        if not isinstance(other, Color):
+            other = Color(other)
+
+        dl = self._oklab.l - other._oklab.l
+        da = self._oklab.a - other._oklab.a
+        db = self._oklab.b - other._oklab.b
+
+        return 100 * math.sqrt(dl**2 + da**2 + db**2)
 
     def is_darker_than(self, other: Color):
         return self.oklab.l < other.oklab.l

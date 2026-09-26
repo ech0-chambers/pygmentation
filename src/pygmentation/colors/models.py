@@ -471,9 +471,9 @@ class OKLAB(ColorModel):
         m = M_1[1][0] * X + M_1[1][1] * Y + M_1[1][2] * Z
         s = M_1[2][0] * X + M_1[2][1] * Y + M_1[2][2] * Z
 
-        l = l ** (1/3)
-        m = m ** (1/3)
-        s = s ** (1/3)
+        l = math.cbrt(l)
+        m = math.cbrt(m)
+        s = math.cbrt(s)
 
         
         L = M_2[0][0] * l + M_2[0][1] * m + M_2[0][2] * s
@@ -506,7 +506,7 @@ class OKLCH(ColorModel):
     @classmethod
     def _from_oklab(cls, oklab: OKLAB) -> OKLCH:
         L = oklab.l
-        C = (oklab.a ** 2 + oklab.b ** 2) ** (1/2)
+        C = math.sqrt(oklab.a ** 2 + oklab.b ** 2)
         h = math.degrees(math.atan2(oklab.b, oklab.a))
         return cls(L, C, h, clamp = True)
 

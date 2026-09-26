@@ -1,5 +1,102 @@
 import pytest
-from pygmentation.colors.models import RGB, HSL, XYZ, LAB, OKLAB, OKLCH
+from pygmentation.colors.models import RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH, ColorModel
+
+
+@pytest.mark.parametrize(
+    "model, a, b, c",
+    [
+        (RGB, 0, 0, 0),
+        (RGB, 255, 255, 255),
+        (RGB, 0x5e, 0x81, 0xac),
+        (HSL, 0, 0, 0),
+        (HSL, 360, 1, 1),
+        (HSL, 213, 0.32, 0.52),
+        (HSV, 0, 0, 0),
+        (HSV, 360, 1, 1),
+        (HSV, 213, 0.46, 0.67),
+        (XYZ, 0, 0, 0),
+        (XYZ, 100, 100, 100),
+        (XYZ, 19.8, 21, 42),
+        (LAB, 0, 0, 0),
+        (LAB, 100, 100, 100),
+        (LAB, 52.591, -3.226, -21.76),
+        (OKLAB, 0, 0, 0),
+        (OKLAB, 100, 100, 100),
+        (OKLAB, 59.4, -5.5, -18.75),
+        (OKLCH, 0, 0, 0),
+        (OKLCH, 360, 1, 1),
+        (OKLCH, 59.4, 19.5, 253.4),
+    ],
+)
+def test_instantiation(model: type[ColorModel], a: float, b: float, c: float):
+    c = model(a,b,c)
+
+
+@pytest.mark.parametrize(
+    "model, a, b, c",
+    [
+        (RGB, -10, 0, 0),
+        (HSL, 0, -1, 0),
+        (HSV, 0, -1, 0),
+        (XYZ, -10, -5, 0),
+        (LAB, -10, 0, 0),
+        (OKLAB, -10, 0, 0),
+        (OKLCH, -10, -1, 0),
+    ],
+)
+def test_out_of_bounds_minimum(model: type[ColorModel], a: float, b: float, c: float):
+    with pytest.raises(ValueError, match = "below minimum"):
+        c = model(a,b,c)
+
+@pytest.mark.parametrize(
+    "model, a, b, c",
+    [
+        (RGB, 0, 300, 0),
+        (HSL, 0, 2, 0),
+        (HSV, 0, 2, 0),
+    ],
+)
+def test_out_of_bounds_maximum(model: type[ColorModel], a: float, b: float, c: float):
+    with pytest.raises(ValueError, match = "above maximum"):
+        c = model(a,b,c)
+
+@pytest.mark.parametrize(
+    "model, a, b, c",
+    [
+        (RGB, -10, 0, 0),
+        (HSL, 0, 0, 0),
+        (HSV, 0, 0, 0),
+        (XYZ, -10, -5, 0),
+        (LAB, -10, 0, 0),
+        (OKLAB, -10, 0, 0),
+        (OKLCH, -10, 0, 0),
+    ],
+)
+def test_clamping_minimum(model: type[ColorModel], a: float, b: float, c: float):
+    color = model(a,b,c, clamp = True)
+
+    assert color[0] == (a if color.BOUNDS[0][0] is None else max(a, color.BOUNDS[0][0]))
+    assert color[1] == (b if color.BOUNDS[1][0] is None else max(b, color.BOUNDS[1][0]))
+    assert color[2] == (c if color.BOUNDS[2][0] is None else max(c, color.BOUNDS[2][0]))
+
+@pytest.mark.parametrize(
+    "model, a, b, c",
+    [
+        (RGB, 300, 300, 0),
+        (HSL, 300, 0, 2),
+        (HSV, 300, 2, 0),
+        (XYZ, 10, 5, 0),
+        (LAB, 10, 0, 0),
+        (OKLAB, 10, 0, 0),
+        (OKLCH, 10, 0, 5),
+    ],
+)
+def test_clamping_maximum(model: type[ColorModel], a: float, b: float, c: float):
+    color = model(a,b,c, clamp = True)
+
+    assert color[0] == (a if color.BOUNDS[0][1] is None else min(a, color.BOUNDS[0][1]))
+    assert color[1] == (b if color.BOUNDS[1][1] is None else min(b, color.BOUNDS[1][1]))
+    assert color[2] == (c if color.BOUNDS[2][1] is None else min(c, color.BOUNDS[2][1]))
 
 
 @pytest.mark.parametrize(
@@ -76,22 +173,37 @@ def test_model_sequence_protocol():
     assert (r, g, b) == (255, 128, 0)
 
 
-def test_bounds_validation_and_clamping():
-    # clamp=False raises ValueError on out-of-bounds inputs
-    with pytest.raises(ValueError, match="below minimum"):
-        RGB(-5, 100, 100, clamp=False)
-    with pytest.raises(ValueError, match="above maximum"):
-        RGB(300, 100, 100, clamp=False)
-
-    # clamp=True constrains values within valid bounds
-    clamped = RGB(-10, 300, 50, clamp=True)
-    assert clamped.r == 0
-    assert clamped.g == 255
-    assert clamped.b == 50
-
-
 def test_bounds_snapping():
     rgb = RGB(-1e-8, 255.00001, 100, clamp=False)
     assert rgb.r == 0
     assert rgb.g == 255
     assert rgb.b == 100
+
+def test_mutation_helpers():
+    color = RGB(100, 100, 100)
+
+    new_color = color.with_r(255)
+    # Check mutation
+    assert new_color.r == 255
+    assert new_color.g == 100
+    assert new_color.b == 100
+    # Check original color is unchanged
+    assert color[0] == 100
+    assert color[1] == 100
+    assert color[2] == 100
+
+    new_color = color.with_g(255)
+    assert new_color.r == 100
+    assert new_color.g == 255
+    assert new_color.b == 100
+    assert color[0] == 100
+    assert color[1] == 100
+    assert color[2] == 100
+    
+    new_color = color.with_b(255)
+    assert new_color.r == 100
+    assert new_color.g == 100
+    assert new_color.b == 255
+    assert color[0] == 100
+    assert color[1] == 100
+    assert color[2] == 100
