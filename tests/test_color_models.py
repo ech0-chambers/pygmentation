@@ -207,3 +207,73 @@ def test_mutation_helpers():
     assert color[0] == 100
     assert color[1] == 100
     assert color[2] == 100
+
+
+def test_convert_to_options_and_errors():
+    rgb = RGB(255, 0, 0)
+    hsl = HSL(0, 1.0, 0.5)
+
+    # hex and css string conversions
+    assert rgb.convert_to("hex") == "FF0000"
+    assert rgb.convert_to("css") == "#FF0000"
+    assert hsl.convert_to("hex") == "FF0000"
+    assert hsl.convert_to("css") == "#FF0000"
+
+    # Conversion using Class rather than string
+    assert rgb.convert_to(HSL).h == pytest.approx(0.0, abs=0.1)
+    assert rgb.convert_to(RGB) is rgb  # Identity conversion returns self
+
+    # Error conditions
+    with pytest.raises(ValueError, match="Unknown color model: foobar"):
+        rgb.convert_to("foobar")
+
+    with pytest.raises(TypeError, match="Expected model name"):
+        rgb.convert_to(12345)
+
+
+def test_mutation_helpers_all_models():
+    # HSV
+    hsv = HSV(100, 0.5, 0.5)
+    assert hsv.with_h(200).h == 200
+    assert hsv.with_s(0.8).s == pytest.approx(0.8)
+    assert hsv.with_v(0.9).v == pytest.approx(0.9)
+
+    # XYZ
+    xyz = XYZ(10, 20, 30)
+    assert xyz.with_x(15).x == 15
+    assert xyz.with_y(25).y == 25
+    assert xyz.with_z(35).z == 35
+
+    # LAB
+    lab = LAB(50, 10, -20)
+    assert lab.with_l(60).l == 60
+    assert lab.with_a(15).a == 15
+    assert lab.with_b(-10).b == -10
+
+    # OKLAB
+    oklab = OKLAB(0.5, 0.1, -0.1)
+    assert oklab.with_l(0.6).l == pytest.approx(0.6)
+    assert oklab.with_a(0.15).a == pytest.approx(0.15)
+    assert oklab.with_b(-0.05).b == pytest.approx(-0.05)
+
+    # OKLCH
+    oklch = OKLCH(0.5, 0.1, 200)
+    assert oklch.with_l(0.6).l == pytest.approx(0.6)
+    assert oklch.with_c(0.15).c == pytest.approx(0.15)
+    assert oklch.with_h(250).h == 250
+
+
+def test_oklch_from_xyz_and_validation():
+    # from_xyz tuple and 3 args
+    xyz_tuple = (19.9, 21.1, 42.0)
+    oklch_from_tuple = OKLCH.from_xyz(xyz_tuple)
+    assert isinstance(oklch_from_tuple, OKLCH)
+
+    oklch_from_args = OKLCH.from_xyz(*xyz_tuple)
+    assert isinstance(oklch_from_args, OKLCH)
+    assert oklch_from_args.l == pytest.approx(oklch_from_tuple.l)
+
+    # Argument validation in _check_xyz_args
+    with pytest.raises(ValueError, match="Expected 3 xyz values, but received 2"):
+        OKLCH.from_xyz((10, 20))
+

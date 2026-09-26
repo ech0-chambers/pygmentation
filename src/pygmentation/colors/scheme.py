@@ -197,16 +197,16 @@ class ColorFamily:
 
 class ColorScheme:
 
-    # Mostly from Sturges and Whitfield, https://doi.org/10.1002/col.5080200605
     __ALIAS_COLORS = {
-        "red": OKLCH(0.60, 0.22, 29),
-        "orange": OKLCH(0.70, 0.18, 55),
-        "yellow": OKLCH(0.88, 0.16, 103),
-        "green": OKLCH(0.68, 0.18, 142),
-        "cyan": OKLCH(0.75, 0.14, 195),
-        "blue": OKLCH(0.50, 0.18, 264),
-        "purple": OKLCH(0.52, 0.22, 305),
-        "magenta": OKLCH(0.62, 0.24, 335),
+        # (start, end, centre)
+        "red":     (345, 30,  20),
+        "orange":  (30,  65,  50),
+        "yellow":  (65,  110, 90),
+        "green":   (110, 175, 142),
+        "cyan":    (175, 220, 195),
+        "blue":    (220, 280, 255),
+        "purple":  (280, 340, 315),
+        "magenta": (315, 355, 335),
     }
 
     __DISTINCT_THRESHOLD = 15
@@ -343,37 +343,102 @@ class ColorScheme:
 
         # TODO: Maybe choose more appropriate lightness for the base color if the accents are not suitable
 
-    def determine_aliases(self):
-        reuse_penalty = 12
+    @staticmethod
+    def _circular_hue_diff(h1: float, h2: float) -> float:
+        return abs((h1 - h2 + 180) % 360 - 180)
 
+    @classmethod
+    def _in_hue_range(
+        cls, h: float, h_min: float, h_max: float, tol: float = 1e-5
+    ) -> bool:
+        # This should be order independent for h_min and h_max
+        # handles h < 0 and h > 360 properly
+        # Always evaluates based on the *minor* arc
+
+        d_bounds = cls._circular_hue_diff(h_min, h_max)
+        d_to_min = cls._circular_hue_diff(h_min, h)
+        d_to_max = cls._circular_hue_diff(h, h_max)
+
+        return (d_to_min + d_to_max) <= d_bounds + tol
+
+    @classmethod
+    def _dist_to_hue_range(
+        cls, h: float, h_min: float, h_max: float, tol: float = 1e-5
+    ) -> float:
+        # Returns 0 if it's within the range
+
+        d_bounds = cls._circular_hue_diff(h_min, h_max)
+        d_to_min = cls._circular_hue_diff(h_min, h)
+        d_to_max = cls._circular_hue_diff(h, h_max)
+        
+        if (d_to_min + d_to_max) <= d_bounds + tol:
+            return 0.0
+
+        return min(d_to_min, d_to_max)
+
+    @classmethod
+    def _alias_cost(
+        cls,
+        accent: Color,
+        h_min: float,
+        h_max: float,
+        h_centre: float,
+        target_c: float,
+        target_l: float,
+        w_l: float = 10.0,
+        w_c: float = 15.0,
+        outside_penalty: float = 50.0,
+    ) -> float:
+        acc_lch = accent.oklch
+        h = acc_lch.h
+
+        d_to_range = cls._dist_to_hue_range(h, h_min, h_max)
+        if d_to_range == 0.0:
+            # we're inside the acceptable range. 
+            # Cost should be very small, decreasing the closer we are to the "centre" 
+            hue_cost = cls._circular_hue_diff(h, h_centre) / 20.0
+        else:
+            # we're outside the acceptable range. Big cost penalty, plus even more 
+            # penalty by distance
+            hue_cost = outside_penalty + d_to_range
+
+        # small contribution from lightness and chroma differences
+        dl = abs(acc_lch.l - target_l)
+        lightness_cost = dl * w_l
+
+        dc = abs(acc_lch.c - target_c)
+        chroma_cost = dc * w_c
+
+        return hue_cost + lightness_cost + chroma_cost
+
+    def determine_aliases(self) -> dict[str, ColorFamily]:
+        reuse_penalty = 15.0
+        background_compensation = 0.2
         bg_oklab = self._background.base.oklab
 
-        background_compensation = 0.2
+        cost_matrix: dict[str, dict[Color, float]] = {}
 
-        assigned_counts = Counter()
-        resolved = {}
-
-        cost_matrix = {}
-        for alias_name, target in self.__ALIAS_COLORS.items():
-            # Include a small compensation for the perceptual shift due to the background hue.
-            # Instead of changing the accent color, we'll shift the target in the opposite direction
-            target_oklab = target._to_oklab()
-            target_l = target_oklab.l
-            target_a = target_oklab.a + bg_oklab.a * background_compensation
-            target_b = target_oklab.b + bg_oklab.b * background_compensation
-            target_color = Color(OKLAB(target_l, target_a, target_b))
+        for alias_name, (h_min, h_max, h_centre) in self.__ALIAS_COLORS.items():
 
             cost_matrix[alias_name] = {}
-
             for accent in self._accents:
-                cost_matrix[alias_name][accent.base] = accent.base.distance_to(
-                    target_color
+                cost_matrix[alias_name][accent.base] = self._alias_cost(
+                    accent=accent.base,
+                    h_min=h_min,
+                    h_max=h_max,
+                    h_centre=h_centre,
+                    target_c = 0.5,
+                    target_l = 0.5,
                 )
 
+        # High-confidence aliases resolve first
         aliases_by_confidence = sorted(
             self.__ALIAS_COLORS.keys(),
             key=lambda alias: min(cost_matrix[alias].values()),
         )
+
+        assigned_counts: Counter[ColorFamily] = Counter()
+        resolved: dict[str, ColorFamily] = {}
 
         for alias_name in aliases_by_confidence:
             best_accent = min(
@@ -385,6 +450,7 @@ class ColorScheme:
             assigned_counts[best_accent] += 1
 
         return resolved
+
 
     def high_contrast(self, n: int) -> list[ColorFamily]:
         if n <= 0:
@@ -453,7 +519,7 @@ class ColorScheme:
             surface_color = Color(OKLCH(new_l, new_c, hue))
             variants.append(surface_color)
 
-        variants.sort(key=lambda c: c.oklab.l, reverse=not dark_scheme)
+        variants.sort(key=lambda c: self._background.base.distance_to(c))
 
         return ColorFamily(
             variants[0],
@@ -461,7 +527,7 @@ class ColorScheme:
             self.foreground.base if dark_scheme else self.background.base,
             self.background.base if dark_scheme else self.foreground.base,
             is_main=False,
-            variants=variants[1:],
+            variants=variants[1:][::-1],
         )
 
     @property

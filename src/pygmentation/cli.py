@@ -20,11 +20,14 @@ from .exporters import get_exporter
 
 # Formatter mappings for color code representations (e.g. hex, rgb, hsl, hsv, Lab)
 show_code_map: dict[str, Callable[[Any], str]] = {
-    "hex": lambda c: c.hex,
-    "rgb": lambda c: f"{c.r:.0f}, {c.g:.0f}, {c.b:.0f}",
-    "hsl": lambda c: f"{c.h:.0f}, {c.s * 100:.0f}%, {c.l * 100:.0f}%",
-    "hsv": lambda c: f"{c.hsv.h:.0f}, {c.hsv.s * 100:.0f}%, {c.hsv.v * 100:.0f}%",
-    "lab": lambda c: f"{c.lab.l:.0f}, {c.lab.a:.0f}, {c.lab.b:.0f}",
+    "hex":   lambda c: c.hex,
+    "rgb":   lambda c: f"{c.r:.0f}, {c.g:.0f}, {c.b:.0f}",
+    "hsl":   lambda c: f"{c.h:.0f}, {c.s * 100:.0f}%, {c.l * 100:.0f}%",
+    "hsv":   lambda c: f"{c.hsv.h:.0f}, {c.hsv.s * 100:.0f}%, {c.hsv.v * 100:.0f}%",
+    "lab":   lambda c: f"{c.lab.l:.0f}, {c.lab.a:.0f}, {c.lab.b:.0f}",
+    "xyz":   lambda c: f"{c.xyz.x:.0f}, {c.xyz.y:.0f}, {c.xyz.z:.0f}",
+    "oklab": lambda c: f"{c.oklab.l:.2f}, {c.oklab.a:.2f}, {c.oklab.b:.2f}",
+    "oklch": lambda c: f"{c.oklch.l:.2f}, {c.oklch.c:.2f}, {c.oklch.h:.0f}",
 }
 
 console = Console()
@@ -73,7 +76,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         parser.add_argument(
             "-c",
             "--code-type",
-            choices=["hex", "rgb", "hsl", "hsv", "Lab"],
+            choices=["hex", "rgb", "hsl", "hsv", "lab", "xyz", "oklab", "oklch"],
             help="The format of color codes to show (default: hex)",
         )
 
@@ -109,7 +112,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     write_parser.add_argument(
         "-t",
         "--type",
-        choices=["latex", "css", "tcss", "js"],
+        choices=["latex", "css", "tcss", "js", "less", "javascript"],
         help="The type of file to write (default: inferred from filename extension)",
     )
 
@@ -175,11 +178,12 @@ def swatch(color: Color) -> Text:
 
 def scheme_swatch(scheme: ColorScheme) -> Text:
     swatch = Text()
-    swatch.append("  ", style = Style(bgcolor=RichColor.from_rgb(*scheme.foreground.base.rgb)))
-    swatch.append("  ", style = Style(bgcolor=RichColor.from_rgb(*scheme.background.base.rgb)))
+    swatch.append("████", style = Style(color=RichColor.from_rgb(*scheme.foreground.base.rgb)))
     swatch.append("  ")
+    swatch.append("████", style = Style(color=RichColor.from_rgb(*scheme.background.base.rgb)))
+    swatch.append("    ")
     for accent in scheme.accents:
-        swatch.append("  ", style = Style(bgcolor=RichColor.from_rgb(*accent.base.rgb)))
+        swatch.append("██", style = Style(color=RichColor.from_rgb(*accent.base.rgb)))
 
     return swatch
 
@@ -211,7 +215,7 @@ def family_to_row(
             raise ValueError(
                 f"Unrecognised code format {code_type}. This should be one of the following: {", ".join(show_code_map.keys())}"
             )
-        code_func = show_code_map[code_type]
+        code_func = show_code_map[code_type.lower()]
         code_row = [
             "",
             code_func(color_family.base),
@@ -421,7 +425,7 @@ def cli_list(
 
     table = Table(show_lines = True)
     table.add_column("Name", justify = "center")
-    table.add_column("Sample", justify = "center")
+    table.add_column("Sample", justify = "left")
     for scheme_name in matches:
         scheme = registry.get(scheme_name, SchemeType.LIGHT if variant == "light" else SchemeType.DARK)
         table.add_row(
