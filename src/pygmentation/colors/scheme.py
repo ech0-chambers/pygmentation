@@ -6,7 +6,6 @@ from collections import Counter
 
 
 class SchemeType(StrEnum):
-    EMPTY = "empty"
     LIGHT = "light"
     DARK = "dark"
 
@@ -136,12 +135,8 @@ class ColorFamily:
         )
 
     def __getitem__(self, index: int) -> Color:
-        if isinstance(index, slice):
-            return [self[i] for i in range(len(self.variants) + 1)[index]]
-
-        if index == 0:
-            return self._base
-        return self.variants[index - 1]
+        items = [self.base, *self.variants]
+        return items[index]
 
     @property
     def base(self) -> Color:
@@ -149,19 +144,41 @@ class ColorFamily:
 
     @property
     def lightest(self) -> Color:
-        if self._scheme_type == SchemeType.LIGHT:
-            return self.variants[4]
-        return self.variants[0]
+        best_l = 0
+        best_color = None
+        for color in self:
+            if color.oklab.l > best_l:
+                best_l = color.oklab.l
+                best_color = color
+
+        if best_color is None:
+            # All colors are black
+            return self.base
+
+        return best_color
 
     @property
     def darkest(self) -> Color:
-        if self._scheme_type == SchemeType.DARK:
-            return self.variants[4]
-        return self.variants[0]
+        best_l = float("inf")
+        best_color = None
+        for color in self:
+            if color.oklab.l < best_l:
+                best_l = color.oklab.l
+                best_color = color
+
+        if best_color is None:
+            # All colors are white
+            return self.base
+
+        return best_color
 
     @property
     def hex(self) -> str:
         return self.base.hex
+
+    @property
+    def css(self) -> str:
+        return self.base.css
 
     def index(self, color: Color) -> int | None:
         # returns 0 if the color is this family's base, 1-5 if it's a variant, or None if it doesn't appear in this family.
@@ -194,6 +211,19 @@ class ColorFamily:
             )
         )
 
+    def __len__(self) -> int:
+        return 1 + len(self.variants)
+
+    def __iter__(self):
+        yield self._base
+        yield from self.variants
+
+    def __str__(self) -> str:
+        return self.base.css
+
+    def __repr__(self) -> str:
+        return f"ColorFamily(base={self.base!r}, scheme_type={self._scheme_type.value!r})"
+
 
 class ColorScheme:
 
@@ -220,15 +250,6 @@ class ColorScheme:
 
         if not isinstance(scheme_type, SchemeType):
             scheme_type = SchemeType[scheme_type.upper()]
-
-        if scheme_type == SchemeType.EMPTY:
-            self._accents = None
-            self._foreground = None
-            self._background = None
-            self._scheme_type = SchemeType.EMPTY
-            self._surfaces = None
-            self._auto_surface = None
-            return
 
         self._scheme_type = scheme_type
         self._accents = []
@@ -462,22 +483,41 @@ class ColorScheme:
 
         # We want to find the set of n colours such that the minimum distance between any pair of colours is maximised.
 
-        best_subset = None
+        distances = [
+            [c1.base.distance_to(c2.base) for c2 in self._accents]
+            for c1 in self._accents
+        ]
+
+        best_subset_indices = None
         best_min_dist = -1
 
         # For each combination of n colors:
-        for subset in combinations(self._accents, n):
+        for subset in combinations(range(len(self._accents)), n):
 
-            # find the minimum distance between any two colours in this subset
-            min_dist = min(
-                c1.base.distance_to(c2.base) for c1, c2 in combinations(subset, 2)
-            )
+            local_min = float("inf")
+            is_viable = True
 
-            if min_dist > best_min_dist:
-                best_min_dist = min_dist
-                best_subset = list(subset)
+            for i in range(n):
+                u = subset[i]
+                for j in range(i + 1, n):
+                    d = distances[u][subset[j]]
+                    if d <= best_min_dist:
+                        # We can prune here, it's already worse than our best option
+                        is_viable = False
+                        break
+                    if d < local_min:
+                        local_min = d
+                if not is_viable:
+                    break
 
-        return best_subset or self._accents[:n]
+            if is_viable and local_min > best_min_dist:
+                best_min_dist = local_min
+                best_subset_indices = subset
+
+        if best_subset_indices is None:
+            return self._accents[:n]
+
+        return [self._accents[i] for i in best_subset_indices]
 
     def _generate_auto_surface(self) -> ColorFamily:
         bg_color = self.background.base
@@ -543,11 +583,15 @@ class ColorScheme:
         return self._accents
 
     @property
+    def distinct(self) -> list[ColorFamily]:
+        return self._distinct_accents
+
+    @property
     def surfaces(self) -> list[ColorFamily]:
         return self._surfaces
 
     @property
-    def auto_surface(self) -> list[ColorFamily]:
+    def auto_surface(self) -> ColorFamily:
         return self._auto_surface
 
     @property

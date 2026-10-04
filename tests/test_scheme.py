@@ -9,7 +9,6 @@ from pygmentation import Color, ColorFamily, ColorScheme, SchemeType
 def test_scheme_type_enum():
     assert SchemeType.LIGHT == "light"
     assert SchemeType.DARK == "dark"
-    assert SchemeType.EMPTY == "empty"
     assert SchemeType("light") is SchemeType.LIGHT
     assert SchemeType["DARK"] is SchemeType.DARK
 
@@ -50,6 +49,23 @@ def test_color_family_subscripting_and_slicing():
     assert family[1:] == family.variants
     assert family[:] == [family.base] + family.variants
     assert family[0:2] == [family.base, family.variants[0]]
+
+
+def test_color_family_sequence_and_representations():
+    family = ColorFamily("5E81AC", SchemeType.DARK)
+
+    # __len__
+    assert len(family) == 6
+
+    # __iter__
+    items = list(family)
+    assert len(items) == 6
+    assert items[0] == family.base
+    assert items[1:] == family.variants
+
+    # __str__ and __repr__
+    assert str(family) == family.base.css
+    assert repr(family) == "ColorFamily(base=Color('#5E81AC'), scheme_type='dark')"
 
 
 def test_color_family_contrast_scaling_is_main():
@@ -185,17 +201,11 @@ def test_color_family_equality_and_hashing():
 
 # ColorScheme Tests
 
-def test_scheme_initialization_and_empty(sample_nord_dict):
+def test_scheme_initialization(sample_nord_dict):
     scheme = ColorScheme(sample_nord_dict, SchemeType.DARK)
     assert scheme.foreground is not None
     assert scheme.background is not None
     assert len(scheme.accents) == len(sample_nord_dict["accents"])
-
-    # SchemeType.EMPTY
-    empty_scheme = ColorScheme({}, SchemeType.EMPTY)
-    assert empty_scheme.foreground is None
-    assert empty_scheme.background is None
-    assert empty_scheme.accents is None
 
 
 def test_scheme_input_validation(sample_nord_dict):
@@ -497,11 +507,6 @@ def test_scheme_auto_surface_chroma_infusion():
     }
     s_achromatic = ColorScheme(p_achromatic, SchemeType.DARK)
     assert s_achromatic.auto_surface.base.oklch.c < 0.01
-
-
-def test_scheme_auto_surface_empty_scheme():
-    empty_scheme = ColorScheme({}, SchemeType.EMPTY)
-    assert empty_scheme.auto_surface is None
 
 
 def test_scheme_auto_surface_ordering_similarity(sample_nord_dict):

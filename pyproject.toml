@@ -10,7 +10,7 @@ authors = [
 ]
 description = "A quality-of-life package for colour schemes/palettes and matplotlib plots."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU Affero General Public License v3",
@@ -33,9 +33,8 @@ Homepage = "https://github.com/ech0-chambers/pygmentation"
 [project.scripts]
 pygmentation = "pygmentation.__main__:main"
 
-[tool.setuptools]
-packages = ["pygmentation"]
-package-dir = {"" = "src"}
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
 pygmentation = ["color_schemes.json"]

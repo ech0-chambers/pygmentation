@@ -9,8 +9,13 @@ class Color:
             self._oklab = RGB.from_hex(color).convert_to("oklab")
         elif isinstance(color, OKLAB):
             self._oklab = color
+        elif isinstance(color, Color):
+            self._oklab = color.oklab
         else:
             self._oklab = color.convert_to("oklab")
+
+    def copy(self) -> Color:
+        return Color(self.oklab)
 
     @cached_property
     def hex(self) -> str:
@@ -61,15 +66,15 @@ class Color:
         return self.rgb.b
 
     @property
-    def h(self) -> int:
+    def h(self) -> float:
         return self.hsl.h
 
     @property
-    def s(self) -> int:
+    def s(self) -> float:
         return self.hsl.s
 
     @property
-    def l(self) -> int:
+    def l(self) -> float:
         return self.hsl.l
 
     def with_r(self, r: float) -> Color:
@@ -90,15 +95,19 @@ class Color:
     def with_l(self, l: float) -> Color:
         return Color(self.hsl.with_l(l))
 
-    def lighten(self, amount: float, target_lightness: float = 1) -> Color:
-        if amount > 1:
+    def lighten(
+        self, amount: float, target_lightness: float = 1, percentage: bool = False
+    ) -> Color:
+        if percentage:
             amount /= 100
 
         new_l = self.oklab.l + (target_lightness - self.oklab.l) * amount
         return Color(self.oklab.with_l(new_l))
 
-    def darken(self, amount: float, target_lightness: float = 0) -> Color:
-        if amount > 1:
+    def darken(
+        self, amount: float, target_lightness: float = 0, percentage: bool = False
+    ) -> Color:
+        if percentage:
             amount /= 100
 
         new_l = self.oklab.l - (self.oklab.l - target_lightness) * amount
@@ -113,8 +122,8 @@ class Color:
     def hue_diff_oklch(self, other: Color) -> float:
         return (other.oklch.h - self.oklch.h + 180) % 360 - 180
 
-    def lerp(self, other: Color, amount: float) -> Color:
-        if amount > 1:
+    def lerp(self, other: Color, amount: float, percentage: bool = False) -> Color:
+        if percentage:
             amount /= 100
         new_l = self.oklab.l + (other.oklab.l - self.oklab.l) * amount
         new_a = self.oklab.a + (other.oklab.a - self.oklab.a) * amount
@@ -226,3 +235,9 @@ class Color:
 
     def __hash__(self):
         return hash(self.hex)
+
+    def __str__(self) -> str:
+        return self.css
+
+    def __repr__(self) -> str:
+        return f"Color('{self.css}')"

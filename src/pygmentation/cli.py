@@ -30,22 +30,28 @@ show_code_map: dict[str, Callable[[Any], str]] = {
     "oklch": lambda c: f"{c.oklch.l:.2f}, {c.oklch.c:.2f}, {c.oklch.h:.0f}",
 }
 
-console = Console()
+default_console = Console()
 
+def get_console(console: Console | None = None) -> Console:
+    return console if console is not None else default_console
 
-def error(message: str) -> str:
+def error(message: str, console: Console | None = None) -> None:
+    console = get_console(console)
     console.print(f"[bold red]Error:[/bold red] {message}")
 
 
-def warning(message: str) -> str:
+def warning(message: str, console: Console | None = None) -> None:
+    console = get_console(console)
     console.print(f"[bold orange]Warning:[/bold orange] {message}")
 
 
-def success(message: str) -> str:
+def success(message: str, console: Console | None = None) -> None:
+    console = get_console(console)
     console.print(f"[bold green]Success:[/bold green] {message}")
 
 
-def info(message: str) -> str:
+def info(message: str, console: Console | None = None) -> None:
+    console = get_console(console)
     console.print(f"[bold blue]Info:[/bold blue] {message}")
 
 
@@ -161,7 +167,8 @@ def resolve_unknown_scheme(requested: str) -> str | None:
     return similar[index - 1]
 
 
-def multiple_choice_prompt(prompt: str, choices: list[str], default: int = 1) -> int:
+def multiple_choice_prompt(prompt: str, choices: list[str], default: int = 1, console: Console | None = None) -> int:
+    console = get_console(console)
     console.print(prompt)
     for i, choice in enumerate(choices):
         console.print(
@@ -248,10 +255,12 @@ def show_scheme(
     name: str | None = None,
     filepath: Path | str | None = None,
     code_type: str | None = None,
+    console: Console | None = None
 ) -> None:
+    console = get_console(console)
     if name is None:
         name = "Colour Scheme"
-    console.record = filepath is not None
+        
     width = console.size.width
     # TODO: width decisions need a bit more thought if code_type is given.
 
@@ -331,9 +340,12 @@ def show_scheme(
         )
     )
 
-    console.print(panel)
     if filepath is not None:
-        console.save_svg(filepath)
+        svg_console = Console(record = True, width = 120)
+        svg_console.print(panel)
+        svg_console.save_svg(filepath)
+    else:
+        console.print(panel)
         
 
 def cli_show(
@@ -412,7 +424,9 @@ def cli_list(
     names_only: bool = False,
     pattern: str = ".*",
     variant: str = "light",
+    console: Console | None = None
 ) -> int:
+    console = get_console(console)
     matches = get_schemes_by_pattern(pattern)
     if len(matches) == 0:
         print(f"No schemes match pattern `{pattern}`")

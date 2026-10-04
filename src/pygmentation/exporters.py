@@ -90,7 +90,7 @@ class Exporter(ABC):
             filepath = Path(filepath)
 
         output = self.export(scheme)
-        with open(filepath, "w+") as file:
+        with open(filepath, "w+", encoding="utf-8") as file:
             file.write(output)
 
 
@@ -204,6 +204,51 @@ class LessExporter(Exporter):
     @staticmethod
     def canonical_alias_name(root: str) -> str:
         return f"@clr-{root}"
+
+    def format_color(self, color: Color, name: str) -> str:
+        return f"{name}: #{color.hex};"
+
+    def format_family(self, family: ColorFamily, name: str) -> list[str]:
+        out = []
+        out.append(self.format_color(family.base, name))
+        out.extend(
+            self.format_color(v, name=f"{name}-{i+1}")
+            for i, v in enumerate(family.variants)
+        )
+        return out
+
+    def format_alias(self, name: str, target: str) -> str:
+        return f"{name}: {target};"
+
+    def format_alias_family(self, name: str, target: str) -> list[str]:
+        out = []
+        out.append(self.format_alias(name, target))
+        for i in range(1, 6):
+            out.append(self.format_alias(f"{name}-{i}", f"{target}-{i}"))
+        return out
+
+
+
+class TextualExporter(Exporter):
+
+    format_name: ClassVar[str] = "textual"
+    file_extensions: ClassVar[tuple[str, ...]] = (
+        ".tcss",
+        "tcss",
+    )
+
+    @staticmethod
+    def canonical_name(root: str, index: int | None) -> str:
+        if root.endswith("s"):
+            root = root[:-1]
+
+        if index is None:
+            return f"$clr-{root}"
+        return f"$clr-{root}{index + 1}"
+
+    @staticmethod
+    def canonical_alias_name(root: str) -> str:
+        return f"$clr-{root}"
 
     def format_color(self, color: Color, name: str) -> str:
         return f"{name}: #{color.hex};"

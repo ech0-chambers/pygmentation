@@ -12,6 +12,7 @@ from pygmentation.exporters import (
     JavascriptExporter,
     LatexExporter,
     LessExporter,
+    TextualExporter,
     get_exporter,
 )
 
@@ -63,6 +64,31 @@ def test_less_exporter_output(sample_nord_scheme):
     assert "@clr-magenta: @clr-accent8;" in output
     assert "@clr-error: @clr-accent4;" in output
     assert "@clr-success: @clr-accent7;" in output
+
+
+def test_textual_exporter_output(sample_nord_scheme):
+    exporter = TextualExporter()
+    output = exporter.export(sample_nord_scheme)
+
+    # Variable declarations
+    assert "$clr-foreground: #ECEFF4;" in output
+    assert "$clr-foreground-1: #" in output
+    assert "$clr-foreground-5: #" in output
+
+    assert "$clr-background: #2E3440;" in output
+    assert "$clr-accent1: #5E81AC;" in output
+    assert "$clr-accent1-1: #" in output
+
+    assert f"$clr-surface1: #{sample_nord_scheme.surfaces[0].base.hex};" in output
+    assert "$clr-auto_surface: #" in output
+
+    # Aliases reference @clr targets without var()
+    assert "$clr-red: $clr-accent4;" in output
+    assert "$clr-red-1: $clr-accent4-1;" in output
+    assert "$clr-purple: $clr-accent8;" in output
+    assert "$clr-magenta: $clr-accent8;" in output
+    assert "$clr-error: $clr-accent4;" in output
+    assert "$clr-success: $clr-accent7;" in output
 
 
 def test_javascript_exporter_output(sample_nord_scheme):

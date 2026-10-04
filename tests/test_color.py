@@ -9,7 +9,7 @@ def test_instantiation():
     color = Color("#5e81ac")
     color = Color("#5E81AC")
 
-    color = Color(RGB(  0x5e,   0x81,   0xac  ))
+    color = Color(RGB(0x5E, 0x81, 0xAC))
     assert color.hex == "5E81AC"
 
     color = Color(HSL(213.07699200315582, 0.31966663376480825, 0.5215769527278424))
@@ -24,66 +24,79 @@ def test_instantiation():
     color = Color(LAB(53.0137382462204, -0.5129698671717531, -26.65055231970679))
     assert color.hex == "5E81AC"
 
-    color = Color(OKLAB(0.5943656254329134, -0.021245269942843426, -0.07434143078831318))
+    color = Color(
+        OKLAB(0.5943656254329134, -0.021245269942843426, -0.07434143078831318)
+    )
     assert color.hex == "5E81AC"
 
     color = Color(OKLCH(0.5943656254329134, 0.07731759066731092, 254.05114037644915))
     assert color.hex == "5E81AC"
 
 
-
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_lighten_roundtrips(amount: float):
     original = 255, 242, 229
     color = Color(RGB(*original))
-    color.lighten(amount).lighten(-amount)
+    new_color = color.lighten(amount).lighten(-amount / (1 - amount))
 
-    assert color.r == original[0]
-    assert color.g == original[1]
-    assert color.b == original[2]
+    assert new_color.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
+    assert new_color.r == color.r
+    assert new_color.g == color.g
+    assert new_color.b == color.b
 
 
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_darken_roundtrips(amount: float):
     original = 26, 13, 0
     color = Color(RGB(*original))
-    color.darken(amount).darken(-amount)
+    new_color = color.darken(amount).darken(-amount / (1 - amount))
 
-    assert color.r == original[0]
-    assert color.g == original[1]
-    assert color.b == original[2]
+    assert new_color.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
+    assert new_color.r == color.r
+    assert new_color.g == color.g
+    assert new_color.b == color.b
 
 
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_lighten_darken_roundtrips(amount: float):
     original = 255, 242, 229
     color = Color(RGB(*original))
-    color.lighten(amount).darken(amount)
+    lighter = color.lighten(amount)
+    amount = (lighter.oklab.l - color.oklab.l) / (lighter.oklab.l)
+    darker = lighter.darken(amount)
 
-    assert color.r == original[0]
-    assert color.g == original[1]
-    assert color.b == original[2]
+    assert darker.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
+    assert darker.r == color.r
+    assert darker.g == color.g
+    assert darker.b == color.b
 
 
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_darken_lighten_roundtrips(amount: float):
     original = 26, 13, 0
     color = Color(RGB(*original))
-    color.darken(amount).lighten(amount)
+    darker = color.darken(amount)
+    amount = (color.oklab.l - darker.oklab.l) / (1 - darker.oklab.l)
+    lighter = darker.lighten(amount)
 
-    assert color.r == original[0]
-    assert color.g == original[1]
-    assert color.b == original[2]
+    assert lighter.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
+    assert lighter.r == color.r
+    assert lighter.g == color.g
+    assert lighter.b == color.b
 
 
 def test_string_representations():
     color = Color("ff8000")
     assert color.hex == "FF8000"
     assert color.css == "#FF8000"
+    assert str(color) == "#FF8000"
+    assert repr(color) == "Color('#FF8000')"
 
     color_hash = Color("#00ff88")
     assert color_hash.hex == "00FF88"
     assert color_hash.css == "#00FF88"
+    assert str(color_hash) == "#00FF88"
+    assert repr(color_hash) == "Color('#00FF88')"
 
 
 def test_cached_model_properties():
@@ -158,8 +171,8 @@ def test_lighten_formula_and_percentage():
     expected_l = initial_l + (1.0 - initial_l) * 0.2
     assert lightened.oklab.l == pytest.approx(expected_l, rel=1e-4)
 
-    # Inputs above 1 interpreted as percentages?
-    assert c.lighten(20).hex == lightened.hex
+    # Percentages correctly interpreted?
+    assert c.lighten(20, percentage=True).hex == lightened.hex
 
     # Custom target lightness
     custom_target = c.lighten(0.5, target_lightness=0.8)
@@ -178,8 +191,8 @@ def test_darken_formula_and_percentage():
     expected_l = initial_l - initial_l * 0.3
     assert darkened.oklab.l == pytest.approx(expected_l, rel=1e-4)
 
-    # Inputs above 1 interpreted as percentages?
-    assert c.darken(30).hex == darkened.hex
+    # Percentages correctly interpreted?
+    assert c.darken(30, percentage=True).hex == darkened.hex
 
     # Custom target lightness
     custom_target = c.darken(0.5, target_lightness=0.2)
@@ -219,7 +232,9 @@ def test_hue_differences():
 
     diff_oklch = red.hue_diff_oklch(blue)
     assert -180 <= diff_oklch <= 180
-    assert red.hue_diff_oklch(blue) == pytest.approx(-blue.hue_diff_oklch(red), abs=1e-5)
+    assert red.hue_diff_oklch(blue) == pytest.approx(
+        -blue.hue_diff_oklch(red), abs=1e-5
+    )
 
 
 def test_lerp_oklab_interpolation():
@@ -236,7 +251,7 @@ def test_lerp_oklab_interpolation():
     assert mid.oklab.l == pytest.approx(expected_l, abs=0.01)
 
     # Percentage input
-    mid_pct = c1.lerp(c2, 50)
+    mid_pct = c1.lerp(c2, 50, percentage=True)
     assert mid_pct.hex == mid.hex
 
 
@@ -318,7 +333,9 @@ def test_ciede2000_distance_metric_axioms():
     assert c2.distance_to_CIEDE2000(c2) == 0.0
 
     # Distance(A, B) == distance(B, A)
-    assert c1.distance_to_CIEDE2000(c2) == pytest.approx(c2.distance_to_CIEDE2000(c1), rel=1e-5)
+    assert c1.distance_to_CIEDE2000(c2) == pytest.approx(
+        c2.distance_to_CIEDE2000(c1), rel=1e-5
+    )
 
     # Distance should be positive
     assert c1.distance_to_CIEDE2000(c2) > 0.0
@@ -336,7 +353,9 @@ def test_ciede2000_cross_type_inputs():
 
     # ColorModel instances
     assert c.distance_to_CIEDE2000(target.rgb) == pytest.approx(expected_dist, rel=1e-5)
-    assert c.distance_to_CIEDE2000(target.oklab) == pytest.approx(expected_dist, rel=1e-5)
+    assert c.distance_to_CIEDE2000(target.oklab) == pytest.approx(
+        expected_dist, rel=1e-5
+    )
     assert c.distance_to_CIEDE2000(target.lab) == pytest.approx(expected_dist, abs=0.01)
 
 
@@ -350,8 +369,7 @@ def test_ciede2000_cross_type_inputs():
     ],
 )
 def test_ciede2000_sharma_benchmarks(lab1, lab2, expected_delta_e):
-    """Verify CIEDE2000 implementation against published Sharma et al. (2005) reference pairs."""
+    # Verify CIEDE2000 implementation against published Sharma et al. (2005) reference pairs.
     c1 = Color(LAB(*lab1))
     c2 = Color(LAB(*lab2))
     assert c1.distance_to_CIEDE2000(c2) == pytest.approx(expected_delta_e, abs=0.001)
-

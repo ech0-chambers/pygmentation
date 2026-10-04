@@ -10,7 +10,7 @@ from pygmentation import Color, ColorScheme, SchemeType
 
 @pytest.fixture
 def sample_flat_dict() -> dict[str, Any]:
-    """Simplest color scheme dict representative of most color schemes."""
+    # Simplest color scheme dict representative of most color schemes
     return {
         "foreground": "161829",
         "background": "E8EADF",
@@ -27,7 +27,7 @@ def sample_flat_dict() -> dict[str, Any]:
 
 @pytest.fixture
 def sample_variant_dict() -> dict[str, Any]:
-    """Color scheme dict with explicit light/dark variants, and surfaces."""
+    # Color scheme dict with explicit light/dark variants, and surfaces.
     return {
         "dark": {
             "foreground": "ECEFF4",
@@ -78,7 +78,7 @@ def sample_variant_dict() -> dict[str, Any]:
 
 @pytest.fixture
 def sample_nord_dict() -> dict[str, Any]:
-    """Nord scheme dict"""
+    # Nord scheme dict
     return {
         "foreground": "ECEFF4",
         "background": "2E3440",
@@ -103,7 +103,7 @@ def sample_nord_dict() -> dict[str, Any]:
 
 @pytest.fixture
 def sample_surfaces_dict() -> dict[str, Any]:
-    """Scheme with surface declaration"""
+    # Scheme with surface declaration
     return {
         "foreground": "071D2A",
         "background": "FFEAD2",
@@ -123,7 +123,7 @@ def sample_surfaces_dict() -> dict[str, Any]:
 
 @pytest.fixture
 def sample_colors() -> dict[str, Color]:
-    """Common primary, secondary, and neutral colors"""
+    # Common primary, secondary, and neutral colors
     return {
         "black": Color("000000"),
         "white": Color("FFFFFF"),
@@ -144,11 +144,11 @@ def sample_colors() -> dict[str, Color]:
 
 @pytest.fixture
 def sample_nord_scheme(sample_nord_dict: dict[str, Any]) -> ColorScheme:
-    """Initialised nord scheme"""
+    # Initialised nord scheme
     return ColorScheme(sample_nord_dict, scheme_type=SchemeType.DARK)
 
 
 @pytest.fixture
 def sample_flat_scheme(sample_flat_dict: dict[str, Any]) -> ColorScheme:
-    """Initialised simple scheme"""
+    # Initialised simple scheme
     return ColorScheme(sample_flat_dict, scheme_type=SchemeType.LIGHT)

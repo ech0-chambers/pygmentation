@@ -130,7 +130,155 @@ def test_registry_deep_copy_isolation():
 
 
 # ============================================================================
-# 3. Exception Handling
+# 3. Dynamic Registration, Unregistration & Reloading
+# ============================================================================
+
+
+def test_registry_register_and_get():
+    reg = SchemeRegistry(load_user_config=False)
+    data = {
+        "foreground": "2E3440",
+        "background": "ECEFF4",
+        "accents": ["88C0D0", "81A1C1", "5E81AC"],
+    }
+    reg.register("ocean_breeze", data)
+
+    assert "ocean_breeze" in reg.available
+    assert reg.has_scheme("ocean_breeze") is True
+
+    scheme = reg.get("ocean_breeze")
+    assert isinstance(scheme, ColorScheme)
+    assert scheme.foreground.base.hex == "2E3440"
+    assert scheme.background.base.hex == "ECEFF4"
+    assert len(scheme.accents) == 3
+
+    # Mutation of original data dict should not affect registry
+    data["foreground"] = "FFFFFF"
+    assert reg.get("ocean_breeze").foreground.base.hex == "2E3440"
+
+
+def test_registry_register_duplicate_raises_and_overwrite():
+    reg = SchemeRegistry(load_user_config=False)
+    initial_data = {
+        "foreground": "111111",
+        "background": "EEEEEE",
+        "accents": ["FF0000"],
+    }
+    reg.register("test_dupe", initial_data)
+
+    # Re-registering without overwrite=True must raise ValueError
+    with pytest.raises(ValueError, match="already exists"):
+        reg.register("test_dupe", {"foreground": "222222", "background": "FFFFFF", "accents": ["00FF00"]})
+
+    assert reg.get("test_dupe").foreground.base.hex == "111111"
+
+    # Re-registering with overwrite=True must update
+    updated_data = {
+        "foreground": "222222",
+        "background": "FFFFFF",
+        "accents": ["00FF00"],
+    }
+    reg.register("test_dupe", updated_data, overwrite=True)
+    assert reg.get("test_dupe").foreground.base.hex == "222222"
+
+
+def test_registry_register_nested_variants():
+    reg = SchemeRegistry(load_user_config=False)
+    multi_data = {
+        "light": {
+            "foreground": "111111",
+            "background": "FFFFFF",
+            "accents": ["FF0000"],
+        },
+        "dark": {
+            "foreground": "EEEEEE",
+            "background": "000000",
+            "accents": ["0000FF"],
+        },
+    }
+    reg.register("duo_scheme", multi_data)
+
+    scheme_light = reg.get("duo_scheme", SchemeType.LIGHT)
+    scheme_dark = reg.get("duo_scheme", SchemeType.DARK)
+
+    assert scheme_light.background.base.hex == "FFFFFF"
+    assert scheme_dark.background.base.hex == "000000"
+
+
+def test_registry_unregister_scheme():
+    reg = SchemeRegistry(load_user_config=False)
+    reg.register(
+        "temporary",
+        {"foreground": "000000", "background": "FFFFFF", "accents": ["AAAAAA"]},
+    )
+    assert "temporary" in reg.available
+    assert reg.has_scheme("temporary") is True
+
+    reg.unregister("temporary")
+    assert "temporary" not in reg.available
+    assert reg.has_scheme("temporary") is False
+
+    with pytest.raises(SchemeNotFoundError):
+        reg.get("temporary")
+
+    # Unregistering non-existent scheme is a safe no-op
+    reg.unregister("never_existed")
+
+
+def test_registry_reload(tmp_path: Path):
+    custom_file = tmp_path / "schemes.json"
+    custom_file.write_text(
+        json.dumps({
+            "base_scheme": {
+                "foreground": "111111",
+                "background": "FAFAFA",
+                "accents": ["123456"],
+            }
+        }),
+        encoding="utf-8",
+    )
+    reg = SchemeRegistry(schemes_file=custom_file, load_user_config=False)
+    assert reg.available == ["base_scheme"]
+
+    # Register an in-memory scheme
+    reg.register(
+        "in_memory_transient",
+        {"foreground": "000000", "background": "FFFFFF", "accents": ["ABCDEF"]},
+    )
+    assert "in_memory_transient" in reg.available
+
+    # Reload clears in-memory additions and restores from disk
+    reg.reload()
+    assert "in_memory_transient" not in reg.available
+    assert reg.available == ["base_scheme"]
+
+    # Modify file on disk and reload
+    custom_file.write_text(
+        json.dumps({
+            "reloaded_scheme": {
+                "foreground": "222222",
+                "background": "FAFAFA",
+                "accents": ["654321"],
+            }
+        }),
+        encoding="utf-8",
+    )
+    reg.reload()
+    assert reg.available == ["reloaded_scheme"]
+    assert reg.get("reloaded_scheme").foreground.base.hex == "222222"
+
+
+def test_registry_lazy_loading():
+    reg = SchemeRegistry(load_user_config=False)
+    assert reg._schemes is None  # Not loaded yet
+
+    # has_scheme triggers lazy load
+    assert reg.has_scheme("nord") is True
+    assert reg._schemes is not None
+
+
+# ============================================================================
+# 4. Exception Handling
 # ============================================================================
 
 
@@ -166,7 +314,7 @@ def test_exceptions_hierarchy_and_formatting():
 
 
 # ============================================================================
-# 4. Public API Facade (src/pygmentation/__init__.py)
+# 5. Public API Facade (src/pygmentation/__init__.py)
 # ============================================================================
 
 

@@ -21,11 +21,11 @@ from pygmentation.colors.models import RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH, Co
         (LAB, 100, 100, 100),
         (LAB, 52.591, -3.226, -21.76),
         (OKLAB, 0, 0, 0),
-        (OKLAB, 100, 100, 100),
-        (OKLAB, 59.4, -5.5, -18.75),
+        (OKLAB, 1, 1, 1),
+        (OKLAB, 0.594, -0.55, -0.1875),
         (OKLCH, 0, 0, 0),
-        (OKLCH, 360, 1, 1),
-        (OKLCH, 59.4, 19.5, 253.4),
+        (OKLCH, 1, 1, 360),
+        (OKLCH, 0.594, 0.195, 253.4),
     ],
 )
 def test_instantiation(model: type[ColorModel], a: float, b: float, c: float):
