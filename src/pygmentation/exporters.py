@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-
-from io import StringIO
 from pathlib import Path
 from typing import ClassVar
 
@@ -66,10 +64,15 @@ class Exporter(ABC):
         )
 
         for alias_name, color in scheme.aliases.items():
-            name, index = scheme.get_canonical_name(color)
-            output.extend(
-                self.format_alias_family(self.canonical_alias_name(alias_name), self.canonical_name(name, index))
-            )
+            canonical = scheme.get_canonical_name(color)
+            if canonical is not None:
+                name, index = canonical
+                output.extend(
+                    self.format_alias_family(
+                        self.canonical_alias_name(alias_name),
+                        self.canonical_name(name, index),
+                    )
+                )
 
         for alias_name, color in [
             ("error", scheme.error),
@@ -77,15 +80,19 @@ class Exporter(ABC):
             ("success", scheme.success),
             ("info", scheme.info),
         ]:
-            name, index = scheme.get_canonical_name(color)
-            output.extend(
-                self.format_alias_family(self.canonical_alias_name(alias_name), self.canonical_name(name, index))
-            )
+            canonical = scheme.get_canonical_name(color)
+            if canonical is not None:
+                name, index = canonical
+                output.extend(
+                    self.format_alias_family(
+                        self.canonical_alias_name(alias_name),
+                        self.canonical_name(name, index),
+                    )
+                )
 
         return "\n".join(output)
-            
 
-    def save(self, scheme, filepath: Path | str) -> None:
+    def save(self, scheme: ColorScheme, filepath: Path | str) -> None:
         if not isinstance(filepath, Path):
             filepath = Path(filepath)
 
@@ -95,9 +102,8 @@ class Exporter(ABC):
 
 
 class LatexExporter(Exporter):
-
     format_name: ClassVar[str] = "latex"
-    file_extensions: ClassVar[tuple[str]] = (".tex", ".sty", ".cls")   
+    file_extensions: ClassVar[tuple[str, ...]] = (".tex", ".sty", ".cls")
 
     @staticmethod
     def canonical_name(root: str, index: int | None) -> str:
@@ -105,7 +111,7 @@ class LatexExporter(Exporter):
             root += "Colour"
         root = "".join(r.capitalize() for r in root.split("_"))
         if root.endswith("s"):
-            root =root[:-1]
+            root = root[:-1]
         if index is None:
             return root
         return f"{root}{index + 1}"
@@ -121,7 +127,7 @@ class LatexExporter(Exporter):
         out = []
         out.append(self.format_color(family.base, name))
         out.extend(
-            self.format_color(v, name=f"{name}_{i+1}")
+            self.format_color(v, name=f"{name}_{i + 1}")
             for i, v in enumerate(family.variants)
         )
         return out
@@ -138,7 +144,6 @@ class LatexExporter(Exporter):
 
 
 class CssExporter(Exporter):
-
     format_name: ClassVar[str] = "css"
     file_extensions: ClassVar[tuple[str, ...]] = (".css", "css")
 
@@ -162,7 +167,7 @@ class CssExporter(Exporter):
         out = []
         out.append(self.format_color(family.base, name))
         out.extend(
-            self.format_color(v, name=f"{name}-{i+1}")
+            self.format_color(v, name=f"{name}-{i + 1}")
             for i, v in enumerate(family.variants)
         )
         return out
@@ -177,13 +182,12 @@ class CssExporter(Exporter):
             out.append(self.format_alias(f"{name}-{i}", f"{target}-{i}"))
         return out
 
-    def export(self, scheme) -> str:
+    def export(self, scheme: ColorScheme) -> str:
         out = super().export(scheme)
         return f":root{{\n{out}\n}}"
 
 
 class LessExporter(Exporter):
-
     format_name: ClassVar[str] = "less"
     file_extensions: ClassVar[tuple[str, ...]] = (
         ".less",
@@ -212,7 +216,7 @@ class LessExporter(Exporter):
         out = []
         out.append(self.format_color(family.base, name))
         out.extend(
-            self.format_color(v, name=f"{name}-{i+1}")
+            self.format_color(v, name=f"{name}-{i + 1}")
             for i, v in enumerate(family.variants)
         )
         return out
@@ -228,9 +232,7 @@ class LessExporter(Exporter):
         return out
 
 
-
 class TextualExporter(Exporter):
-
     format_name: ClassVar[str] = "textual"
     file_extensions: ClassVar[tuple[str, ...]] = (
         ".tcss",
@@ -257,7 +259,7 @@ class TextualExporter(Exporter):
         out = []
         out.append(self.format_color(family.base, name))
         out.extend(
-            self.format_color(v, name=f"{name}-{i+1}")
+            self.format_color(v, name=f"{name}-{i + 1}")
             for i, v in enumerate(family.variants)
         )
         return out
@@ -274,7 +276,6 @@ class TextualExporter(Exporter):
 
 
 class JavascriptExporter(Exporter):
-
     format_name: ClassVar[str] = "javascript"
     file_extensions: ClassVar[tuple[str, ...]] = (".js", "js")
 
@@ -344,17 +345,21 @@ class JavascriptExporter(Exporter):
         lines.append("")
 
         for alias_name, color in scheme.aliases.items():
-            name, idx = scheme.get_canonical_name(color)
-            target = self.canonical_name(name, idx)
-            alias = self.canonical_alias_name(alias_name)
-            lines.append(self.format_alias(alias, target))
+            canonical = scheme.get_canonical_name(color)
+            if canonical is not None:
+                name, idx = canonical
+                target = self.canonical_name(name, idx)
+                alias = self.canonical_alias_name(alias_name)
+                lines.append(self.format_alias(alias, target))
 
         for alias_name in ["error", "warning", "success", "info"]:
             color = getattr(scheme, alias_name)
-            name, idx = scheme.get_canonical_name(color)
-            target = self.canonical_name(name, idx)
-            alias = self.canonical_alias_name(alias_name)
-            lines.append(self.format_alias(alias, target))
+            canonical = scheme.get_canonical_name(color)
+            if canonical is not None:
+                name, idx = canonical
+                target = self.canonical_name(name, idx)
+                alias = self.canonical_alias_name(alias_name)
+                lines.append(self.format_alias(alias, target))
 
         return "\n".join(lines)
 

@@ -1,39 +1,41 @@
 import argparse
-from pathlib import Path
-from typing import Any, Callable
 import difflib
 import re
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any
 
-from rich.console import Console
-from rich.text import Text
-from rich.style import Style
-from rich.color import Color as RichColor
-from rich.prompt import IntPrompt
-from rich.panel import Panel
-from rich.table import Table
 from rich import box
+from rich.color import Color as RichColor
+from rich.console import Console
+from rich.panel import Panel
+from rich.prompt import IntPrompt
+from rich.style import Style
+from rich.table import Table
+from rich.text import Text
 
-from .colors.scheme import SchemeType, Color, ColorFamily, ColorScheme
-from .registry import registry
-from .exceptions import SchemeNotFoundError
+from .colors.scheme import Color, ColorFamily, ColorScheme, SchemeType
 from .exporters import get_exporter
+from .registry import registry
 
 # Formatter mappings for color code representations (e.g. hex, rgb, hsl, hsv, Lab)
 show_code_map: dict[str, Callable[[Any], str]] = {
-    "hex":   lambda c: c.hex,
-    "rgb":   lambda c: f"{c.r:.0f}, {c.g:.0f}, {c.b:.0f}",
-    "hsl":   lambda c: f"{c.h:.0f}, {c.s * 100:.0f}%, {c.l * 100:.0f}%",
-    "hsv":   lambda c: f"{c.hsv.h:.0f}, {c.hsv.s * 100:.0f}%, {c.hsv.v * 100:.0f}%",
-    "lab":   lambda c: f"{c.lab.l:.0f}, {c.lab.a:.0f}, {c.lab.b:.0f}",
-    "xyz":   lambda c: f"{c.xyz.x:.0f}, {c.xyz.y:.0f}, {c.xyz.z:.0f}",
+    "hex": lambda c: c.hex,
+    "rgb": lambda c: f"{c.r:.0f}, {c.g:.0f}, {c.b:.0f}",
+    "hsl": lambda c: f"{c.h:.0f}, {c.s * 100:.0f}%, {c.l * 100:.0f}%",
+    "hsv": lambda c: f"{c.hsv.h:.0f}, {c.hsv.s * 100:.0f}%, {c.hsv.v * 100:.0f}%",
+    "lab": lambda c: f"{c.lab.l:.0f}, {c.lab.a:.0f}, {c.lab.b:.0f}",
+    "xyz": lambda c: f"{c.xyz.x:.0f}, {c.xyz.y:.0f}, {c.xyz.z:.0f}",
     "oklab": lambda c: f"{c.oklab.l:.2f}, {c.oklab.a:.2f}, {c.oklab.b:.2f}",
     "oklch": lambda c: f"{c.oklch.l:.2f}, {c.oklch.c:.2f}, {c.oklch.h:.0f}",
 }
 
 default_console = Console()
 
+
 def get_console(console: Console | None = None) -> Console:
     return console if console is not None else default_console
+
 
 def error(message: str, console: Console | None = None) -> None:
     console = get_console(console)
@@ -167,12 +169,14 @@ def resolve_unknown_scheme(requested: str) -> str | None:
     return similar[index - 1]
 
 
-def multiple_choice_prompt(prompt: str, choices: list[str], default: int = 1, console: Console | None = None) -> int:
+def multiple_choice_prompt(
+    prompt: str, choices: list[str], default: int = 1, console: Console | None = None
+) -> int:
     console = get_console(console)
     console.print(prompt)
     for i, choice in enumerate(choices):
         console.print(
-            f"[bold]{i+1: >2d}[/bold]. {choice}"
+            f"[bold]{i + 1: >2d}[/bold]. {choice}"
             + (" [dim](default)[/dim]" if i == default - 1 else "")
         )
 
@@ -183,16 +187,22 @@ def multiple_choice_prompt(prompt: str, choices: list[str], default: int = 1, co
 def swatch(color: Color) -> Text:
     return Text("█████\n█████", style=Style(color=RichColor.from_rgb(*color.rgb)))
 
+
 def scheme_swatch(scheme: ColorScheme) -> Text:
     swatch = Text()
-    swatch.append("████", style = Style(color=RichColor.from_rgb(*scheme.foreground.base.rgb)))
+    swatch.append(
+        "████", style=Style(color=RichColor.from_rgb(*scheme.foreground.base.rgb))
+    )
     swatch.append("  ")
-    swatch.append("████", style = Style(color=RichColor.from_rgb(*scheme.background.base.rgb)))
+    swatch.append(
+        "████", style=Style(color=RichColor.from_rgb(*scheme.background.base.rgb))
+    )
     swatch.append("    ")
     for accent in scheme.accents:
-        swatch.append("██", style = Style(color=RichColor.from_rgb(*accent.base.rgb)))
+        swatch.append("██", style=Style(color=RichColor.from_rgb(*accent.base.rgb)))
 
     return swatch
+
 
 def family_to_row(
     color_family: ColorFamily,
@@ -201,7 +211,7 @@ def family_to_row(
     aliases: list[str],
     alias_color: Color,
     code_type: str | None = None,
-) -> list[list[Text]]:
+) -> tuple[list[Any], list[Any] | None]:
     name_text = Text().append(
         name.capitalize() + ":\n",
         style=Style(color=RichColor.from_rgb(*name_color.rgb)),
@@ -220,7 +230,7 @@ def family_to_row(
     if code_type is not None:
         if code_type.lower() not in show_code_map:
             raise ValueError(
-                f"Unrecognised code format {code_type}. This should be one of the following: {", ".join(show_code_map.keys())}"
+                f"Unrecognised code format {code_type}. This should be one of the following: {', '.join(show_code_map.keys())}"
             )
         code_func = show_code_map[code_type.lower()]
         code_row = [
@@ -233,7 +243,8 @@ def family_to_row(
         code_row = None
     return swatch_row, code_row
 
-def _get_aliases(scheme, color_family):
+
+def _get_aliases(scheme: ColorScheme, color_family: ColorFamily) -> list[str]:
     aliases = []
     for p in [
         "red",
@@ -250,18 +261,19 @@ def _get_aliases(scheme, color_family):
             aliases.append(p)
     return aliases
 
+
 def show_scheme(
     scheme: ColorScheme,
     name: str | None = None,
     filepath: Path | str | None = None,
     code_type: str | None = None,
-    console: Console | None = None
+    console: Console | None = None,
 ) -> None:
     console = get_console(console)
     if name is None:
         name = "Colour Scheme"
-        
-    width = console.size.width
+
+    # width = console.size.width
     # TODO: width decisions need a bit more thought if code_type is given.
 
     table = Table(show_header=False, box=box.SIMPLE, leading=1, padding=0)
@@ -272,81 +284,91 @@ def show_scheme(
     for i in range(5):
         table.add_column(str(i + 1), justify="center")
 
-    rows = []
+    rows: list[list[Any] | None] = []
 
-    rows.extend(family_to_row(
-        scheme.foreground,
-        "Foreground",
-        scheme.foreground.base,
-        [],
-        scheme.accents[0].base,
-        code_type,
-    ))
-    rows.extend(family_to_row(
-        scheme.background,
-        "Background",
-        scheme.foreground.base,
-        [],
-        scheme.accents[0].base,
-        code_type,
-    ))
+    rows.extend(
+        family_to_row(
+            scheme.foreground,
+            "Foreground",
+            scheme.foreground.base,
+            [],
+            scheme.accents[0].base,
+            code_type,
+        )
+    )
+    rows.extend(
+        family_to_row(
+            scheme.background,
+            "Background",
+            scheme.foreground.base,
+            [],
+            scheme.accents[0].base,
+            code_type,
+        )
+    )
     # Accents
     rows.append([" "] * 8)
     for i, accent in enumerate(scheme.accents):
         aliases = _get_aliases(scheme, accent)
-        rows.extend(family_to_row(
-            accent,
-            f"Accent {i+1}",
-            scheme.foreground.base,
-            aliases,
-            scheme.accents[0].base,
-            code_type
-        ))
+        rows.extend(
+            family_to_row(
+                accent,
+                f"Accent {i + 1}",
+                scheme.foreground.base,
+                aliases,
+                scheme.accents[0].base,
+                code_type,
+            )
+        )
     # Surfaces
     if len(scheme.surfaces) > 0:
         rows.append([" "] * 8)
         for i, surface in enumerate(scheme.surfaces):
-            rows.extend(family_to_row(
-                surface,
-                f"Surface {i+1}",
-                scheme.foreground.base,
-                [],
-                scheme.accents[0].base,
-                code_type
-            ))
+            rows.extend(
+                family_to_row(
+                    surface,
+                    f"Surface {i + 1}",
+                    scheme.foreground.base,
+                    [],
+                    scheme.accents[0].base,
+                    code_type,
+                )
+            )
     # Auto-surfaces
     rows.append([" "] * 8)
 
-    rows.extend(family_to_row(
-        scheme.auto_surface,
-        "Auto-Surface",
-        scheme.foreground.base,
-        [],
-        scheme.accents[0].base,
-        code_type
-    ))
+    rows.extend(
+        family_to_row(
+            scheme.auto_surface,
+            "Auto-Surface",
+            scheme.foreground.base,
+            [],
+            scheme.accents[0].base,
+            code_type,
+        )
+    )
 
-    rows = [r for r in rows if r]
+    filtered_rows: list[list[Any]] = [r for r in rows if r]
 
-    for row in rows:
+    for row in filtered_rows:
         table.add_row(*row)
 
     panel = Panel.fit(
         table,
-        title = name,
-        style = Style(
-            color = RichColor.from_rgb(*scheme.foreground.base.rgb),
-            bgcolor = RichColor.from_rgb(*scheme.background.base.rgb),
-        )
+        title=name,
+        style=Style(
+            color=RichColor.from_rgb(*scheme.foreground.base.rgb),
+            bgcolor=RichColor.from_rgb(*scheme.background.base.rgb),
+        ),
     )
 
     if filepath is not None:
-        svg_console = Console(record = True, width = 120)
+        svg_console = Console(record=True, width=120)
         svg_console.print(panel)
         svg_console.save_svg(filepath)
     else:
         console.print(panel)
-        
+
 
 def cli_show(
     scheme_name: str,
@@ -355,10 +377,13 @@ def cli_show(
 ) -> None:
     if variant in ["light", "both"]:
         scheme = registry.get(scheme_name, SchemeType.LIGHT)
-        show_scheme(scheme, scheme_name + " (light)", filepath = None, code_type=code_type)
+        show_scheme(
+            scheme, scheme_name + " (light)", filepath=None, code_type=code_type
+        )
     if variant in ["dark", "both"]:
         scheme = registry.get(scheme_name, SchemeType.DARK)
-        show_scheme(scheme, scheme_name + " (dark)", filepath = None, code_type=code_type)
+        show_scheme(scheme, scheme_name + " (dark)", filepath=None, code_type=code_type)
+
 
 def cli_save(
     filename: str | Path,
@@ -390,16 +415,16 @@ def cli_write(
     variant: str = "both",
     filetype: str | None = None,
 ) -> None:
-    
+
     filepath = Path(filename)
 
     if filetype is None:
         filetype = filepath.suffix
-    exporter = get_exporter(filetype)
-    if exporter is None:
+    exporter_cls = get_exporter(filetype)
+    if exporter_cls is None:
         raise ValueError(f"Could not find an exporter for files of type `{filetype}`")
 
-    exporter = exporter()
+    exporter = exporter_cls()
 
     if variant == "both":
         light_filepath = filepath.with_name(filepath.stem + "_light" + filepath.suffix)
@@ -420,11 +445,12 @@ def get_schemes_by_pattern(pattern: str) -> list[str]:
     matches = [s for s in registry.available if re.search(pattern, s)]
     return matches
 
+
 def cli_list(
     names_only: bool = False,
     pattern: str = ".*",
     variant: str = "light",
-    console: Console | None = None
+    console: Console | None = None,
 ) -> int:
     console = get_console(console)
     matches = get_schemes_by_pattern(pattern)
@@ -433,26 +459,27 @@ def cli_list(
         return 1
 
     if names_only:
-        for scheme in matches: 
-            print(scheme)
+        for name in matches:
+            print(name)
         return 0
 
-    table = Table(show_lines = True)
-    table.add_column("Name", justify = "center")
-    table.add_column("Sample", justify = "left")
+    table = Table(show_lines=True)
+    table.add_column("Name", justify="center")
+    table.add_column("Sample", justify="left")
     for scheme_name in matches:
-        scheme = registry.get(scheme_name, SchemeType.LIGHT if variant == "light" else SchemeType.DARK)
+        scheme = registry.get(
+            scheme_name, SchemeType.LIGHT if variant == "light" else SchemeType.DARK
+        )
         table.add_row(
             Text(
                 scheme_name,
-                style = f"bold {scheme.foreground.base.css} on {scheme.background.base.css}"
+                style=f"bold {scheme.foreground.base.css} on {scheme.background.base.css}",
             ),
-            scheme_swatch(scheme)
+            scheme_swatch(scheme),
         )
     console.print(table)
 
     return 0
-    
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -477,11 +504,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "save":
-        cli_save(
-            args.filename, scheme_name, args.variant, args.code_type
-        )
+        cli_save(args.filename, scheme_name, args.variant, args.code_type)
         return 0
 
     if args.command == "write":
         cli_write(args.filename, scheme_name, args.variant, args.type)
         return 0
+
+    return 0

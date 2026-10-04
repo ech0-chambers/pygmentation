@@ -1,16 +1,17 @@
 """Unit tests for matplotlib plot styling integration in pygmentation.plot."""
 
-from pathlib import Path
 import re
+from pathlib import Path
 from unittest.mock import MagicMock, patch
+
 import pytest
 
-from pygmentation import ColorScheme, SchemeType
+from pygmentation import SchemeType
 from pygmentation.exceptions import SchemeNotFoundError
 from pygmentation.plot import (
+    KNOWN_LATEX_PACKAGES,
     DocType,
     FontCategory,
-    KNOWN_LATEX_PACKAGES,
     _classify_font_file,
     _clean_tex_directory,
     _get_latex_fonts,
@@ -20,11 +21,9 @@ from pygmentation.plot import (
     _kpsewhich_target_exists,
     _resolve_font_types,
     _resolve_latex_package_from_path,
-    classify_font_name,
     apply_plot_styles,
+    classify_font_name,
     get_fonts,
-    init,
-    init_matplotlib,
     is_latex_available,
 )
 from pygmentation.registry import registry
@@ -32,6 +31,7 @@ from pygmentation.registry import registry
 try:
     import cycler  # noqa: F401
     import matplotlib.pyplot  # noqa: F401
+
     HAS_PLOT_DEPS = True
 except ImportError:
     HAS_PLOT_DEPS = False
@@ -51,19 +51,18 @@ def test_doctype_enum():
 
 def test_is_latex_available():
     with patch("shutil.which") as mock_which:
-        mock_which.side_effect = lambda cmd: "/usr/bin/" + cmd if cmd == "latex" else None
+        mock_which.side_effect = lambda cmd: (
+            "/usr/bin/" + cmd if cmd == "latex" else None
+        )
         assert is_latex_available() is True
 
-        mock_which.side_effect = lambda cmd: "/usr/bin/" + cmd if cmd == "pdflatex" else None
+        mock_which.side_effect = lambda cmd: (
+            "/usr/bin/" + cmd if cmd == "pdflatex" else None
+        )
         assert is_latex_available() is True
 
         mock_which.side_effect = lambda cmd: None
         assert is_latex_available() is False
-
-
-def test_init_aliases():
-    assert init is apply_plot_styles
-    assert init_matplotlib is apply_plot_styles
 
 
 def test_init_missing_cycler_dependency():
@@ -132,11 +131,15 @@ def test_init_presentation_styling(sample_nord_scheme):
 
 @requires_plots
 def test_init_transparent_flag(sample_nord_scheme):
-    params_report = apply_plot_styles(sample_nord_scheme, doc_type="report", transparent=True)
+    params_report = apply_plot_styles(
+        sample_nord_scheme, doc_type="report", transparent=True
+    )
     assert params_report["figure.facecolor"] == "none"
     assert params_report["axes.facecolor"] == "none"
 
-    params_pres = apply_plot_styles(sample_nord_scheme, doc_type="presentation", transparent=True)
+    params_pres = apply_plot_styles(
+        sample_nord_scheme, doc_type="presentation", transparent=True
+    )
     assert params_pres["figure.facecolor"] == "none"
     assert params_pres["axes.facecolor"] == "none"
 
@@ -220,7 +223,9 @@ def test_init_font_with_partial_overrides(sample_nord_scheme):
     assert params["font.sans-serif"] == "Helvetica"
 
     # font with font_sans_serif override preserves font_sans_serif and sets font_serif to font
-    params2 = apply_plot_styles(sample_nord_scheme, font="Times", font_sans_serif="Arial")
+    params2 = apply_plot_styles(
+        sample_nord_scheme, font="Times", font_sans_serif="Arial"
+    )
     assert params2["font.serif"] == "Times"
     assert params2["font.sans-serif"] == "Arial"
 
@@ -256,7 +261,10 @@ def test_get_fonts_latex_available():
     mock_serif = {"Computer Modern Roman", "Times"}
     mock_sans = {"Fira Sans", "Helvetica"}
     with patch("pygmentation.plot.fonts.is_latex_available", return_value=True):
-        with patch("pygmentation.plot.fonts._get_latex_fonts", return_value=(mock_serif, mock_sans)):
+        with patch(
+            "pygmentation.plot.fonts._get_latex_fonts",
+            return_value=(mock_serif, mock_sans),
+        ):
             # Only serif
             serif_fonts = get_fonts(latex=True, serif=True, sans_serif=False)
             assert serif_fonts == sorted(mock_serif)
@@ -291,7 +299,10 @@ def test_get_fonts_filter_rules_latex():
     expected_both = sorted(mock_serif | mock_sans)
 
     with patch("pygmentation.plot.fonts.is_latex_available", return_value=True):
-        with patch("pygmentation.plot.fonts._get_latex_fonts", return_value=(mock_serif, mock_sans)):
+        with patch(
+            "pygmentation.plot.fonts._get_latex_fonts",
+            return_value=(mock_serif, mock_sans),
+        ):
             # If only one is True: include only that type
             assert get_fonts(latex=True, serif=True, sans_serif=None) == expected_serif
             assert get_fonts(latex=True, serif=None, sans_serif=True) == expected_sans
@@ -489,9 +500,14 @@ def test_get_non_latex_fonts_edge_cases():
 
     _get_non_latex_fonts.cache_clear()
     try:
-        with patch("matplotlib.ft2font.FT2Font", side_effect=RuntimeError("Corrupt font file")):
+        with patch(
+            "matplotlib.ft2font.FT2Font", side_effect=RuntimeError("Corrupt font file")
+        ):
             with patch.object(fm.fontManager, "ttflist", [bad_entry]):
-                with patch("matplotlib.font_manager.get_font_names", return_value=["CorruptedFont", "ExtraSerifFont", "ExtraSansFont"]):
+                with patch(
+                    "matplotlib.font_manager.get_font_names",
+                    return_value=["CorruptedFont", "ExtraSerifFont", "ExtraSansFont"],
+                ):
                     serifs, sans = _get_non_latex_fonts()
                     assert "ExtraSerifFont" in serifs
                     assert "ExtraSansFont" in sans
@@ -581,7 +597,9 @@ def test_get_fonts_pattern_empty_or_single_result():
 
 @requires_plots
 def test_get_fonts_pattern_invalid_types():
-    with pytest.raises(TypeError, match="Expected pattern to be str, re.Pattern, list, or None"):
+    with pytest.raises(
+        TypeError, match="Expected pattern to be str, re.Pattern, list, or None"
+    ):
         get_fonts(pattern=123)  # type: ignore
 
     with pytest.raises(TypeError, match="Pattern elements must be str or re.Pattern"):
@@ -649,7 +667,9 @@ def test_resolve_latex_package_from_path(tmp_path):
     assert _resolve_latex_package_from_path(font_file, "Unrelated Name") == "custom_pkg"
 
     # Path containing multiple 'fonts' segments (e.g. /home/fonts_user/repo/texmf/fonts/opentype/...)
-    multi_fonts_dir = tmp_path / "fonts_folder" / "texmf" / "fonts" / "opentype" / "public" / "pkg"
+    multi_fonts_dir = (
+        tmp_path / "fonts_folder" / "texmf" / "fonts" / "opentype" / "public" / "pkg"
+    )
     multi_fonts_dir.mkdir(parents=True)
     multi_font_file = str(multi_fonts_dir / "Pkg-Regular.otf")
     multi_latex_dir = tmp_path / "fonts_folder" / "texmf" / "tex" / "latex" / "pkg"
@@ -668,7 +688,10 @@ def test_resolve_latex_package_from_path(tmp_path):
 
     # Prefix matching via explicit texmf_roots parameter and via mocked _get_texmf_roots()
     (latex_dir / "myfont.sty").touch()
-    assert _resolve_latex_package_from_path(font_file, "My Font", texmf_roots=[str(texmf)]) == "myfont"
+    assert (
+        _resolve_latex_package_from_path(font_file, "My Font", texmf_roots=[str(texmf)])
+        == "myfont"
+    )
     with patch("pygmentation.plot.fonts._get_texmf_roots", return_value=[str(texmf)]):
         assert _resolve_latex_package_from_path(font_file, "My Font") == "myfont"
     (latex_dir / "myfont.sty").unlink()
@@ -679,7 +702,9 @@ def test_apply_plot_styles_preamble_package_injection(sample_nord_scheme):
     mock_serif = {"Times": None, "XCharter": "XCharter"}
     mock_sans = {"Fira Sans": "FiraSans", "Helvetica": None}
 
-    with patch("pygmentation.plot.fonts._get_latex_fonts", return_value=(mock_serif, mock_sans)):
+    with patch(
+        "pygmentation.plot.fonts._get_latex_fonts", return_value=(mock_serif, mock_sans)
+    ):
         # 1. Classic font (Times): No package injected into preamble
         params_classic = apply_plot_styles(
             sample_nord_scheme,
@@ -726,7 +751,10 @@ def test_get_fonts_with_dict_return():
     mock_sans = {"Fira Sans": "FiraSans", "Helvetica": None}
 
     with patch("pygmentation.plot.fonts.is_latex_available", return_value=True):
-        with patch("pygmentation.plot.fonts._get_latex_fonts", return_value=(mock_serif, mock_sans)):
+        with patch(
+            "pygmentation.plot.fonts._get_latex_fonts",
+            return_value=(mock_serif, mock_sans),
+        ):
             fonts = get_fonts(latex=True)
             # Must return a list of font name strings
             assert isinstance(fonts, list)
@@ -758,42 +786,72 @@ def test_classify_font_file():
 
     # Name contains "sans" -> sans-serif (FontCategory.SANS_SERIF)
     mock_font.family_name = "Custom Sans Font"
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("Custom Sans Font", FontCategory.SANS_SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "Custom Sans Font",
+        FontCategory.SANS_SERIF,
+    )
 
     # Name contains "serif" -> serif (FontCategory.SERIF)
     mock_font.family_name = "Custom Serif Font"
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("Custom Serif Font", FontCategory.SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "Custom Serif Font",
+        FontCategory.SERIF,
+    )
 
     # OS/2 table panose classification
     mock_font.family_name = "AmbiguousFont"
     mock_font.get_sfnt_table.return_value = {"panose": (2, 11)}
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("AmbiguousFont", FontCategory.SANS_SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "AmbiguousFont",
+        FontCategory.SANS_SERIF,
+    )
 
     mock_font.get_sfnt_table.return_value = {"panose": (2, 4)}
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("AmbiguousFont", FontCategory.SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "AmbiguousFont",
+        FontCategory.SERIF,
+    )
 
     # OS/2 table sFamilyClass classification
     mock_font.get_sfnt_table.return_value = {"panose": None, "sFamilyClass": 8 << 8}
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("AmbiguousFont", FontCategory.SANS_SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "AmbiguousFont",
+        FontCategory.SANS_SERIF,
+    )
 
     mock_font.get_sfnt_table.return_value = {"panose": None, "sFamilyClass": 1 << 8}
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("AmbiguousFont", FontCategory.SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "AmbiguousFont",
+        FontCategory.SERIF,
+    )
 
     # Keyword fallback
     mock_font.get_sfnt_table.return_value = None
     mock_font.family_name = "Fira Code"
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("Fira Code", FontCategory.SANS_SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "Fira Code",
+        FontCategory.SANS_SERIF,
+    )
 
     mock_font.family_name = "Garamond Premier"
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("Garamond Premier", FontCategory.SERIF)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "Garamond Premier",
+        FontCategory.SERIF,
+    )
 
     # Unclassified
     mock_font.family_name = "UnknownStyle"
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("UnknownStyle", FontCategory.UNCLASSIFIED)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "UnknownStyle",
+        FontCategory.UNCLASSIFIED,
+    )
 
     # get_sfnt_table raises KeyError
     mock_font.get_sfnt_table.side_effect = KeyError("No OS/2 table")
-    assert _classify_font_file("/dummy/path.otf", mock_ft) == ("UnknownStyle", FontCategory.UNCLASSIFIED)
+    assert _classify_font_file("/dummy/path.otf", mock_ft) == (
+        "UnknownStyle",
+        FontCategory.UNCLASSIFIED,
+    )
     mock_font.get_sfnt_table.side_effect = None
 
 
@@ -836,14 +894,32 @@ def test_classify_font_name():
     assert classify_font_name("Helvetica") == FontCategory.SANS_SERIF
 
     # Explicit tokens without keywords
-    assert classify_font_name("Custom Sans Font", include_keywords=False) == FontCategory.SANS_SERIF
-    assert classify_font_name("Custom Serif Font", include_keywords=False) == FontCategory.SERIF
-    assert classify_font_name("Garamond Premier", include_keywords=False) == FontCategory.UNCLASSIFIED
+    assert (
+        classify_font_name("Custom Sans Font", include_keywords=False)
+        == FontCategory.SANS_SERIF
+    )
+    assert (
+        classify_font_name("Custom Serif Font", include_keywords=False)
+        == FontCategory.SERIF
+    )
+    assert (
+        classify_font_name("Garamond Premier", include_keywords=False)
+        == FontCategory.UNCLASSIFIED
+    )
 
     # Keyword fallback
-    assert classify_font_name("Garamond Premier", include_keywords=True) == FontCategory.SERIF
-    assert classify_font_name("Fira Code", include_keywords=True) == FontCategory.SANS_SERIF
-    assert classify_font_name("CompletelyUnknownStyle", include_keywords=True) == FontCategory.UNCLASSIFIED
+    assert (
+        classify_font_name("Garamond Premier", include_keywords=True)
+        == FontCategory.SERIF
+    )
+    assert (
+        classify_font_name("Fira Code", include_keywords=True)
+        == FontCategory.SANS_SERIF
+    )
+    assert (
+        classify_font_name("CompletelyUnknownStyle", include_keywords=True)
+        == FontCategory.UNCLASSIFIED
+    )
 
 
 def test_resolve_font_types():
@@ -856,10 +932,3 @@ def test_resolve_font_types():
     assert _resolve_font_types(False, None) == (False, True)
     assert _resolve_font_types(None, True) == (False, True)
     assert _resolve_font_types(None, False) == (True, False)
-
-
-
-
-
-
-

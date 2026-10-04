@@ -1,6 +1,8 @@
 import math
+
 import pytest
-from pygmentation.colors import Color, RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH
+
+from pygmentation.colors import HSL, HSV, LAB, OKLAB, OKLCH, RGB, XYZ, Color
 
 
 def test_instantiation():
@@ -267,7 +269,7 @@ def test_object_equality_and_hashing():
     # Comparisons against non-`Color` objects should return False.
     # TODO: May re-visit this. Should we attempt conversions for ColorModels? hex strings?
     assert c1 != "5E81AC"
-    assert c1 != None
+    assert c1 is not None
     assert c1 != 42
     assert c1 != RGB(0x5E, 0x81, 0xAC)
 

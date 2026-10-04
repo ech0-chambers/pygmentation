@@ -1,8 +1,13 @@
+from __future__ import annotations
+
+from collections import Counter
+from collections.abc import Iterator, Sequence
 from enum import StrEnum
 from itertools import combinations
+from typing import overload
+
 from .color import Color
-from .models import ColorModel, OKLCH, OKLAB
-from collections import Counter
+from .models import OKLCH, ColorModel
 
 
 class SchemeType(StrEnum):
@@ -11,7 +16,6 @@ class SchemeType(StrEnum):
 
 
 class ColorFamily:
-
     __HUE_DIFF_THRESHOLD = 30
     __MIN_TARGET_LIGHTNESS = 0.2
     __MAX_TARGET_LIGHTNESS = 0.8
@@ -23,7 +27,7 @@ class ColorFamily:
         light: Color | str | ColorModel | None = None,
         dark: Color | str | ColorModel | None = None,
         is_main: bool = False,
-        variants: list[Color | ColorModel | str] | None = None,
+        variants: Sequence[Color | ColorModel | str] | None = None,
     ):
         if not isinstance(base, Color):
             base = Color(base)
@@ -67,7 +71,7 @@ class ColorFamily:
         too_light = self._base.oklab.l / self._light.oklab.l > 0.9
         too_dark = self._base.oklab.l - self._dark.oklab.l < 0.2
 
-        amounts = [0] * 5
+        amounts: list[float] = [0.0] * 5
 
         # If it's a foreground/background colour (is_main), the variants are from 5% to 50% lighter/darker
         # In most cases, we generate two darker variants (50%, 25%) and three lighter variants (40%, 60%, 80%) (or vice versa for dark schemes)
@@ -134,7 +138,11 @@ class ColorFamily:
             abs(amount), min(self.__MAX_TARGET_LIGHTNESS, self._light.oklab.l)
         )
 
-    def __getitem__(self, index: int) -> Color:
+    @overload
+    def __getitem__(self, index: int) -> Color: ...
+    @overload
+    def __getitem__(self, index: slice) -> list[Color]: ...
+    def __getitem__(self, index: int | slice) -> Color | list[Color]:
         items = [self.base, *self.variants]
         return items[index]
 
@@ -144,7 +152,7 @@ class ColorFamily:
 
     @property
     def lightest(self) -> Color:
-        best_l = 0
+        best_l: float = 0.0
         best_color = None
         for color in self:
             if color.oklab.l > best_l:
@@ -189,7 +197,7 @@ class ColorFamily:
             return idx + 1
         return None
 
-    def __eq__(self, other: ColorFamily) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, ColorFamily):
             return False
         return (
@@ -200,7 +208,7 @@ class ColorFamily:
             and tuple(self.variants) == tuple(other.variants)
         )
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(
             (
                 self.base,
@@ -214,7 +222,7 @@ class ColorFamily:
     def __len__(self) -> int:
         return 1 + len(self.variants)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Color]:
         yield self._base
         yield from self.variants
 
@@ -222,20 +230,21 @@ class ColorFamily:
         return self.base.css
 
     def __repr__(self) -> str:
-        return f"ColorFamily(base={self.base!r}, scheme_type={self._scheme_type.value!r})"
+        return (
+            f"ColorFamily(base={self.base!r}, scheme_type={self._scheme_type.value!r})"
+        )
 
 
 class ColorScheme:
-
     __ALIAS_COLORS = {
         # (start, end, centre)
-        "red":     (345, 30,  20),
-        "orange":  (30,  65,  50),
-        "yellow":  (65,  110, 90),
-        "green":   (110, 175, 142),
-        "cyan":    (175, 220, 195),
-        "blue":    (220, 280, 255),
-        "purple":  (280, 340, 315),
+        "red": (345, 30, 20),
+        "orange": (30, 65, 50),
+        "yellow": (65, 110, 90),
+        "green": (110, 175, 142),
+        "cyan": (175, 220, 195),
+        "blue": (220, 280, 255),
+        "purple": (280, 340, 315),
         "magenta": (315, 355, 335),
     }
 
@@ -339,7 +348,7 @@ class ColorScheme:
         # List of accent colours excluding any that are too similar to other accents
         self._distinct_accents = [self._accents[0]]
 
-        distances = {}
+        distances: dict[ColorFamily, dict[ColorFamily, float]] = {}
         for color1 in self._accents:
             distances[color1] = {}
             for color2 in self._accents:
@@ -391,7 +400,7 @@ class ColorScheme:
         d_bounds = cls._circular_hue_diff(h_min, h_max)
         d_to_min = cls._circular_hue_diff(h_min, h)
         d_to_max = cls._circular_hue_diff(h, h_max)
-        
+
         if (d_to_min + d_to_max) <= d_bounds + tol:
             return 0.0
 
@@ -415,11 +424,11 @@ class ColorScheme:
 
         d_to_range = cls._dist_to_hue_range(h, h_min, h_max)
         if d_to_range == 0.0:
-            # we're inside the acceptable range. 
-            # Cost should be very small, decreasing the closer we are to the "centre" 
+            # we're inside the acceptable range.
+            # Cost should be very small, decreasing the closer we are to the "centre"
             hue_cost = cls._circular_hue_diff(h, h_centre) / 20.0
         else:
-            # we're outside the acceptable range. Big cost penalty, plus even more 
+            # we're outside the acceptable range. Big cost penalty, plus even more
             # penalty by distance
             hue_cost = outside_penalty + d_to_range
 
@@ -434,13 +443,13 @@ class ColorScheme:
 
     def determine_aliases(self) -> dict[str, ColorFamily]:
         reuse_penalty = 15.0
-        background_compensation = 0.2
-        bg_oklab = self._background.base.oklab
+        # TODO: Maybe re-implement the background compensation?
+        # background_compensation = 0.2
+        # bg_oklab = self._background.base.oklab
 
         cost_matrix: dict[str, dict[Color, float]] = {}
 
         for alias_name, (h_min, h_max, h_centre) in self.__ALIAS_COLORS.items():
-
             cost_matrix[alias_name] = {}
             for accent in self._accents:
                 cost_matrix[alias_name][accent.base] = self._alias_cost(
@@ -448,8 +457,8 @@ class ColorScheme:
                     h_min=h_min,
                     h_max=h_max,
                     h_centre=h_centre,
-                    target_c = 0.5,
-                    target_l = 0.5,
+                    target_c=0.5,
+                    target_l=0.5,
                 )
 
         # High-confidence aliases resolve first
@@ -464,14 +473,15 @@ class ColorScheme:
         for alias_name in aliases_by_confidence:
             best_accent = min(
                 self._accents,
-                key=lambda accent: cost_matrix[alias_name][accent.base]
-                + (assigned_counts[accent] * reuse_penalty),
+                key=lambda accent: (
+                    cost_matrix[alias_name][accent.base]
+                    + (assigned_counts[accent] * reuse_penalty)
+                ),
             )
             resolved[alias_name] = best_accent
             assigned_counts[best_accent] += 1
 
         return resolved
-
 
     def high_contrast(self, n: int) -> list[ColorFamily]:
         if n <= 0:
@@ -489,11 +499,10 @@ class ColorScheme:
         ]
 
         best_subset_indices = None
-        best_min_dist = -1
+        best_min_dist: float = -1.0
 
         # For each combination of n colors:
         for subset in combinations(range(len(self._accents)), n):
-
             local_min = float("inf")
             is_viable = True
 
@@ -524,7 +533,7 @@ class ColorScheme:
         bg_oklch = bg_color.oklch
         dark_scheme = self._scheme_type == SchemeType.DARK
 
-        target_l = 0 if dark_scheme else 1
+        target_l: float = 0.0 if dark_scheme else 1.0
         headroom = abs(target_l - bg_oklch.l)
 
         # If we have no headroom (i.e, starting from pure white or black), we'll flip direction.
@@ -635,18 +644,18 @@ class ColorScheme:
         return self.red
 
     @property
-    def warning(self):
+    def warning(self) -> ColorFamily:
         # Usually yellow, but this can often be the same as green in which case we should return orange; better a warning be accidentally red than green
         if self.yellow == self.green:
             return self.orange
         return self.yellow
 
     @property
-    def success(self):
+    def success(self) -> ColorFamily:
         return self.green
 
     @property
-    def info(self):
+    def info(self) -> ColorFamily:
         return self.blue
 
     def get_canonical_name(
@@ -668,3 +677,5 @@ class ColorScheme:
 
         if self.auto_surface == color_family:
             return "auto_surface", None
+
+        return None

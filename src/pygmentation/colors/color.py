@@ -1,18 +1,21 @@
-from .models import ColorModel, RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH
-from functools import cached_property
+from __future__ import annotations
+
 import math
+from functools import cached_property
+
+from .models import HSL, HSV, LAB, OKLAB, OKLCH, RGB, XYZ, ColorModel
 
 
 class Color:
-    def __init__(self, color: str | ColorModel):
+    def __init__(self, color: str | ColorModel | Color):
         if isinstance(color, str):
-            self._oklab = RGB.from_hex(color).convert_to("oklab")
+            self._oklab: OKLAB = RGB.from_hex(color).convert_to(OKLAB)
         elif isinstance(color, OKLAB):
             self._oklab = color
         elif isinstance(color, Color):
             self._oklab = color.oklab
         else:
-            self._oklab = color.convert_to("oklab")
+            self._oklab = color.convert_to(OKLAB)
 
     def copy(self) -> Color:
         return Color(self.oklab)
@@ -27,23 +30,23 @@ class Color:
 
     @cached_property
     def rgb(self) -> RGB:
-        return self._oklab.convert_to("rgb")
+        return self._oklab.convert_to(RGB)
 
     @cached_property
     def hsl(self) -> HSL:
-        return self._oklab.convert_to("hsl")
+        return self._oklab.convert_to(HSL)
 
     @cached_property
     def hsv(self) -> HSV:
-        return self._oklab.convert_to("hsv")
+        return self._oklab.convert_to(HSV)
 
     @cached_property
     def xyz(self) -> XYZ:
-        return self._oklab.convert_to("xyz")
+        return self._oklab.convert_to(XYZ)
 
     @cached_property
     def lab(self) -> LAB:
-        return self._oklab.convert_to("lab")
+        return self._oklab.convert_to(LAB)
 
     @cached_property
     def oklab(self) -> OKLAB:
@@ -51,7 +54,7 @@ class Color:
 
     @cached_property
     def oklch(self) -> OKLCH:
-        return self._oklab.convert_to("oklch")
+        return self._oklab.convert_to(OKLCH)
 
     @property
     def r(self) -> int:
@@ -222,18 +225,18 @@ class Color:
 
         return 100 * math.sqrt(dl**2 + da**2 + db**2)
 
-    def is_darker_than(self, other: Color):
+    def is_darker_than(self, other: Color) -> bool:
         return self.oklab.l < other.oklab.l
 
-    def is_lighter_than(self, other: Color):
+    def is_lighter_than(self, other: Color) -> bool:
         return self.oklab.l > other.oklab.l
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, Color):
             return False
         return self.hex == other.hex
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.hex)
 
     def __str__(self) -> str:

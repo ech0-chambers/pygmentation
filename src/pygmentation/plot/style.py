@@ -1,7 +1,7 @@
 """Matplotlib rcParams styling and color scheme configuration."""
 
 from enum import IntEnum
-from typing import Any
+from typing import Any, cast
 
 from pygmentation.colors.scheme import ColorScheme, SchemeType
 from pygmentation.registry import registry
@@ -10,7 +10,6 @@ from . import fonts
 
 
 class DocType(IntEnum):
-
     REPORT = 1
     PRESENTATION = 2
 
@@ -49,18 +48,18 @@ def apply_plot_styles(
     """
     try:
         from cycler import cycler
-    except ImportError:
+    except ImportError as err:
         raise ImportError(
             "The 'cycler' package is required for plot functionality. "
             "Please install it using 'pip install cycler' or 'pip install pygmentation[plots]'."
-        )
+        ) from err
     try:
         import matplotlib.pyplot as plt
-    except ImportError:
+    except ImportError as err:
         raise ImportError(
             "The 'matplotlib' package is required for plot functionality. "
             "Please install it using 'pip install matplotlib' or 'pip install pygmentation[plots]'."
-        )
+        ) from err
 
     # Normalize doc_type
     if isinstance(doc_type, str):
@@ -70,7 +69,7 @@ def apply_plot_styles(
             valid_docs = [d.name.lower() for d in DocType]
             raise ValueError(
                 f"Invalid doc_type '{doc_type}'. Expected one of: {valid_docs}"
-            )
+            ) from None
 
     # Resolve scheme
     if isinstance(scheme, str):
@@ -80,7 +79,7 @@ def apply_plot_styles(
             except KeyError:
                 raise ValueError(
                     f"Invalid scheme_type '{scheme_type}'. Expected 'light' or 'dark'."
-                )
+                ) from None
         scheme_obj = registry.get(scheme, variant=scheme_type)
     elif isinstance(scheme, ColorScheme):
         scheme_obj = scheme
@@ -107,9 +106,7 @@ def apply_plot_styles(
     )
 
     axes_color = (
-        scheme_obj.foreground.css
-        if doc_type == DocType.REPORT
-        else distinct[0].css
+        scheme_obj.foreground.css if doc_type == DocType.REPORT else distinct[0].css
     )
 
     if font is not None:
@@ -131,9 +128,7 @@ def apply_plot_styles(
         "text.color": scheme_obj.foreground.css,
         "font.size": 12 if doc_type == DocType.REPORT else 16,
         "figure.facecolor": (
-            scheme_obj.background.base.css
-            if not transparent
-            else "none"
+            scheme_obj.background.base.css if not transparent else "none"
         ),
         "axes.facecolor": scheme_obj.background.base.css if not transparent else "none",
         "legend.facecolor": legend_face,
@@ -168,7 +163,5 @@ def apply_plot_styles(
             preamble_lines.append(rf"\usepackage{{{pkg}}}")
         new_params["text.latex.preamble"] = "\n".join(preamble_lines)
 
-    plt.rcParams.update(new_params)
+    plt.rcParams.update(cast(Any, new_params))
     return new_params
-
-

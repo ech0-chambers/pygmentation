@@ -6,6 +6,7 @@ import shutil
 import subprocess
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
 
 from .font_category import FontCategory, _classify_font_file, classify_font_name
 
@@ -15,7 +16,7 @@ def is_latex_available() -> bool:
     return bool(shutil.which("latex") or shutil.which("pdflatex"))
 
 
-# LaTeX fonts for which matplotlib will automatically insert the required packages into the 
+# LaTeX fonts for which matplotlib will automatically insert the required packages into the
 # preamble
 CLASSIC_LATEX_SERIF_TARGETS: dict[str, str] = {
     "Bookman": "pbkr8t.tfm",
@@ -32,9 +33,9 @@ CLASSIC_LATEX_SANS_SERIF_TARGETS: dict[str, str] = {
     "Helvetica": "helvet.sty",
 }
 
-ALL_CLASSIC_LATEX_FONTS: frozenset[str] = frozenset(CLASSIC_LATEX_SERIF_TARGETS) | frozenset(
-    CLASSIC_LATEX_SANS_SERIF_TARGETS
-)
+ALL_CLASSIC_LATEX_FONTS: frozenset[str] = frozenset(
+    CLASSIC_LATEX_SERIF_TARGETS
+) | frozenset(CLASSIC_LATEX_SANS_SERIF_TARGETS)
 
 
 # Quick look-up for common fonts and their packages
@@ -92,14 +93,14 @@ def _kpsewhich_target_exists(target: str) -> bool:
 
 
 def _clean_tex_directory(raw_path: str) -> Path | None:
-    
+
     clean = raw_path.strip().lstrip("!").rstrip("/\\")
     while clean.endswith(("//", "\\\\")):
         clean = clean[:-2]
 
     if not clean or clean == "." or "tex" not in clean.lower():
         return None
-    
+
     try:
         p = Path(clean).expanduser().resolve()
         return p if p.is_dir() else None
@@ -140,7 +141,13 @@ def _get_texmf_roots() -> list[str]:
         pass
 
     # 2. Query explicit standard variables as fallback/supplement
-    for var in ("TEXMFDIST", "TEXMFLOCAL", "TEXMFHOME", "TEXMFSYSVAR", "TEXMFSYSCONFIG"):
+    for var in (
+        "TEXMFDIST",
+        "TEXMFLOCAL",
+        "TEXMFHOME",
+        "TEXMFSYSVAR",
+        "TEXMFSYSCONFIG",
+    ):
         try:
             res = subprocess.run(
                 ["kpsewhich", f"-var-value={var}"],
@@ -206,7 +213,7 @@ def _resolve_latex_package_from_path(
     texmf_roots: list[str] | tuple[str, ...] | None = None,
 ) -> str | None:
     # Find the LaTeX package (.sty) corresponding to a font file via TDS layout.
-    
+
     p = Path(font_path).resolve()
 
     # 1. Prefix match against known texmf roots
@@ -235,14 +242,14 @@ def _resolve_latex_package_from_path(
     pkg_dir_name = p.parent.name
     latex_dir = texmf_root / "tex" / "latex" / pkg_dir_name
     if not latex_dir.is_dir():
-        # We might be on a case-insensitive system where the package name has a different 
+        # We might be on a case-insensitive system where the package name has a different
         # capitalisation
         latex_dir = texmf_root / "tex" / "latex" / pkg_dir_name.lower()
 
     if not latex_dir.is_dir():
         # Still can't find the directory, not much left to try
         return None
-    
+
     try:
         sty_files = list(latex_dir.glob("*.sty"))
     except OSError:
@@ -251,7 +258,7 @@ def _resolve_latex_package_from_path(
     if not sty_files:
         return None
 
-    # Font file is likely to be the same as the font family name, but with any non-alphanumeric 
+    # Font file is likely to be the same as the font family name, but with any non-alphanumeric
     # characters (mostly spaces) stripped out
     clean_name = "".join(c for c in family_name if c.isalnum()).lower()
     pkg_lower = pkg_dir_name.lower()
@@ -281,17 +288,18 @@ def _resolve_latex_package_from_path(
 @lru_cache(maxsize=1)
 def _get_latex_fonts() -> tuple[dict[str, str | None], dict[str, str | None]]:
     # Dynamically scan available LaTeX fonts on the system and map them to their packages.
-    
+
     if not is_latex_available():
         return {}, {}
 
     import matplotlib.font_manager as fm
 
+    ft: Any = None
     try:
         # We'll use matplotlib's font inspection module to inspect font tables if it's available
         import matplotlib.ft2font as ft
     except ImportError:
-        ft = None
+        pass
 
     serif_fonts: dict[str, str | None] = {}
     sans_serif_fonts: dict[str, str | None] = {}
@@ -319,8 +327,8 @@ def _get_latex_fonts() -> tuple[dict[str, str | None], dict[str, str | None]]:
         (CLASSIC_LATEX_SANS_SERIF_TARGETS, FontCategory.SANS_SERIF),
     ):
         for name, target in targets.items():
-            # These are the standard fonts that Matplotlib will handle without us specifying the 
-            # package, so we can add them to the dictionary without a package. If kpsewhich is 
+            # These are the standard fonts that Matplotlib will handle without us specifying the
+            # package, so we can add them to the dictionary without a package. If kpsewhich is
             # available, we'll check that it can resolve the font; if not, then we'll assume it can
             # for now.
             if not has_kpsewhich or _kpsewhich_target_exists(target):
@@ -346,7 +354,9 @@ def _get_latex_fonts() -> tuple[dict[str, str | None], dict[str, str | None]]:
                 continue
 
             # 3. Resolve corresponding LaTeX package (.sty)
-            pkg = KNOWN_LATEX_PACKAGES.get(name) or _resolve_latex_package_from_path(f, name)
+            pkg = KNOWN_LATEX_PACKAGES.get(name) or _resolve_latex_package_from_path(
+                f, name
+            )
             record_font(name, category, pkg)
 
     return serif_fonts, sans_serif_fonts
@@ -355,14 +365,15 @@ def _get_latex_fonts() -> tuple[dict[str, str | None], dict[str, str | None]]:
 @lru_cache(maxsize=1)
 def _get_non_latex_fonts() -> tuple[set[str], set[str]]:
     # Scan available system fonts via matplotlib and categorize into (serif, sans_serif).
-    
+
     import matplotlib.font_manager as fm
 
+    ft: Any = None
     try:
         # We'll use matplotlib's font inspection module to inspect font tables if it's available
         import matplotlib.ft2font as ft
     except ImportError:
-        ft = None
+        pass
 
     serif_fonts: set[str] = set()
     sans_serif_fonts: set[str] = set()
@@ -420,6 +431,7 @@ def _resolve_font_types(
         return serif, sans_serif
     if serif is not None:
         return serif, not serif
+    assert sans_serif is not None
     return not sans_serif, sans_serif
 
 
@@ -427,7 +439,11 @@ def get_fonts(
     latex: bool | None = None,
     serif: bool | None = None,
     sans_serif: bool | None = None,
-    pattern: str | re.Pattern[str] | list[str | re.Pattern[str]] | tuple[str | re.Pattern[str], ...] | None = None,
+    pattern: str
+    | re.Pattern[str]
+    | list[str | re.Pattern[str]]
+    | tuple[str | re.Pattern[str], ...]
+    | None = None,
 ) -> list[str]:
     """Return a list of available fonts for matplotlib to use.
 
@@ -451,19 +467,25 @@ def get_fonts(
     """
     try:
         import matplotlib.font_manager  # noqa: F401
-    except ImportError:
+    except ImportError as err:
         raise ImportError(
             "The 'matplotlib' package is required for plot functionality. "
             "Please install it using 'pip install matplotlib' or 'pip install pygmentation[plots]'."
-        )
+        ) from err
 
     # Check arguments
     if latex is not None and not isinstance(latex, bool):
-        raise TypeError(f"Expected latex to be bool or None, got {type(latex).__name__}")
+        raise TypeError(
+            f"Expected latex to be bool or None, got {type(latex).__name__}"
+        )
     if serif is not None and not isinstance(serif, bool):
-        raise TypeError(f"Expected serif to be bool or None, got {type(serif).__name__}")
+        raise TypeError(
+            f"Expected serif to be bool or None, got {type(serif).__name__}"
+        )
     if sans_serif is not None and not isinstance(sans_serif, bool):
-        raise TypeError(f"Expected sans_serif to be bool or None, got {type(sans_serif).__name__}")
+        raise TypeError(
+            f"Expected sans_serif to be bool or None, got {type(sans_serif).__name__}"
+        )
 
     # Normalise `pattern` to a list of compiles `re.Pattern`s
     pattern_list: list[str | re.Pattern[str]] | None = None
@@ -511,7 +533,6 @@ def get_fonts(
         return base_fonts
 
     regexes = [
-        re.compile(p, re.IGNORECASE) if isinstance(p, str) else p
-        for p in pattern_list
+        re.compile(p, re.IGNORECASE) if isinstance(p, str) else p for p in pattern_list
     ]
     return [f for regex in regexes for f in base_fonts if regex.search(f)]

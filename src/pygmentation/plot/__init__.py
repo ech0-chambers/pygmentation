@@ -21,16 +21,12 @@ from .fonts import (
 from .style import (
     DocType,
     apply_plot_styles,
-    init,
-    init_matplotlib,
 )
 
 __all__ = [
     "DocType",
     "FontCategory",
     "apply_plot_styles",
-    "init",
-    "init_matplotlib",
     "get_fonts",
     "is_latex_available",
     "classify_font_name",

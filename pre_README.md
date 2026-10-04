@@ -143,6 +143,7 @@ The usual use of `pygmentation` will be to set default styling for `matplotlib` 
 
 ```python
 import pygmentation.pygmentation as qp
+
 qp.init("rose_pine", "light")
 import matplotlib.pyplot as plt
 

@@ -1,6 +1,7 @@
 """Unit tests for ColorFamily and ColorScheme in pygmentation.colors.scheme."""
 
 import pytest
+
 from pygmentation import Color, ColorFamily, ColorScheme, SchemeType
 
 # SchemeType Enum Tests
@@ -69,10 +70,10 @@ def test_color_family_sequence_and_representations():
 
 
 def test_color_family_contrast_scaling_is_main():
-    # Handling of foreground and background is different, such that the lightest foreground 
+    # Handling of foreground and background is different, such that the lightest foreground
     # variant is still darker than the darkest background variant in a light scheme.
     # Check that `is_main` causes a smaller range of lightness
-    
+
     # Dark base with L < 0.2 triggers too_dark
     base_dark = Color("101010")
     family_main = ColorFamily(base_dark, SchemeType.DARK, is_main=True)
@@ -116,34 +117,6 @@ def test_color_family_boundary_too_light_and_too_dark():
     # Boundary adjustments without custom variants
     assert len(family_white.variants) == 5
     assert len(family_black.variants) == 5
-
-
-def test_color_family_custom_variants():
-    base = Color("000000")
-    custom = [
-        Color("111111"),
-        Color("222222"),
-        Color("333333"),
-        Color("444444"),
-        Color("555555"),
-    ]
-    family = ColorFamily(base, SchemeType.DARK, variants=custom)
-    assert family.variants == custom
-    assert family.base == base
-
-    # Accepts strings in variants list
-    family_strs = ColorFamily(
-        base,
-        SchemeType.DARK,
-        variants=["111111", "222222", "333333", "444444", "555555"],
-    )
-    assert family_strs.variants == custom
-
-    # Must have exactly 5 variants
-    with pytest.raises(ValueError, match="ColorFamily requires exactly 5 variants"):
-        ColorFamily(base, SchemeType.DARK, variants=custom[:4])
-    with pytest.raises(ValueError, match="ColorFamily requires exactly 5 variants"):
-        ColorFamily(base, SchemeType.DARK, variants=custom + [Color("666666")])
 
 
 def test_color_family_anchor_hue_blending():
@@ -194,12 +167,13 @@ def test_color_family_equality_and_hashing():
     assert hash(fam1) == hash(fam2)
 
     # Safe comparison against non-ColorFamily objects
-    assert fam1 != None
+    assert fam1 is not None
     assert fam1 != "5E81AC"
     assert fam1 != Color("5E81AC")
 
 
 # ColorScheme Tests
+
 
 def test_scheme_initialization(sample_nord_dict):
     scheme = ColorScheme(sample_nord_dict, SchemeType.DARK)
@@ -490,7 +464,7 @@ def test_scheme_auto_surface_chroma_infusion():
     p_acc = {
         "foreground": "EEEEEE",  # Neutral light gray (C < 0.01)
         "background": "111111",  # Neutral dark gray (C < 0.01)
-        "accents": ["336699"],   # Chromatic blue (C > 0.02)
+        "accents": ["336699"],  # Chromatic blue (C > 0.02)
     }
     s_acc = ColorScheme(p_acc, SchemeType.DARK)
     assert (
@@ -553,7 +527,7 @@ def test_scheme_auto_surface_ordering_similarity(sample_nord_dict):
 
         # Variants go from least to most similar (distances strictly decreasing)
         assert var_dists == sorted(var_dists, reverse=True)
-        for d1, d2 in zip(var_dists[:-1], var_dists[1:]):
+        for d1, d2 in zip(var_dists[:-1], var_dists[1:], strict = True):
             assert d1 > d2
 
 
@@ -567,10 +541,14 @@ def test_color_family_custom_variants():
     assert fam.variants[4] == Color("555555")
 
     # Invalid length raises ValueError
-    with pytest.raises(ValueError, match="ColorFamily requires exactly 5 variants, got 4"):
+    with pytest.raises(
+        ValueError, match="ColorFamily requires exactly 5 variants, got 4"
+    ):
         ColorFamily("000000", SchemeType.DARK, variants=custom_vars[:4])
 
-    with pytest.raises(ValueError, match="ColorFamily requires exactly 5 variants, got 6"):
+    with pytest.raises(
+        ValueError, match="ColorFamily requires exactly 5 variants, got 6"
+    ):
         ColorFamily("000000", SchemeType.DARK, variants=custom_vars + ["#666666"])
 
 
@@ -578,7 +556,13 @@ def test_color_family_custom_variants_equality_and_hashing():
     base = Color("5E81AC")
     fam_generated = ColorFamily(base, SchemeType.DARK)
 
-    custom_vars = [Color("111111"), Color("222222"), Color("333333"), Color("444444"), Color("555555")]
+    custom_vars = [
+        Color("111111"),
+        Color("222222"),
+        Color("333333"),
+        Color("444444"),
+        Color("555555"),
+    ]
     fam_custom1 = ColorFamily(base, SchemeType.DARK, variants=custom_vars)
     fam_custom2 = ColorFamily(base, SchemeType.DARK, variants=custom_vars)
 

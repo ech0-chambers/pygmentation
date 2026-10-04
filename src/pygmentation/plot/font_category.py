@@ -65,34 +65,38 @@ KNOWN_SANS_KEYWORDS: tuple[str, ...] = (
 )
 
 # The standard fonts defined in matplotlib's internal font lists:
-STANDARD_MATPLOTLIB_SERIF_NAMES: frozenset[str] = frozenset({
-    "bitstream vera serif",
-    "bookman",
-    "century schoolbook l",
-    "charter",
-    "computer modern roman",
-    "dejavu serif",
-    "itc bookman",
-    "new century schoolbook",
-    "nimbus roman no9 l",
-    "palatino",
-    "times",
-    "times new roman",
-    "utopia",
-})
+STANDARD_MATPLOTLIB_SERIF_NAMES: frozenset[str] = frozenset(
+    {
+        "bitstream vera serif",
+        "bookman",
+        "century schoolbook l",
+        "charter",
+        "computer modern roman",
+        "dejavu serif",
+        "itc bookman",
+        "new century schoolbook",
+        "nimbus roman no9 l",
+        "palatino",
+        "times",
+        "times new roman",
+        "utopia",
+    }
+)
 
-STANDARD_MATPLOTLIB_SANS_NAMES: frozenset[str] = frozenset({
-    "arial",
-    "avant garde",
-    "bitstream vera sans",
-    "computer modern sans serif",
-    "dejavu sans",
-    "geneva",
-    "helvetica",
-    "lucid",
-    "lucida grande",
-    "verdana",
-})
+STANDARD_MATPLOTLIB_SANS_NAMES: frozenset[str] = frozenset(
+    {
+        "arial",
+        "avant garde",
+        "bitstream vera sans",
+        "computer modern sans serif",
+        "dejavu sans",
+        "geneva",
+        "helvetica",
+        "lucid",
+        "lucida grande",
+        "verdana",
+    }
+)
 
 
 def classify_font_name(name: str, *, include_keywords: bool = True) -> FontCategory:
@@ -123,14 +127,14 @@ def classify_font_name(name: str, *, include_keywords: bool = True) -> FontCateg
             return FontCategory.SANS_SERIF
         if any(k in lower for k in KNOWN_SERIF_KEYWORDS):
             return FontCategory.SERIF
-        
+
     return FontCategory.UNCLASSIFIED
 
 
 def _classify_font_file(
     font_path: str, ft_module: Any
 ) -> tuple[str, FontCategory] | None:
-    # Inspect a font file to determine if it is a serif font, a sans-serif font, or neither/unclear 
+    # Inspect a font file to determine if it is a serif font, a sans-serif font, or neither/unclear
     if ft_module is None:
         return None
 

@@ -1,29 +1,34 @@
-from abc import ABC, abstractmethod
-from enum import IntEnum
-from typing import ClassVar, Final
+from __future__ import annotations
+
 import math
-from dataclasses import dataclass, InitVar, fields
+from abc import ABC, abstractmethod
+from collections.abc import Iterator
+from dataclasses import InitVar, dataclass, fields
+from typing import Any, ClassVar, Literal, Self, TypeVar, cast, overload
+
+T = TypeVar("T", bound="ColorModel")
 
 
 class ColorModel(ABC):
-    BOUNDS: tuple[tuple[float | None, float | None], ...] = ()
-    _registry: ClassVar[dict[str, type["ColorModel"]]] = {}
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = ()
+    _registry: ClassVar[dict[str, type[ColorModel]]] = {}
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
         # Automatically registers "rgb", "hsl", "hsv", "xyz", "lab", "oklab", "oklch"
         cls._registry[cls.__name__.lower()] = cls
 
-    def _normalize(self):
-        # To allow for things like hue wrapping before bounds are checked.
+    def _normalize(self) -> None:  # noqa: B027
+        # To allow for things like hue wrapping before bounds are checked. Optionally implemented
+        # by subclasses
         pass
 
-    def __post_init__(self, clamp: bool = False):
+    def __post_init__(self, clamp: bool = False) -> None:
 
         self._normalize()
 
         if clamp:
-            for field, (low, high) in zip(fields(self), self.BOUNDS):
+            for field, (low, high) in zip(fields(cast(Any, self)), self.BOUNDS, strict=True):
                 val = getattr(self, field.name)
                 if low is not None and val < low:
                     val = low
@@ -31,7 +36,7 @@ class ColorModel(ABC):
                     val = high
                 object.__setattr__(self, field.name, val)
         else:
-            for field, (low, high) in zip(fields(self), self.BOUNDS):
+            for field, (low, high) in zip(fields(cast(Any, self)), self.BOUNDS, strict=True):
                 val = getattr(self, field.name)
                 if low is not None and val < low:
                     if math.isclose(val, low, abs_tol=1e-5, rel_tol=1e-5):
@@ -44,8 +49,8 @@ class ColorModel(ABC):
                     else:
                         raise ValueError(f"Value {val} is above maximum {high}")
 
-    def __iter__(self):
-        for f in fields(self):
+    def __iter__(self) -> Iterator[float | int]:
+        for f in fields(cast(Any, self)):
             yield getattr(self, f.name)
 
     def __getitem__(self, index: int) -> float | int:
@@ -73,20 +78,32 @@ class ColorModel(ABC):
 
     @classmethod
     @abstractmethod
-    def from_xyz(cls, *xyz: tuple[float, float, float]) -> ColorModel:
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
         pass
 
     @staticmethod
     def _check_xyz_args(
-        xyz: tuple[float, float, float] | tuple[tuple[float, float, float]],
+        xyz: tuple[float | tuple[float, float, float], ...],
     ) -> tuple[float, float, float]:
         if len(xyz) == 1 and isinstance(xyz[0], (tuple, list)):
-            xyz = xyz[0]
-        if not len(xyz) == 3:
+            inner = xyz[0]
+            if len(inner) != 3:
+                raise ValueError(f"Expected 3 xyz values, but received {len(inner)}")
+            return (float(inner[0]), float(inner[1]), float(inner[2]))
+        if len(xyz) != 3:
             raise ValueError(f"Expected 3 xyz values, but received {len(xyz)}")
-        return xyz
+        return (float(xyz[0]), float(xyz[1]), float(xyz[2]))  # type: ignore[arg-type]
 
-    def convert_to(self, new_model: str | type[ColorModel]) -> ColorModel:
+    @overload
+    def convert_to(self, new_model: type[T]) -> T: ...
+
+    @overload
+    def convert_to(self, new_model: Literal["hex", "css"]) -> str: ...
+
+    @overload
+    def convert_to(self, new_model: str) -> ColorModel | str: ...
+
+    def convert_to(self, new_model: str | type[ColorModel]) -> ColorModel | str:
         if isinstance(new_model, str):
             name = new_model.lower()
             if name == "hex":
@@ -124,23 +141,26 @@ class ColorModel(ABC):
         if isinstance(self, RGB) and target_cls is HSV:
             return HSV._from_full_rgb(*[i / 255 for i in self])
         if isinstance(self, HSL) and target_cls is RGB:
-            return RGB(*[int(round(i * 255)) for i in self._to_full_rgb()])
+            r, g, b = (int(round(i * 255)) for i in self._to_full_rgb())
+            return RGB(r, g, b)
         if isinstance(self, HSV) and target_cls is RGB:
-            return RGB(*[int(round(i * 255)) for i in self._to_full_rgb()])
+            r, g, b = (int(round(i * 255)) for i in self._to_full_rgb())
+            return RGB(r, g, b)
 
         return target_cls.from_xyz(self.to_xyz())
 
     def as_tuple(self) -> tuple[float, float, float]:
-        return tuple(self)
+        a, b, c = self
+        return (float(a), float(b), float(c))
 
-    def _with_a(self, val: float) -> ColorModel:
-        return self.__class__(val, self._b, self._c)
+    def _with_a(self, val: float) -> Self:
+        return self.__class__(val, self._b, self._c)  # type: ignore[call-arg]
 
-    def _with_b(self, val: float) -> ColorModel:
-        return self.__class__(self._a, val, self._c)
+    def _with_b(self, val: float) -> Self:
+        return self.__class__(self._a, val, self._c)  # type: ignore[call-arg]
 
-    def _with_c(self, val: float) -> ColorModel:
-        return self.__class__(self._a, self._b, val)
+    def _with_c(self, val: float) -> Self:
+        return self.__class__(self._a, self._b, val)  # type: ignore[call-arg]
 
 
 def _rgb_float_to_xyz(rgb: tuple[float, float, float]) -> tuple[float, float, float]:
@@ -169,38 +189,42 @@ class RGB(ColorModel):
     g: int
     b: int
     clamp: InitVar[bool] = False
-    BOUNDS: ClassVar[Final] = ((0, 255), (0, 255), (0, 255))
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
+        (0, 255),
+        (0, 255),
+        (0, 255),
+    )
 
-    def _normalize(self):
+    def _normalize(self) -> None:
         object.__setattr__(self, "r", int(round(self.r)))
         object.__setattr__(self, "g", int(round(self.g)))
         object.__setattr__(self, "b", int(round(self.b)))
 
     def to_xyz(self) -> tuple[float, float, float]:
-        rgb = (v / 255 for v in self)
-        return _rgb_float_to_xyz(rgb)
+        return _rgb_float_to_xyz((self.r / 255, self.g / 255, self.b / 255))
 
     @classmethod
-    def from_xyz(cls, *xyz: tuple[float, float, float]) -> RGB:
-        xyz = cls._check_xyz_args(xyz)
-        rgb = _xyz_to_rgb_float(xyz)
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
+        coords = cls._check_xyz_args(xyz)
+        rgb = _xyz_to_rgb_float(coords)
         r, g, b = (int(round(v * 255)) for v in rgb)
         return cls(r, g, b, clamp=True)
 
     @classmethod
-    def from_hex(cls, hex: str) -> RGB:
-        return cls(*(int(hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)))
+    def from_hex(cls, hex: str) -> Self:
+        r, g, b = (int(hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
+        return cls(r, g, b)
 
     def to_hex(self) -> str:
         return f"{self.r:0>2X}{self.g:0>2X}{self.b:0>2X}"
 
-    def with_r(self, val) -> RGB:
+    def with_r(self, val: float) -> Self:
         return self._with_a(val)
 
-    def with_g(self, val) -> RGB:
+    def with_g(self, val: float) -> Self:
         return self._with_b(val)
 
-    def with_b(self, val) -> RGB:
+    def with_b(self, val: float) -> Self:
         return self._with_c(val)
 
 
@@ -210,9 +234,13 @@ class HSL(ColorModel):
     s: float
     l: float
     clamp: InitVar[bool] = False
-    BOUNDS = ((0, 360), (0, 1), (0, 1))
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
+        (0, 360),
+        (0, 1),
+        (0, 1),
+    )
 
-    def _normalize(self):
+    def _normalize(self) -> None:
         object.__setattr__(self, "h", float(self.h % 360))
 
     def _to_full_rgb(self) -> tuple[float, float, float]:
@@ -233,15 +261,15 @@ class HSL(ColorModel):
         return (c + m, m, x + m)
 
     @classmethod
-    def _from_full_rgb(cls, *rgb: tuple[float, float, float]) -> HSL:
+    def _from_full_rgb(cls, *rgb: float | tuple[float, float, float]) -> Self:
         # https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
-        rgb = cls._check_xyz_args(rgb)
-        r, g, b = (min(1.0, max(0.0, float(x))) for x in rgb)
+        coords = cls._check_xyz_args(rgb)
+        r, g, b = (min(1.0, max(0.0, float(x))) for x in coords)
         cmax = max(r, g, b)
         cmin = min(r, g, b)
         delta = cmax - cmin
         if delta == 0:
-            h = 0
+            h = 0.0
         elif cmax == r:
             h = 60 * (((g - b) / delta) % 6)
         elif cmax == g:
@@ -250,7 +278,7 @@ class HSL(ColorModel):
             h = 60 * (((r - g) / delta) + 4)
         l = (cmax + cmin) / 2
         if delta == 0:
-            s = 0
+            s = 0.0
         else:
             s = delta / (1 - abs(2 * l - 1))
         return cls(h, s, l, clamp=True)
@@ -260,18 +288,18 @@ class HSL(ColorModel):
         return _rgb_float_to_xyz(rgb)
 
     @classmethod
-    def from_xyz(cls, *xyz: tuple[float, float, float]) -> HSL:
-        xyz = cls._check_xyz_args(xyz)
-        rgb = _xyz_to_rgb_float(xyz)
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
+        coords = cls._check_xyz_args(xyz)
+        rgb = _xyz_to_rgb_float(coords)
         return cls._from_full_rgb(rgb)
 
-    def with_h(self, val) -> HSL:
+    def with_h(self, val: float) -> Self:
         return self._with_a(val)
 
-    def with_s(self, val) -> HSL:
+    def with_s(self, val: float) -> Self:
         return self._with_b(val)
 
-    def with_l(self, val) -> HSL:
+    def with_l(self, val: float) -> Self:
         return self._with_c(val)
 
 
@@ -281,9 +309,13 @@ class HSV(ColorModel):
     s: float
     v: float
     clamp: InitVar[bool] = False
-    BOUNDS = ((0, 360), (0, 1), (0, 1))
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
+        (0, 360),
+        (0, 1),
+        (0, 1),
+    )
 
-    def _normalize(self):
+    def _normalize(self) -> None:
         object.__setattr__(self, "h", float(self.h % 360))
 
     def _to_full_rgb(self) -> tuple[float, float, float]:
@@ -304,15 +336,15 @@ class HSV(ColorModel):
         return (c + m, m, x + m)
 
     @classmethod
-    def _from_full_rgb(cls, *rgb: tuple[float, float, float]):
+    def _from_full_rgb(cls, *rgb: float | tuple[float, float, float]) -> Self:
         # https://en.wikipedia.org/wiki/HSL_and_HSV#From_RGB
-        rgb = cls._check_xyz_args(rgb)
-        r, g, b = (min(1.0, max(0.0, float(x))) for x in rgb)
+        coords = cls._check_xyz_args(rgb)
+        r, g, b = (min(1.0, max(0.0, float(x))) for x in coords)
         cmax = max(r, g, b)
         cmin = min(r, g, b)
         delta = cmax - cmin
         if delta == 0:
-            h = 0
+            h = 0.0
         elif cmax == r:
             h = 60 * (((g - b) / delta) % 6)
         elif cmax == g:
@@ -321,7 +353,7 @@ class HSV(ColorModel):
             h = 60 * (((r - g) / delta) + 4)
         v = cmax
         if cmax == 0:
-            s = 0
+            s = 0.0
         else:
             s = delta / cmax
         return cls(h, s, v, clamp=True)
@@ -331,18 +363,18 @@ class HSV(ColorModel):
         return _rgb_float_to_xyz(rgb)
 
     @classmethod
-    def from_xyz(cls, *xyz: tuple[float, float, float]) -> HSV:
-        xyz = cls._check_xyz_args(xyz)
-        rgb = _xyz_to_rgb_float(xyz)
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
+        coords = cls._check_xyz_args(xyz)
+        rgb = _xyz_to_rgb_float(coords)
         return cls._from_full_rgb(rgb)
 
-    def with_h(self, val) -> HSV:
+    def with_h(self, val: float) -> Self:
         return self._with_a(val)
 
-    def with_s(self, val) -> HSV:
+    def with_s(self, val: float) -> Self:
         return self._with_b(val)
 
-    def with_v(self, val) -> HSV:
+    def with_v(self, val: float) -> Self:
         return self._with_c(val)
 
 
@@ -352,23 +384,27 @@ class XYZ(ColorModel):
     y: float
     z: float
     clamp: InitVar[bool] = False
-    BOUNDS = ((0, None), (0, None), (0, None))
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
+        (0, None),
+        (0, None),
+        (0, None),
+    )
 
     def to_xyz(self) -> tuple[float, float, float]:
-        return tuple(self)
+        return (float(self.x), float(self.y), float(self.z))
 
     @classmethod
-    def from_xyz(cls, *xyz: tuple[float, float, float]) -> XYZ:
-        xyz = cls._check_xyz_args(xyz)
-        return XYZ(*xyz, clamp=True)
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
+        coords = cls._check_xyz_args(xyz)
+        return cls(coords[0], coords[1], coords[2], clamp=True)
 
-    def with_x(self, val) -> XYZ:
+    def with_x(self, val: float) -> Self:
         return self._with_a(val)
 
-    def with_y(self, val) -> XYZ:
+    def with_y(self, val: float) -> Self:
         return self._with_b(val)
 
-    def with_z(self, val) -> XYZ:
+    def with_z(self, val: float) -> Self:
         return self._with_c(val)
 
 
@@ -378,11 +414,15 @@ class LAB(ColorModel):
     a: float
     b: float
     clamp: InitVar[bool] = False
-    BOUNDS = ((0, None), (None, None), (None, None))
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
+        (0, None),
+        (None, None),
+        (None, None),
+    )
 
     def to_xyz(self) -> tuple[float, float, float]:
         # https://en.wikipedia.org/wiki/CIELAB_color_space
-        def f(t):
+        def f(t: float) -> float:
             if t > 6 / 29:
                 return t**3
             return (t - 4 / 29) / 7.787
@@ -393,33 +433,33 @@ class LAB(ColorModel):
         return 95.047 * f(x), 100 * f(y), 108.883 * f(z)
 
     @classmethod
-    def from_xyz(cls, *xyz: tuple[float, float, float]) -> LAB:
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
         # https://en.wikipedia.org/wiki/CIELAB_color_space
-        xyz = cls._check_xyz_args(xyz)
+        coords = cls._check_xyz_args(xyz)
 
-        def f(t):
+        def f(t: float) -> float:
             delta = 6 / 29
             if t > delta**3:
-                return t ** (1 / 3)
+                return math.cbrt(t)
             return t / (3 * delta**2) + 4 / 29
 
-        x, y, z = xyz
+        x, y, z = coords
 
         Xn = 95.0489
-        Yn = 100
+        Yn = 100.0
         Zn = 108.8840
         x = f(x / Xn)
         y = f(y / Yn)
         z = f(z / Zn)
         return cls(116 * y - 16, 500 * (x - y), 200 * (y - z), clamp=True)
 
-    def with_l(self, val) -> LAB:
+    def with_l(self, val: float) -> Self:
         return self._with_a(val)
 
-    def with_a(self, val) -> LAB:
+    def with_a(self, val: float) -> Self:
         return self._with_b(val)
 
-    def with_b(self, val) -> LAB:
+    def with_b(self, val: float) -> Self:
         return self._with_c(val)
 
 
@@ -429,7 +469,11 @@ class OKLAB(ColorModel):
     a: float
     b: float
     clamp: InitVar[bool] = False
-    BOUNDS = ((0, None), (None, None), (None, None))
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
+        (0, None),
+        (None, None),
+        (None, None),
+    )
 
     def to_xyz(self) -> tuple[float, float, float]:
         # https://en.wikipedia.org/wiki/Oklab_color_space
@@ -459,9 +503,9 @@ class OKLAB(ColorModel):
         return x * 100, y * 100, z * 100
 
     @classmethod
-    def from_xyz(cls, *xyz: tuple[float, float, float]) -> OKLAB:
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
         # https://en.wikipedia.org/wiki/Oklab_color_space
-        xyz = cls._check_xyz_args(xyz)
+        coords = cls._check_xyz_args(xyz)
 
         M_1 = [
             [0.8189330101, 0.3618667242, -0.1288597137],
@@ -474,7 +518,7 @@ class OKLAB(ColorModel):
             [0.0259040371, 0.7827717662, -0.8086757660],
         ]
 
-        X, Y, Z = xyz
+        X, Y, Z = coords
         X /= 100
         Y /= 100
         Z /= 100
@@ -493,13 +537,13 @@ class OKLAB(ColorModel):
 
         return cls(L, a, b, clamp=True)
 
-    def with_l(self, val) -> OKLAB:
+    def with_l(self, val: float) -> Self:
         return self._with_a(val)
 
-    def with_a(self, val) -> OKLAB:
+    def with_a(self, val: float) -> Self:
         return self._with_b(val)
 
-    def with_b(self, val) -> OKLAB:
+    def with_b(self, val: float) -> Self:
         return self._with_c(val)
 
 
@@ -509,13 +553,17 @@ class OKLCH(ColorModel):
     c: float
     h: float
     clamp: InitVar[bool] = False
-    BOUNDS = ((0, None), (None, None), (None, None))
+    BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
+        (0, None),
+        (None, None),
+        (None, None),
+    )
 
-    def _normalize(self):
+    def _normalize(self) -> None:
         object.__setattr__(self, "h", float(self.h % 360))
 
     @classmethod
-    def _from_oklab(cls, oklab: OKLAB) -> OKLCH:
+    def _from_oklab(cls, oklab: OKLAB) -> Self:
         L = oklab.l
         C = math.sqrt(oklab.a**2 + oklab.b**2)
         h = math.degrees(math.atan2(oklab.b, oklab.a))
@@ -531,15 +579,15 @@ class OKLCH(ColorModel):
         return self._to_oklab().to_xyz()
 
     @classmethod
-    def from_xyz(cls, *xyz: float[float, float, float]) -> OKLCH:
-        xyz = cls._check_xyz_args(xyz)
-        return cls._from_oklab(OKLAB.from_xyz(xyz))
+    def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
+        coords = cls._check_xyz_args(xyz)
+        return cls._from_oklab(OKLAB.from_xyz(coords))
 
-    def with_l(self, val) -> OKLCH:
+    def with_l(self, val: float) -> Self:
         return self._with_a(val)
 
-    def with_c(self, val) -> OKLCH:
+    def with_c(self, val: float) -> Self:
         return self._with_b(val)
 
-    def with_h(self, val) -> OKLCH:
+    def with_h(self, val: float) -> Self:
         return self._with_c(val)

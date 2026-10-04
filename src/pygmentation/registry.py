@@ -1,6 +1,8 @@
 import copy
 import json
 from pathlib import Path
+from typing import Any
+
 from pygmentation.colors.scheme import ColorScheme, SchemeType
 from pygmentation.exceptions import SchemeNotFoundError
 
@@ -11,7 +13,7 @@ class SchemeRegistry:
             schemes_file or Path(__file__).parent / "color_schemes.json"
         )
         self._load_user_config = load_user_config
-        self._schemes: dict[str, dict] | None = None
+        self._schemes: dict[str, Any] | None = None
 
     def _ensure_loaded(self) -> None:
         if self._schemes is not None:
@@ -21,25 +23,27 @@ class SchemeRegistry:
 
         # Built-in schemes first
         if self._schemes_file.exists():
-            with open(self._schemes_file, "r", encoding="utf-8") as f:
+            with open(self._schemes_file, encoding="utf-8") as f:
                 self._schemes.update(json.load(f))
 
         # User schemes
         if self._load_user_config:
             user_config = Path("~/.config/pygmentation/color_schemes.json").expanduser()
             if user_config.exists():
-                with open(user_config, "r", encoding="utf-8") as f:
+                with open(user_config, encoding="utf-8") as f:
                     self._schemes.update(json.load(f))
 
     @property
     def available(self) -> list[str]:
         self._ensure_loaded()
+        assert self._schemes is not None
         return sorted(self._schemes.keys())
 
     def get(
         self, name: str, variant: SchemeType | str = SchemeType.LIGHT
     ) -> ColorScheme:
         self._ensure_loaded()
+        assert self._schemes is not None
         if name not in self._schemes:
             raise SchemeNotFoundError(name, available=self.available)
 
@@ -51,8 +55,9 @@ class SchemeRegistry:
             raw_data = raw_data[variant.name.lower()]
         return ColorScheme(raw_data, variant)
 
-    def register(self, name: str, data: dict, overwrite: bool = False) -> None:
+    def register(self, name: str, data: dict[str, Any], overwrite: bool = False) -> None:
         self._ensure_loaded()
+        assert self._schemes is not None
         if name in self._schemes and not overwrite:
             raise ValueError(
                 f"Scheme '{name}' already exists. Use `overwrite = True` to replace."
@@ -61,6 +66,7 @@ class SchemeRegistry:
 
     def unregister(self, name: str) -> None:
         self._ensure_loaded()
+        assert self._schemes is not None
         self._schemes.pop(name, None)
 
     def reload(self) -> None:
@@ -69,6 +75,7 @@ class SchemeRegistry:
 
     def has_scheme(self, name: str, variant: SchemeType = SchemeType.LIGHT) -> bool:
         self._ensure_loaded()
+        assert self._schemes is not None
         return name in self._schemes
 
     def list_available(self) -> list[str]:

@@ -2,13 +2,11 @@
 
 import json
 from pathlib import Path
-from unittest.mock import patch
+
 import pytest
 
 import pygmentation
 from pygmentation import (
-    Color,
-    ColorFamily,
     ColorScheme,
     SchemeType,
     get_scheme,
@@ -20,7 +18,6 @@ from pygmentation.exceptions import (
     SchemeNotFoundError,
 )
 from pygmentation.registry import SchemeRegistry, registry
-
 
 # ============================================================================
 # 1. SchemeRegistry Initialization & Configuration
@@ -48,7 +45,11 @@ def test_registry_custom_schemes_file(tmp_path: Path, monkeypatch):
     # Isolate from user config in home dir for testing
     monkeypatch.setattr(
         "pathlib.Path.expanduser",
-        lambda self: tmp_path / "nonexistent_config.json" if "pygmentation" in str(self) else self,
+        lambda self: (
+            tmp_path / "nonexistent_config.json"
+            if "pygmentation" in str(self)
+            else self
+        ),
     )
 
     custom_registry = SchemeRegistry(schemes_file=custom_file)
@@ -168,7 +169,10 @@ def test_registry_register_duplicate_raises_and_overwrite():
 
     # Re-registering without overwrite=True must raise ValueError
     with pytest.raises(ValueError, match="already exists"):
-        reg.register("test_dupe", {"foreground": "222222", "background": "FFFFFF", "accents": ["00FF00"]})
+        reg.register(
+            "test_dupe",
+            {"foreground": "222222", "background": "FFFFFF", "accents": ["00FF00"]},
+        )
 
     assert reg.get("test_dupe").foreground.base.hex == "111111"
 
@@ -228,13 +232,15 @@ def test_registry_unregister_scheme():
 def test_registry_reload(tmp_path: Path):
     custom_file = tmp_path / "schemes.json"
     custom_file.write_text(
-        json.dumps({
-            "base_scheme": {
-                "foreground": "111111",
-                "background": "FAFAFA",
-                "accents": ["123456"],
+        json.dumps(
+            {
+                "base_scheme": {
+                    "foreground": "111111",
+                    "background": "FAFAFA",
+                    "accents": ["123456"],
+                }
             }
-        }),
+        ),
         encoding="utf-8",
     )
     reg = SchemeRegistry(schemes_file=custom_file, load_user_config=False)
@@ -254,13 +260,15 @@ def test_registry_reload(tmp_path: Path):
 
     # Modify file on disk and reload
     custom_file.write_text(
-        json.dumps({
-            "reloaded_scheme": {
-                "foreground": "222222",
-                "background": "FAFAFA",
-                "accents": ["654321"],
+        json.dumps(
+            {
+                "reloaded_scheme": {
+                    "foreground": "222222",
+                    "background": "FAFAFA",
+                    "accents": ["654321"],
+                }
             }
-        }),
+        ),
         encoding="utf-8",
     )
     reg.reload()
@@ -309,7 +317,10 @@ def test_exceptions_hierarchy_and_formatting():
     inv_err = InvalidColorError((300, 100, 100), ((0, 255), (0, 255), (0, 255)))
     assert inv_err.values == (300, 100, 100)
     assert inv_err.bounds == ((0, 255), (0, 255), (0, 255))
-    assert "Colour values (300, 100, 100) exceeds bounds ((0, 255), (0, 255), (0, 255))." in str(inv_err)
+    assert (
+        "Colour values (300, 100, 100) exceeds bounds ((0, 255), (0, 255), (0, 255))."
+        in str(inv_err)
+    )
     assert isinstance(inv_err, PygmentationError)
 
 

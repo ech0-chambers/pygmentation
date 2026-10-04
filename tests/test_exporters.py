@@ -3,9 +3,9 @@
 import shutil
 import subprocess
 from pathlib import Path
+
 import pytest
 
-from pygmentation import ColorScheme, SchemeType
 from pygmentation.exporters import (
     CssExporter,
     Exporter,
@@ -223,10 +223,15 @@ def test_latex_exporter_methods(sample_nord_scheme):
 
     # Formatting methods
     color = sample_nord_scheme.accents[3].base
-    assert exporter.format_color(color, "Accent4") == rf"\definecolor{{Accent4}}{{HTML}}{{{color.hex}}}"
+    assert (
+        exporter.format_color(color, "Accent4")
+        == rf"\definecolor{{Accent4}}{{HTML}}{{{color.hex}}}"
+    )
     assert exporter.format_alias("Red", "Accent4") == r"\colorlet{Red}{Accent4}"
 
-    fam_lines = exporter.format_family(sample_nord_scheme.foreground, "Foregroundcolour")
+    fam_lines = exporter.format_family(
+        sample_nord_scheme.foreground, "Foregroundcolour"
+    )
     assert len(fam_lines) == 6
     assert fam_lines[0].startswith(r"\definecolor{Foregroundcolour}{HTML}{")
     assert fam_lines[1].startswith(r"\definecolor{Foregroundcolour_1}{HTML}{")

@@ -1,9 +1,9 @@
-from .registry import registry
 from .colors.color import Color
 from .colors.scheme import ColorFamily, ColorScheme, SchemeType
 from .exceptions import PygmentationError, SchemeNotFoundError
+from .registry import registry
 
- # aliases for backwards compatibility
+# aliases for backwards compatibility
 get_scheme = registry.get
 list_schemes = registry.list_available
 

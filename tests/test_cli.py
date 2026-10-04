@@ -1,12 +1,13 @@
 """Unit tests for the command line interface in pygmentation.cli."""
 
-from pathlib import Path
 import subprocess
 import sys
+from pathlib import Path
 from unittest.mock import patch
+
 import pytest
 
-from pygmentation import Color, ColorScheme, SchemeType
+from pygmentation import Color, SchemeType
 from pygmentation.cli import (
     _get_aliases,
     cli_list,
@@ -22,13 +23,11 @@ from pygmentation.cli import (
     parse_args,
     resolve_unknown_scheme,
     scheme_swatch,
-    show_scheme,
     success,
     swatch,
     warning,
 )
 from pygmentation.registry import registry
-
 
 # ============================================================================
 # 1. Argument Parsing (parse_args)
@@ -52,7 +51,9 @@ def test_parse_args_show_options():
     assert args.show_codes is True
     assert args.code_type == "hex"
 
-    args_light = parse_args(["show", "nord", "light", "--show-codes", "--code-type", "rgb"])
+    args_light = parse_args(
+        ["show", "nord", "light", "--show-codes", "--code-type", "rgb"]
+    )
     assert args_light.variant == "light"
     assert args_light.show_codes is True
     assert args_light.code_type == "rgb"
@@ -69,7 +70,9 @@ def test_parse_args_save_defaults():
 
 
 def test_parse_args_save_options():
-    args = parse_args(["save", "nord", "dark", "--filename", "palette.svg", "-s", "-c", "hsl"])
+    args = parse_args(
+        ["save", "nord", "dark", "--filename", "palette.svg", "-s", "-c", "hsl"]
+    )
     assert args.command == "save"
     assert args.scheme == "nord"
     assert args.variant == "dark"
@@ -86,7 +89,9 @@ def test_parse_args_write():
     assert args.filename == "nord.tex"
     assert args.type is None
 
-    args_typed = parse_args(["write", "nord", "light", "-f", "nord.js", "-t", "javascript"])
+    args_typed = parse_args(
+        ["write", "nord", "light", "-f", "nord.js", "-t", "javascript"]
+    )
     assert args_typed.variant == "light"
     assert args_typed.filename == "nord.js"
     assert args_typed.type == "javascript"
@@ -109,14 +114,14 @@ def test_parse_args_list():
 @pytest.mark.parametrize(
     "argv",
     [
-        [],                                               # Missing subcommand
-        ["unknown_command"],                              # Invalid subcommand
-        ["save", "nord"],                                 # Missing required -f
-        ["write", "nord"],                                # Missing required -f
-        ["show", "nord", "neon"],                         # Invalid variant
-        ["show", "nord", "-c", "cmyk"],                   # Invalid code_type
+        [],  # Missing subcommand
+        ["unknown_command"],  # Invalid subcommand
+        ["save", "nord"],  # Missing required -f
+        ["write", "nord"],  # Missing required -f
+        ["show", "nord", "neon"],  # Invalid variant
+        ["show", "nord", "-c", "cmyk"],  # Invalid code_type
         ["write", "nord", "-f", "out.txt", "-t", "xyz"],  # Invalid exporter type
-        ["list", ".*", "neon"],                           # Invalid variant for list
+        ["list", ".*", "neon"],  # Invalid variant for list
     ],
 )
 def test_parse_args_invalid_arguments(argv: list[str]):
@@ -317,7 +322,9 @@ def test_cli_write_explicit_type(tmp_path: Path):
 
 def test_cli_write_invalid_type(tmp_path: Path):
     target = tmp_path / "unsupported.xyz"
-    with pytest.raises(ValueError, match="Could not find an exporter for files of type"):
+    with pytest.raises(
+        ValueError, match="Could not find an exporter for files of type"
+    ):
         cli_write(target, "nord")
 
 
@@ -328,7 +335,9 @@ def test_cli_write_invalid_type(tmp_path: Path):
 
 def test_multiple_choice_prompt():
     with patch("pygmentation.cli.IntPrompt.ask", return_value=2) as mock_ask:
-        choice = multiple_choice_prompt("Select an option:", ["Option A", "Option B", "Option C"])
+        choice = multiple_choice_prompt(
+            "Select an option:", ["Option A", "Option B", "Option C"]
+        )
         assert choice == 2
         mock_ask.assert_called_once()
 

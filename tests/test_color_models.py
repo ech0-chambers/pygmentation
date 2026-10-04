@@ -1,5 +1,6 @@
 import pytest
-from pygmentation.colors.models import RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH, ColorModel
+
+from pygmentation.colors.models import HSL, HSV, LAB, OKLAB, OKLCH, RGB, XYZ, ColorModel
 
 
 @pytest.mark.parametrize(
@@ -7,7 +8,7 @@ from pygmentation.colors.models import RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH, Co
     [
         (RGB, 0, 0, 0),
         (RGB, 255, 255, 255),
-        (RGB, 0x5e, 0x81, 0xac),
+        (RGB, 0x5E, 0x81, 0xAC),
         (HSL, 0, 0, 0),
         (HSL, 360, 1, 1),
         (HSL, 213, 0.32, 0.52),
@@ -29,7 +30,7 @@ from pygmentation.colors.models import RGB, HSL, HSV, XYZ, LAB, OKLAB, OKLCH, Co
     ],
 )
 def test_instantiation(model: type[ColorModel], a: float, b: float, c: float):
-    c = model(a,b,c)
+    c = model(a, b, c)
 
 
 @pytest.mark.parametrize(
@@ -45,8 +46,9 @@ def test_instantiation(model: type[ColorModel], a: float, b: float, c: float):
     ],
 )
 def test_out_of_bounds_minimum(model: type[ColorModel], a: float, b: float, c: float):
-    with pytest.raises(ValueError, match = "below minimum"):
-        c = model(a,b,c)
+    with pytest.raises(ValueError, match="below minimum"):
+        c = model(a, b, c)
+
 
 @pytest.mark.parametrize(
     "model, a, b, c",
@@ -57,8 +59,9 @@ def test_out_of_bounds_minimum(model: type[ColorModel], a: float, b: float, c: f
     ],
 )
 def test_out_of_bounds_maximum(model: type[ColorModel], a: float, b: float, c: float):
-    with pytest.raises(ValueError, match = "above maximum"):
-        c = model(a,b,c)
+    with pytest.raises(ValueError, match="above maximum"):
+        c = model(a, b, c)
+
 
 @pytest.mark.parametrize(
     "model, a, b, c",
@@ -73,11 +76,12 @@ def test_out_of_bounds_maximum(model: type[ColorModel], a: float, b: float, c: f
     ],
 )
 def test_clamping_minimum(model: type[ColorModel], a: float, b: float, c: float):
-    color = model(a,b,c, clamp = True)
+    color = model(a, b, c, clamp=True)
 
     assert color[0] == (a if color.BOUNDS[0][0] is None else max(a, color.BOUNDS[0][0]))
     assert color[1] == (b if color.BOUNDS[1][0] is None else max(b, color.BOUNDS[1][0]))
     assert color[2] == (c if color.BOUNDS[2][0] is None else max(c, color.BOUNDS[2][0]))
+
 
 @pytest.mark.parametrize(
     "model, a, b, c",
@@ -92,7 +96,7 @@ def test_clamping_minimum(model: type[ColorModel], a: float, b: float, c: float)
     ],
 )
 def test_clamping_maximum(model: type[ColorModel], a: float, b: float, c: float):
-    color = model(a,b,c, clamp = True)
+    color = model(a, b, c, clamp=True)
 
     assert color[0] == (a if color.BOUNDS[0][1] is None else min(a, color.BOUNDS[0][1]))
     assert color[1] == (b if color.BOUNDS[1][1] is None else min(b, color.BOUNDS[1][1]))
@@ -179,6 +183,7 @@ def test_bounds_snapping():
     assert rgb.g == 255
     assert rgb.b == 100
 
+
 def test_mutation_helpers():
     color = RGB(100, 100, 100)
 
@@ -199,7 +204,7 @@ def test_mutation_helpers():
     assert color[0] == 100
     assert color[1] == 100
     assert color[2] == 100
-    
+
     new_color = color.with_b(255)
     assert new_color.r == 100
     assert new_color.g == 100
@@ -276,4 +281,3 @@ def test_oklch_from_xyz_and_validation():
     # Argument validation in _check_xyz_args
     with pytest.raises(ValueError, match="Expected 3 xyz values, but received 2"):
         OKLCH.from_xyz((10, 20))
-
