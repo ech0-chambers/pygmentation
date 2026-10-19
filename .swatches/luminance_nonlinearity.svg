@@ -1,0 +1,417 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 536" width="700" height="536">
+  <defs>
+    <linearGradient id="rgb-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#000000" />
+      <stop offset="100%" stop-color="#FFFFFF" />
+    </linearGradient>
+
+    <linearGradient id="oklch-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0.0%" stop-color="#000000" />
+      <stop offset="1.0%" stop-color="#000000" />
+      <stop offset="2.0%" stop-color="#000000" />
+      <stop offset="3.0%" stop-color="#000000" />
+      <stop offset="4.0%" stop-color="#000000" />
+      <stop offset="5.0%" stop-color="#000000" />
+      <stop offset="6.0%" stop-color="#010101" />
+      <stop offset="7.0%" stop-color="#010101" />
+      <stop offset="8.0%" stop-color="#020202" />
+      <stop offset="9.0%" stop-color="#020202" />
+      <stop offset="10.0%" stop-color="#030303" />
+      <stop offset="11.0%" stop-color="#040404" />
+      <stop offset="12.0%" stop-color="#060606" />
+      <stop offset="13.0%" stop-color="#070707" />
+      <stop offset="14.0%" stop-color="#090909" />
+      <stop offset="15.0%" stop-color="#0B0B0B" />
+      <stop offset="16.0%" stop-color="#0D0D0D" />
+      <stop offset="17.0%" stop-color="#0F0F0F" />
+      <stop offset="18.0%" stop-color="#121212" />
+      <stop offset="19.0%" stop-color="#141414" />
+      <stop offset="20.0%" stop-color="#161616" />
+      <stop offset="21.0%" stop-color="#181818" />
+      <stop offset="22.0%" stop-color="#1B1B1A" />
+      <stop offset="23.0%" stop-color="#1D1D1D" />
+      <stop offset="24.0%" stop-color="#1F1F1F" />
+      <stop offset="25.0%" stop-color="#222222" />
+      <stop offset="26.0%" stop-color="#242424" />
+      <stop offset="27.0%" stop-color="#262626" />
+      <stop offset="28.0%" stop-color="#292929" />
+      <stop offset="29.0%" stop-color="#2B2B2B" />
+      <stop offset="30.0%" stop-color="#2E2E2E" />
+      <stop offset="31.0%" stop-color="#303030" />
+      <stop offset="32.0%" stop-color="#333333" />
+      <stop offset="33.0%" stop-color="#353535" />
+      <stop offset="34.0%" stop-color="#383838" />
+      <stop offset="35.0%" stop-color="#3A3A3A" />
+      <stop offset="36.0%" stop-color="#3D3D3D" />
+      <stop offset="37.0%" stop-color="#404040" />
+      <stop offset="38.0%" stop-color="#424242" />
+      <stop offset="39.0%" stop-color="#454545" />
+      <stop offset="40.0%" stop-color="#484848" />
+      <stop offset="41.0%" stop-color="#4A4A4A" />
+      <stop offset="42.0%" stop-color="#4D4D4D" />
+      <stop offset="43.0%" stop-color="#505050" />
+      <stop offset="44.0%" stop-color="#525252" />
+      <stop offset="45.0%" stop-color="#555555" />
+      <stop offset="46.0%" stop-color="#585858" />
+      <stop offset="47.0%" stop-color="#5B5B5B" />
+      <stop offset="48.0%" stop-color="#5D5D5D" />
+      <stop offset="49.0%" stop-color="#606060" />
+      <stop offset="50.0%" stop-color="#636363" />
+      <stop offset="51.0%" stop-color="#666666" />
+      <stop offset="52.0%" stop-color="#696969" />
+      <stop offset="53.0%" stop-color="#6C6C6C" />
+      <stop offset="54.0%" stop-color="#6F6F6E" />
+      <stop offset="55.0%" stop-color="#717171" />
+      <stop offset="56.0%" stop-color="#747474" />
+      <stop offset="57.0%" stop-color="#777777" />
+      <stop offset="58.0%" stop-color="#7A7A7A" />
+      <stop offset="59.0%" stop-color="#7D7D7D" />
+      <stop offset="60.0%" stop-color="#808080" />
+      <stop offset="61.0%" stop-color="#838383" />
+      <stop offset="62.0%" stop-color="#868686" />
+      <stop offset="63.0%" stop-color="#898989" />
+      <stop offset="64.0%" stop-color="#8C8C8C" />
+      <stop offset="65.0%" stop-color="#8F8F8F" />
+      <stop offset="66.0%" stop-color="#929292" />
+      <stop offset="67.0%" stop-color="#959595" />
+      <stop offset="68.0%" stop-color="#989898" />
+      <stop offset="69.0%" stop-color="#9B9B9B" />
+      <stop offset="70.0%" stop-color="#9E9E9E" />
+      <stop offset="71.0%" stop-color="#A1A1A1" />
+      <stop offset="72.0%" stop-color="#A4A4A4" />
+      <stop offset="73.0%" stop-color="#A8A8A7" />
+      <stop offset="74.0%" stop-color="#ABABAB" />
+      <stop offset="75.0%" stop-color="#AEAEAE" />
+      <stop offset="76.0%" stop-color="#B1B1B1" />
+      <stop offset="77.0%" stop-color="#B4B4B4" />
+      <stop offset="78.0%" stop-color="#B7B7B7" />
+      <stop offset="79.0%" stop-color="#BABABA" />
+      <stop offset="80.0%" stop-color="#BEBEBD" />
+      <stop offset="81.0%" stop-color="#C1C1C1" />
+      <stop offset="82.0%" stop-color="#C4C4C4" />
+      <stop offset="83.0%" stop-color="#C7C7C7" />
+      <stop offset="84.0%" stop-color="#CACACA" />
+      <stop offset="85.0%" stop-color="#CECECD" />
+      <stop offset="86.0%" stop-color="#D1D1D1" />
+      <stop offset="87.0%" stop-color="#D4D4D4" />
+      <stop offset="88.0%" stop-color="#D7D7D7" />
+      <stop offset="89.0%" stop-color="#DBDBDA" />
+      <stop offset="90.0%" stop-color="#DEDEDE" />
+      <stop offset="91.0%" stop-color="#E1E1E1" />
+      <stop offset="92.0%" stop-color="#E4E4E4" />
+      <stop offset="93.0%" stop-color="#E8E8E8" />
+      <stop offset="94.0%" stop-color="#EBEBEB" />
+      <stop offset="95.0%" stop-color="#EEEEEE" />
+      <stop offset="96.0%" stop-color="#F2F2F2" />
+      <stop offset="97.0%" stop-color="#F5F5F5" />
+      <stop offset="98.0%" stop-color="#F8F8F8" />
+      <stop offset="99.0%" stop-color="#FCFCFC" />
+      <stop offset="100.0%" stop-color="#FFFFFF" />
+      <stop offset="101.0%" stop-color="#FFFFFF" />
+      <stop offset="102.0%" stop-color="#FFFFFF" />
+      <stop offset="103.0%" stop-color="#FFFFFF" />
+      <stop offset="104.0%" stop-color="#FFFFFF" />
+      <stop offset="105.0%" stop-color="#FFFFFF" />
+      <stop offset="106.0%" stop-color="#FFFFFF" />
+      <stop offset="107.0%" stop-color="#FFFFFF" />
+      <stop offset="108.0%" stop-color="#FFFFFF" />
+      <stop offset="109.0%" stop-color="#FFFFFF" />
+      <stop offset="110.0%" stop-color="#FFFFFF" />
+      <stop offset="111.0%" stop-color="#FFFFFF" />
+      <stop offset="112.0%" stop-color="#FFFFFF" />
+      <stop offset="113.0%" stop-color="#FFFFFF" />
+      <stop offset="114.0%" stop-color="#FFFFFF" />
+      <stop offset="115.0%" stop-color="#FFFFFF" />
+      <stop offset="116.0%" stop-color="#FFFFFF" />
+      <stop offset="117.0%" stop-color="#FFFFFF" />
+      <stop offset="118.0%" stop-color="#FFFFFF" />
+      <stop offset="119.0%" stop-color="#FFFFFF" />
+      <stop offset="120.0%" stop-color="#FFFFFF" />
+      <stop offset="121.0%" stop-color="#FFFFFF" />
+      <stop offset="122.0%" stop-color="#FFFFFF" />
+      <stop offset="123.0%" stop-color="#FFFFFF" />
+      <stop offset="124.0%" stop-color="#FFFFFF" />
+      <stop offset="125.0%" stop-color="#FFFFFF" />
+      <stop offset="126.0%" stop-color="#FFFFFF" />
+      <stop offset="127.0%" stop-color="#FFFFFF" />
+      <stop offset="128.0%" stop-color="#FFFFFF" />
+      <stop offset="129.0%" stop-color="#FFFFFF" />
+      <stop offset="130.0%" stop-color="#FFFFFF" />
+      <stop offset="131.0%" stop-color="#FFFFFF" />
+      <stop offset="132.0%" stop-color="#FFFFFF" />
+      <stop offset="133.0%" stop-color="#FFFFFF" />
+      <stop offset="134.0%" stop-color="#FFFFFF" />
+      <stop offset="135.0%" stop-color="#FFFFFF" />
+      <stop offset="136.0%" stop-color="#FFFFFF" />
+      <stop offset="137.0%" stop-color="#FFFFFF" />
+      <stop offset="138.0%" stop-color="#FFFFFF" />
+      <stop offset="139.0%" stop-color="#FFFFFF" />
+      <stop offset="140.0%" stop-color="#FFFFFF" />
+      <stop offset="141.0%" stop-color="#FFFFFF" />
+      <stop offset="142.0%" stop-color="#FFFFFF" />
+      <stop offset="143.0%" stop-color="#FFFFFF" />
+      <stop offset="144.0%" stop-color="#FFFFFF" />
+      <stop offset="145.0%" stop-color="#FFFFFF" />
+      <stop offset="146.0%" stop-color="#FFFFFF" />
+      <stop offset="147.0%" stop-color="#FFFFFF" />
+      <stop offset="148.0%" stop-color="#FFFFFF" />
+      <stop offset="149.0%" stop-color="#FFFFFF" />
+      <stop offset="150.0%" stop-color="#FFFFFF" />
+      <stop offset="151.0%" stop-color="#FFFFFF" />
+      <stop offset="152.0%" stop-color="#FFFFFF" />
+      <stop offset="153.0%" stop-color="#FFFFFF" />
+      <stop offset="154.0%" stop-color="#FFFFFF" />
+      <stop offset="155.0%" stop-color="#FFFFFF" />
+      <stop offset="156.0%" stop-color="#FFFFFF" />
+      <stop offset="157.0%" stop-color="#FFFFFF" />
+      <stop offset="158.0%" stop-color="#FFFFFF" />
+      <stop offset="159.0%" stop-color="#FFFFFF" />
+      <stop offset="160.0%" stop-color="#FFFFFF" />
+      <stop offset="161.0%" stop-color="#FFFFFF" />
+      <stop offset="162.0%" stop-color="#FFFFFF" />
+      <stop offset="163.0%" stop-color="#FFFFFF" />
+      <stop offset="164.0%" stop-color="#FFFFFF" />
+      <stop offset="165.0%" stop-color="#FFFFFF" />
+      <stop offset="166.0%" stop-color="#FFFFFF" />
+      <stop offset="167.0%" stop-color="#FFFFFF" />
+      <stop offset="168.0%" stop-color="#FFFFFF" />
+      <stop offset="169.0%" stop-color="#FFFFFF" />
+      <stop offset="170.0%" stop-color="#FFFFFF" />
+      <stop offset="171.0%" stop-color="#FFFFFF" />
+      <stop offset="172.0%" stop-color="#FFFFFF" />
+      <stop offset="173.0%" stop-color="#FFFFFF" />
+      <stop offset="174.0%" stop-color="#FFFFFF" />
+      <stop offset="175.0%" stop-color="#FFFFFF" />
+      <stop offset="176.0%" stop-color="#FFFFFF" />
+      <stop offset="177.0%" stop-color="#FFFFFF" />
+      <stop offset="178.0%" stop-color="#FFFFFF" />
+      <stop offset="179.0%" stop-color="#FFFFFF" />
+      <stop offset="180.0%" stop-color="#FFFFFF" />
+      <stop offset="181.0%" stop-color="#FFFFFF" />
+      <stop offset="182.0%" stop-color="#FFFFFF" />
+      <stop offset="183.0%" stop-color="#FFFFFF" />
+      <stop offset="184.0%" stop-color="#FFFFFF" />
+      <stop offset="185.0%" stop-color="#FFFFFF" />
+      <stop offset="186.0%" stop-color="#FFFFFF" />
+      <stop offset="187.0%" stop-color="#FFFFFF" />
+      <stop offset="188.0%" stop-color="#FFFFFF" />
+      <stop offset="189.0%" stop-color="#FFFFFF" />
+      <stop offset="190.0%" stop-color="#FFFFFF" />
+      <stop offset="191.0%" stop-color="#FFFFFF" />
+      <stop offset="192.0%" stop-color="#FFFFFF" />
+      <stop offset="193.0%" stop-color="#FFFFFF" />
+      <stop offset="194.0%" stop-color="#FFFFFF" />
+      <stop offset="195.0%" stop-color="#FFFFFF" />
+      <stop offset="196.0%" stop-color="#FFFFFF" />
+      <stop offset="197.0%" stop-color="#FFFFFF" />
+      <stop offset="198.0%" stop-color="#FFFFFF" />
+      <stop offset="199.0%" stop-color="#FFFFFF" />
+      <stop offset="200.0%" stop-color="#FFFFFF" />
+      <stop offset="201.0%" stop-color="#FFFFFF" />
+      <stop offset="202.0%" stop-color="#FFFFFF" />
+      <stop offset="203.0%" stop-color="#FFFFFF" />
+      <stop offset="204.0%" stop-color="#FFFFFF" />
+      <stop offset="205.0%" stop-color="#FFFFFF" />
+      <stop offset="206.0%" stop-color="#FFFFFF" />
+      <stop offset="207.0%" stop-color="#FFFFFF" />
+      <stop offset="208.0%" stop-color="#FFFFFF" />
+      <stop offset="209.0%" stop-color="#FFFFFF" />
+      <stop offset="210.0%" stop-color="#FFFFFF" />
+      <stop offset="211.0%" stop-color="#FFFFFF" />
+      <stop offset="212.0%" stop-color="#FFFFFF" />
+      <stop offset="213.0%" stop-color="#FFFFFF" />
+      <stop offset="214.0%" stop-color="#FFFFFF" />
+      <stop offset="215.0%" stop-color="#FFFFFF" />
+      <stop offset="216.0%" stop-color="#FFFFFF" />
+      <stop offset="217.0%" stop-color="#FFFFFF" />
+      <stop offset="218.0%" stop-color="#FFFFFF" />
+      <stop offset="219.0%" stop-color="#FFFFFF" />
+      <stop offset="220.0%" stop-color="#FFFFFF" />
+      <stop offset="221.0%" stop-color="#FFFFFF" />
+      <stop offset="222.0%" stop-color="#FFFFFF" />
+      <stop offset="223.0%" stop-color="#FFFFFF" />
+      <stop offset="224.0%" stop-color="#FFFFFF" />
+      <stop offset="225.0%" stop-color="#FFFFFF" />
+      <stop offset="226.0%" stop-color="#FFFFFF" />
+      <stop offset="227.0%" stop-color="#FFFFFF" />
+      <stop offset="228.0%" stop-color="#FFFFFF" />
+      <stop offset="229.0%" stop-color="#FFFFFF" />
+      <stop offset="230.0%" stop-color="#FFFFFF" />
+      <stop offset="231.0%" stop-color="#FFFFFF" />
+      <stop offset="232.0%" stop-color="#FFFFFF" />
+      <stop offset="233.0%" stop-color="#FFFFFF" />
+      <stop offset="234.0%" stop-color="#FFFFFF" />
+      <stop offset="235.0%" stop-color="#FFFFFF" />
+      <stop offset="236.0%" stop-color="#FFFFFF" />
+      <stop offset="237.0%" stop-color="#FFFFFF" />
+      <stop offset="238.0%" stop-color="#FFFFFF" />
+      <stop offset="239.0%" stop-color="#FFFFFF" />
+      <stop offset="240.0%" stop-color="#FFFFFF" />
+      <stop offset="241.0%" stop-color="#FFFFFF" />
+      <stop offset="242.0%" stop-color="#FFFFFF" />
+      <stop offset="243.0%" stop-color="#FFFFFF" />
+      <stop offset="244.0%" stop-color="#FFFFFF" />
+      <stop offset="245.0%" stop-color="#FFFFFF" />
+      <stop offset="246.0%" stop-color="#FFFFFF" />
+      <stop offset="247.0%" stop-color="#FFFFFF" />
+      <stop offset="248.0%" stop-color="#FFFFFF" />
+      <stop offset="249.0%" stop-color="#FFFFFF" />
+      <stop offset="250.0%" stop-color="#FFFFFF" />
+      <stop offset="251.0%" stop-color="#FFFFFF" />
+      <stop offset="252.0%" stop-color="#FFFFFF" />
+      <stop offset="253.0%" stop-color="#FFFFFF" />
+      <stop offset="254.0%" stop-color="#FFFFFF" />
+    </linearGradient>
+
+    <clipPath id="pair-clip">
+      <rect width="58.0" height="28" rx="3.5" />
+    </clipPath>
+
+    <clipPath id="bot-mid-clip">
+      <rect width="152" height="36" rx="3.5" />
+    </clipPath>
+
+    <style>
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; fill: #ECEFF4; }
+      .track-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 500; fill: #ECEFF4; }
+      .mono-label { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 11px; fill: #ECEFF4; }
+      .mono-small { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 10px; fill: #ECEFF4; }
+      .sub-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10.5px; fill: #D7DAE0; }
+      .sample-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #FFFFFF; font-weight: 500; }
+      .sample-mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 11px; fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="536" rx="10" fill="#2E3440" />
+
+  <!-- Title -->
+  <text x="350.0" y="32" class="title" text-anchor="middle">Perceptual Non-Linearity: RGB vs OKLCh Greyscale</text>
+
+  <!-- RGB Track -->
+  <text x="82" y="173.0" class="track-label" text-anchor="end">RGB</text>
+  <rect x="94" y="145" width="512" height="48" rx="3.5" fill="url(#rgb-gradient)" stroke="#88C0D0" stroke-width="1.4" />
+  <text x="94" y="209" class="mono-label" text-anchor="start">#000000</text>
+  <text x="606" y="209" class="mono-label" text-anchor="end">#FFFFFF</text>
+
+  <!-- OKLCh Track -->
+  <text x="82" y="309.0" class="track-label" text-anchor="end">OKLCh</text>
+  <rect x="94" y="281" width="512" height="48" rx="3.5" fill="url(#oklch-gradient)" stroke="#88C0D0" stroke-width="1.4" />
+  <text x="94" y="345" class="mono-label" text-anchor="start">L = 0%</text>
+  <text x="606" y="345" class="mono-label" text-anchor="end">L = 100%</text>
+
+  <!-- Box 1 Label: above Box 1 -->
+  <text x="350.0" y="59" class="mono-label" text-anchor="middle">#808080</text>
+  <text x="350.0" y="72" class="sub-label" text-anchor="middle">(RGB midpoint)</text>
+
+  <!-- Box 1 (#808080): Above RGB gradient -->
+  <path d="M 347.00 149 L 337.00 125 H 324.50 A 3.5 3.5 0 0 1 321.00 121.5 V 80.50 A 3.5 3.5 0 0 1 324.50 77 H 375.50 A 3.5 3.5 0 0 1 379.00 80.5 V 121.50 A 3.5 3.5 0 0 1 375.50 125 H 363.00 L 353.00 149 Z" fill="#808080" />
+  <path d="M 345.33 145 L 337.00 125 H 324.50 A 3.5 3.5 0 0 1 321.00 121.5 V 80.50 A 3.5 3.5 0 0 1 324.50 77 H 375.50 A 3.5 3.5 0 0 1 379.00 80.5 V 121.50 A 3.5 3.5 0 0 1 375.50 125 H 363.00 L 354.67 145" fill="none" stroke="#88C0D0" stroke-width="1.4" stroke-linejoin="round" />
+
+  <!-- Middle Swatch (#636363): Connects RGB to OKLCh -->
+  <path d="M 289.78 189 L 279.78 213 H 267.28 A 3.5 3.5 0 0 0 263.78 216.5 V 257.5 A 3.5 3.5 0 0 0 267.28 261 H 337.00 L 347.00 285 H 353.00 L 363.00 261 H 375.50 A 3.5 3.5 0 0 0 379.00 257.5 V 216.5 A 3.5 3.5 0 0 0 375.50 213 H 305.78 L 295.78 189 Z" fill="#636363" />
+  <path d="M 297.44 193 L 305.78 213 H 375.50 A 3.5 3.5 0 0 1 379.00 216.5 V 257.5 A 3.5 3.5 0 0 1 375.50 261 H 363.00 L 354.67 281 M 345.33 281 L 337.00 261 H 267.28 A 3.5 3.5 0 0 1 263.78 257.5 V 216.5 A 3.5 3.5 0 0 1 267.28 213 H 279.78 L 288.11 193" fill="none" stroke="#88C0D0" stroke-width="1.4" stroke-linejoin="round" />
+  <!-- Text inside middle swatch -->
+  <text x="321.39" y="235.0" class="sample-text" text-anchor="middle">L = 50%</text>
+  <text x="321.39" y="249.0" class="sub-label" text-anchor="middle" fill="#FFFFFF">(perceptual midpoint)</text>
+
+  <!-- ==================== 25% Interval Comparisons ==================== -->
+  <!-- RGB Row -->
+  <text x="82" y="390.0" class="track-label" text-anchor="end">RGB</text>
+    <!-- RGB Pair 1: 0% - 25% -->
+    <g transform="translate(129.0, 372)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#000000" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#404040" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+    <!-- RGB Pair 2: 25% - 50% -->
+    <g transform="translate(257.0, 372)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#404040" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#808080" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+    <!-- RGB Pair 3: 50% - 75% -->
+    <g transform="translate(385.0, 372)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#808080" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#BFBFBF" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+    <!-- RGB Pair 4: 75% - 100% -->
+    <g transform="translate(513.0, 372)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#BFBFBF" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#FFFFFF" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+
+  <!-- Label Row -->
+    <!-- Label Pair 1 -->
+    <text x="153.0" y="417" class="mono-small" text-anchor="end">0%</text>
+    <line x1="158.0" y1="407" x2="158.0" y2="419" stroke="#88C0D0" stroke-width="1.2" />
+    <text x="163.0" y="417" class="mono-small" text-anchor="start">25%</text>
+    <!-- Label Pair 2 -->
+    <text x="281.0" y="417" class="mono-small" text-anchor="end">25%</text>
+    <line x1="286.0" y1="407" x2="286.0" y2="419" stroke="#88C0D0" stroke-width="1.2" />
+    <text x="291.0" y="417" class="mono-small" text-anchor="start">50%</text>
+    <!-- Label Pair 3 -->
+    <text x="409.0" y="417" class="mono-small" text-anchor="end">50%</text>
+    <line x1="414.0" y1="407" x2="414.0" y2="419" stroke="#88C0D0" stroke-width="1.2" />
+    <text x="419.0" y="417" class="mono-small" text-anchor="start">75%</text>
+    <!-- Label Pair 4 -->
+    <text x="537.0" y="417" class="mono-small" text-anchor="end">75%</text>
+    <line x1="542.0" y1="407" x2="542.0" y2="419" stroke="#88C0D0" stroke-width="1.2" />
+    <text x="547.0" y="417" class="mono-small" text-anchor="start">100%</text>
+
+  <!-- OKLCh Row -->
+  <text x="82" y="444.0" class="track-label" text-anchor="end">OKLCh</text>
+    <!-- OKLCh Pair 1: 0% - 25% -->
+    <g transform="translate(129.0, 426)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#000000" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#222222" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+    <!-- OKLCh Pair 2: 25% - 50% -->
+    <g transform="translate(257.0, 426)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#222222" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#636363" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+    <!-- OKLCh Pair 3: 50% - 75% -->
+    <g transform="translate(385.0, 426)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#636363" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#AEAEAE" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+    <!-- OKLCh Pair 4: 75% - 100% -->
+    <g transform="translate(513.0, 426)">
+      <g clip-path="url(#pair-clip)">
+        <rect x="0" y="0" width="29.0" height="28" fill="#AEAEAE" />
+        <rect x="29.0" y="0" width="29.0" height="28" fill="#FFFFFF" />
+      </g>
+      <rect x="0" y="0" width="58.0" height="28" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+    </g>
+
+  <!-- ==================== Bottom Midpoint Comparison ==================== -->
+  <g transform="translate(274.0, 476)">
+    <g clip-path="url(#bot-mid-clip)">
+      <rect x="0" y="0" width="76" height="36" fill="#636363" />
+      <rect x="76" y="0" width="76" height="36" fill="#808080" />
+    </g>
+    <text x="38.0" y="22.0" class="sample-text" text-anchor="middle">L = 50%</text>
+    <text x="114.0" y="22.0" class="sample-mono" text-anchor="middle">#808080</text>
+    <rect x="0" y="0" width="152" height="36" fill="none" stroke="#88C0D0" stroke-width="1.4" rx="3.5" />
+  </g>
+</svg>

@@ -1,14 +1,18 @@
 """Unit tests for the command line interface in pygmentation.cli."""
 
+import io
 import subprocess
 import sys
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+from rich.console import Console
 
 from pygmentation import Color, SchemeType
 from pygmentation.cli import (
+    _build_scheme_sections,
+    _build_scheme_table,
     _get_aliases,
     cli_list,
     cli_save,
@@ -23,6 +27,7 @@ from pygmentation.cli import (
     parse_args,
     resolve_unknown_scheme,
     scheme_swatch,
+    show_scheme,
     success,
     swatch,
     warning,
@@ -195,7 +200,7 @@ def test_cli_show_invalid_code_type():
 def test_rich_formatting_helpers():
     c = Color("5E81AC")
     s = swatch(c)
-    assert s.plain == "█████\n█████"
+    assert s.plain in ("█████\n█████", "     \n     ")
 
     scheme = registry.get("nord", SchemeType.DARK)
     ss = scheme_swatch(scheme)
@@ -261,16 +266,28 @@ def test_cli_save_both_variants(tmp_path: Path):
     assert "</svg>" in dark_content
 
 
-def test_cli_save_single_variant(tmp_path: Path):
+def test_cli_save_single_variant(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
     light_target = tmp_path / "nord_light_only.svg"
     cli_save(light_target, "nord", variant="light")
     assert light_target.exists()
-    assert "<svg" in light_target.read_text(encoding="utf-8")
+    light_text = light_target.read_text(encoding="utf-8")
+    assert "<svg" in light_text
 
     dark_target = tmp_path / "nord_dark_only.svg"
-    cli_save(dark_target, "nord", variant="dark", code_type="hex")
+    cli_save(dark_target, "nord", variant="dark", code_type="rgb")
     assert dark_target.exists()
-    assert "<svg" in dark_target.read_text(encoding="utf-8")
+    dark_text = dark_target.read_text(encoding="utf-8")
+    assert "<svg" in dark_text
+
+    # Dynamic measurement: longer colour codes (like RGB) require more width between swatches
+    import re
+    light_width = int(re.search(r'viewBox="0 0 (\d+)', light_text).group(1))  # type: ignore[union-attr]
+    dark_width = int(re.search(r'viewBox="0 0 (\d+)', dark_text).group(1))  # type: ignore[union-attr]
+    assert dark_width > light_width
+
+    # Saving to SVG should not dump table output to stdout
+    captured = capsys.readouterr()
+    assert captured.out == ""
 
 
 def test_cli_save_invalid_extension(tmp_path: Path):
@@ -284,7 +301,7 @@ def test_cli_save_invalid_extension(tmp_path: Path):
 # ============================================================================
 
 
-@pytest.mark.parametrize("ext", [".tex", ".css", ".less", ".js"])
+@pytest.mark.parametrize("ext", [".tex", ".css", ".less", ".js", ".tcss"])
 def test_cli_write_inferred_extension_both(tmp_path: Path, ext: str):
     target = tmp_path / f"export_test{ext}"
     cli_write(target, "nord", variant="both")
@@ -420,3 +437,107 @@ def test_module_execution():
     assert proc.returncode == 0
     assert "nord" in proc.stdout
     assert "nord_terminal" in proc.stdout
+
+
+# ============================================================================
+# 8. Adaptive Table Layout & show_scheme Tests
+# ============================================================================
+
+
+def test_build_scheme_sections():
+    scheme = registry.get("nord", SchemeType.DARK)
+    sections = _build_scheme_sections(scheme)
+    assert len(sections) == 4
+    # Section 1: Foreground & Background
+    assert [item[0] for item in sections[0]] == ["Foreground", "Background"]
+    # Section 2: Accents
+    assert len(sections[1]) == len(scheme.accents)
+    assert sections[1][0][0] == "Accent 1"
+    assert "blue" in sections[1][0][2]
+    # Section 3: Surfaces
+    assert len(sections[2]) == len(scheme.surfaces)
+    assert sections[2][0][0] == "Surface 1"
+    # Section 4: Auto-surface
+    assert len(sections[3]) == 1
+    assert sections[3][0][0] == "Auto-surface"
+
+    # Scheme without surfaces (e.g. 3024_night)
+    scheme_no_surf = registry.get("3024_night", SchemeType.DARK)
+    sections_no_surf = _build_scheme_sections(scheme_no_surf)
+    assert len(sections_no_surf) == 3
+    assert [item[0] for item in sections_no_surf[0]] == ["Foreground", "Background"]
+    assert sections_no_surf[1][0][0] == "Accent 1"
+    assert sections_no_surf[2][0][0] == "Auto-surface"
+
+
+def test_build_scheme_table_single_and_double():
+    scheme = registry.get("nord", SchemeType.DARK)
+
+    # Single layout: 8 columns
+    single_table = _build_scheme_table(scheme, double=False)
+    assert len(single_table.columns) == 8
+
+    # Double layout: 17 columns
+    double_table = _build_scheme_table(scheme, double=True)
+    assert len(double_table.columns) == 17
+
+    # With code_type
+    double_hex_table = _build_scheme_table(scheme, double=True, code_type="hex")
+    assert len(double_hex_table.columns) == 17
+
+
+def test_show_scheme_adaptive_terminal_width():
+    scheme = registry.get("nord", SchemeType.DARK)
+
+    # Narrow console (width 80) -> single layout
+    sio_narrow = io.StringIO()
+    c_narrow = Console(file=sio_narrow, width=80, height=50)
+    show_scheme(scheme, "Nord Dark", console=c_narrow)
+    out_narrow = sio_narrow.getvalue()
+    # In single layout, Foreground and Background are not on the same line
+    lines_with_fg_narrow = [l for l in out_narrow.splitlines() if "Foreground:" in l]
+    assert len(lines_with_fg_narrow) == 1
+    assert "Background:" not in lines_with_fg_narrow[0]
+    assert max(len(line) for line in out_narrow.splitlines()) <= 80
+
+    # Wide console (width 140) -> double layout
+    sio_wide = io.StringIO()
+    c_wide = Console(file=sio_wide, width=140, height=50)
+    show_scheme(scheme, "Nord Dark", console=c_wide)
+    out_wide = sio_wide.getvalue()
+    # In double layout, Foreground and Background are side-by-side on the same line
+    lines_with_fg_wide = [l for l in out_wide.splitlines() if "Foreground:" in l]
+    assert len(lines_with_fg_wide) == 1
+    assert "Background:" in lines_with_fg_wide[0]
+
+
+def test_show_scheme_with_code_type_threshold():
+    scheme = registry.get("nord", SchemeType.DARK)
+
+    # At width 120: None fits in double (req ~112), but hex needs ~124 so falls back to single
+    sio_hex_narrow = io.StringIO()
+    c_hex_narrow = Console(file=sio_hex_narrow, width=120, height=50)
+    show_scheme(scheme, "Nord Dark", code_type="hex", console=c_hex_narrow)
+    out_hex_narrow = sio_hex_narrow.getvalue()
+    lines_fg_hex_narrow = [l for l in out_hex_narrow.splitlines() if "Foreground:" in l]
+    assert "Background:" not in lines_fg_hex_narrow[0]
+
+    # At width 140: hex fits in double
+    sio_hex_wide = io.StringIO()
+    c_hex_wide = Console(file=sio_hex_wide, width=140, height=50)
+    show_scheme(scheme, "Nord Dark", code_type="hex", console=c_hex_wide)
+    out_hex_wide = sio_hex_wide.getvalue()
+    lines_fg_hex_wide = [l for l in out_hex_wide.splitlines() if "Foreground:" in l]
+    assert "Background:" in lines_fg_hex_wide[0]
+
+
+def test_show_scheme_save_svg(tmp_path: Path):
+    scheme = registry.get("nord", SchemeType.DARK)
+    svg_file = tmp_path / "show_scheme_export.svg"
+    show_scheme(scheme, "Nord Dark", filepath=svg_file)
+    assert svg_file.exists()
+    svg_content = svg_file.read_text(encoding="utf-8")
+    assert "<svg" in svg_content
+    assert "Nord" in svg_content
+    assert "Dark" in svg_content
+

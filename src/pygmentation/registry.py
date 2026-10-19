@@ -53,7 +53,7 @@ class SchemeRegistry:
             variant = SchemeType[str(variant).upper()]
         if variant.name.lower() in raw_data:
             raw_data = raw_data[variant.name.lower()]
-        return ColorScheme(raw_data, variant)
+        return ColorScheme(raw_data, variant, name=name)
 
     def register(self, name: str, data: dict[str, Any], overwrite: bool = False) -> None:
         self._ensure_loaded()

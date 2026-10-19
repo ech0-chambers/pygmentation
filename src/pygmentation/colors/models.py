@@ -4,7 +4,7 @@ import math
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
 from dataclasses import InitVar, dataclass, fields
-from typing import Any, ClassVar, Literal, Self, TypeVar, cast, overload
+from typing import Any, ClassVar, Literal, NamedTuple, Self, TypeVar, cast, overload
 
 T = TypeVar("T", bound="ColorModel")
 
@@ -137,15 +137,13 @@ class ColorModel(ABC):
         if isinstance(self, OKLCH) and target_cls is OKLAB:
             return self._to_oklab()
         if isinstance(self, RGB) and target_cls is HSL:
-            return HSL._from_full_rgb(*[i / 255 for i in self])
+            return HSL._from_full_rgb(self.r, self.g, self.b)
         if isinstance(self, RGB) and target_cls is HSV:
-            return HSV._from_full_rgb(*[i / 255 for i in self])
+            return HSV._from_full_rgb(self.r, self.g, self.b)
         if isinstance(self, HSL) and target_cls is RGB:
-            r, g, b = (int(round(i * 255)) for i in self._to_full_rgb())
-            return RGB(r, g, b)
+            return RGB(*self._to_full_rgb(), clamp=True)
         if isinstance(self, HSV) and target_cls is RGB:
-            r, g, b = (int(round(i * 255)) for i in self._to_full_rgb())
-            return RGB(r, g, b)
+            return RGB(*self._to_full_rgb(), clamp=True)
 
         return target_cls.from_xyz(self.to_xyz())
 
@@ -183,40 +181,75 @@ def _xyz_to_rgb_float(xyz: tuple[float, float, float]) -> tuple[float, float, fl
     return r, g, b
 
 
-@dataclass(frozen=True, slots=True)
-class RGB(ColorModel):
+class _RGB_255(NamedTuple):
     r: int
     g: int
     b: int
+
+
+@dataclass(frozen=True, slots=True)
+class RGB(ColorModel):
+    r: float
+    g: float
+    b: float
     clamp: InitVar[bool] = False
     BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = (
-        (0, 255),
-        (0, 255),
-        (0, 255),
+        (0.0, 1.0),
+        (0.0, 1.0),
+        (0.0, 1.0),
     )
 
     def _normalize(self) -> None:
-        object.__setattr__(self, "r", int(round(self.r)))
-        object.__setattr__(self, "g", int(round(self.g)))
-        object.__setattr__(self, "b", int(round(self.b)))
+        object.__setattr__(self, "r", float(self.r))
+        object.__setattr__(self, "g", float(self.g))
+        object.__setattr__(self, "b", float(self.b))
+
+    @property
+    def as_255(self) -> _RGB_255:
+        return _RGB_255(
+            max(0, min(255, int(round(self.r * 255)))),
+            max(0, min(255, int(round(self.g * 255)))),
+            max(0, min(255, int(round(self.b * 255)))),
+        )
+
+    @classmethod
+    def from_255(
+        cls,
+        *rgb: float | int | tuple[float | int, float | int, float | int] | list[float | int] | _RGB_255,
+        clamp: bool = False,
+    ) -> Self:
+        if len(rgb) == 1 and isinstance(rgb[0], (tuple, list)):
+            inner = rgb[0]
+            if len(inner) != 3:
+                raise ValueError(f"Expected 3 RGB values, but received {len(inner)}")
+            r, g, b = (float(x) for x in inner)
+        elif len(rgb) == 3:
+            r, g, b = (float(cast(float | int, x)) for x in rgb)
+        else:
+            raise ValueError(f"Expected 3 RGB values, but received {len(rgb)}")
+        return cls(r / 255, g / 255, b / 255, clamp=clamp)
 
     def to_xyz(self) -> tuple[float, float, float]:
-        return _rgb_float_to_xyz((self.r / 255, self.g / 255, self.b / 255))
+        return _rgb_float_to_xyz((self.r, self.g, self.b))
 
     @classmethod
     def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
         coords = cls._check_xyz_args(xyz)
-        rgb = _xyz_to_rgb_float(coords)
-        r, g, b = (int(round(v * 255)) for v in rgb)
+        r, g, b = _xyz_to_rgb_float(coords)
         return cls(r, g, b, clamp=True)
 
     @classmethod
     def from_hex(cls, hex: str) -> Self:
-        r, g, b = (int(hex.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
-        return cls(r, g, b)
+        clean = hex.lstrip("#")
+        return cls.from_255(
+            int(clean[0:2], 16),
+            int(clean[2:4], 16),
+            int(clean[4:6], 16),
+        )
 
     def to_hex(self) -> str:
-        return f"{self.r:0>2X}{self.g:0>2X}{self.b:0>2X}"
+        c = self.as_255
+        return f"{c.r:0>2X}{c.g:0>2X}{c.b:0>2X}"
 
     def with_r(self, val: float) -> Self:
         return self._with_a(val)

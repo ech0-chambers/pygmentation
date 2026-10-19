@@ -135,13 +135,11 @@ def test_init_transparent_flag(sample_nord_scheme):
         sample_nord_scheme, doc_type="report", transparent=True
     )
     assert params_report["figure.facecolor"] == "none"
-    assert params_report["axes.facecolor"] == "none"
 
     params_pres = apply_plot_styles(
         sample_nord_scheme, doc_type="presentation", transparent=True
     )
     assert params_pres["figure.facecolor"] == "none"
-    assert params_pres["axes.facecolor"] == "none"
 
 
 @requires_plots

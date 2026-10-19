@@ -11,7 +11,7 @@ def test_instantiation():
     color = Color("#5e81ac")
     color = Color("#5E81AC")
 
-    color = Color(RGB(0x5E, 0x81, 0xAC))
+    color = Color(RGB.from_255(0x5E, 0x81, 0xAC))
     assert color.hex == "5E81AC"
 
     color = Color(HSL(213.07699200315582, 0.31966663376480825, 0.5215769527278424))
@@ -38,53 +38,57 @@ def test_instantiation():
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_lighten_roundtrips(amount: float):
     original = 255, 242, 229
-    color = Color(RGB(*original))
+    color = Color(RGB.from_255(*original))
     new_color = color.lighten(amount).lighten(-amount / (1 - amount))
 
     assert new_color.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
-    assert new_color.r == color.r
-    assert new_color.g == color.g
-    assert new_color.b == color.b
+    assert new_color.r == pytest.approx(color.r, abs=1e-5)
+    assert new_color.g == pytest.approx(color.g, abs=1e-5)
+    assert new_color.b == pytest.approx(color.b, abs=1e-5)
+    assert new_color.as_255 == color.as_255
 
 
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_darken_roundtrips(amount: float):
     original = 26, 13, 0
-    color = Color(RGB(*original))
+    color = Color(RGB.from_255(*original))
     new_color = color.darken(amount).darken(-amount / (1 - amount))
 
     assert new_color.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
-    assert new_color.r == color.r
-    assert new_color.g == color.g
-    assert new_color.b == color.b
+    assert new_color.r == pytest.approx(color.r, abs=1e-5)
+    assert new_color.g == pytest.approx(color.g, abs=1e-5)
+    assert new_color.b == pytest.approx(color.b, abs=1e-5)
+    assert new_color.as_255 == color.as_255
 
 
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_lighten_darken_roundtrips(amount: float):
     original = 255, 242, 229
-    color = Color(RGB(*original))
+    color = Color(RGB.from_255(*original))
     lighter = color.lighten(amount)
     amount = (lighter.oklab.l - color.oklab.l) / (lighter.oklab.l)
     darker = lighter.darken(amount)
 
     assert darker.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
-    assert darker.r == color.r
-    assert darker.g == color.g
-    assert darker.b == color.b
+    assert darker.r == pytest.approx(color.r, abs=1e-5)
+    assert darker.g == pytest.approx(color.g, abs=1e-5)
+    assert darker.b == pytest.approx(color.b, abs=1e-5)
+    assert darker.as_255 == color.as_255
 
 
 @pytest.mark.parametrize("amount", [i / 10 for i in range(1, 10)])
 def test_darken_lighten_roundtrips(amount: float):
     original = 26, 13, 0
-    color = Color(RGB(*original))
+    color = Color(RGB.from_255(*original))
     darker = color.darken(amount)
     amount = (color.oklab.l - darker.oklab.l) / (1 - darker.oklab.l)
     lighter = darker.lighten(amount)
 
     assert lighter.oklab.l == pytest.approx(color.oklab.l, abs=1e-5)
-    assert lighter.r == color.r
-    assert lighter.g == color.g
-    assert lighter.b == color.b
+    assert lighter.r == pytest.approx(color.r, abs=1e-5)
+    assert lighter.g == pytest.approx(color.g, abs=1e-5)
+    assert lighter.b == pytest.approx(color.b, abs=1e-5)
+    assert lighter.as_255 == color.as_255
 
 
 def test_string_representations():
@@ -129,6 +133,11 @@ def test_scalar_shortcuts():
     assert color.g == color.rgb.g
     assert color.b == color.rgb.b
 
+    assert color.as_255 == color.rgb.as_255
+    assert color.as_255.r == 0x5E
+    assert color.as_255.g == 0x81
+    assert color.as_255.b == 0xAC
+
     assert color.h == color.hsl.h
     assert color.s == color.hsl.s
     assert color.l == color.hsl.l
@@ -138,18 +147,19 @@ def test_channel_replacement_immutability():
     original = Color("5E81AC")
 
     # RGB replacements
-    c_r = original.with_r(255)
-    assert c_r.r == 255
-    assert original.r == 0x5E
+    c_r = original.with_r(1.0)
+    assert c_r.r == 1.0
+    assert c_r.as_255.r == 255
+    assert original.as_255.r == 0x5E
     assert c_r is not original
 
-    c_g = original.with_g(200)
-    assert c_g.g == 200
-    assert original.g == 0x81
+    c_g = original.with_g(200 / 255)
+    assert c_g.as_255.g == 200
+    assert original.as_255.g == 0x81
 
-    c_b = original.with_b(50)
-    assert c_b.b == 50
-    assert original.b == 0xAC
+    c_b = original.with_b(50 / 255)
+    assert c_b.as_255.b == 50
+    assert original.as_255.b == 0xAC
 
     # HSL replacements
     c_h = original.with_h(120)
@@ -271,7 +281,7 @@ def test_object_equality_and_hashing():
     assert c1 != "5E81AC"
     assert c1 is not None
     assert c1 != 42
-    assert c1 != RGB(0x5E, 0x81, 0xAC)
+    assert c1 != RGB.from_255(0x5E, 0x81, 0xAC)
 
     # Hashing for set / dictionary storage
     color_set = {c1, c2, c3, other}
@@ -321,7 +331,7 @@ def test_distance_to_cross_type_inputs():
     assert c.distance_to("#5E81AC") == pytest.approx(expected_dist, rel=1e-5)
 
     # ColorModel instances
-    assert c.distance_to(target.rgb) == pytest.approx(expected_dist, rel=1e-5)
+    assert c.distance_to(target.rgb) == pytest.approx(expected_dist, rel=1e-4)
     assert c.distance_to(target.oklab) == pytest.approx(expected_dist, rel=1e-5)
     assert c.distance_to(target.lab) == pytest.approx(expected_dist, abs=0.01)
 

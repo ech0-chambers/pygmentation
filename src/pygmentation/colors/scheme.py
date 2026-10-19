@@ -17,8 +17,8 @@ class SchemeType(StrEnum):
 
 class ColorFamily:
     __HUE_DIFF_THRESHOLD = 30
-    __MIN_TARGET_LIGHTNESS = 0.2
-    __MAX_TARGET_LIGHTNESS = 0.8
+    __MIN_TARGET_LIGHTNESS = 0.1
+    __MAX_TARGET_LIGHTNESS = 0.9
 
     def __init__(
         self,
@@ -28,6 +28,7 @@ class ColorFamily:
         dark: Color | str | ColorModel | None = None,
         is_main: bool = False,
         variants: Sequence[Color | ColorModel | str] | None = None,
+        chroma_blend: float = 0.75,
     ):
         if not isinstance(base, Color):
             base = Color(base)
@@ -58,6 +59,7 @@ class ColorFamily:
         self._light = light
         self._dark = dark
         self._scheme_type = scheme_type
+        self._chroma_blend = chroma_blend
 
         if variants is not None:
             if len(variants) != 5:
@@ -68,8 +70,11 @@ class ColorFamily:
             return
 
         # We check if the base colour is too dark to have darker variants, or too light to have lighter variants
-        too_light = self._base.oklab.l / self._light.oklab.l > 0.9
-        too_dark = self._base.oklab.l - self._dark.oklab.l < 0.2
+        # Compare "extremeness" (distance from mid-tone) of lightness to the foreground/background colours.
+        target_dark = max(self.__MIN_TARGET_LIGHTNESS, self._dark.oklab.l)
+        target_light = min(self.__MAX_TARGET_LIGHTNESS, self._light.oklab.l)
+        too_light = (self._base.oklab.l - 0.5) / (target_light - 0.5) > 0.8
+        too_dark = (0.5 - self._base.oklab.l) / (0.5 - target_dark) > 0.8
 
         amounts: list[float] = [0.0] * 5
 
@@ -120,11 +125,14 @@ class ColorFamily:
             abs(self._base.hue_diff_oklch(self._dark)) < self.__HUE_DIFF_THRESHOLD
         )
 
+        use_dark = False
+
         if use_dark:
             return self._base.lerp(self._dark, abs(amount))
-        return self._base.darken(
+        new_color = self._base.darken(
             abs(amount), max(self.__MIN_TARGET_LIGHTNESS, self._dark.oklab.l)
         )
+        return Color(new_color.oklch.with_c(self._base.oklch.c + (self._dark.oklch.c - self._base.oklch.c) * abs(amount) * self.chroma_blend))
 
     def lighter(self, amount: float) -> Color:
         # If the "light" colour provided has a similar hue to the base colour, we'll also subtly shift towards that hue rather than just changing the lightness
@@ -134,9 +142,10 @@ class ColorFamily:
 
         if use_light:
             return self._base.lerp(self._light, abs(amount))
-        return self._base.lighten(
+        new_color = self._base.lighten(
             abs(amount), min(self.__MAX_TARGET_LIGHTNESS, self._light.oklab.l)
         )
+        return Color(new_color.oklch.with_c(self._base.oklch.c + (self._light.oklch.c - self._base.oklch.c) * abs(amount) * self.chroma_blend))
 
     @overload
     def __getitem__(self, index: int) -> Color: ...
@@ -187,6 +196,10 @@ class ColorFamily:
     @property
     def css(self) -> str:
         return self.base.css
+
+    @property
+    def chroma_blend(self) -> float:
+        return self._chroma_blend
 
     def index(self, color: Color) -> int | None:
         # returns 0 if the color is this family's base, 1-5 if it's a variant, or None if it doesn't appear in this family.
@@ -250,9 +263,15 @@ class ColorScheme:
 
     __DISTINCT_THRESHOLD = 15
 
-    def __init__(self, scheme: dict, scheme_type: SchemeType | str):
+    def __init__(
+        self,
+        scheme: dict,
+        scheme_type: SchemeType | str,
+        name: str | None = None,
+    ):
         # scheme dict should contain "foreground", "background", and "accents". It may also contain "surfaces"
 
+        self._name = name
         self._colors = None
         self._aliases = {}
         self._distinct = None
@@ -580,6 +599,14 @@ class ColorScheme:
         )
 
     @property
+    def name(self) -> str | None:
+        return self._name
+
+    @name.setter
+    def name(self, value: str | None) -> None:
+        self._name = value
+
+    @property
     def foreground(self) -> ColorFamily:
         return self._foreground
 
@@ -679,3 +706,12 @@ class ColorScheme:
             return "auto_surface", None
 
         return None
+
+    def __iter__(self):
+        yield self.foreground
+        yield self.background
+        for c in self.accents:
+            yield c
+        for c in self.surfaces:
+            yield c
+        yield self.auto_surface

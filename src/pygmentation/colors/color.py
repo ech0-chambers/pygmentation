@@ -3,7 +3,7 @@ from __future__ import annotations
 import math
 from functools import cached_property
 
-from .models import HSL, HSV, LAB, OKLAB, OKLCH, RGB, XYZ, ColorModel
+from .models import _RGB_255, HSL, HSV, LAB, OKLAB, OKLCH, RGB, XYZ, ColorModel
 
 
 class Color:
@@ -32,6 +32,10 @@ class Color:
     def rgb(self) -> RGB:
         return self._oklab.convert_to(RGB)
 
+    @property
+    def as_255(self) -> _RGB_255:
+        return self.rgb.as_255
+
     @cached_property
     def hsl(self) -> HSL:
         return self._oklab.convert_to(HSL)
@@ -57,15 +61,15 @@ class Color:
         return self._oklab.convert_to(OKLCH)
 
     @property
-    def r(self) -> int:
+    def r(self) -> float:
         return self.rgb.r
 
     @property
-    def g(self) -> int:
+    def g(self) -> float:
         return self.rgb.g
 
     @property
-    def b(self) -> int:
+    def b(self) -> float:
         return self.rgb.b
 
     @property

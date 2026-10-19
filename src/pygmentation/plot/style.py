@@ -19,6 +19,7 @@ def apply_plot_styles(
     scheme_type: str | SchemeType = SchemeType.LIGHT,
     doc_type: str | DocType = DocType.REPORT,
     transparent: bool = False,
+    white_paper: bool = False,
     use_latex: bool | None = None,
     font_family: str = "serif",
     font_serif: str | None = None,
@@ -31,7 +32,8 @@ def apply_plot_styles(
         scheme: Scheme name to resolve from registry, or an initialized ColorScheme instance.
         scheme_type: Scheme variant ('light' (default) or 'dark', or SchemeType enum). Ignored if scheme is a ColorScheme object.
         doc_type: Document style target ('report' (default) or 'presentation', or DocType enum). Affects things like aspect ratio, default font size, and axis visibility.
-        transparent: If True, set figure and axes background to transparent ('none').
+        transparent: If True, set figure background to transparent ('none').
+        white_paper: If True, set the figure background to white instead of scheme background. Has no effect if `transparent` is True.
         use_latex: If True, enable LaTeX rendering (text.usetex). If None, checks for available LaTeX compiler. Defaults to None.
         font_family: Matplotlib font family ('serif', 'sans-serif', etc.). Defaults to 'serif'.
         font_serif: Font name for serif family (font.serif). Defaults to 'Computer Modern Roman' if unspecified.
@@ -128,9 +130,11 @@ def apply_plot_styles(
         "text.color": scheme_obj.foreground.css,
         "font.size": 12 if doc_type == DocType.REPORT else 16,
         "figure.facecolor": (
-            scheme_obj.background.base.css if not transparent else "none"
+            "none"
+            if transparent
+            else ("white" if white_paper else scheme_obj.background.base.css)
         ),
-        "axes.facecolor": scheme_obj.background.base.css if not transparent else "none",
+        "axes.facecolor": scheme_obj.background.base.css,
         "legend.facecolor": legend_face,
         "legend.edgecolor": scheme_obj.foreground.css,
         "legend.framealpha": 0.5,

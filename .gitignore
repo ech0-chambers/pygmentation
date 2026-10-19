@@ -170,3 +170,5 @@ cython_debug/
 #.idea/
 uv.lock
 .ruff_cache
+_plot_samples.py
+diagrams.py
