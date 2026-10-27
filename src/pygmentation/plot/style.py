@@ -10,12 +10,25 @@ from . import fonts
 
 
 class DocType(IntEnum):
+    """
+    Enum for target document type.
+
+    Attributes
+    ----------
+    REPORT
+        For articles and printed documents, the default styling uses a squarer
+        aspect ratio, document-appropriate font sizes, and more conservative 
+        colour use
+    PRESENTATION
+        For presentations or some posters. The default styling uses larger font
+        sizes and more liberal use of colour so that axes and labels stand out
+    """
     REPORT = 1
     PRESENTATION = 2
 
 
 def apply_plot_styles(
-    scheme: str | ColorScheme = "nord",
+    scheme: str | ColorScheme,
     scheme_type: str | SchemeType = SchemeType.LIGHT,
     doc_type: str | DocType = DocType.REPORT,
     transparent: bool = False,
@@ -26,27 +39,55 @@ def apply_plot_styles(
     font_sans_serif: str | None = None,
     font: str | None = None,
 ) -> dict[str, Any]:
-    """Configure matplotlib rcParams to use a pygmentation color scheme and some sensible presets.
+    """
+    Configure matplotlib rcParams to use a pygmentation color scheme and some
+    sensible presets.
 
-    Args:
-        scheme: Scheme name to resolve from registry, or an initialized ColorScheme instance.
-        scheme_type: Scheme variant ('light' (default) or 'dark', or SchemeType enum). Ignored if scheme is a ColorScheme object.
-        doc_type: Document style target ('report' (default) or 'presentation', or DocType enum). Affects things like aspect ratio, default font size, and axis visibility.
-        transparent: If True, set figure background to transparent ('none').
-        white_paper: If True, set the figure background to white instead of scheme background. Has no effect if `transparent` is True.
-        use_latex: If True, enable LaTeX rendering (text.usetex). If None, checks for available LaTeX compiler. Defaults to None.
-        font_family: Matplotlib font family ('serif', 'sans-serif', etc.). Defaults to 'serif'.
-        font_serif: Font name for serif family (font.serif). Defaults to 'Computer Modern Roman' if unspecified.
-        font_sans_serif: Font name for sans-serif family (font.sans-serif).
-        font: General font name. If specified and font_serif/font_sans_serif are omitted, used for both.
+    Parameters
+    ----------
+    scheme : str | ColorScheme
+        Scheme name to resolve from registry, or an initialized ColorScheme
+        instance.
+    scheme_type : str | SchemeType, optional
+        Scheme variant ('light' (default) or 'dark', or SchemeType enum).
+        Ignored if scheme is already a ColorScheme object.
+    doc_type : str | DocType, optional
+        Document style target ('report' (default) or 'presentation', or DocType
+        enum). Affects things like aspect ratio, default font size, and axis
+        visibility.
+    transparent : bool, optional
+        If True, set figure background to transparent ('none').
+    white_paper : bool, optional
+        If True, set the figure background to white instead of scheme
+        background. Has no effect if `transparent` is True.
+    use_latex : bool | None, optional
+        If True, enable LaTeX rendering (text.usetex). If None, checks for
+        available LaTeX compiler. Defaults to None.
+    font_family : str, optional
+        Matplotlib font family ('serif', 'sans-serif', etc.). Defaults to
+        'serif'.
+    font_serif : str | None, optional
+        Font name for serif family (font.serif). Defaults to 'Computer Modern
+        Roman' if unspecified.
+    font_sans_serif : str | None, optional
+        Font name for sans-serif family (font.sans-serif).
+    font : str | None, optional
+        General font name. If specified and font_serif/font_sans_serif are
+        omitted, used for both.
 
-    Returns:
-        dict: The updated rcParams dictionary applied to matplotlib.
+    Returns
+    -------
+    dict[str, Any]
+        The updated rcParams dictionary applied to matplotlib.
 
-    Raises:
-        ImportError: If 'cycler' or 'matplotlib' is not installed.
-        SchemeNotFoundError: If a scheme name string cannot be resolved by the registry.
-        ValueError: If scheme_type or doc_type strings are unrecognized.
+    Raises
+    ------
+    ImportError
+        If 'cycler' or 'matplotlib' is not installed.
+    SchemeNotFoundError
+        If a scheme name string cannot be resolved by the registry.
+    ValueError
+        If scheme_type or doc_type strings are unrecognized.
     """
     try:
         from cycler import cycler

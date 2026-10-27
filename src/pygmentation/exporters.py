@@ -24,36 +24,149 @@ CODE_FORMATTERS: dict[str, Callable[[Color], str]] = {
 
 
 class Exporter(ABC):
+    """
+    Abstract base class for exporting colour schemes into external formats.
+
+    Attributes
+    ----------
+    format_name : str
+        The canonical name of the export format (e.g. 'css', 'latex').
+    file_extensions : tuple[str, ...]
+        Tuple of common file extensions associated with the export format (e.g.
+        `('.css', 'css')`).
+    """
     format_name: ClassVar[str]
     file_extensions: ClassVar[tuple[str, ...]]
 
     @staticmethod
     def canonical_name(root: str, index: int | None) -> str:
+        """
+        Generate the identifier name for a colour in this format.
+
+        Parameters
+        ----------
+        root : str
+            Base category name for the colour (e.g. 'foreground', 'accent').
+        index : int | None
+            Optional 0-based variant or accent index. If `None`, the root name
+            is returned without an index suffix.
+
+        Returns
+        -------
+        str
+            The formatted identifier name.
+        """
         if index is None:
             return root
         return f"{root}{index}"
 
     @staticmethod
     def canonical_alias_name(root: str) -> str:
+        """
+        Generate the identifier name for a semantic colour alias.
+
+        Parameters
+        ----------
+        root : str
+            The semantic alias name (e.g. 'error', 'red').
+
+        Returns
+        -------
+        str
+            The formatted alias identifier name.
+        """
         return root
 
     @abstractmethod
     def format_color(self, color: Color, name: str) -> str:
+        """
+        Format a single colour definition in the target syntax.
+
+        Parameters
+        ----------
+        color : Color
+            The colour to format.
+        name : str
+            The identifier name for the colour.
+
+        Returns
+        -------
+        str
+            The formatted colour definition string.
+        """
         pass
 
     @abstractmethod
     def format_alias(self, name: str, target: str) -> str:
+        """
+        Format a semantic alias pointing to another colour identifier.
+
+        Parameters
+        ----------
+        name : str
+            The alias identifier name.
+        target : str
+            The target colour identifier name being aliased.
+
+        Returns
+        -------
+        str
+            The formatted alias definition string.
+        """
         pass
 
     @abstractmethod
     def format_alias_family(self, name: str, target: str) -> list[str]:
+        """
+        Format an alias family mapping an alias and its variants to a target.
+
+        Parameters
+        ----------
+        name : str
+            The alias family identifier name.
+        target : str
+            The target family identifier name.
+
+        Returns
+        -------
+        list[str]
+            List of formatted alias definition strings for the family.
+        """
         pass
 
     @abstractmethod
     def format_family(self, family: ColorFamily, name: str) -> list[str]:
+        """
+        Format a colour family, including its base colour and variants.
+
+        Parameters
+        ----------
+        family : ColorFamily
+            The colour family to format.
+        name : str
+            The base identifier name for the family.
+
+        Returns
+        -------
+        list[str]
+            List of formatted colour definition strings for the family.
+        """
         pass
 
     def export(self, scheme: ColorScheme) -> str:
+        """
+        Export an entire colour scheme to a string in the target format.
+
+        Parameters
+        ----------
+        scheme : ColorScheme
+            The colour scheme to export.
+
+        Returns
+        -------
+        str
+            The complete exported content as a string.
+        """
         output = []
 
         output.extend(
@@ -110,6 +223,16 @@ class Exporter(ABC):
         return "\n".join(output)
 
     def save(self, scheme: ColorScheme, filepath: Path | str) -> None:
+        """
+        Export a colour scheme and write the result to a file.
+
+        Parameters
+        ----------
+        scheme : ColorScheme
+            The colour scheme to export.
+        filepath : Path | str
+            Filepath where the exported output should be saved.
+        """
         if not isinstance(filepath, Path):
             filepath = Path(filepath)
 
@@ -119,6 +242,16 @@ class Exporter(ABC):
 
 
 class LatexExporter(Exporter):
+    """
+    Export colour schemes to LaTeX `xcolor` commands (`\\definecolor`).
+
+    Attributes
+    ----------
+    format_name : str
+        Format identifier ('latex').
+    file_extensions : tuple[str, ...]
+        Associated file extensions (`'.tex'`, `'.sty'`, `'.cls'`).
+    """
     format_name: ClassVar[str] = "latex"
     file_extensions: ClassVar[tuple[str, ...]] = (".tex", ".sty", ".cls")
 
@@ -161,6 +294,16 @@ class LatexExporter(Exporter):
 
 
 class CssExporter(Exporter):
+    """
+    Export colour schemes to CSS custom properties (`--clr-*`).
+
+    Attributes
+    ----------
+    format_name : str
+        Format identifier ('css').
+    file_extensions : tuple[str, ...]
+        Associated file extensions (`'.css'`, `'css'`).
+    """
     format_name: ClassVar[str] = "css"
     file_extensions: ClassVar[tuple[str, ...]] = (".css", "css")
 
@@ -178,6 +321,24 @@ class CssExporter(Exporter):
         return f"--clr-{root}"
 
     def format_color(self, color: Color, name: str) -> str:
+        """
+        Format a colour as CSS custom properties in both hex and RGB triplet.
+
+        Defines both `{name}: #{hex};` and `{name}-rgb: {r}, {g}, {b};` so that
+        colours can easily be used with CSS `rgb()` or `rgba()` functions.
+
+        Parameters
+        ----------
+        color : Color
+            The colour to format.
+        name : str
+            The CSS property name (e.g. '--clr-foreground').
+
+        Returns
+        -------
+        str
+            The CSS declarations for the colour.
+        """
         c = color.as_255
         return f"{name}: #{color.hex};\n{name}-rgb: {c.r}, {c.g}, {c.b};"
 
@@ -191,6 +352,24 @@ class CssExporter(Exporter):
         return out
 
     def format_alias(self, name: str, target: str) -> str:
+        """
+        Format a CSS property alias referencing another property via `var()`.
+
+        Defines both `{name}: var({target});` and `{name}-rgb:
+        var({target}-rgb);`.
+
+        Parameters
+        ----------
+        name : str
+            The alias CSS property name.
+        target : str
+            The target CSS property name being aliased.
+
+        Returns
+        -------
+        str
+            The CSS variable assignment declarations.
+        """
         return f"{name}: var({target});\n{name}-rgb: var({target}-rgb);"
 
     def format_alias_family(self, name: str, target: str) -> list[str]:
@@ -201,11 +380,35 @@ class CssExporter(Exporter):
         return out
 
     def export(self, scheme: ColorScheme) -> str:
+        """
+        Export the colour scheme as CSS custom properties in a `:root` block.
+
+        Parameters
+        ----------
+        scheme : ColorScheme
+            The colour scheme to export.
+
+        Returns
+        -------
+        str
+            The CSS custom properties wrapped inside `:root { ... }`.
+        """
         out = super().export(scheme)
         return f":root{{\n{out}\n}}"
 
 
 class LessExporter(Exporter):
+    """
+    Export colour schemes to Less variables (`@clr-*`).
+
+    Attributes
+    ----------
+    format_name : str
+        Format identifier ('less').
+    file_extensions : tuple[str, ...]
+        Associated file extensions (`'.less'`, `'less'`, `'less.js'`,
+        `'.less.js'`).
+    """
     format_name: ClassVar[str] = "less"
     file_extensions: ClassVar[tuple[str, ...]] = (
         ".less",
@@ -251,6 +454,16 @@ class LessExporter(Exporter):
 
 
 class TextualExporter(Exporter):
+    """
+    Export colour schemes to Textual CSS variables (`$clr-*`).
+
+    Attributes
+    ----------
+    format_name : str
+        Format identifier ('textual').
+    file_extensions : tuple[str, ...]
+        Associated file extensions (`'.tcss'`, `'tcss'`).
+    """
     format_name: ClassVar[str] = "textual"
     file_extensions: ClassVar[tuple[str, ...]] = (
         ".tcss",
@@ -294,6 +507,17 @@ class TextualExporter(Exporter):
 
 
 class JavascriptExporter(Exporter):
+    """
+    Export colour schemes to a JavaScript object literal
+    (`const colors = {...}`).
+
+    Attributes
+    ----------
+    format_name : str
+        Format identifier ('javascript').
+    file_extensions : tuple[str, ...]
+        Associated file extensions (`'.js'`, `'js'`).
+    """
     format_name: ClassVar[str] = "javascript"
     file_extensions: ClassVar[tuple[str, ...]] = (".js", "js")
 
@@ -319,6 +543,24 @@ class JavascriptExporter(Exporter):
     def format_family(
         self, family: ColorFamily, name: str = "", indent: int = 2
     ) -> list[str]:
+        """
+        Format a colour family as a structured JavaScript object literal.
+
+        Parameters
+        ----------
+        family : ColorFamily
+            The colour family to format.
+        name : str, optional
+            Optional family name identifier.
+        indent : int, optional
+            Number of indentation spaces. Defaults to 2.
+
+        Returns
+        -------
+        list[str]
+            Lines of JavaScript object syntax representing the family with
+            base, indexed keys (`0` to `5`), and a `variants` array.
+        """
         pad = " " * indent
         lines = [f"{pad}{{"]
         lines.append(f'{pad}  base: "#{family.base.hex}",')
@@ -333,6 +575,21 @@ class JavascriptExporter(Exporter):
         return lines
 
     def export(self, scheme: ColorScheme) -> str:
+        """
+        Export the colour scheme as a JavaScript `const colors = { ... }`
+        object.
+
+        Parameters
+        ----------
+        scheme : ColorScheme
+            The colour scheme to export.
+
+        Returns
+        -------
+        str
+            JavaScript module code defining the colour scheme object and alias
+            assignments.
+        """
         lines = ["const colors = {"]
         lines.append(
             f"  foreground: {self._format_family_block(scheme.foreground, 2)},"
@@ -420,6 +677,55 @@ class _SvgLayout:
 
 
 class SvgExporter(Exporter):
+    """
+    Export colour schemes to standalone visual SVG palette diagrams.
+
+    Parameters
+    ----------
+    title : str | None, optional
+        Optional title displayed in the SVG header. Defaults to the scheme
+        name.
+    code_type : str | None, optional
+        Format of colour codes displayed beneath swatches (e.g. 'hex', 'rgb',
+        'hsl', 'oklch'). If `None`, colour codes are omitted.
+    dist_threshold : float, optional
+        If a swatch is too similar to the background colour to be visually
+        distinguishable, it is given a subtle border. This is the threshold
+        Euclidean distance in Oklab space at which this occurs.
+    base_aspect_ratio : float, optional
+        Aspect ratio (width / height) for base colour swatches. Defaults to
+        2.0.
+    variant_aspect_ratio : float, optional
+        Aspect ratio (width / height) for variant swatches. Defaults to
+        1.0.
+    swatch_height : int, optional
+        Height of colour swatches in pixels. Defaults to 33.
+    embed_font : bool, optional
+        Whether to embed the base64-encoded WOFF2 font directly in the SVG
+        `<style>` block. If `False`, the font definition is omitted and only
+        `font-family` rules are emitted. Defaults to `True`.
+
+    Attributes
+    ----------
+    format_name : str
+        Format identifier ('svg').
+    file_extensions : tuple[str, ...]
+        Associated file extensions (`'.svg'`, `'svg'`).
+    title : str | None
+        Title displayed in the SVG header.
+    code_type : str | None
+        Colour code format displayed beneath swatches.
+    dist_threshold : float
+        Distance threshold for swatch borders.
+    base_aspect_ratio : float
+        Aspect ratio for base colour swatches.
+    variant_aspect_ratio : float
+        Aspect ratio for variant colour swatches.
+    swatch_height : int
+        Height of swatches in pixels.
+    embed_font : bool
+        Whether the font subset is embedded in the SVG.
+    """
 
     format_name: ClassVar[str] = "svg"
     file_extensions: ClassVar[tuple[str, ...]] = (".svg", "svg")
@@ -432,6 +738,7 @@ class SvgExporter(Exporter):
         base_aspect_ratio: float = 2.0,
         variant_aspect_ratio: float = 1.0,
         swatch_height: int = 33,
+        embed_font: bool = True,
     ) -> None:
         self.title = title
         self.code_type = code_type
@@ -439,6 +746,7 @@ class SvgExporter(Exporter):
         self.base_aspect_ratio = base_aspect_ratio
         self.variant_aspect_ratio = variant_aspect_ratio
         self.swatch_height = swatch_height
+        self.embed_font = embed_font
 
     # Although this is an Exporter, it doesn't really utilise the structure set out by the base
     # class. We'll define these stubs to satisfy the type requirements, but they should never
@@ -645,6 +953,23 @@ class SvgExporter(Exporter):
 
     def _render_style(self) -> str:
         # Inline minimal WOFF2 subset of Fira Code defined in `_fonts.py`
+        font_stack = (
+            "'Fira Code', 'Fira Mono', ui-monospace, 'SF Mono', "
+            "'Roboto Mono', 'Cascadia Code', 'DejaVu Sans Mono', Menlo, "
+            "Consolas, monospace"
+        )
+        classes = (
+            ".pyg-palette-label, .pyg-palette-code, .pyg-palette-title, "
+            ".pyg-palette-subtitle, .pyg-palette-header"
+        )
+        if not self.embed_font:
+            return (
+                "  <style>\n"
+                f"    {classes} {{\n"
+                f"      font-family: {font_stack};\n"
+                "    }\n"
+                "  </style>"
+            )
         return (
             "  <style>\n"
             "    @font-face {\n"
@@ -653,8 +978,8 @@ class SvgExporter(Exporter):
             "      font-weight: 400 700;\n"
             f"      src: url('data:font/woff2;charset=utf-8;base64,{FIRA_CODE_WOFF2_BASE64}') format('woff2');\n"
             "    }\n"
-            "    .pyg-label, .pyg-code, .pyg-title, .pyg-subtitle, .pyg-header {\n"
-            "      font-family: 'Fira Code', ui-monospace, 'Cascadia Code', 'DejaVu Sans Mono', Menlo, Consolas, monospace;\n"
+            f"    {classes} {{\n"
+            f"      font-family: {font_stack};\n"
             "    }\n"
             "  </style>"
         )
@@ -672,7 +997,7 @@ class SvgExporter(Exporter):
         return html.escape(str(val), quote=True)
 
     @staticmethod
-    def svg_element(
+    def _svg_element(
         tag: str,
         content: str | None = None,
         class_: str | list[str] | None = None,
@@ -726,7 +1051,7 @@ class SvgExporter(Exporter):
         return f"<{tag}{attrs_str}>{content}</{tag}>"
 
     @staticmethod
-    def svg_text(
+    def _svg_text(
         text: str,
         x: float | str,
         y: float | str,
@@ -743,7 +1068,7 @@ class SvgExporter(Exporter):
         if anchor is not None:
             attrs["text-anchor"] = anchor
         attrs.update(kwargs)
-        return SvgExporter.svg_element(
+        return SvgExporter._svg_element(
             "text",
             content=html.escape(str(text)),
             class_=class_,
@@ -751,7 +1076,7 @@ class SvgExporter(Exporter):
         )
 
     @staticmethod
-    def svg_rect(
+    def _svg_rect(
         x: float | str | None = None,
         y: float | str | None = None,
         width: float | str | None = None,
@@ -778,10 +1103,10 @@ class SvgExporter(Exporter):
         if fill is not None:
             attrs["fill"] = fill
         attrs.update(kwargs)
-        return SvgExporter.svg_element("rect", class_=class_, **attrs)
+        return SvgExporter._svg_element("rect", class_=class_, **attrs)
 
     @staticmethod
-    def svg_line(
+    def _svg_line(
         x1: float | str,
         y1: float | str,
         x2: float | str,
@@ -801,7 +1126,7 @@ class SvgExporter(Exporter):
         if stroke_opacity is not None:
             attrs["stroke-opacity"] = stroke_opacity
         attrs.update(kwargs)
-        return SvgExporter.svg_element("line", class_=class_, **attrs)
+        return SvgExporter._svg_element("line", class_=class_, **attrs)
 
     def _render_header(
         self,
@@ -829,12 +1154,12 @@ class SvgExporter(Exporter):
         if scheme_title:
             elements.append(
                 "  "
-                + self.svg_text(
+                + self._svg_text(
                     scheme_title,
                     x=layout.total_width / 2,
                     y=current_y,
                     anchor="middle",
-                    class_="pyg-title",
+                    class_="pyg-palette-title",
                     font_size=16,
                     font_weight="bold",
                     fill=fg_hex,
@@ -844,12 +1169,12 @@ class SvgExporter(Exporter):
                 current_y += 18
                 elements.append(
                     "  "
-                    + self.svg_text(
+                    + self._svg_text(
                         f"({variant_label})",
                         x=layout.total_width / 2,
                         y=current_y,
                         anchor="middle",
-                        class_="pyg-subtitle",
+                        class_="pyg-palette-subtitle",
                         font_size=12,
                         fill=fg_hex,
                         fill_opacity=0.75,
@@ -866,12 +1191,12 @@ class SvgExporter(Exporter):
         for origin_x in [layout.left_column_x, layout.right_column_x]:
             elements.append(
                 "  "
-                + self.svg_text(
+                + self._svg_text(
                     "Colour",
                     x=origin_x + layout.label_width - 8,
                     y=header_y,
                     anchor="end",
-                    class_="pyg-header",
+                    class_="pyg-palette-header",
                     font_size=layout.header_font_size,
                     font_weight="bold",
                     fill=fg_hex,
@@ -880,12 +1205,12 @@ class SvgExporter(Exporter):
             )
             elements.append(
                 "  "
-                + self.svg_text(
+                + self._svg_text(
                     "Base",
                     x=origin_x + layout.swatch_offsets[0] + layout.base_swatch_width / 2,
                     y=header_y,
                     anchor="middle",
-                    class_="pyg-header",
+                    class_="pyg-palette-header",
                     font_size=layout.header_font_size,
                     font_weight="bold",
                     fill=fg_hex,
@@ -895,12 +1220,12 @@ class SvgExporter(Exporter):
             for i in range(1, 6):
                 elements.append(
                     "  "
-                    + self.svg_text(
+                    + self._svg_text(
                         str(i),
                         x=origin_x + layout.swatch_offsets[i] + layout.variant_swatch_width / 2,
                         y=header_y,
                         anchor="middle",
-                        class_="pyg-header",
+                        class_="pyg-palette-header",
                         font_size=layout.header_font_size,
                         font_weight="bold",
                         fill=fg_hex,
@@ -912,7 +1237,7 @@ class SvgExporter(Exporter):
         header_line_y = header_y + 9
         elements.append(
             "  "
-            + self.svg_line(
+            + self._svg_line(
                 x1=layout.pad_x,
                 y1=header_line_y,
                 x2=layout.total_width - layout.pad_x,
@@ -931,7 +1256,7 @@ class SvgExporter(Exporter):
         separator_y = cur_y + layout.separator_gap / 2
         return [
             "  "
-            + self.svg_line(
+            + self._svg_line(
                 x1=layout.pad_x,
                 y1=separator_y,
                 x2=layout.total_width - layout.pad_x,
@@ -957,7 +1282,7 @@ class SvgExporter(Exporter):
         needs_border = color.distance_to(bg_color) < self.dist_threshold
         return (
             "  "
-            + self.svg_rect(
+            + self._svg_rect(
                 x=x,
                 y=y,
                 width=width,
@@ -966,6 +1291,8 @@ class SvgExporter(Exporter):
                 fill=color.css,
                 stroke=border_color if needs_border else None,
                 stroke_width=1 if needs_border else None,
+                class_="pyg-palette-swatch",
+                data_hex=color.css,
             )
         )
 
@@ -993,12 +1320,12 @@ class SvgExporter(Exporter):
         label_y = y + 13
         elements.append(
             "  "
-            + self.svg_text(
+            + self._svg_text(
                 f"{name}:",
                 x=origin_x + layout.label_width - 8,
                 y=label_y,
                 anchor="end",
-                class_="pyg-label",
+                class_="pyg-palette-label",
                 font_size=layout.font_size,
                 fill=fg_hex,
             )
@@ -1007,12 +1334,12 @@ class SvgExporter(Exporter):
             alias_y = label_y + (alias_index + 1) * layout.alias_line_height
             elements.append(
                 "  "
-                + self.svg_text(
+                + self._svg_text(
                     f"({alias.capitalize()})",
                     x=origin_x + layout.label_width - 8,
                     y=alias_y,
                     anchor="end",
-                    class_="pyg-label",
+                    class_="pyg-palette-label",
                     font_size=layout.font_size,
                     fill=alias_color_hex,
                 )
@@ -1039,12 +1366,12 @@ class SvgExporter(Exporter):
                 code_text = code_formatter(color)
                 elements.append(
                     "  "
-                    + self.svg_text(
+                    + self._svg_text(
                         code_text,
                         x=swatch_x + swatch_w / 2,
                         y=y + layout.swatch_height + 12,
                         anchor="middle",
-                        class_="pyg-code",
+                        class_="pyg-palette-code",
                         font_size=layout.code_font_size,
                         fill=fg_hex,
                     )
@@ -1064,6 +1391,20 @@ class SvgExporter(Exporter):
         return item_height, elements
 
     def export(self, scheme: ColorScheme) -> str:
+        """
+        Export the colour scheme as a complete SVG palette document.
+
+        Parameters
+        ----------
+        scheme : ColorScheme
+            The colour scheme to export.
+
+        Returns
+        -------
+        str
+            A standalone SVG displaying the scheme palette with optional
+            colour codes, as a string.
+        """
         bg_color = scheme.background.base
         fg_color = scheme.foreground.base
         code_formatter = self._get_code_formatter()
@@ -1117,9 +1458,14 @@ class SvgExporter(Exporter):
 
         # Assemble final SVG document
         svg = [
-            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {layout.total_width} {total_height}" width="{layout.total_width}" height="{total_height}">',
+            (
+                f'<svg xmlns="http://www.w3.org/2000/svg" '
+                f'viewBox="0 0 {layout.total_width} {total_height}" '
+                f'width="{layout.total_width}" height="{total_height}" '
+                f'data-bg="{bg_color.css}" data-fg="{fg_color.css}">'
+            ),
             self._render_style(),
-            "  " + self.svg_rect(width="100%", height="100%", fill=bg_color.css),
+            "  " + self._svg_rect(width="100%", height="100%", fill=bg_color.css),
             *svg_elements,
             "</svg>",
         ]
@@ -1137,6 +1483,21 @@ EXPORT_REGISTRY: list[type[Exporter]] = [
 
 
 def get_exporter(format_or_extension: str) -> type[Exporter] | None:
+    """
+    Look up an exporter class by format name or file extension.
+
+    Parameters
+    ----------
+    format_or_extension : str
+        Format name (e.g. 'css', 'latex') or file extension (e.g. '.css',
+        '.tex').
+
+    Returns
+    -------
+    type[Exporter] | None
+        The matching `Exporter` subclass, or `None` if no matching exporter was
+        found.
+    """
     for exporter in EXPORT_REGISTRY:
         if (
             exporter.format_name == format_or_extension
@@ -1145,3 +1506,18 @@ def get_exporter(format_or_extension: str) -> type[Exporter] | None:
             return exporter
 
     return None
+
+
+__all__ = [
+    "Exporter",
+    "LatexExporter",
+    "CssExporter",
+    "LessExporter",
+    "TextualExporter",
+    "JavascriptExporter",
+    "SvgExporter",
+    "EXPORT_REGISTRY",
+    "get_exporter",
+    "CODE_FORMATTERS",
+]
+

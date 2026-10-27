@@ -12,7 +12,13 @@ from pygmentation.plot import (
     KNOWN_LATEX_PACKAGES,
     DocType,
     FontCategory,
-    _classify_font_file,
+    apply_plot_styles,
+    classify_font_name,
+    get_fonts,
+    is_latex_available,
+)
+from pygmentation.plot.font_category import _classify_font_file
+from pygmentation.plot.fonts import (
     _clean_tex_directory,
     _get_latex_fonts,
     _get_non_latex_fonts,
@@ -21,10 +27,6 @@ from pygmentation.plot import (
     _kpsewhich_target_exists,
     _resolve_font_types,
     _resolve_latex_package_from_path,
-    apply_plot_styles,
-    classify_font_name,
-    get_fonts,
-    is_latex_available,
 )
 from pygmentation.registry import registry
 

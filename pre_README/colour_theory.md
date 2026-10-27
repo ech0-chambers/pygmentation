@@ -12,7 +12,7 @@ For example, we may start from a pure blue and a pure yellow, and lighten both b
 
 ### Perceptual Uniformity: CIEDE2000 and Oklab / Oklch
 
-A perceptually uniform colour model is one in which a given change in coordinates produces the same visual change, regardless of the starting position. To put things more mathematically, if a starting colour $\vec{C}$ is shifted by some $\vec{t}$ to give a new colour $\vec{C}^\prime = \vec{C} + \vec{t}$, then the visual difference between $\vec{C}$ and $\vec{C}^\prime$ is always the same, no matter what $\vec{C}$ was.
+A perceptually uniform colour model is one in which a given change in coordinates produces the same visual change, regardless of the starting position. To put things more mathematically, if a starting colour $\vec{C}$ is shifted by some $\vec{t}$ to give a new colour $\vec{C^\prime} = \vec{C} + \vec{t}$, then the visual difference between $\vec{C}$ and $\vec{C^\prime}$ is always the same, no matter what $\vec{C}$ was.
 
 Neither RGB nor HSL are perceptually uniform. In terms of lightness, this is made clear by the comparison of yellow and blue above. For hue, this is readily demonstrated by comparing the perceived difference between two green hues and two blue hues separated by an identical $30^\circ$ angle in HSL:
 
@@ -26,10 +26,6 @@ Although both pairs are separated by exactly $30^\circ$ on the HSL colour wheel,
 In 1976, the International Commission on Illumination introduced the CIELAB ($L^*a^*b^*$) colour space. It maps colours on a scale of lightness (0 to 100), $a$ which represents green to red, with negative values more green and positive more red, and $b$ in which negative values are blue and positive values are yellow. It was intended to be perceptually uniform, based on human observations of colour under specific reference conditions. While a substantial improvement over RGB, CIELAB still exhibits perceptual distortions, particularly in blue and violet shades. 
 
 To address these shortcomings, the CIEDE2000 ($\Delta E_{00}$) colour difference formula was introduced. Rather than computing a simple geometric distance, CIEDE2000 applies several corrections:
-
-<!-- - Weighting functions ($S_L$, $S_C$, $S_H$) that adjust sensitivity depending on lightness, chroma, and hue.
-- A rotation term ($R_T$) to correct for distortion in the blue-violet region.
-- A neutral-grey adjustment ($G$) to improve accuracy for desaturated pastels. -->
 
 - Weighting functions which account for differences in sensitivity depending on the lightness, chroma, and hue.
 - A rotation term to correct for distortion in the blue-violet region.
@@ -63,16 +59,6 @@ Colour schemes in `pygmentation` are intended to be as close to drop-in replacem
 
 %%md.image(url = ("" if USE_RELATIVE else URL_BASE) + str(IMAGE_DIR / "rose_pine_dawn.svg"), description = "The Rose Pine Dawn light colour scheme rendered by Pygmentation.")
 
-<!-- The fundamental design principle of `pygmentation` is the **Contrast Invariant**:
-
-$$\text{Contrast}(\text{Variant } 1, \text{Background}) > \text{Contrast}(\text{Variant } 2, \text{Background}) > \dots > \text{Contrast}(\text{Variant } 5, \text{Background})$$
-
-Regardless of whether a scheme is light or dark, and regardless of whether the base colour is naturally bright or deep:
-
-- **Variant 1** always possesses the greatest contrast against the background colour. It is suited for prominent highlights, primary data series, and headings.
-- **Variant 5** always possesses the least contrast against the background colour. It is suited for subtle grid lines, alternating row shading, and unobtrusive borders.
-
-For dark themes (where the background is dark), variants are ordered from lightest to darkest. For light themes (where the background is light), variants are ordered from darkest to lightest. -->
 
 ---
 

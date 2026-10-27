@@ -1,3 +1,4 @@
+from . import models
 from .color import Color
 from .models import HSL, HSV, LAB, OKLAB, OKLCH, RGB, XYZ, ColorModel
 from .scheme import ColorFamily, ColorScheme, SchemeType
@@ -15,4 +16,6 @@ __all__ = [
     "SchemeType",
     "ColorFamily",
     "ColorScheme",
+    "models",
 ]
+

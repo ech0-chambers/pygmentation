@@ -4,18 +4,94 @@ from collections import Counter
 from collections.abc import Iterator, Sequence
 from enum import StrEnum
 from itertools import combinations
-from typing import overload
+from typing import Any, overload
 
 from .color import Color
 from .models import OKLCH, ColorModel
 
 
 class SchemeType(StrEnum):
+    """
+    An Enum for the type of scheme (light or dark theme).
+
+    Attributes
+    ----------
+    LIGHT
+        For light themes where the background colour is lighter than the
+        foreground colour.
+    DARK
+        For dark themes where the background colour is darker than the
+        foreground colour.
+    """
     LIGHT = "light"
     DARK = "dark"
 
 
 class ColorFamily:
+    r"""
+    Store a base colour and its variants, which can be supplied directly or
+    generated automatically.
+
+    Parameters
+    ----------
+    base : Color | str | ColorModel
+        The base colour, as a `Color` instance, a 6-character hex string with or
+        without a leading `#`, or any `ColorModel` subclass. The latter two will
+        be converted to a `Color` instance.
+    scheme_type : SchemeType | str
+        The type of scheme ("light" or "dark") to which this colour family
+        belongs.
+    light : Color | str | ColorModel | None, optional
+        The colour to use as the light reference in the scheme. This is usually
+        the background colour in a light theme, or the foreground colour in a
+        dark theme.
+    dark : Color | str | ColorModel | None, optional
+        The colour to use as the light reference in the scheme. This is usually
+        the background colour in a dark theme, or the foreground colour in a
+        light theme.
+    is_main : bool, optional
+        This should be `True` if the base colour is the foreground or background
+        colour of the scheme. If `True`, variant generation is adjusted
+        accordingly. See Notes for details.
+    variants : Sequence[Color | ColorModel | str] | None, optional
+        If provided, this should be a list of colours to use as the variants.
+        This list must contain exactly 5 elements. If this is `None`, the 5
+        variants will be generated as described in Notes.
+    chroma_blend : float, optional
+        The chroma blend factor. See Notes for details.
+
+    Attributes
+    ----------
+    variants : Sequence[Color | ColorModel | str] | None
+        A list of variant colours, ordered from the most contrast with the
+        background colour to the least.
+    base : Color
+        The base colour.
+    lightest : Color
+        The lightest colour in the family. This may be a variant or the base
+        colour.
+    darkest : Color
+        The darkest colour in the family. This may be a variant or the base
+        colour.
+    hex : str
+        The base colour as a 6-character uppercase hex string, without a leading
+        `#`.
+    css : str
+        The base colour as a 6-character uppercase hex string, with a leading
+        `#`.
+    chroma_blend : float
+        The chroma blend factor. See Notes for details.
+
+    Raises
+    ------
+    KeyError
+        If the supplied `scheme_type` cannot be converted to a `SchemeType` Enum
+        instance.
+    ValueError
+        If the supplied list of variants does not have exactly 5 elements.
+
+    
+    """
     __HUE_DIFF_THRESHOLD = 30
     __MIN_TARGET_LIGHTNESS = 0.1
     __MAX_TARGET_LIGHTNESS = 0.9
@@ -119,7 +195,28 @@ class ColorFamily:
             else:
                 self.variants.append(self.lighter(amount))
 
-    def darker(self, amount: float) -> Color:
+    def darker(self, amount: float, percentage: bool = False) -> Color:
+        """
+        Returns a darker variant of the base colour, accounting for the
+        foreground/background colour of the parent scheme.
+
+        Parameters
+        ----------
+        amount : float
+            Amount by which to darken the colour base colour.
+        percentage : bool, optional
+            If `True`, the `amount` will be treated as a percentage from 0 to
+            100. Otherwise, the amount is treated as a factor between 0 and 1.
+
+        Returns
+        -------
+        Color
+            The darkened colour.
+        """
+
+        if percentage:
+            amount /= 100
+
         # If the "dark" colour provided has a similar hue to the base colour, we'll also subtly shift towards that hue rather than just changing the lightness
         use_dark = (
             abs(self._base.hue_diff_oklch(self._dark)) < self.__HUE_DIFF_THRESHOLD
@@ -134,7 +231,28 @@ class ColorFamily:
         )
         return Color(new_color.oklch.with_c(self._base.oklch.c + (self._dark.oklch.c - self._base.oklch.c) * abs(amount) * self.chroma_blend))
 
-    def lighter(self, amount: float) -> Color:
+    def lighter(self, amount: float, percentage: bool = False) -> Color:
+        """
+        Returns a lighter variant of the base colour, accounting for the
+        foreground/background colour of the parent scheme.
+
+        Parameters
+        ----------
+        amount : float
+            Amount by which to lighten the colour base colour.
+        percentage : bool, optional
+            If `True`, the `amount` will be treated as a percentage from 0 to
+            100. Otherwise, the amount is treated as a factor between 0 and 1.
+
+        Returns
+        -------
+        Color
+            The lightened colour.
+        """
+
+        if percentage:
+            amount /= 100
+
         # If the "light" colour provided has a similar hue to the base colour, we'll also subtly shift towards that hue rather than just changing the lightness
         use_light = (
             abs(self._base.hue_diff_oklch(self._light)) < self.__HUE_DIFF_THRESHOLD
@@ -202,6 +320,22 @@ class ColorFamily:
         return self._chroma_blend
 
     def index(self, color: Color) -> int | None:
+        """
+        Find the index of a colour in the colour family, if it is part of the
+        colour family.
+
+        Parameters
+        ----------
+        color : Color
+            The colour to locate within the family.
+
+        Returns
+        -------
+        int | None
+            Returns `None` if the colour is not part of the colour family.
+            Returns `0` if the colour is the base colour of the family. Returns
+            `1` to `5` if the colour is a variant.
+        """
         # returns 0 if the color is this family's base, 1-5 if it's a variant, or None if it doesn't appear in this family.
         if color == self.base:
             return 0
@@ -249,6 +383,101 @@ class ColorFamily:
 
 
 class ColorScheme:
+    """
+    Create a colour scheme from a set of base colours. At minimum, a scheme
+    needs a foreground colour, a background colour, and at least one accent
+    colour. Optionally, it may also contain any number of surface colours.
+
+    Parameters
+    ----------
+    scheme : dict
+        The scheme's base colours. See Notes for the dict structure. All colours
+        should be specified as 6-character hex strings, without a leading `#`.
+    scheme_type : SchemeType | str
+        The type of scheme ("light" or "dark").
+    name : str | None, optional
+        The scheme name. This will be used in some output formats, namely the
+        svg output.
+
+    Attributes
+    ----------
+    name : str | None
+        The scheme name.
+    foreground : ColorFamily
+        The scheme's foreground colour family, typically used for text.
+    background : ColorFamily
+        The scheme's background colour family.
+    accents : list[ColorFamily]
+        The list of accent colour families in the scheme.
+    distinct : list[ColorFamily]
+        A subset of accent colour families filtered to exclude colours that
+        are perceptually too close to one another (Euclidean distance in Oklab
+        colour space below 15), preserved in their original accent order.
+    surfaces : list[ColorFamily]
+        The list of surface colour families, sorted by lightness.
+    auto_surface : ColorFamily
+        An automatically generated surface colour family derived from the
+        background colour.
+    aliases : dict[str, ColorFamily]
+        Mapping of semantic colour names to their best-matching accent colour
+        family.
+    red : ColorFamily
+        Accent colour family best matching the reference red.
+    orange : ColorFamily
+        Accent colour family best matching the reference orange.
+    yellow : ColorFamily
+        Accent colour family best matching the reference yellow.
+    green : ColorFamily
+        Accent colour family best matching the reference green.
+    cyan : ColorFamily
+        Accent colour family best matching the reference cyan.
+    blue : ColorFamily
+        Accent colour family best matching the reference blue.
+    purple : ColorFamily
+        Accent colour family best matching the reference purple.
+    magenta : ColorFamily
+        Accent colour family best matching the reference magenta.
+    error : ColorFamily
+        Semantic colour family for error states (alias for `red`).
+    warning : ColorFamily
+        Semantic colour family for warning states (alias for `yellow`, or
+        `orange` if yellow and green resolve to the same accent).
+    success : ColorFamily
+        Semantic colour family for success states (alias for `green`).
+    info : ColorFamily
+        Semantic colour family for informational states (alias for `blue`).
+
+    Raises
+    ------
+    KeyError
+        If `foreground`, `background`, or `accents` is not a key in the scheme
+        dictionary.
+    ValueError
+        If any value in the scheme dictionary is not the expected type. See
+        Notes for the expected dictionary structure.
+
+    Notes
+    -----
+    The scheme dictionary should have the following structure:
+    ```python3
+    scheme = {
+        "foreground": "000000",     # Mandatory
+        "background": "000000",     # Mandatory
+        "accents": [                # Mandatory. Must contain at least one
+            "000000",               # accent colour
+            "000000",
+            ...
+        ],
+        "surfaces" : [              # Optional. Can be omitted, or an empty list
+            "000000",
+            "000000",
+            ...
+        ]
+    }
+    ```
+    The `accents` and `surfaces` (if provided) fields must be a list, even if
+    they only contain one element.
+"""
     __ALIAS_COLORS = {
         # (start, end, centre)
         "red": (345, 30, 20),
@@ -362,7 +591,7 @@ class ColorScheme:
             key=lambda c: c.base.oklab.l, reverse=self._scheme_type == SchemeType.DARK
         )
 
-        self._aliases = self.determine_aliases()
+        self._aliases = self._determine_aliases()
 
         # List of accent colours excluding any that are too similar to other accents
         self._distinct_accents = [self._accents[0]]
@@ -460,7 +689,7 @@ class ColorScheme:
 
         return hue_cost + lightness_cost + chroma_cost
 
-    def determine_aliases(self) -> dict[str, ColorFamily]:
+    def _determine_aliases(self) -> dict[str, ColorFamily]:
         reuse_penalty = 15.0
         # TODO: Maybe re-implement the background compensation?
         # background_compensation = 0.2
@@ -503,6 +732,24 @@ class ColorScheme:
         return resolved
 
     def high_contrast(self, n: int) -> list[ColorFamily]:
+        """
+        Finds the `n` accent colours which collectively have the highest
+        possible contrast. Note that in general, the colours contained in
+        `scheme.high_contrast(n)` will not be a subset of the colours contained
+        in `scheme.high_contrast(n + m)`. If the number of colours needed is
+        unknown and you need stable colour order, use `scheme.distinct`.
+
+        Parameters
+        ----------
+        n : int
+            The number of colours to return.
+
+        Returns
+        -------
+        list[ColorFamily]
+            The `n` colours which collectively have the highest possible
+            contrast.
+        """
         if n <= 0:
             return []
         if n == 1:
@@ -687,7 +934,26 @@ class ColorScheme:
 
     def get_canonical_name(
         self, color_family: ColorFamily
-    ) -> tuple[str, int | None] | None:
+    ) -> tuple[str, int | None] | tuple[None, None]:
+        """
+        If a colour family is part of the scheme, find it's canonical name.
+
+        Parameters
+        ----------
+        color_family : ColorFamily
+            The colour family to identify.
+
+        Returns
+        -------
+        attribute: str | None
+            The attribute on `ColorScheme` under which the colour family is
+            found. If the colour family is not part of the scheme, this is None.
+        index: int | None
+            The index into the attribute at which the colour family is found. If
+            the colour family is the foreground, background, or auto_surface
+            colour this is None. If the colour family is not part of the scheme,
+            this is also None.
+        """
         if self.foreground == color_family:
             return "foreground", None
 
@@ -705,7 +971,7 @@ class ColorScheme:
         if self.auto_surface == color_family:
             return "auto_surface", None
 
-        return None
+        return None, None
 
     def __iter__(self):
         yield self.foreground
@@ -715,3 +981,52 @@ class ColorScheme:
         for c in self.surfaces:
             yield c
         yield self.auto_surface
+
+    def export(
+        self,
+        format_or_exporter: str | type[Any],
+        **kwargs: Any,
+    ) -> str:
+        """
+        Export this colour scheme to an external format string.
+
+        Parameters
+        ----------
+        format_or_exporter : str | type[Exporter]
+            The export format name (e.g. 'css', 'svg', 'latex'), file extension
+            (e.g. '.css', '.svg', '.tex'), or an `Exporter` subclass.
+        **kwargs : Any
+            Additional keyword arguments passed to the exporter's initializer.
+
+        Returns
+        -------
+        str
+            The exported colour scheme representation.
+
+        Raises
+        ------
+        ValueError
+            If the requested format or exporter cannot be found.
+        TypeError
+            If `format_or_exporter` is not a string or `Exporter` subclass.
+        """
+        from pygmentation.exporters import Exporter, get_exporter
+
+        if isinstance(format_or_exporter, type) and issubclass(
+            format_or_exporter, Exporter
+        ):
+            exporter_cls = format_or_exporter
+        elif isinstance(format_or_exporter, str):
+            exporter_cls = get_exporter(format_or_exporter)
+            if exporter_cls is None:
+                raise ValueError(
+                    f"Unknown export format: '{format_or_exporter}'."
+                )
+        else:
+            raise TypeError(
+                f"Expected str format or Exporter subclass, got "
+                f"{type(format_or_exporter).__name__}."
+            )
+
+        return exporter_cls(**kwargs).export(self)
+

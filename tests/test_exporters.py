@@ -334,19 +334,19 @@ def test_exporter_save_method(sample_nord_scheme, tmp_path):
 
 def test_svg_element_helper():
     # Self-closing element when content is None
-    circle = SvgExporter.svg_element("circle", cx=10, cy=20, r=5)
+    circle = SvgExporter._svg_element("circle", cx=10, cy=20, r=5)
     assert circle == '<circle cx="10" cy="20" r="5" />'
 
     # Paired element with text content
-    title = SvgExporter.svg_element("title", content="My Title")
+    title = SvgExporter._svg_element("title", content="My Title")
     assert title == "<title>My Title</title>"
 
     # None values are omitted
-    rect = SvgExporter.svg_element("rect", x=0, y=0, stroke=None)
+    rect = SvgExporter._svg_element("rect", x=0, y=0, stroke=None)
     assert 'stroke="' not in rect
 
     # Key conversion: snake_case to kebab-case
-    line = SvgExporter.svg_element(
+    line = SvgExporter._svg_element(
         "line", stroke_width=2, stroke_opacity=0.5, stroke="#333"
     )
     assert 'stroke-width="2"' in line
@@ -354,31 +354,31 @@ def test_svg_element_helper():
     assert 'stroke="#333"' in line
 
     # Class parameter as string and list
-    elem_str = SvgExporter.svg_element("g", class_="group-a")
+    elem_str = SvgExporter._svg_element("g", class_="group-a")
     assert 'class="group-a"' in elem_str
 
-    elem_list = SvgExporter.svg_element("g", class_=["group-a", "active"])
+    elem_list = SvgExporter._svg_element("g", class_=["group-a", "active"])
     assert 'class="group-a active"' in elem_list
 
     # Class via cls or kwargs
-    elem_cls = SvgExporter.svg_element("g", cls="group-b")
+    elem_cls = SvgExporter._svg_element("g", cls="group-b")
     assert 'class="group-b"' in elem_cls
 
-    elem_kw = SvgExporter.svg_element("g", **{"class": "group-c"})
+    elem_kw = SvgExporter._svg_element("g", **{"class": "group-c"})
     assert 'class="group-c"' in elem_kw
 
 
 def test_svg_text_helper():
     # Basic text with default anchor
-    text_elem = SvgExporter.svg_text("Hello", x=10, y=20)
+    text_elem = SvgExporter._svg_text("Hello", x=10, y=20)
     assert text_elem == '<text x="10" y="20" text-anchor="middle">Hello</text>'
 
     # Custom anchor
-    text_end = SvgExporter.svg_text("End Label", x=100, y=20, anchor="end")
+    text_end = SvgExporter._svg_text("End Label", x=100, y=20, anchor="end")
     assert text_end == '<text x="100" y="20" text-anchor="end">End Label</text>'
 
     # Styling and typography attributes with underscore conversion
-    styled = SvgExporter.svg_text(
+    styled = SvgExporter._svg_text(
         "Styled",
         x=50,
         y=60,
@@ -397,37 +397,37 @@ def test_svg_text_helper():
     assert ">Styled</text>" in styled
 
     # HTML escaping in text content
-    escaped = SvgExporter.svg_text("A & B <C>", x=0, y=0)
+    escaped = SvgExporter._svg_text("A & B <C>", x=0, y=0)
     assert ">A &amp; B &lt;C&gt;</text>" in escaped
 
     # List of classes
-    multi_class = SvgExporter.svg_text("Multi", 0, 0, class_=["pyg-label", "extra"])
+    multi_class = SvgExporter._svg_text("Multi", 0, 0, class_=["pyg-label", "extra"])
     assert 'class="pyg-label extra"' in multi_class
 
 
 def test_svg_rect_helper():
     # Basic rectangle
-    rect = SvgExporter.svg_rect(x=10, y=20, width=80, height=40)
+    rect = SvgExporter._svg_rect(x=10, y=20, width=80, height=40)
     assert rect == '<rect x="10" y="20" width="80" height="40" />'
 
     # Rounded rectangle with rx and fill
-    rounded = SvgExporter.svg_rect(
+    rounded = SvgExporter._svg_rect(
         x=5, y=10, width=50, height=25, rx=4, fill="#5E81AC"
     )
     assert rounded == '<rect x="5" y="10" width="50" height="25" rx="4" fill="#5E81AC" />'
 
     # Using corner_radius alias for rx
-    cr_rect = SvgExporter.svg_rect(
+    cr_rect = SvgExporter._svg_rect(
         x=0, y=0, width=100, height=50, corner_radius=6, fill="#FFF"
     )
     assert 'rx="6"' in cr_rect
 
     # Percentage coordinates for background
-    bg = SvgExporter.svg_rect(width="100%", height="100%", fill="#2E3440")
+    bg = SvgExporter._svg_rect(width="100%", height="100%", fill="#2E3440")
     assert bg == '<rect width="100%" height="100%" fill="#2E3440" />'
 
     # Stroke and stroke_width
-    stroked = SvgExporter.svg_rect(
+    stroked = SvgExporter._svg_rect(
         x=0, y=0, width=10, height=10, stroke="#000", stroke_width=1
     )
     assert 'stroke="#000"' in stroked
@@ -436,7 +436,7 @@ def test_svg_rect_helper():
 
 def test_svg_line_helper():
     # Divider line
-    line = SvgExporter.svg_line(
+    line = SvgExporter._svg_line(
         x1=24,
         y1=71.5,
         x2=812,
@@ -476,6 +476,27 @@ def test_svg_exporter_output_and_methods(sample_nord_scheme):
     assert "<rect" in output
     assert "<line" in output
     assert "<text" in output
+    assert 'class="pyg-palette-swatch"' in output
+    assert 'class="pyg-palette-label"' in output
+    assert 'class="pyg-palette-title"' in output
+    assert 'class="pyg-palette-header"' in output
+    assert f'data-hex="{sample_nord_scheme.foreground.base.css}"' in output
+    assert f'data-bg="{sample_nord_scheme.background.base.css}"' in output
+    assert f'data-fg="{sample_nord_scheme.foreground.base.css}"' in output
+
+    assert exporter.embed_font is True
+    assert "@font-face" in output
+    assert "data:font/woff2" in output
+
+    # Export without embedded font
+    exporter_no_font = SvgExporter(embed_font=False)
+    assert exporter_no_font.embed_font is False
+    output_no_font = exporter_no_font.export(sample_nord_scheme)
+    assert "@font-face" not in output_no_font
+    assert "data:font/woff2" not in output_no_font
+    assert "font-family:" in output_no_font
+    assert "Fira Code" in output_no_font
+    assert "Fira Mono" in output_no_font
 
     # Export with code_type
     exporter_rgb = SvgExporter(code_type="rgb")

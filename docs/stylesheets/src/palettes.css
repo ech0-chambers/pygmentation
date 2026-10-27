@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Scheme Palettes Explorer Page
+   ========================================================================== */
+
+.pyg-palette-explorer {
+  margin: 1.5rem 0;
+}
+
+.pyg-palette-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background-color: var(--md-default-bg-color--lighter);
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.pyg-palette-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.pyg-palette-control-group label.pyg-label {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.pyg-search-group {
+  flex: 2 1 220px;
+}
+
+.pyg-select-group {
+  flex: 2 1 220px;
+}
+
+.pyg-toggle-group-wrapper {
+  flex: 1 1 140px;
+}
+
+.pyg-palette-control-group .pyg-search-input,
+.pyg-palette-control-group .pyg-select {
+  height: 1.5rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.pyg-search-input:focus,
+.pyg-select:focus {
+  outline: none;
+  border-color: var(--md-primary-fg-color);
+}
+
+.pyg-palette-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background-color: var(--md-default-bg-color);
+  box-sizing: border-box;
+  transition: opacity 0.15s ease;
+}
+
+.pyg-palette-display svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.pyg-palette-display svg text {
+  text-transform: none;
+}
+
+/* Swatches hover & cursor */
+.pyg-palette-swatch {
+  cursor: pointer;
+  transition: opacity 0.15s ease, stroke 0.15s ease;
+}
+
+.pyg-palette-swatch:hover {
+  opacity: 0.85;
+  stroke: var(--md-default-fg-color) !important;
+  stroke-width: 1.5px !important;
+}
+
+/* Fixed Swatch Floating Tooltip */
+.pyg-swatch-tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  background: var(--md-code-bg-color, #1e1e2e);
+  color: var(--md-code-fg-color, #cdd6f4);
+  border: 1px solid var(--md-default-fg-color--lighter, #45475a);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}
+
+.pyg-palette-toggle.md-button {
+  padding: 0.2em 0.8em;
+  font-size: 0.75rem;
+  margin: 0;
+  min-height: unset;
+  line-height: 1.25;
+}

@@ -1,0 +1,3 @@
+# Registry
+
+::: pygmentation.registry

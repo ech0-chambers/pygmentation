@@ -431,7 +431,7 @@ def test_scheme_get_canonical_name(sample_nord_dict):
 
     # Unknown family returns None
     unknown = ColorFamily("123456", SchemeType.DARK)
-    assert scheme.get_canonical_name(unknown) is None
+    assert scheme.get_canonical_name(unknown) == (None, None)
 
 
 # Auto-Surface Tests
@@ -743,3 +743,34 @@ def test_scheme_dist_to_hue_range():
     assert dist(40, 345, 30) == pytest.approx(10.0)
     # 335 is 10 deg from 345
     assert dist(335, 345, 30) == pytest.approx(10.0)
+
+
+def test_scheme_export(sample_nord_dict):
+    scheme = ColorScheme(sample_nord_dict, SchemeType.DARK, name="nord")
+    # Export via format name string
+    css_output = scheme.export("css")
+    assert "--clr-foreground:" in css_output
+    assert "--clr-background:" in css_output
+
+    # Export via file extension
+    svg_output = scheme.export(".svg")
+    assert "<svg" in svg_output
+
+    # Export via Exporter class
+    from pygmentation.exporters import CssExporter
+
+    class_output = scheme.export(CssExporter)
+    assert class_output == css_output
+
+    # Export with kwargs
+    svg_no_font = scheme.export("svg", embed_font=False)
+    assert "@font-face" not in svg_no_font
+
+    # Unknown format raises ValueError
+    with pytest.raises(ValueError, match="Unknown export format"):
+        scheme.export("nonexistent_format")
+
+    # Invalid type raises TypeError
+    with pytest.raises(TypeError, match="Expected str format or Exporter subclass"):
+        scheme.export(123)  # type: ignore[arg-type]
+

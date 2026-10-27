@@ -10,6 +10,19 @@ T = TypeVar("T", bound="ColorModel")
 
 
 class ColorModel(ABC):
+    """
+    This is the base class for all colour models. Currently, only 3-channel
+    colour models are supported. To add a new colour model, extend from this
+    class and define the class variable `BOUNDS`.
+
+    Attributes
+    ----------
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        The bounds for the three channels of the colour model. Each element
+        defines the lower and upper bound (in that order) of a channel. A value
+        of `None` indicates that it is not bound in that dimension. This must be
+        overwritten in any subclass.
+    """
     BOUNDS: ClassVar[tuple[tuple[float | None, float | None], ...]] = ()
     _registry: ClassVar[dict[str, type[ColorModel]]] = {}
 
@@ -74,11 +87,40 @@ class ColorModel(ABC):
 
     @abstractmethod
     def to_xyz(self) -> tuple[float, float, float]:
+        """
+        Converts the colour model into the CIE XYZ colour model represented as a
+        tuple of floats. For any conversions without a direct route, XYZ is used
+        as an intermediary representation, so all colour models must implement a
+        `to_xyz` and `from_xyz` method.
+
+        Returns
+        -------
+        tuple[float, float, float]
+            The CIE XYZ representation of the colour.
+        """
         pass
 
     @classmethod
     @abstractmethod
     def from_xyz(cls, *xyz: float | tuple[float, float, float]) -> Self:
+        """
+        Instantiate a new instance of the colour model from the CIE XYZ
+        representation of the colour. For any conversions without a direct
+        route, XYZ is used as an intermediary representation, so all colour
+        models must implement a `to_xyz` and `from_xyz` method.
+
+        Parameters
+        ----------
+        *xyz : float | tuple[float, float, float]
+            The colour in the CIE XYZ colour model. This can be provided as
+            three separate arguments (`cls.from_xyz(0.2, 0.3, 0.4)`) or as a
+            list or tuple of floats (`cls.from_xyz([0.2, 0.3, 0.4])`).
+
+        Returns
+        -------
+        Self
+            A new instance of the colour model.
+        """
         pass
 
     @staticmethod
@@ -104,6 +146,31 @@ class ColorModel(ABC):
     def convert_to(self, new_model: str) -> ColorModel | str: ...
 
     def convert_to(self, new_model: str | type[ColorModel]) -> ColorModel | str:
+        """
+        Convert to another colour model. Where direct conversion routes are
+        available, these will be used, otherwise CIE XYZ is used as an
+        intermediary format to avoid clipping.
+
+        Parameters
+        ----------
+        new_model : str | type[ColorModel]
+            The colour model to convert to. This can be any colour model as a
+            string (e.g. "hsl", "oklab"), the special strings "hex" and "css",
+            or a ColourModel subclass.
+
+        Returns
+        -------
+        ColorModel | str
+            The colour in the new colour model, or as a hex string (no leading
+            `#`) or CSS string (leading `#`).
+
+        Raises
+        ------
+        ValueError
+            If an unknown colour model is supplied as a string.
+        TypeError
+            If the argument is not a string or ColourModel subclass.
+        """
         if isinstance(new_model, str):
             name = new_model.lower()
             if name == "hex":
@@ -148,6 +215,14 @@ class ColorModel(ABC):
         return target_cls.from_xyz(self.to_xyz())
 
     def as_tuple(self) -> tuple[float, float, float]:
+        """
+        Returns the colour as a tuple of floats.
+
+        Returns
+        -------
+        tuple[float, float, float]
+            The colour in the given colour model.
+        """
         a, b, c = self
         return (float(a), float(b), float(c))
 
@@ -189,6 +264,37 @@ class _RGB_255(NamedTuple):
 
 @dataclass(frozen=True, slots=True)
 class RGB(ColorModel):
+    """
+    sRGB representation of the colour, with red, blue, and green channels as
+    floats in the range 0 to 1.
+
+    Parameters
+    ----------
+    r : float
+        Red channel value (0.0 to 1.0).
+    g : float
+        Green channel value (0.0 to 1.0).
+    b : float
+        Blue channel value (0.0 to 1.0).
+    clamp : bool, optional
+        If `False` (default), out of bounds input values raise an exception. If
+        `True`, they are instead clamped to the bounds.
+
+    Attributes
+    ----------
+    r : float
+        Red channel value (0.0 to 1.0).
+    g : float
+        Green channel value (0.0 to 1.0).
+    b : float
+        Blue channel value (0.0 to 1.0).
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        Specifies the lower and upper bound for each dimension of the colour
+        model. For `RGB`, this is (0.0, 1.0) for each channel.
+    as_255 : _RGB_255
+        A named tuple with properties `r`, `g`, and `b` representing the red,
+        green, and blue channels as integers from 0 to 255.
+    """
     r: float
     g: float
     b: float
@@ -218,6 +324,34 @@ class RGB(ColorModel):
         *rgb: float | int | tuple[float | int, float | int, float | int] | list[float | int] | _RGB_255,
         clamp: bool = False,
     ) -> Self:
+        """
+        Instantiate an `RGB` instance from 8-bit integer channel values (0 to
+        255).
+
+        Parameters
+        ----------
+        *rgb : float | int | tuple[float | int, float | int, float | int] | list[float | int] | _RGB_255
+            The red, green, and blue channel values between 0 and 255. These can
+            be passed as three arguments (`RGB.from_255(23, 27, 90)`) or as a
+            list or tuple (`RGB.from_255([23, 27, 90])`). A named tuple from
+            `RGB.as_255` is also accepted. Floats will be rounded to the nearest
+            integer.
+        clamp : bool, optional
+            If `False`, arguments which are outside the range of 0 to 255 will
+            raise an exception. If `True`, they will instead be clamped to the
+            range 0 to 255.
+
+        Returns
+        -------
+        Self
+            An `RGB` instance.
+
+        Raises
+        ------
+        ValueError
+            If `clamp = False` and one or more argument is outside the range 0
+            to 255.
+        """
         if len(rgb) == 1 and isinstance(rgb[0], (tuple, list)):
             inner = rgb[0]
             if len(inner) != 3:
@@ -240,6 +374,21 @@ class RGB(ColorModel):
 
     @classmethod
     def from_hex(cls, hex: str) -> Self:
+        """
+        Instantiate an `RGB` instance from a 6-character hex string (with or
+        without a leading `#`). If present, any additional characters such as an
+        alpha channel will be ignored.
+
+        Parameters
+        ----------
+        hex : str
+            The hex code, such as `"1E1E2E`" or `"#5f6f90"`.
+
+        Returns
+        -------
+        Self
+            An `RGB` instance with the appropriate channel values.
+        """
         clean = hex.lstrip("#")
         return cls.from_255(
             int(clean[0:2], 16),
@@ -248,21 +397,106 @@ class RGB(ColorModel):
         )
 
     def to_hex(self) -> str:
+        """
+        Convert to a 6-character uppercase hex string (without a leading `#`),
+        e.g. `"0F0014"`. Channel values are rounded to the nearest integer.
+
+        Returns
+        -------
+        str
+            The RGB hex string representation of the colour.
+        """
         c = self.as_255
         return f"{c.r:0>2X}{c.g:0>2X}{c.b:0>2X}"
 
     def with_r(self, val: float) -> Self:
+        """
+        Create a new `RGB` instance with the same green and blue channel values,
+        but the specified red channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the red channel.
+
+        Returns
+        -------
+        Self
+            A new `RGB` instance with the same green and blue channel values,
+            but the specified red channel value.
+        """
         return self._with_a(val)
 
     def with_g(self, val: float) -> Self:
+        """
+        Create a new `RGB` instance with the same red and blue channel values,
+        but the specified green channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the green channel.
+
+        Returns
+        -------
+        Self
+            A new `RGB` instance with the same red and blue channel values, but
+            the specified green channel value.
+        """
         return self._with_b(val)
 
     def with_b(self, val: float) -> Self:
+        """
+        Create a new `RGB` instance with the same red and green channel values,
+        but the specified blue channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the blue channel.
+
+        Returns
+        -------
+        Self
+            A new `RGB` instance with the same red and green channel values, but
+            the specified blue channel value.
+        """
         return self._with_c(val)
 
 
 @dataclass(frozen=True, slots=True)
 class HSL(ColorModel):
+    """
+    HSL representation of the colour, with hue as degrees, and saturation and
+    lightness as floats in the range 0 to 1.
+
+    Parameters
+    ----------
+    h : float
+        Hue value in degrees (0.0 to 360.0). Note that hues outside this range
+        wrap modulo 360, and therefore never raise an exception regardless of
+        the value of `clamp`.
+    s : float
+        Saturation value (0.0 to 1.0).
+    l : float
+        Lightness value (0.0 to 1.0).
+    clamp : bool, optional
+        If `False` (default), out of bounds input values raise an exception. If
+        `True`, they are instead clamped to the bounds.
+
+    Attributes
+    ----------
+    h : float
+        Hue value in degrees (0.0 to 360.0).
+    s : float
+        Saturation value (0.0 to 1.0).
+    l : float
+        Lightness value (0.0 to 1.0).
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        Specifies the lower and upper bound for each dimension of the colour
+        model. For `HSL`, this is (0, 360) for hue, and (0, 1) for saturation
+        and lightness.
+    """
     h: float
     s: float
     l: float
@@ -327,17 +561,92 @@ class HSL(ColorModel):
         return cls._from_full_rgb(rgb)
 
     def with_h(self, val: float) -> Self:
+        """
+        Create a new `HSL` instance with the same saturation and lightness
+        channel values, but the specified hue value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the hue channel.
+
+        Returns
+        -------
+        Self
+            A new `HSL` instance with the same saturation and lightness channel
+            values, but the specified hue value.
+        """
         return self._with_a(val)
 
     def with_s(self, val: float) -> Self:
+        """
+        Create a new `HSL` instance with the same hue and lightness channel
+        values, but the specified saturation value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the saturation channel.
+
+        Returns
+        -------
+        Self
+            A new `HSL` instance with the same hue and lightness channel values,
+            but the specified saturation value.
+        """
         return self._with_b(val)
 
     def with_l(self, val: float) -> Self:
+        """
+        Create a new `HSL` instance with the same hue and saturation channel
+        values, but the specified lightness value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the lightness channel.
+
+        Returns
+        -------
+        Self
+            A new `HSL` instance with the same hue and saturation channel
+            values, but the specified lightness value.
+        """
         return self._with_c(val)
 
 
 @dataclass(frozen=True, slots=True)
 class HSV(ColorModel):
+    """
+    HSV representation of the colour, with hue as degrees, and saturation and
+    value as floats in the range 0 to 1.
+
+    Parameters
+    ----------
+    h : float
+        Hue value in degrees (0.0 to 360.0). Note that hues outside this range
+        wrap modulo 360.
+    s : float
+        Saturation value (0.0 to 1.0).
+    v : float
+        Value (brightness) channel value (0.0 to 1.0).
+    clamp : bool, optional
+        If `False` (default), out of bounds input values raise an exception. If
+        `True`, they are instead clamped to the bounds.
+
+    Attributes
+    ----------
+    h : float
+        Hue value in degrees (0.0 to 360.0).
+    s : float
+        Saturation value (0.0 to 1.0).
+    v : float
+        Value (brightness) channel value (0.0 to 1.0).
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        Specifies the lower and upper bound for each dimension of the colour
+        model. For `HSV`, this is (0, 360) for hue, and (0, 1) for saturation
+        and value.
+    """
     h: float
     s: float
     v: float
@@ -402,17 +711,90 @@ class HSV(ColorModel):
         return cls._from_full_rgb(rgb)
 
     def with_h(self, val: float) -> Self:
+        """
+        Create a new `HSV` instance with the same saturation and value channel
+        values, but the specified hue value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the hue channel.
+
+        Returns
+        -------
+        Self
+            A new `HSV` instance with the same saturation and value channel
+            values, but the specified hue value.
+        """
         return self._with_a(val)
 
     def with_s(self, val: float) -> Self:
+        """
+        Create a new `HSV` instance with the same hue and value channel values,
+        but the specified saturation value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the saturation channel.
+
+        Returns
+        -------
+        Self
+            A new `HSV` instance with the same hue and value channel values, but
+            the specified saturation value.
+        """
         return self._with_b(val)
 
     def with_v(self, val: float) -> Self:
+        """
+        Create a new `HSV` instance with the same hue and saturation channel
+        values, but the specified value channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the value (brightness) channel.
+
+        Returns
+        -------
+        Self
+            A new `HSV` instance with the same hue and saturation channel
+            values, but the specified value channel value.
+        """
         return self._with_c(val)
 
 
 @dataclass(frozen=True, slots=True)
 class XYZ(ColorModel):
+    """
+    CIE 1931 XYZ representation of the colour.
+
+    Parameters
+    ----------
+    x : float
+        X tristimulus value (0.0 or greater).
+    y : float
+        Y tristimulus value / luminance (0.0 or greater).
+    z : float
+        Z tristimulus value (0.0 or greater).
+    clamp : bool, optional
+        If `False` (default), out of bounds input values raise an exception. If
+        `True`, they are instead clamped to the bounds.
+
+    Attributes
+    ----------
+    x : float
+        X tristimulus value (0.0 or greater).
+    y : float
+        Y tristimulus value / luminance (0.0 or greater).
+    z : float
+        Z tristimulus value (0.0 or greater).
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        Specifies the lower and upper bound for each dimension of the colour
+        model. For `XYZ`, each channel has a lower bound of 0.0 and no upper
+        bound.
+    """
     x: float
     y: float
     z: float
@@ -432,17 +814,91 @@ class XYZ(ColorModel):
         return cls(coords[0], coords[1], coords[2], clamp=True)
 
     def with_x(self, val: float) -> Self:
+        """
+        Create a new `XYZ` instance with the same y and z channel values, but
+        the specified x channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the x channel.
+
+        Returns
+        -------
+        Self
+            A new `XYZ` instance with the same y and z channel values, but the
+            specified x channel value.
+        """
         return self._with_a(val)
 
     def with_y(self, val: float) -> Self:
+        """
+        Create a new `XYZ` instance with the same x and z channel values, but
+        the specified y channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the y channel.
+
+        Returns
+        -------
+        Self
+            A new `XYZ` instance with the same x and z channel values, but the
+            specified y channel value.
+        """
         return self._with_b(val)
 
     def with_z(self, val: float) -> Self:
+        """
+        Create a new `XYZ` instance with the same x and y channel values, but
+        the specified z channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the z channel.
+
+        Returns
+        -------
+        Self
+            A new `XYZ` instance with the same x and y channel values, but the
+            specified z channel value.
+        """
         return self._with_c(val)
 
 
 @dataclass(frozen=True, slots=True)
 class LAB(ColorModel):
+    """
+    CIE 1976 L*a*b* representation of the colour.
+
+    Parameters
+    ----------
+    l : float
+        Lightness channel value (0.0 or greater).
+    a : float
+        Green-red opponent channel value (negative for green, positive for red).
+    b : float
+        Blue-yellow opponent channel value (negative for blue, positive for
+        yellow).
+    clamp : bool, optional
+        If `False` (default), out of bounds input values raise an exception. If
+        `True`, they are instead clamped to the bounds.
+
+    Attributes
+    ----------
+    l : float
+        Lightness channel value (0.0 or greater).
+    a : float
+        Green-red opponent channel value.
+    b : float
+        Blue-yellow opponent channel value.
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        Specifies the lower and upper bound for each dimension of the colour
+        model. For `LAB`, lightness has a lower bound of 0.0 and no upper bound;
+        a and b are unbounded.
+    """
     l: float
     a: float
     b: float
@@ -487,17 +943,91 @@ class LAB(ColorModel):
         return cls(116 * y - 16, 500 * (x - y), 200 * (y - z), clamp=True)
 
     def with_l(self, val: float) -> Self:
+        """
+        Create a new `LAB` instance with the same a and b channel values, but
+        the specified lightness value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the lightness channel.
+
+        Returns
+        -------
+        Self
+            A new `LAB` instance with the same a and b channel values, but the
+            specified lightness channel value.
+        """
         return self._with_a(val)
 
     def with_a(self, val: float) -> Self:
+        """
+        Create a new `LAB` instance with the same lightness and b channel
+        values, but the specified a channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the a channel.
+
+        Returns
+        -------
+        Self
+            A new `LAB` instance with the same lightness and b channel values,
+            but the specified a channel value.
+        """
         return self._with_b(val)
 
     def with_b(self, val: float) -> Self:
+        """
+        Create a new `LAB` instance with the same lightness and a channel
+        values, but the specified b channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the b channel.
+
+        Returns
+        -------
+        Self
+            A new `LAB` instance with the same lightness and a channel values,
+            but the specified b channel value.
+        """
         return self._with_c(val)
 
 
 @dataclass(frozen=True, slots=True)
 class OKLAB(ColorModel):
+    """
+    Oklab representation of the colour.
+
+    Parameters
+    ----------
+    l : float
+        Lightness channel value (0.0 or greater).
+    a : float
+        Green-red opponent channel value (negative for green, positive for red).
+    b : float
+        Blue-yellow opponent channel value (negative for blue, positive for
+        yellow).
+    clamp : bool, optional
+        If `False` (default), out of bounds input values raise an exception. If
+        `True`, they are instead clamped to the bounds.
+
+    Attributes
+    ----------
+    l : float
+        Lightness channel value (0.0 or greater).
+    a : float
+        Green-red opponent channel value.
+    b : float
+        Blue-yellow opponent channel value.
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        Specifies the lower and upper bound for each dimension of the colour
+        model. For `OKLAB`, lightness has a lower bound of 0.0 and no upper
+        bound; a and b are unbounded.
+    """
     l: float
     a: float
     b: float
@@ -571,17 +1101,91 @@ class OKLAB(ColorModel):
         return cls(L, a, b, clamp=True)
 
     def with_l(self, val: float) -> Self:
+        """
+        Create a new `OKLAB` instance with the same a and b channel values, but
+        the specified lightness value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the lightness channel.
+
+        Returns
+        -------
+        Self
+            A new `OKLAB` instance with the same a and b channel values, but the
+            specified lightness channel value.
+        """
         return self._with_a(val)
 
     def with_a(self, val: float) -> Self:
+        """
+        Create a new `OKLAB` instance with the same lightness and b channel
+        values, but the specified a channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the a channel.
+
+        Returns
+        -------
+        Self
+            A new `OKLAB` instance with the same lightness and b channel values,
+            but the specified a channel value.
+        """
         return self._with_b(val)
 
     def with_b(self, val: float) -> Self:
+        """
+        Create a new `OKLAB` instance with the same lightness and a channel
+        values, but the specified b channel value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the b channel.
+
+        Returns
+        -------
+        Self
+            A new `OKLAB` instance with the same lightness and a channel values,
+            but the specified b channel value.
+        """
         return self._with_c(val)
 
 
 @dataclass(frozen=True, slots=True)
 class OKLCH(ColorModel):
+    """
+    Oklch (cylindrical Oklab) representation of the colour.
+
+    Parameters
+    ----------
+    l : float
+        Lightness channel value (0.0 or greater).
+    c : float
+        Chroma channel value (0.0 or greater).
+    h : float
+        Hue value in degrees (0.0 to 360.0). Note that hues outside this range
+        wrap modulo 360.
+    clamp : bool, optional
+        If `False` (default), out of bounds input values raise an exception. If
+        `True`, they are instead clamped to the bounds.
+
+    Attributes
+    ----------
+    l : float
+        Lightness channel value (0.0 or greater).
+    c : float
+        Chroma channel value (0.0 or greater).
+    h : float
+        Hue value in degrees (0.0 to 360.0).
+    BOUNDS : tuple[tuple[float | None, float | None], ...]
+        Specifies the lower and upper bound for each dimension of the colour
+        model. For `OKLCH`, lightness has a lower bound of 0.0 and no upper
+        bound; chroma and hue are unbounded.
+    """
     l: float
     c: float
     h: float
@@ -617,10 +1221,55 @@ class OKLCH(ColorModel):
         return cls._from_oklab(OKLAB.from_xyz(coords))
 
     def with_l(self, val: float) -> Self:
+        """
+        Create a new `OKLCH` instance with the same chroma and hue channel
+        values, but the specified lightness value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the lightness channel.
+
+        Returns
+        -------
+        Self
+            A new `OKLCH` instance with the same chroma and hue channel values,
+            but the specified lightness channel value.
+        """
         return self._with_a(val)
 
     def with_c(self, val: float) -> Self:
+        """
+        Create a new `OKLCH` instance with the same lightness and hue channel
+        values, but the specified chroma value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the chroma channel.
+
+        Returns
+        -------
+        Self
+            A new `OKLCH` instance with the same lightness and hue channel
+            values, but the specified chroma channel value.
+        """
         return self._with_b(val)
 
     def with_h(self, val: float) -> Self:
+        """
+        Create a new `OKLCH` instance with the same lightness and chroma channel
+        values, but the specified hue value.
+
+        Parameters
+        ----------
+        val : float
+            New value for the hue channel.
+
+        Returns
+        -------
+        Self
+            A new `OKLCH` instance with the same lightness and chroma channel
+            values, but the specified hue channel value.
+        """
         return self._with_c(val)

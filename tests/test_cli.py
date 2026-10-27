@@ -19,17 +19,17 @@ from pygmentation.cli import (
     cli_show,
     cli_write,
     error,
-    family_to_row,
+    _family_to_row,
     get_schemes_by_pattern,
     info,
     main,
     multiple_choice_prompt,
     parse_args,
     resolve_unknown_scheme,
-    scheme_swatch,
+    _scheme_swatch,
     show_scheme,
     success,
-    swatch,
+    _swatch,
     warning,
 )
 from pygmentation.registry import registry
@@ -199,15 +199,15 @@ def test_cli_show_invalid_code_type():
 
 def test_rich_formatting_helpers():
     c = Color("5E81AC")
-    s = swatch(c)
+    s = _swatch(c)
     assert s.plain in ("█████\n█████", "     \n     ")
 
     scheme = registry.get("nord", SchemeType.DARK)
-    ss = scheme_swatch(scheme)
+    ss = _scheme_swatch(scheme)
     assert len(ss.plain) > 0
 
     # family_to_row with and without code_type
-    swatches, codes = family_to_row(
+    swatches, codes = _family_to_row(
         scheme.foreground,
         "Foreground",
         scheme.foreground.base,
@@ -218,7 +218,7 @@ def test_rich_formatting_helpers():
     assert len(swatches) == 8
     assert codes is None
 
-    swatches, codes = family_to_row(
+    swatches, codes = _family_to_row(
         scheme.foreground,
         "Foreground",
         scheme.foreground.base,

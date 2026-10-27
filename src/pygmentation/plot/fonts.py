@@ -12,7 +12,15 @@ from .font_category import FontCategory, _classify_font_file, classify_font_name
 
 
 def is_latex_available() -> bool:
-    """Check whether a LaTeX compiler is available in the system PATH."""
+    """
+    Check whether a LaTeX compiler is available in the system PATH.
+
+    Returns
+    -------
+    bool
+        `True` if a LaTeX installation was found on the system PATH, `False`
+        otherwise.
+    """
     return bool(shutil.which("latex") or shutil.which("pdflatex"))
 
 
@@ -445,25 +453,47 @@ def get_fonts(
     | tuple[str | re.Pattern[str], ...]
     | None = None,
 ) -> list[str]:
-    """Return a list of available fonts for matplotlib to use.
+    """
+    Return a list of available fonts for matplotlib to use.
 
-    Args:
-        latex: If True, return only fonts available in LaTeX.
-            If False, return only fonts available without LaTeX.
-            If None, return both LaTeX and non-LaTeX fonts.
-            If LaTeX is not available on the system, the LaTeX fonts list is empty.
-        serif: Filter for serif fonts. If None (default), its value is inferred from sans_serif.
-        sans_serif: Filter for sans-serif fonts. If None (default), its value is inferred from serif.
-        pattern: Optional pattern or list of patterns (str or re.Pattern) to match
-            font names against. If a list of patterns is provided, each pattern is
-            matched in turn.
+    Parameters
+    ----------
+    latex : bool | None, optional
+        If True, return only fonts available in LaTeX. If False, return only
+        fonts available without LaTeX. If None, return both LaTeX and non-LaTeX
+        fonts. If LaTeX is not available on the system, the LaTeX fonts list is
+        empty.
+    serif : bool | None, optional
+        Filter for serif fonts. If None (default), its value is inferred from
+        sans_serif.
+    sans_serif : bool | None, optional
+        Filter for sans-serif fonts. If None (default), its value is inferred
+        from serif.
+    pattern : str | re.Pattern[str] | list[str | re.Pattern[str]] | tuple[str | re.Pattern[str], ...] | None, optional
+        Optional pattern or list of patterns (str or re.Pattern) to match font
+        names against. If a list of patterns is provided, each pattern is
+        matched in turn.
 
-    Returns:
-        list[str]: Filtered list of font names available for matplotlib.
+    Returns
+    -------
+    list[str]
+        Filtered list of font names available for matplotlib.
 
-    Raises:
-        ImportError: If 'matplotlib' is not installed.
-        TypeError: If latex, serif, sans_serif, or pattern arguments have invalid types.
+    Raises
+    ------
+    ImportError
+        If 'matplotlib' is not installed.
+    TypeError
+        If latex, serif, sans_serif, or pattern arguments have invalid types.
+
+    Notes
+    -----
+    If only one of `serif` and `sans_serif` is specified as `True` or `False`,
+    the unspecified parameter will be the opposite. If both are `False`, an
+    empty list will be returned.
+
+    If a list of patterns is provided, they are matched in turn, so fonts which
+    match the first pattern will appear before fonts which match the second etc.
     """
     try:
         import matplotlib.font_manager  # noqa: F401

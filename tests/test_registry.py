@@ -28,7 +28,6 @@ def test_registry_default_initialization():
     assert len(registry.available) > 0
     assert "nord" in registry.available
     assert "twilight" in registry.available
-    assert registry.list_available() == registry.available
 
 
 def test_registry_custom_schemes_file(tmp_path: Path, monkeypatch):
@@ -331,7 +330,7 @@ def test_exceptions_hierarchy_and_formatting():
 
 def test_public_api_get_and_list_schemes():
     assert get_scheme == registry.get
-    assert list_schemes == registry.list_available
+    assert list_schemes() == registry.available
 
     scheme = get_scheme("nord", SchemeType.DARK)
     assert isinstance(scheme, ColorScheme)
@@ -346,8 +345,17 @@ def test_public_api_exports():
         "SchemeType",
         "get_scheme",
         "list_schemes",
+        "register_scheme",
+        "has_scheme",
+        "registry",
+        "SchemeRegistry",
+        "get_exporter",
         "PygmentationError",
         "SchemeNotFoundError",
+        "InvalidColorError",
+        "colors",
+        "exporters",
+        "plot",
     ]
     for sym in expected_exports:
         assert hasattr(pygmentation, sym)
@@ -355,3 +363,17 @@ def test_public_api_exports():
 
     assert hasattr(pygmentation, "__version__")
     assert isinstance(pygmentation.__version__, str)
+
+
+def test_top_level_convenience_aliases():
+    assert pygmentation.register_scheme == pygmentation.registry.register
+    assert pygmentation.has_scheme == pygmentation.registry.has_scheme
+    assert pygmentation.get_scheme == pygmentation.registry.get
+
+
+def test_top_level_submodule_access():
+    assert hasattr(pygmentation.colors, "RGB")
+    assert hasattr(pygmentation.colors, "models")
+    assert hasattr(pygmentation.exporters, "CssExporter")
+    assert hasattr(pygmentation.plot, "apply_plot_styles")
+

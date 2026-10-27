@@ -1,10 +1,24 @@
-"""Font classification and typography categorization rules for plot styling."""
+"""For classifying discovered fonts as serif, sans-serif, or unclassified."""
 
 from enum import StrEnum
 from typing import Any
 
 
 class FontCategory(StrEnum):
+    """
+    Enum for font categories.
+
+    Attributes
+    ----------
+    SERIF
+        For serif fonts.
+    SANS_SERIF
+        For sans-serif fonts.
+    UNCLASSIFIED
+        For all other fonts. This can be used for fonts which are neither serif
+        nor sans-serif (e.g. calligraphic or handwritten fonts), or for fonts
+        which may be serif or sans-serif, but we were unable to determine which.
+    """
     SERIF = "serif"
     SANS_SERIF = "sans-serif"
     UNCLASSIFIED = "unclassified"
@@ -102,13 +116,20 @@ STANDARD_MATPLOTLIB_SANS_NAMES: frozenset[str] = frozenset(
 def classify_font_name(name: str, *, include_keywords: bool = True) -> FontCategory:
     """Classify a font family name as serif, sans-serif, or unclassified.
 
-    Args:
-        name: Font family name (e.g. 'DejaVu Sans', 'Times New Roman').
-        include_keywords: If True, check heuristic keywords as a fallback.
-            If False, only check standard Matplotlib names and explicit 'sans'/'serif' tokens.
+    Parameters
+    ----------
+    name : str
+        Font family name (e.g. 'DejaVu Sans', 'Times New Roman').
+    include_keywords : bool, optional
+        If True, check heuristic keywords as a fallback. If False, only check
+        standard Matplotlib names and explicit 'sans'/'serif' tokens.
 
-    Returns:
-        FontCategory: FontCategory.SERIF, FontCategory.SANS_SERIF, or FontCategory.UNCLASSIFIED.
+    Returns
+    -------
+    FontCategory
+        If the font could be classified, this will be `SERIF` or `SANS_SERIF`.
+        If the font belongs to neither category, or its category could not be
+        determined, this will be `UNCLASSIFIED`.
     """
     lower = name.lower()
 

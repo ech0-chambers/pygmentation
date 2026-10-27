@@ -1,0 +1,475 @@
+/* ==========================================================================
+   Interactive Example Card Component Styling
+   ========================================================================== */
+
+.pyg-example-card {
+  position: relative;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  overflow: hidden;
+  margin: 1.5em 0;
+  box-shadow: var(--md-shadow-z1);
+  font-family: var(--md-text-font, system-ui, -apple-system, sans-serif);
+}
+
+.pyg-card-header {
+  background: var(--md-code-bg-color);
+  border-bottom: 2px solid var(--md-default-fg-color--lightest);
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.pyg-scheme-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.pyg-scheme-selector-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: start;
+  gap: 12px;
+}
+
+label.pyg-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset select.md-input.pyg-select,
+select.md-input.pyg-select {
+  height: 1.5rem;
+  width: 25ch;
+  font-size: 0.75rem;
+  padding: 0 1.8rem 0 0.6rem;
+  border-bottom: 0.1rem solid var(--md-default-fg-color--lighter);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: var(--md-shadow-z1);
+  cursor: pointer;
+  transition:
+    border-bottom-color 0.25s,
+    box-shadow 0.25s;
+}
+
+.md-typeset select.md-input.pyg-select:focus,
+select.md-input.pyg-select:focus {
+  outline: none;
+  border-bottom-color: var(--md-accent-fg-color);
+  box-shadow: var(--md-shadow-z2);
+}
+
+.pyg-toggle-group {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.md-typeset .pyg-button-toggle.md-button {
+  padding: 0.2em 0.8em;
+  font-size: 0.75rem;
+  margin: 0;
+  min-height: unset;
+  line-height: 1.25;
+}
+
+/* Material-style tab bar */
+.pyg-tab-nav {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.pyg-tab-button {
+  background: transparent;
+  border: none;
+  border-bottom: 0.15rem solid transparent;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--md-default-fg-color--light);
+  transition:
+    color 0.25s,
+    border-bottom-color 0.25s;
+}
+
+.pyg-tab-button:hover {
+  color: var(--md-default-fg-color);
+}
+
+.pyg-tab-button.active {
+  color: var(--md-primary-fg-color);
+  border-bottom-color: var(--md-primary-fg-color);
+  font-weight: 700;
+}
+
+/* Scoped preview container */
+.pyg-preview {
+  background-color: var(--clr-background);
+  color: var(--clr-foreground);
+  max-height: 540px;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.pyg-preview::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pyg-preview::-webkit-scrollbar-track {
+  background: var(--clr-background-5);
+}
+
+.pyg-preview::-webkit-scrollbar-thumb {
+  background: var(--clr-background-3);
+  border-radius: 4px;
+}
+
+/* Web Page Tab Elements */
+.pyg-demo-article {
+  max-width: 760px;
+  margin: 0 auto;
+  line-height: 1.5;
+  font-size: 0.95em;
+}
+
+.pyg-article-header {
+  border-bottom: 2px solid var(--clr-background-4);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.pyg-article-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.pyg-badge {
+  background: var(--clr-background-5);
+  color: var(--clr-accent1);
+  border: 1px solid var(--clr-background-4);
+  padding: 3px 12px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+h2.pyg-article-title {
+  font-size: 1.75em;
+  color: var(--clr-foreground);
+  line-height: 1.5;
+  margin-bottom: 0px;
+  font-variant-caps: small-caps;
+}
+
+.pyg-article-subtitle {
+  font-size: 1.05em;
+  color: var(--clr-foreground-3);
+  font-weight: 200;
+}
+
+.pyg-article-byline {
+  margin: 0;
+  font-size: 0.85em;
+  color: var(--clr-foreground-4);
+  text-align: right;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.pyg-article-section {
+  margin-bottom: 22px;
+  text-align: justify;
+}
+
+.pyg-section-heading {
+  color: var(--clr-accent1);
+  font-size: 1.15em;
+  font-weight: 600;
+  margin: 20px 0 10px 0;
+  border-bottom: 1px solid var(--clr-background-5);
+  padding-bottom: 4px;
+  font-variant-caps: small-caps;
+}
+
+.pyg-article-section svg {
+    float: right;
+    width: 33%;
+    margin: 1em;
+}
+
+.pyg-demo-article p {
+  color: var(--clr-foreground);
+  margin: 0 0 12px 0;
+}
+
+/* Document Asides / Callouts (Info Colouring) */
+.pyg-demo-aside {
+  background: var(--clr-info-5);
+  border-left: 4px solid var(--clr-info);
+  padding: 14px 18px;
+  margin: 18px 0;
+  font-size: 0.9em;
+  line-height: 1.5;
+  color: var(--clr-foreground);
+}
+
+.pyg-demo-aside strong {
+  color: var(--clr-info);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Article Actions */
+.pyg-article-actions {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0 20px 0;
+  flex-wrap: wrap;
+}
+
+.pyg-demo-button {
+  padding: 6px 14px;
+  font-size: 0.85em;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 0;
+  transition:
+    opacity 0.15s ease,
+    transform 0.1s ease;
+}
+
+.pyg-demo-button:hover {
+  opacity: 0.88;
+}
+
+.pyg-demo-button:active {
+  transform: scale(0.96);
+}
+
+.pyg-button-primary {
+  background: var(--clr-accent1);
+  color: var(--clr-background);
+  border: 1px solid var(--clr-accent1);
+}
+
+.pyg-button-secondary {
+  background: transparent;
+  color: var(--clr-foreground);
+  border: 1px solid var(--clr-foreground-4);
+}
+
+/* Toast Notifications (Fixed bottom-right overlay) */
+.pyg-toast-stack {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  z-index: 30;
+  pointer-events: none;
+  max-width: min(380px, calc(100% - 32px));
+}
+
+.pyg-demo-toast {
+  grid-area: 1 / 1 / 2 / 2;
+  padding: 10px 14px;
+  font-size: 0.85em;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--clr-background-4);
+  border-left: 4px solid var(--border-color);
+  background: var(--clr-background-5);
+  color: var(--highlight-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  pointer-events: none;
+  border-radius: 0;
+}
+
+.pyg-demo-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.pyg-demo-toast strong {
+  font-weight: 600;
+}
+
+.pyg-toast-icon {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: var(--border-color);
+}
+
+.toast-info {
+  --border-color: var(--clr-info);
+  --highlight-color: var(--clr-info-1);
+  --background-color: var(--clr-info-5);
+}
+
+.toast-success {
+  --border-color: var(--clr-success);
+  --highlight-color: var(--clr-success-1);
+  --background-color: var(--clr-success-5);
+}
+
+.toast-warning {
+  --border-color: var(--clr-warning);
+  --highlight-color: var(--clr-warning-1);
+  --background-color: var(--clr-warning-5);
+}
+
+.toast-error {
+  --border-color: var(--clr-error);
+  --highlight-color: var(--clr-error-1);
+  --background-color: var(--clr-error-5);
+}
+
+/* Code Tab Elements */
+.md-typeset .pyg-preview pre.pyg-code-block,
+.pyg-preview pre.pyg-code-block,
+.pyg-preview .pyg-code-block {
+  font-family:
+    "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace !important;
+  font-size: 0.88em !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  background: var(--clr-background) !important;
+  background-color: var(--clr-background) !important;
+  color: var(--clr-foreground) !important;
+  border: 1px solid var(--clr-background-4) !important;
+  border-radius: 6px !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  box-shadow: none !important;
+}
+
+.md-typeset .pyg-preview pre.pyg-code-block code,
+.pyg-preview pre.pyg-code-block code,
+.pyg-preview .pyg-code-block code {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--clr-foreground) !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+.pyg-code-block .kw {
+  color: var(--clr-accent1) !important;
+  font-weight: 600;
+}
+.pyg-code-block .fn {
+  color: var(--clr-accent2) !important;
+  font-weight: 600;
+}
+.pyg-code-block .type {
+  color: var(--clr-accent3) !important;
+}
+.pyg-code-block .num,
+.pyg-code-block .val,
+.pyg-code-block .const {
+  color: var(--clr-accent4) !important;
+}
+.pyg-code-block .attr {
+  color: var(--clr-accent5, var(--clr-accent2)) !important;
+}
+.pyg-code-block .param,
+.pyg-code-block .var {
+  color: var(--clr-foreground) !important;
+}
+.pyg-code-block .op {
+  color: var(--clr-foreground-2) !important;
+}
+.pyg-code-block .punct {
+  color: var(--clr-foreground-3) !important;
+}
+.pyg-code-block .comment {
+  color: var(--clr-foreground-4) !important;
+  font-style: italic;
+}
+
+.pyg-code-block .line-highlight {
+  display: block;
+  background: var(--clr-background-4) !important;
+  margin: 0 -16px;
+  padding: 0 16px;
+  border-left: 3px solid var(--clr-accent1);
+}
+
+.pyg-code-diagnostic {
+  margin-top: 14px;
+  padding: 8px 14px;
+  font-size: 0.82em;
+  background: var(--clr-info-5);
+  border-left: 4px solid var(--clr-info);
+  color: var(--clr-foreground);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.md-typeset .pyg-preview .pyg-code-diagnostic code,
+.pyg-preview .pyg-code-diagnostic code {
+  background: var(--clr-background-4) !important;
+  background-color: var(--clr-background-4) !important;
+  color: var(--clr-foreground) !important;
+  padding: 2px 6px !important;
+  border-radius: 3px !important;
+  border: none !important;
+}
+
+.diag-icon {
+  font-weight: bold;
+  color: var(--clr-info);
+}
+
+/* Graph Tab Elements */
+.pyg-graph-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.pyg-graph-container svg {
+  max-width: 100%;
+  height: auto;
+  max-height: 390px;
+  display: block;
+}

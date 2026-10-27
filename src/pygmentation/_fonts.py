@@ -1,12 +1,14 @@
 """Embedded font assets for Pygmentation.
 
-Includes a minimal WOFF2 subset of Fira Code (Regular) containing ASCII printable
-characters (U+0020-007E), non-breaking space (U+00A0), degree symbol (U+00B0),
-arrows (U+2192), dashes (U+2013, U+2014), quotes (U+2018, U+2019), and bullet (U+2022).
+Includes a minimal WOFF2 subset of Fira Code (Regular) containing ASCII
+printable characters (U+0020-007E), non-breaking space (U+00A0), degree symbol
+(U+00B0), arrows (U+2192), dashes (U+2013, U+2014), quotes (U+2018, U+2019),
+and bullet (U+2022).
 
 License:
 Fira Code is licensed under the SIL Open Font License, Version 1.1.
-Copyright 2014-2021 The Fira Code Project Authors (https://github.com/tonsky/FiraCode)
+Copyright 2014-2021 The Fira Code Project Authors
+(https://github.com/tonsky/FiraCode)
 http://scripts.sil.org/OFL
 """
 

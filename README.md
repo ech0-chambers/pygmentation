@@ -109,7 +109,7 @@ For example, we may start from a pure blue and a pure yellow, and lighten both b
 
 ### Perceptual Uniformity: CIEDE2000 and Oklab / Oklch
 
-A perceptually uniform colour model is one in which a given change in coordinates produces the same visual change, regardless of the starting position. To put things more mathematically, if a starting colour $\vec{C}$ is shifted by some $\vec{t}$ to give a new colour $\vec{C}^\prime = \vec{C} + \vec{t}$, then the visual difference between $\vec{C}$ and $\vec{C}^\prime$ is always the same, no matter what $\vec{C}$ was.
+A perceptually uniform colour model is one in which a given change in coordinates produces the same visual change, regardless of the starting position. To put things more mathematically, if a starting colour $\vec{C}$ is shifted by some $\vec{t}$ to give a new colour $\vec{C^\prime} = \vec{C} + \vec{t}$, then the visual difference between $\vec{C}$ and $\vec{C^\prime}$ is always the same, no matter what $\vec{C}$ was.
 
 Neither RGB nor HSL are perceptually uniform. In terms of lightness, this is made clear by the comparison of yellow and blue above. For hue, this is readily demonstrated by comparing the perceived difference between two green hues and two blue hues separated by an identical $30^\circ$ angle in HSL:
 

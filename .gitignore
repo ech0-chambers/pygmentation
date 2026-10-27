@@ -147,6 +147,9 @@ venv.bak/
 
 # mkdocs documentation
 /site
+site/
+docs/assets/palettes/
+docs/assets/data/
 
 # mypy
 .mypy_cache/
@@ -172,3 +175,6 @@ uv.lock
 .ruff_cache
 _plot_samples.py
 diagrams.py
+tests/test_add_docstring_templates.py
+scripts/add_docstring_templates.py
+tests/test_autolink.py
