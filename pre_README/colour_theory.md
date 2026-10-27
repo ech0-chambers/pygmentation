@@ -91,9 +91,9 @@ For base colours deemed too dark or too light for the normal variant generation,
 
 Changing only the lightness produces subpar results, with dark variants looking particularly out of place and oversaturated. To keep variants more harmonious with the foreground/background colours, the chroma of the base colour is also modified. A variant's chroma is shifted towards the chroma of the foreground/background colour by the same amount by which it is lightened/darkened, multiplied by an additional factor `chroma_blend`.
 
-$$C_{\text{variant}} = C_{\text{base}} + (C_{\text{F or B}} - C_{\text{base}}) \times x \times \text{chroma\_blend}$$
+$$C_{\text{variant}} = C_{\text{base}} + (C_{\text{F or B}} - C_{\text{base}}) \times x \times C_{\text{blend}}$$
 
-By default, $\text{chroma\_blend} = 0.75$. This subtle shift prevents saturated accents from appearing unnatural on desaturated background, without appearing washed out if the background colour has high saturation. The sample below has this chroma blend disabled; the darker variants in particular stand out and are quite jarring.
+By default, `chroma_blend = 0.75`. This subtle shift prevents saturated accents from appearing unnatural on desaturated background, without appearing washed out if the background colour has high saturation. The sample below has this chroma blend disabled; the darker variants in particular stand out and are quite jarring.
 
 %%md.image(url = ("" if USE_RELATIVE else URL_BASE) + str(IMAGE_DIR / "nord_no_chroma.svg"), description = "The Nord dark colour scheme with chroma blending disabled for variants.")
 
