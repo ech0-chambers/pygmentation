@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Material for MkDocs Theme Mapping
+   Maps Pygmentation palette CSS variables to Material for MkDocs tokens.
+   ========================================================================== */
+
+[data-md-color-scheme] {
+  /* Main text and surface backgrounds */
+  --md-default-fg-color: var(--clr-foreground);
+  --md-default-fg-color--light: var(--clr-foreground-3);
+  --md-default-fg-color--lighter: var(--clr-foreground-4);
+  --md-default-fg-color--lightest: var(--clr-foreground-5);
+
+  --md-default-bg-color: var(--clr-background);
+  --md-default-bg-color--light: var(--clr-background-5);
+  --md-default-bg-color--lighter: var(--clr-background-4);
+  --md-default-bg-color--lightest: var(--clr-background-3);
+
+  /* Primary branding (Header, navigation, active tab indicators) */
+  --md-primary-fg-color: var(--clr-accent1);
+  --md-primary-fg-color--light: var(--clr-accent1-1);
+  --md-primary-fg-color--dark: var(--clr-accent1-5);
+  --md-primary-bg-color: var(--clr-background);
+  --md-primary-bg-color--light: var(--clr-background-5);
+
+  /* Accent (interactive elements, badges, hover accents) */
+  --md-accent-fg-color: var(--clr-accent2);
+  --md-accent-fg-color--transparent: rgba(var(--clr-accent2-rgb), 0.15);
+  --md-accent-bg-color: var(--clr-background);
+
+  /* Typography & Links */
+  --md-typeset-a-color: var(--clr-accent1);
+  --md-typeset-color: var(--clr-foreground);
+
+  /* Code Blocks */
+  --md-code-fg-color: var(--clr-foreground);
+  --md-code-bg-color: var(--clr-auto_surface);
+
+  /* Code Syntax Highlighting */
+  --md-code-hl-keyword-color: var(--clr-purple);
+  --md-code-hl-function-color: var(--clr-blue);
+  --md-code-hl-string-color: var(--clr-green);
+  --md-code-hl-number-color: var(--clr-orange);
+  --md-code-hl-special-color: var(--clr-magenta);
+  --md-code-hl-constant-color: var(--clr-cyan);
+  --md-code-hl-comment-color: var(--clr-foreground-4);
+  --md-code-hl-operator-color: var(--clr-foreground-2);
+  --md-code-hl-punctuation-color: var(--clr-foreground-2);
+  --md-code-hl-name-color: var(--clr-foreground);
+  --md-code-hl-variable-color: var(--clr-foreground);
+
+  /* Admonition Callouts */
+  --md-admonition-fg-color: var(--clr-foreground);
+  --md-admonition-bg-color: var(--clr-background-5);
+}

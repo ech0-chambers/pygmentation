@@ -1,0 +1,86 @@
+site_name: Pygmentation
+site_description: A colour manipulation and palette generation package with optional
+  Matplotlib integration.
+site_author: ech0-chambers
+site_url: https://ech0-chambers.github.io/pygmentation/
+repo_url: https://github.com/ech0-chambers/pygmentation
+repo_name: ech0-chambers/pygmentation
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+  - navigation.indexes
+  - navigation.sections
+  - navigation.top
+  - search.suggest
+  - search.highlight
+  - content.code.copy
+plugins:
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        paths:
+        - src
+        options:
+          docstring_style: numpy
+          members_order: source
+          show_root_heading: true
+          show_source: true
+          show_signature_annotations: true
+          separate_signature: true
+markdown_extensions:
+- admonition
+- pymdownx.arithmatex:
+    generic: true
+- pymdownx.details
+- pymdownx.highlight:
+    anchor_linenums: true
+    line_spans: __span
+    pygments_lang_class: true
+- pymdownx.inlinehilite
+- pymdownx.snippets
+- pymdownx.superfences
+- toc:
+    permalink: true
+nav:
+- Home: index.md
+- Palettes: palettes.md
+- API Reference:
+  - Overview: api/index.md
+  - Colour Handling:
+    - Overview: api/colors/index.md
+    - Color: api/colors/color.md
+    - Color Schemes: api/colors/scheme.md
+    - Color Models: api/colors/models.md
+  - Matplotlib Plotting:
+    - Overview: api/plot/index.md
+    - Style & Presets: api/plot/style.md
+    - Font Discovery: api/plot/fonts.md
+    - Font Classification: api/plot/font_category.md
+  - Exporters: api/exporters.md
+  - Registry: api/registry.md
+  - Command-Line Interface: api/cli.md
+  - Exceptions: api/exceptions.md
+hooks:
+- docs/hooks/generate_theme.py
+- docs/hooks/autolink.py
+extra_css:
+- stylesheets/pygmentation.css
+extra_javascript:
+- javascripts/mathjax.js
+- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+- javascripts/example_card.js
+- javascripts/palettes.js

@@ -17,11 +17,13 @@ if not swatches_dir.exists():
 
 
 # Read in the pre file
-with open(pre_file, "r") as f:
+with open(pre_file) as f:
     contents = f.read()
 
 # find anything matching swatch(#aaaaaa) or swatch(#aaaaaa, #bbbbbb)
-swatch_re = re.compile(r"swatch\((?P<background>#[0-9a-fA-F]{6})(?:,\s*?(?P<text>#[0-9a-fA-F]{6}))?\)")
+swatch_re = re.compile(
+    r"swatch\((?P<background>#[0-9a-fA-F]{6})(?:,\s*?(?P<text>#[0-9a-fA-F]{6}))?\)"
+)
 
 # replace with appropriate svg
 
@@ -35,5 +37,8 @@ with open(post_file, "w") as f:
         svg_file = swatches_dir / f"{i}.svg"
         with open(svg_file, "w") as f2:
             f2.write(svg)
-        contents = contents.replace(m.group(0), f"![{background}](https://raw.githubusercontent.com/ech0-chambers/pygmentation/blob/main/.swatches/{i}.svg)")
+        contents = contents.replace(
+            m.group(0),
+            f"![{background}](https://raw.githubusercontent.com/ech0-chambers/pygmentation/blob/main/.swatches/{i}.svg)",
+        )
     f.write(contents)

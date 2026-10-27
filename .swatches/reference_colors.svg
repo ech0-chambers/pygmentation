@@ -1,0 +1,562 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="svg-title svg-desc" viewBox="0 0 740 330" width="740" height="330">
+  <title id="svg-title">Semantic Colour Aliases: OKLCh Reference Hue Ranges</title>
+  <desc id="svg-desc">
+    Diagram showing the 360-degree OKLCh hue spectrum and the canonical target hues and boundary ranges for eight semantic colour aliases:
+    Red (target 20°, range 345° to 30°, wrapping across 360°),
+    Orange (target 50°, range 30° to 65°),
+    Yellow (target 90°, range 65° to 110°),
+    Green (target 142°, range 110° to 175°),
+    Cyan (target 195°, range 175° to 220°),
+    Blue (target 255°, range 220° to 280°),
+    Purple (target 315°, range 280° to 340°),
+    and Magenta (target 335°, range 315° to 355°).
+  </desc>
+  <defs>
+    <linearGradient id="hue-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0.00%" stop-color="#E01778" />
+      <stop offset="0.28%" stop-color="#E01776" />
+      <stop offset="0.56%" stop-color="#DF1773" />
+      <stop offset="0.83%" stop-color="#DF1870" />
+      <stop offset="1.11%" stop-color="#DF196D" />
+      <stop offset="1.39%" stop-color="#DE196A" />
+      <stop offset="1.67%" stop-color="#DE1A67" />
+      <stop offset="1.94%" stop-color="#DD1B65" />
+      <stop offset="2.22%" stop-color="#DD1B62" />
+      <stop offset="2.50%" stop-color="#DC1C5F" />
+      <stop offset="2.78%" stop-color="#DC1D5C" />
+      <stop offset="3.06%" stop-color="#DB1E59" />
+      <stop offset="3.33%" stop-color="#DA1F57" />
+      <stop offset="3.61%" stop-color="#DA2054" />
+      <stop offset="3.89%" stop-color="#D92151" />
+      <stop offset="4.17%" stop-color="#D8224E" />
+      <stop offset="4.44%" stop-color="#D8234B" />
+      <stop offset="4.72%" stop-color="#D72449" />
+      <stop offset="5.00%" stop-color="#D62546" />
+      <stop offset="5.28%" stop-color="#D52643" />
+      <stop offset="5.56%" stop-color="#D42740" />
+      <stop offset="5.83%" stop-color="#D52B3F" />
+      <stop offset="6.11%" stop-color="#D62E3E" />
+      <stop offset="6.39%" stop-color="#D6323D" />
+      <stop offset="6.67%" stop-color="#D7363C" />
+      <stop offset="6.94%" stop-color="#D7393B" />
+      <stop offset="7.22%" stop-color="#D83C3A" />
+      <stop offset="7.50%" stop-color="#D83F39" />
+      <stop offset="7.78%" stop-color="#D94238" />
+      <stop offset="8.06%" stop-color="#D94538" />
+      <stop offset="8.33%" stop-color="#D94837" />
+      <stop offset="8.61%" stop-color="#DA4B37" />
+      <stop offset="8.89%" stop-color="#DA4E36" />
+      <stop offset="9.17%" stop-color="#DA5136" />
+      <stop offset="9.44%" stop-color="#DA5335" />
+      <stop offset="9.72%" stop-color="#DB5635" />
+      <stop offset="10.00%" stop-color="#DB5935" />
+      <stop offset="10.28%" stop-color="#DB5B35" />
+      <stop offset="10.56%" stop-color="#DB5E35" />
+      <stop offset="10.83%" stop-color="#DB6035" />
+      <stop offset="11.11%" stop-color="#DB6336" />
+      <stop offset="11.39%" stop-color="#DB6536" />
+      <stop offset="11.67%" stop-color="#DB6837" />
+      <stop offset="11.94%" stop-color="#DB6A37" />
+      <stop offset="12.22%" stop-color="#DB6C38" />
+      <stop offset="12.50%" stop-color="#DB6F39" />
+      <stop offset="12.78%" stop-color="#DB713A" />
+      <stop offset="13.06%" stop-color="#DB733B" />
+      <stop offset="13.33%" stop-color="#DB763C" />
+      <stop offset="13.61%" stop-color="#DB783D" />
+      <stop offset="13.89%" stop-color="#DB7A3E" />
+      <stop offset="14.17%" stop-color="#DB7B3D" />
+      <stop offset="14.44%" stop-color="#DC7D3C" />
+      <stop offset="14.72%" stop-color="#DD7E3B" />
+      <stop offset="15.00%" stop-color="#DD7F3A" />
+      <stop offset="15.28%" stop-color="#DD8139" />
+      <stop offset="15.56%" stop-color="#DE8238" />
+      <stop offset="15.83%" stop-color="#DE8336" />
+      <stop offset="16.11%" stop-color="#DF8535" />
+      <stop offset="16.39%" stop-color="#DF8634" />
+      <stop offset="16.67%" stop-color="#DF8733" />
+      <stop offset="16.94%" stop-color="#E08932" />
+      <stop offset="17.22%" stop-color="#E08A31" />
+      <stop offset="17.50%" stop-color="#E08B30" />
+      <stop offset="17.78%" stop-color="#E18D2F" />
+      <stop offset="18.06%" stop-color="#E18E2D" />
+      <stop offset="18.33%" stop-color="#E1902C" />
+      <stop offset="18.61%" stop-color="#E1912B" />
+      <stop offset="18.89%" stop-color="#E1932A" />
+      <stop offset="19.17%" stop-color="#E19429" />
+      <stop offset="19.44%" stop-color="#E29529" />
+      <stop offset="19.72%" stop-color="#E29728" />
+      <stop offset="20.00%" stop-color="#E29827" />
+      <stop offset="20.28%" stop-color="#E29A26" />
+      <stop offset="20.56%" stop-color="#E29B25" />
+      <stop offset="20.83%" stop-color="#E29D25" />
+      <stop offset="21.11%" stop-color="#E29E24" />
+      <stop offset="21.39%" stop-color="#E2A024" />
+      <stop offset="21.67%" stop-color="#E2A123" />
+      <stop offset="21.94%" stop-color="#E1A323" />
+      <stop offset="22.22%" stop-color="#E1A423" />
+      <stop offset="22.50%" stop-color="#E1A623" />
+      <stop offset="22.78%" stop-color="#E1A723" />
+      <stop offset="23.06%" stop-color="#E1A923" />
+      <stop offset="23.33%" stop-color="#E0AA23" />
+      <stop offset="23.61%" stop-color="#E0AC24" />
+      <stop offset="23.89%" stop-color="#E0AD24" />
+      <stop offset="24.17%" stop-color="#E0AF25" />
+      <stop offset="24.44%" stop-color="#DFB025" />
+      <stop offset="24.72%" stop-color="#DFB226" />
+      <stop offset="25.00%" stop-color="#DEB327" />
+      <stop offset="25.28%" stop-color="#DDB422" />
+      <stop offset="25.56%" stop-color="#DCB41D" />
+      <stop offset="25.83%" stop-color="#DBB518" />
+      <stop offset="26.11%" stop-color="#DAB510" />
+      <stop offset="26.39%" stop-color="#D8B606" />
+      <stop offset="26.67%" stop-color="#D7B600" />
+      <stop offset="26.94%" stop-color="#D6B700" />
+      <stop offset="27.22%" stop-color="#D4B700" />
+      <stop offset="27.50%" stop-color="#D3B800" />
+      <stop offset="27.78%" stop-color="#D1B800" />
+      <stop offset="28.06%" stop-color="#D0B900" />
+      <stop offset="28.33%" stop-color="#CEB900" />
+      <stop offset="28.61%" stop-color="#CCBA00" />
+      <stop offset="28.89%" stop-color="#CABB00" />
+      <stop offset="29.17%" stop-color="#C9BB00" />
+      <stop offset="29.44%" stop-color="#C7BC00" />
+      <stop offset="29.72%" stop-color="#C5BD00" />
+      <stop offset="30.00%" stop-color="#C3BD00" />
+      <stop offset="30.28%" stop-color="#C1BE00" />
+      <stop offset="30.56%" stop-color="#BFBE00" />
+      <stop offset="30.83%" stop-color="#BCBF00" />
+      <stop offset="31.11%" stop-color="#BAC000" />
+      <stop offset="31.39%" stop-color="#B8C000" />
+      <stop offset="31.67%" stop-color="#B5C100" />
+      <stop offset="31.94%" stop-color="#B3C200" />
+      <stop offset="32.22%" stop-color="#B0C300" />
+      <stop offset="32.50%" stop-color="#AEC300" />
+      <stop offset="32.78%" stop-color="#ABC400" />
+      <stop offset="33.06%" stop-color="#A8C500" />
+      <stop offset="33.33%" stop-color="#A5C500" />
+      <stop offset="33.61%" stop-color="#A2C600" />
+      <stop offset="33.89%" stop-color="#9FC700" />
+      <stop offset="34.17%" stop-color="#9CC700" />
+      <stop offset="34.44%" stop-color="#99C800" />
+      <stop offset="34.72%" stop-color="#95C900" />
+      <stop offset="35.00%" stop-color="#92CA00" />
+      <stop offset="35.28%" stop-color="#8ECA00" />
+      <stop offset="35.56%" stop-color="#8ACB00" />
+      <stop offset="35.83%" stop-color="#86CC00" />
+      <stop offset="36.11%" stop-color="#82CC00" />
+      <stop offset="36.39%" stop-color="#7ECD00" />
+      <stop offset="36.67%" stop-color="#79CE00" />
+      <stop offset="36.94%" stop-color="#75CE00" />
+      <stop offset="37.22%" stop-color="#70CF00" />
+      <stop offset="37.50%" stop-color="#6AD000" />
+      <stop offset="37.78%" stop-color="#65D100" />
+      <stop offset="38.06%" stop-color="#5ED100" />
+      <stop offset="38.33%" stop-color="#58D203" />
+      <stop offset="38.61%" stop-color="#50D30F" />
+      <stop offset="38.89%" stop-color="#48D318" />
+      <stop offset="39.17%" stop-color="#3FD41F" />
+      <stop offset="39.44%" stop-color="#33D425" />
+      <stop offset="39.72%" stop-color="#2BD52F" />
+      <stop offset="40.00%" stop-color="#22D638" />
+      <stop offset="40.28%" stop-color="#15D640" />
+      <stop offset="40.56%" stop-color="#00D646" />
+      <stop offset="40.83%" stop-color="#00D74D" />
+      <stop offset="41.11%" stop-color="#00D752" />
+      <stop offset="41.39%" stop-color="#00D858" />
+      <stop offset="41.67%" stop-color="#00D85D" />
+      <stop offset="41.94%" stop-color="#00D862" />
+      <stop offset="42.22%" stop-color="#00D966" />
+      <stop offset="42.50%" stop-color="#00D96B" />
+      <stop offset="42.78%" stop-color="#00D96F" />
+      <stop offset="43.06%" stop-color="#00D973" />
+      <stop offset="43.33%" stop-color="#00DA77" />
+      <stop offset="43.61%" stop-color="#00DA7B" />
+      <stop offset="43.89%" stop-color="#00DA7F" />
+      <stop offset="44.17%" stop-color="#00DA82" />
+      <stop offset="44.44%" stop-color="#00DA86" />
+      <stop offset="44.72%" stop-color="#00DA89" />
+      <stop offset="45.00%" stop-color="#00DA8D" />
+      <stop offset="45.28%" stop-color="#00DB90" />
+      <stop offset="45.56%" stop-color="#00DB93" />
+      <stop offset="45.83%" stop-color="#00DB96" />
+      <stop offset="46.11%" stop-color="#00DB99" />
+      <stop offset="46.39%" stop-color="#00DB9C" />
+      <stop offset="46.67%" stop-color="#00DB9F" />
+      <stop offset="46.94%" stop-color="#00DBA2" />
+      <stop offset="47.22%" stop-color="#00DBA5" />
+      <stop offset="47.50%" stop-color="#00DAA7" />
+      <stop offset="47.78%" stop-color="#00DAAA" />
+      <stop offset="48.06%" stop-color="#00DAAD" />
+      <stop offset="48.33%" stop-color="#00DAAF" />
+      <stop offset="48.61%" stop-color="#00DAB2" />
+      <stop offset="48.89%" stop-color="#00DAB4" />
+      <stop offset="49.17%" stop-color="#00DAB6" />
+      <stop offset="49.44%" stop-color="#00DAB8" />
+      <stop offset="49.72%" stop-color="#00D9BB" />
+      <stop offset="50.00%" stop-color="#00D9BD" />
+      <stop offset="50.28%" stop-color="#00D9BF" />
+      <stop offset="50.56%" stop-color="#00D9C1" />
+      <stop offset="50.83%" stop-color="#00D9C3" />
+      <stop offset="51.11%" stop-color="#00D8C5" />
+      <stop offset="51.39%" stop-color="#00D8C6" />
+      <stop offset="51.67%" stop-color="#00D8C8" />
+      <stop offset="51.94%" stop-color="#00D8CA" />
+      <stop offset="52.22%" stop-color="#00D7CB" />
+      <stop offset="52.50%" stop-color="#00D7CD" />
+      <stop offset="52.78%" stop-color="#00D7CF" />
+      <stop offset="53.06%" stop-color="#00D6D0" />
+      <stop offset="53.33%" stop-color="#07D6D1" />
+      <stop offset="53.61%" stop-color="#17D6D3" />
+      <stop offset="53.89%" stop-color="#21D5D4" />
+      <stop offset="54.17%" stop-color="#29D5D5" />
+      <stop offset="54.44%" stop-color="#1CD3D5" />
+      <stop offset="54.72%" stop-color="#03D2D5" />
+      <stop offset="55.00%" stop-color="#00D0D5" />
+      <stop offset="55.28%" stop-color="#00CED5" />
+      <stop offset="55.56%" stop-color="#00CCD5" />
+      <stop offset="55.83%" stop-color="#00CAD5" />
+      <stop offset="56.11%" stop-color="#00C8D5" />
+      <stop offset="56.39%" stop-color="#00C6D5" />
+      <stop offset="56.67%" stop-color="#00C4D5" />
+      <stop offset="56.94%" stop-color="#00C2D5" />
+      <stop offset="57.22%" stop-color="#00C0D5" />
+      <stop offset="57.50%" stop-color="#00BED5" />
+      <stop offset="57.78%" stop-color="#00BCD5" />
+      <stop offset="58.06%" stop-color="#00BAD5" />
+      <stop offset="58.33%" stop-color="#00B8D6" />
+      <stop offset="58.61%" stop-color="#00B6D6" />
+      <stop offset="58.89%" stop-color="#00B4D6" />
+      <stop offset="59.17%" stop-color="#00B2D6" />
+      <stop offset="59.44%" stop-color="#00B0D6" />
+      <stop offset="59.72%" stop-color="#00AED6" />
+      <stop offset="60.00%" stop-color="#00ACD6" />
+      <stop offset="60.28%" stop-color="#00A9D7" />
+      <stop offset="60.56%" stop-color="#00A7D7" />
+      <stop offset="60.83%" stop-color="#00A5D7" />
+      <stop offset="61.11%" stop-color="#00A3D7" />
+      <stop offset="61.39%" stop-color="#00A0D7" />
+      <stop offset="61.67%" stop-color="#009ED7" />
+      <stop offset="61.94%" stop-color="#009CD7" />
+      <stop offset="62.22%" stop-color="#0099D8" />
+      <stop offset="62.50%" stop-color="#0097D8" />
+      <stop offset="62.78%" stop-color="#0095D8" />
+      <stop offset="63.06%" stop-color="#0092D8" />
+      <stop offset="63.33%" stop-color="#0090D8" />
+      <stop offset="63.61%" stop-color="#008DD8" />
+      <stop offset="63.89%" stop-color="#008BD8" />
+      <stop offset="64.17%" stop-color="#0088D8" />
+      <stop offset="64.44%" stop-color="#0086D8" />
+      <stop offset="64.72%" stop-color="#0083D8" />
+      <stop offset="65.00%" stop-color="#0080D8" />
+      <stop offset="65.28%" stop-color="#007ED8" />
+      <stop offset="65.56%" stop-color="#007BD8" />
+      <stop offset="65.83%" stop-color="#0078D8" />
+      <stop offset="66.11%" stop-color="#0076D8" />
+      <stop offset="66.39%" stop-color="#0073D8" />
+      <stop offset="66.67%" stop-color="#0070D8" />
+      <stop offset="66.94%" stop-color="#006DD8" />
+      <stop offset="67.22%" stop-color="#006AD8" />
+      <stop offset="67.50%" stop-color="#0067D7" />
+      <stop offset="67.78%" stop-color="#0064D7" />
+      <stop offset="68.06%" stop-color="#0061D7" />
+      <stop offset="68.33%" stop-color="#005ED7" />
+      <stop offset="68.61%" stop-color="#005BD6" />
+      <stop offset="68.89%" stop-color="#0057D6" />
+      <stop offset="69.17%" stop-color="#0054D6" />
+      <stop offset="69.44%" stop-color="#0051D5" />
+      <stop offset="69.72%" stop-color="#004DD5" />
+      <stop offset="70.00%" stop-color="#004AD4" />
+      <stop offset="70.28%" stop-color="#0046D4" />
+      <stop offset="70.56%" stop-color="#0042D3" />
+      <stop offset="70.83%" stop-color="#003ED3" />
+      <stop offset="71.11%" stop-color="#003DD3" />
+      <stop offset="71.39%" stop-color="#003DD4" />
+      <stop offset="71.67%" stop-color="#003CD5" />
+      <stop offset="71.94%" stop-color="#003BD6" />
+      <stop offset="72.22%" stop-color="#003AD6" />
+      <stop offset="72.50%" stop-color="#003AD7" />
+      <stop offset="72.78%" stop-color="#0039D7" />
+      <stop offset="73.06%" stop-color="#0038D8" />
+      <stop offset="73.33%" stop-color="#0438D8" />
+      <stop offset="73.61%" stop-color="#1037D9" />
+      <stop offset="73.89%" stop-color="#1836D9" />
+      <stop offset="74.17%" stop-color="#1E35DA" />
+      <stop offset="74.44%" stop-color="#2435DA" />
+      <stop offset="74.72%" stop-color="#2934DA" />
+      <stop offset="75.00%" stop-color="#2D33DB" />
+      <stop offset="75.28%" stop-color="#3132DB" />
+      <stop offset="75.56%" stop-color="#3532DB" />
+      <stop offset="75.83%" stop-color="#3831DB" />
+      <stop offset="76.11%" stop-color="#3B30DB" />
+      <stop offset="76.39%" stop-color="#3F30DB" />
+      <stop offset="76.67%" stop-color="#422FDB" />
+      <stop offset="76.94%" stop-color="#452EDB" />
+      <stop offset="77.22%" stop-color="#482EDB" />
+      <stop offset="77.50%" stop-color="#4A2DDB" />
+      <stop offset="77.78%" stop-color="#4D2CDB" />
+      <stop offset="78.06%" stop-color="#502CDB" />
+      <stop offset="78.33%" stop-color="#522BDA" />
+      <stop offset="78.61%" stop-color="#552ADA" />
+      <stop offset="78.89%" stop-color="#572ADA" />
+      <stop offset="79.17%" stop-color="#5A29DA" />
+      <stop offset="79.44%" stop-color="#5C28D9" />
+      <stop offset="79.72%" stop-color="#5E28D9" />
+      <stop offset="80.00%" stop-color="#6127D8" />
+      <stop offset="80.28%" stop-color="#6326D8" />
+      <stop offset="80.56%" stop-color="#6526D7" />
+      <stop offset="80.83%" stop-color="#6725D7" />
+      <stop offset="81.11%" stop-color="#6A25D6" />
+      <stop offset="81.39%" stop-color="#6C24D6" />
+      <stop offset="81.67%" stop-color="#6E23D5" />
+      <stop offset="81.94%" stop-color="#7023D4" />
+      <stop offset="82.22%" stop-color="#7222D4" />
+      <stop offset="82.50%" stop-color="#7422D3" />
+      <stop offset="82.78%" stop-color="#7621D2" />
+      <stop offset="83.06%" stop-color="#7821D1" />
+      <stop offset="83.33%" stop-color="#7A20D0" />
+      <stop offset="83.61%" stop-color="#7C1FD0" />
+      <stop offset="83.89%" stop-color="#7E1FCF" />
+      <stop offset="84.17%" stop-color="#801ECE" />
+      <stop offset="84.44%" stop-color="#821ECD" />
+      <stop offset="84.72%" stop-color="#841DCC" />
+      <stop offset="85.00%" stop-color="#861DCB" />
+      <stop offset="85.28%" stop-color="#881CCA" />
+      <stop offset="85.56%" stop-color="#8A1BC8" />
+      <stop offset="85.83%" stop-color="#8B1BC7" />
+      <stop offset="86.11%" stop-color="#8D1AC6" />
+      <stop offset="86.39%" stop-color="#8F1AC5" />
+      <stop offset="86.67%" stop-color="#9119C4" />
+      <stop offset="86.94%" stop-color="#9318C2" />
+      <stop offset="87.22%" stop-color="#9418C1" />
+      <stop offset="87.50%" stop-color="#9617C0" />
+      <stop offset="87.78%" stop-color="#9A18C1" />
+      <stop offset="88.06%" stop-color="#9D18C1" />
+      <stop offset="88.33%" stop-color="#A119C2" />
+      <stop offset="88.61%" stop-color="#A419C3" />
+      <stop offset="88.89%" stop-color="#A81AC3" />
+      <stop offset="89.17%" stop-color="#AB1AC4" />
+      <stop offset="89.44%" stop-color="#AF1BC4" />
+      <stop offset="89.72%" stop-color="#B21BC4" />
+      <stop offset="90.00%" stop-color="#B61CC5" />
+      <stop offset="90.28%" stop-color="#BA1CC5" />
+      <stop offset="90.56%" stop-color="#BD1CC5" />
+      <stop offset="90.83%" stop-color="#C11DC5" />
+      <stop offset="91.11%" stop-color="#C51DC5" />
+      <stop offset="91.39%" stop-color="#C81DC5" />
+      <stop offset="91.67%" stop-color="#CC1EC5" />
+      <stop offset="91.94%" stop-color="#D01EC5" />
+      <stop offset="92.22%" stop-color="#D31EC5" />
+      <stop offset="92.50%" stop-color="#D71FC5" />
+      <stop offset="92.78%" stop-color="#DB1FC5" />
+      <stop offset="93.06%" stop-color="#DE1FC5" />
+      <stop offset="93.33%" stop-color="#DF1FC2" />
+      <stop offset="93.61%" stop-color="#DF1EBE" />
+      <stop offset="93.89%" stop-color="#E01DBB" />
+      <stop offset="94.17%" stop-color="#E01CB8" />
+      <stop offset="94.44%" stop-color="#E01BB5" />
+      <stop offset="94.72%" stop-color="#E11BB2" />
+      <stop offset="95.00%" stop-color="#E11AAF" />
+      <stop offset="95.28%" stop-color="#E119AC" />
+      <stop offset="95.56%" stop-color="#E119A8" />
+      <stop offset="95.83%" stop-color="#E118A5" />
+      <stop offset="96.11%" stop-color="#E117A2" />
+      <stop offset="96.39%" stop-color="#E2179F" />
+      <stop offset="96.67%" stop-color="#E2179C" />
+      <stop offset="96.94%" stop-color="#E21699" />
+      <stop offset="97.22%" stop-color="#E21696" />
+      <stop offset="97.50%" stop-color="#E21693" />
+      <stop offset="97.78%" stop-color="#E21590" />
+      <stop offset="98.06%" stop-color="#E1158D" />
+      <stop offset="98.33%" stop-color="#E1158A" />
+      <stop offset="98.61%" stop-color="#E11587" />
+      <stop offset="98.89%" stop-color="#E11584" />
+      <stop offset="99.17%" stop-color="#E11681" />
+      <stop offset="99.44%" stop-color="#E1167E" />
+      <stop offset="99.72%" stop-color="#E0167B" />
+      <stop offset="100.00%" stop-color="#E01778" />
+    </linearGradient>
+    <clipPath id="swatch-clip">
+      <rect x="6" y="6" width="58" height="10" rx="2" />
+    </clipPath>
+    <style>
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #ECEFF4; }
+      .scale-label { font-family: ui-monospace, SFMono-Regular, "SF Mono", monospace; font-size: 11px; font-weight: 600; fill: #ECEFF4; }
+      .tick-label { font-family: ui-monospace, SFMono-Regular, "SF Mono", monospace; font-size: 10px; fill: #D7DAE0; }
+      .card-name { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11.5px; font-weight: 700; fill: #ECEFF4; }
+      .card-hue { font-family: ui-monospace, SFMono-Regular, "SF Mono", monospace; font-size: 10px; font-weight: 600; fill: #A3BE8C; }
+    </style>
+  </defs>
+  <rect width="740" height="330" rx="10" fill="#2E3440" />
+  <text x="370.0" y="32" class="title" text-anchor="middle">Semantic Colour Aliases: OKLCh Reference Hue Ranges</text>
+  <!-- OKLCh Hue Gradient Bar -->
+  <rect x="100" y="152" width="540" height="36" rx="3.5" fill="url(#hue-grad)" stroke="#A3BE8C" stroke-width="1.4" />
+  <text x="88" y="174.0" class="scale-label" text-anchor="end">0°</text>
+  <text x="652" y="174.0" class="scale-label" text-anchor="start">360°</text>
+  <!-- Red Left Bracket [0, 30] -->
+  <path d="M 100.0 128 H 145.0 V 136" fill="none" stroke="#D52A2A" stroke-width="1.3" />
+  <text x="148.0" y="122" class="tick-label" text-anchor="middle">30°</text>
+  <!-- Continuation arrow pointing left at 0° (indicating continuation from 360°) -->
+  <polygon points="100.0,128 106.0,124.5 106.0,131.5" fill="#D52A2A" />
+
+  <!-- Red Right Bracket [345, 360] with continuation arrow at 360° pointing right -->
+  <path d="M 617.5 136 V 128 H 640.0" fill="none" stroke="#D52A2A" stroke-width="1.3" />
+  <text x="630.5" y="122" class="tick-label" text-anchor="start">345°</text>
+  <!-- Continuation arrow pointing right at 360° (indicating continuation to 0°) -->
+  <polygon points="640.0,128 634.0,124.5 634.0,131.5" fill="#D52A2A" />
+
+  <!-- Red Centre Arrow pointing to 20° -->
+  <line x1="130.0" y1="108" x2="130.0" y2="149" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="126.5,145 133.5,145 130.0,151" fill="#A3BE8C" />
+
+  <!-- Red Card -->
+  <g transform="translate(95.0, 64)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#BD0000" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#D52A2A" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Red</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">20°</text>
+  </g>
+  <!-- Orange Bracket [30, 65] -->
+  <path d="M 145.0 204 V 212 H 197.5 V 204" fill="none" stroke="#A3BE8C" stroke-width="1.3" />
+  <text x="148.0" y="226" class="tick-label" text-anchor="middle">30°</text>
+  <text x="200.5" y="226" class="tick-label" text-anchor="middle">65°</text>
+
+  <!-- Orange Centre Arrow pointing to 50° -->
+  <line x1="175.0" y1="232" x2="175.0" y2="191" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="171.5,195 178.5,195 175.0,189" fill="#A3BE8C" />
+
+  <!-- Card -->
+  <g transform="translate(140.0, 232)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#BD5F00" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#D5802A" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Orange</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">50°</text>
+  </g>
+  <!-- Yellow Bracket [65, 110] -->
+  <path d="M 197.5 136 V 128 H 265.0 V 136" fill="none" stroke="#A3BE8C" stroke-width="1.3" />
+  <text x="200.5" y="122" class="tick-label" text-anchor="middle">65°</text>
+  <text x="268.0" y="122" class="tick-label" text-anchor="middle">110°</text>
+
+  <!-- Yellow Centre Arrow pointing to 90° -->
+  <line x1="235.0" y1="108" x2="235.0" y2="149" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="231.5,145 238.5,145 235.0,151" fill="#A3BE8C" />
+
+  <!-- Card -->
+  <g transform="translate(200.0, 64)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#BD9D00" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#D5B82A" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Yellow</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">90°</text>
+  </g>
+  <!-- Green Bracket [110, 175] -->
+  <path d="M 265.0 204 V 212 H 362.5 V 204" fill="none" stroke="#A3BE8C" stroke-width="1.3" />
+  <text x="268.0" y="226" class="tick-label" text-anchor="middle">110°</text>
+  <text x="365.5" y="226" class="tick-label" text-anchor="middle">175°</text>
+
+  <!-- Green Centre Arrow pointing to 142° -->
+  <line x1="313.0" y1="232" x2="313.0" y2="191" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="309.5,195 316.5,195 313.0,189" fill="#A3BE8C" />
+
+  <!-- Card -->
+  <g transform="translate(278.0, 232)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#00BD00" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#2AD52A" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Green</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">142°</text>
+  </g>
+  <!-- Cyan Bracket [175, 220] -->
+  <path d="M 362.5 136 V 128 H 430.0 V 136" fill="none" stroke="#A3BE8C" stroke-width="1.3" />
+  <text x="365.5" y="122" class="tick-label" text-anchor="middle">175°</text>
+  <text x="433.0" y="122" class="tick-label" text-anchor="middle">220°</text>
+
+  <!-- Cyan Centre Arrow pointing to 195° -->
+  <line x1="392.5" y1="108" x2="392.5" y2="149" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="389.0,145 396.0,145 392.5,151" fill="#A3BE8C" />
+
+  <!-- Card -->
+  <g transform="translate(357.5, 64)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#00BDBD" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#2AD5D5" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Cyan</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">195°</text>
+  </g>
+  <!-- Blue Bracket [220, 280] -->
+  <path d="M 430.0 204 V 212 H 520.0 V 204" fill="none" stroke="#A3BE8C" stroke-width="1.3" />
+  <text x="433.0" y="226" class="tick-label" text-anchor="middle">220°</text>
+  <text x="523.0" y="226" class="tick-label" text-anchor="middle">280°</text>
+
+  <!-- Blue Centre Arrow pointing to 255° -->
+  <line x1="482.5" y1="232" x2="482.5" y2="191" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="479.0,195 486.0,195 482.5,189" fill="#A3BE8C" />
+
+  <!-- Card -->
+  <g transform="translate(447.5, 232)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#0000BD" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#2A2AD5" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Blue</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">255°</text>
+  </g>
+  <!-- Purple Bracket [280, 340] -->
+  <path d="M 520.0 136 V 128 H 610.0 V 136" fill="none" stroke="#A3BE8C" stroke-width="1.3" />
+  <text x="523.0" y="122" class="tick-label" text-anchor="middle">280°</text>
+  <text x="605.0" y="122" class="tick-label" text-anchor="end">340°</text>
+
+  <!-- Purple Centre Arrow pointing to 315° -->
+  <line x1="572.5" y1="108" x2="572.5" y2="149" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="569.0,145 576.0,145 572.5,151" fill="#A3BE8C" />
+
+  <!-- Card -->
+  <g transform="translate(537.5, 64)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#5E00BD" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#802AD5" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Purple</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">315°</text>
+  </g>
+  <!-- Magenta Bracket [315, 355] -->
+  <path d="M 572.5 204 V 212 H 632.5 V 204" fill="none" stroke="#A3BE8C" stroke-width="1.3" />
+  <text x="575.5" y="226" class="tick-label" text-anchor="middle">315°</text>
+  <text x="635.5" y="226" class="tick-label" text-anchor="middle">355°</text>
+
+  <!-- Magenta Centre Arrow pointing to 335° -->
+  <line x1="602.5" y1="232" x2="602.5" y2="191" stroke="#A3BE8C" stroke-width="1.3" />
+  <polygon points="599.0,195 606.0,195 602.5,189" fill="#A3BE8C" />
+
+  <!-- Card -->
+  <g transform="translate(567.5, 232)">
+    <rect width="70" height="44" rx="3.5" fill="#3B4252" stroke="#A3BE8C" stroke-width="1.2" />
+      <g clip-path="url(#swatch-clip)">
+        <rect x="6" y="6" width="29.0" height="10" fill="#BD00BD" />
+        <rect x="35.0" y="6" width="29.0" height="10" fill="#D52AD5" />
+      </g>
+      <rect x="6" y="6" width="58" height="10" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+    <text x="35.0" y="28" class="card-name" text-anchor="middle">Magenta</text>
+    <text x="38.0" y="39" class="card-hue" text-anchor="middle">335°</text>
+  </g>
+</svg>

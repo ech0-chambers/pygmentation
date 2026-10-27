@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 906 684" width="906" height="684">
+  <style>
+    @font-face {
+      font-family: 'Fira Code';
+      font-style: normal;
+      font-weight: 400 700;
+      src: url('data:font/woff2;charset=utf-8;base64,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') format('woff2');
+    }
+    .pyg-label, .pyg-code, .pyg-title, .pyg-subtitle, .pyg-header {
+      font-family: 'Fira Code', ui-monospace, 'Cascadia Code', 'DejaVu Sans Mono', Menlo, Consolas, monospace;
+    }
+  </style>
+  <rect width="100%" height="100%" fill="#2E3440" />
+  <text x="453" y="36" text-anchor="middle" class="pyg-title" font-size="16" font-weight="bold" fill="#ECEFF4">Nord</text>
+  <text x="453" y="54" text-anchor="middle" class="pyg-subtitle" font-size="12" fill="#ECEFF4" fill-opacity="0.75">(Dark)</text>
+  <text x="129" y="78" text-anchor="end" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">Colour</text>
+  <text x="170" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">Base</text>
+  <text x="240.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">1</text>
+  <text x="285.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">2</text>
+  <text x="330.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">3</text>
+  <text x="375.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">4</text>
+  <text x="420.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">5</text>
+  <text x="574" y="78" text-anchor="end" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">Colour</text>
+  <text x="615" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">Base</text>
+  <text x="685.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">1</text>
+  <text x="730.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">2</text>
+  <text x="775.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">3</text>
+  <text x="820.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">4</text>
+  <text x="865.5" y="78" text-anchor="middle" class="pyg-header" font-size="11" font-weight="bold" fill="#ECEFF4" fill-opacity="0.75">5</text>
+  <line x1="24" y1="87" x2="882" y2="87" stroke="#ECEFF4" stroke-width="1" stroke-opacity="0.22" />
+  <text x="129" y="118" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Foreground:</text>
+  <rect x="137" y="105" width="66" height="33" rx="4" fill="#ECEFF4" />
+  <rect x="224" y="105" width="33" height="33" rx="4" fill="#E1E5EA" />
+  <rect x="269" y="105" width="33" height="33" rx="4" fill="#D7DAE0" />
+  <rect x="314" y="105" width="33" height="33" rx="4" fill="#CDD0D6" />
+  <rect x="359" y="105" width="33" height="33" rx="4" fill="#B8BCC3" />
+  <rect x="404" y="105" width="33" height="33" rx="4" fill="#878C94" />
+  <text x="574" y="118" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Background:</text>
+  <rect x="582" y="105" width="66" height="33" rx="4" fill="#2E3440" stroke="#474D58" stroke-width="1" />
+  <rect x="669" y="105" width="33" height="33" rx="4" fill="#878C95" />
+  <rect x="714" y="105" width="33" height="33" rx="4" fill="#585E69" />
+  <rect x="759" y="105" width="33" height="33" rx="4" fill="#474D58" />
+  <rect x="804" y="105" width="33" height="33" rx="4" fill="#3E4450" />
+  <rect x="849" y="105" width="33" height="33" rx="4" fill="#363C48" stroke="#474D58" stroke-width="1" />
+  <line x1="24" y1="156" x2="882" y2="156" stroke="#ECEFF4" stroke-width="1" stroke-opacity="0.18" />
+  <text x="129" y="187" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 1:</text>
+  <text x="129" y="202" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Blue)</text>
+  <rect x="137" y="174" width="66" height="33" rx="4" fill="#5E81AC" />
+  <rect x="224" y="174" width="33" height="33" rx="4" fill="#A3B7D0" />
+  <rect x="269" y="174" width="33" height="33" rx="4" fill="#809CBE" />
+  <rect x="314" y="174" width="33" height="33" rx="4" fill="#476182" />
+  <rect x="359" y="174" width="33" height="33" rx="4" fill="#3C526D" />
+  <rect x="404" y="174" width="33" height="33" rx="4" fill="#314359" />
+  <text x="574" y="187" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 2:</text>
+  <rect x="582" y="174" width="66" height="33" rx="4" fill="#88C0D0" />
+  <rect x="669" y="174" width="33" height="33" rx="4" fill="#ACD1DC" />
+  <rect x="714" y="174" width="33" height="33" rx="4" fill="#9AC8D6" />
+  <rect x="759" y="174" width="33" height="33" rx="4" fill="#5C8693" />
+  <rect x="804" y="174" width="33" height="33" rx="4" fill="#476B75" />
+  <rect x="849" y="174" width="33" height="33" rx="4" fill="#335159" />
+  <text x="129" y="238" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 3:</text>
+  <rect x="137" y="225" width="66" height="33" rx="4" fill="#81A1C1" />
+  <rect x="224" y="225" width="33" height="33" rx="4" fill="#B6C8DB" />
+  <rect x="269" y="225" width="33" height="33" rx="4" fill="#9BB4CE" />
+  <rect x="314" y="225" width="33" height="33" rx="4" fill="#5B748C" />
+  <rect x="359" y="225" width="33" height="33" rx="4" fill="#495E73" />
+  <rect x="404" y="225" width="33" height="33" rx="4" fill="#38495B" />
+  <text x="574" y="238" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 4:</text>
+  <text x="574" y="253" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Red)</text>
+  <rect x="582" y="225" width="66" height="33" rx="4" fill="#BF616A" />
+  <rect x="669" y="225" width="33" height="33" rx="4" fill="#DC9B9F" />
+  <rect x="714" y="225" width="33" height="33" rx="4" fill="#CE7E84" />
+  <rect x="759" y="225" width="33" height="33" rx="4" fill="#8E4A50" />
+  <rect x="804" y="225" width="33" height="33" rx="4" fill="#763F44" />
+  <rect x="849" y="225" width="33" height="33" rx="4" fill="#5F3438" />
+  <text x="129" y="289" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 5:</text>
+  <text x="129" y="304" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Orange)</text>
+  <rect x="137" y="276" width="66" height="33" rx="4" fill="#D08770" />
+  <rect x="224" y="276" width="33" height="33" rx="4" fill="#E1AF9F" />
+  <rect x="269" y="276" width="33" height="33" rx="4" fill="#D99B88" />
+  <rect x="314" y="276" width="33" height="33" rx="4" fill="#966150" />
+  <rect x="359" y="276" width="33" height="33" rx="4" fill="#7A4F41" />
+  <rect x="404" y="276" width="33" height="33" rx="4" fill="#603D32" />
+  <text x="574" y="289" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 6:</text>
+  <text x="574" y="304" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Yellow)</text>
+  <rect x="582" y="276" width="66" height="33" rx="4" fill="#EBCB8B" />
+  <rect x="669" y="276" width="33" height="33" rx="4" fill="#D8BA7F" />
+  <rect x="714" y="276" width="33" height="33" rx="4" fill="#BCA26D" />
+  <rect x="759" y="276" width="33" height="33" rx="4" fill="#8F7A50" />
+  <rect x="804" y="276" width="33" height="33" rx="4" fill="#655535" />
+  <rect x="849" y="276" width="33" height="33" rx="4" fill="#4D4025" />
+  <text x="129" y="340" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 7:</text>
+  <text x="129" y="355" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Green)</text>
+  <rect x="137" y="327" width="66" height="33" rx="4" fill="#A3BE8C" />
+  <rect x="224" y="327" width="33" height="33" rx="4" fill="#BDD0AE" />
+  <rect x="269" y="327" width="33" height="33" rx="4" fill="#B0C79D" />
+  <rect x="314" y="327" width="33" height="33" rx="4" fill="#718560" />
+  <rect x="359" y="327" width="33" height="33" rx="4" fill="#596A4B" />
+  <rect x="404" y="327" width="33" height="33" rx="4" fill="#435037" />
+  <text x="574" y="340" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 8:</text>
+  <text x="574" y="355" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Magenta)</text>
+  <text x="574" y="370" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Purple)</text>
+  <rect x="582" y="327" width="66" height="33" rx="4" fill="#B48EAD" />
+  <rect x="669" y="327" width="33" height="33" rx="4" fill="#CEB3C8" />
+  <rect x="714" y="327" width="33" height="33" rx="4" fill="#C1A0BB" />
+  <rect x="759" y="327" width="33" height="33" rx="4" fill="#82657D" />
+  <rect x="804" y="327" width="33" height="33" rx="4" fill="#6B5266" />
+  <rect x="849" y="327" width="33" height="33" rx="4" fill="#543F50" />
+  <text x="129" y="404" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Accent 9:</text>
+  <text x="129" y="419" text-anchor="end" class="pyg-label" font-size="13" fill="#5E81AC">(Cyan)</text>
+  <rect x="137" y="391" width="66" height="33" rx="4" fill="#8FBCBB" />
+  <rect x="224" y="391" width="33" height="33" rx="4" fill="#B0CFCE" />
+  <rect x="269" y="391" width="33" height="33" rx="4" fill="#A0C5C4" />
+  <rect x="314" y="391" width="33" height="33" rx="4" fill="#608484" />
+  <rect x="359" y="391" width="33" height="33" rx="4" fill="#4A6A69" />
+  <rect x="404" y="391" width="33" height="33" rx="4" fill="#355150" />
+  <line x1="24" y1="442" x2="882" y2="442" stroke="#ECEFF4" stroke-width="1" stroke-opacity="0.18" />
+  <text x="129" y="473" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Surface 1:</text>
+  <rect x="137" y="460" width="66" height="33" rx="4" fill="#E5E9F0" />
+  <rect x="224" y="460" width="33" height="33" rx="4" fill="#D1D5DD" />
+  <rect x="269" y="460" width="33" height="33" rx="4" fill="#B3B8C0" />
+  <rect x="314" y="460" width="33" height="33" rx="4" fill="#848992" />
+  <rect x="359" y="460" width="33" height="33" rx="4" fill="#575D67" />
+  <rect x="404" y="460" width="33" height="33" rx="4" fill="#3E444E" />
+  <text x="574" y="473" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Surface 2:</text>
+  <rect x="582" y="460" width="66" height="33" rx="4" fill="#D8DEE9" />
+  <rect x="669" y="460" width="33" height="33" rx="4" fill="#C5CBD6" />
+  <rect x="714" y="460" width="33" height="33" rx="4" fill="#AAB0BB" />
+  <rect x="759" y="460" width="33" height="33" rx="4" fill="#7E848F" />
+  <rect x="804" y="460" width="33" height="33" rx="4" fill="#545B66" />
+  <rect x="849" y="460" width="33" height="33" rx="4" fill="#3D434E" />
+  <text x="129" y="524" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Surface 3:</text>
+  <rect x="137" y="511" width="66" height="33" rx="4" fill="#4C566A" />
+  <rect x="224" y="511" width="33" height="33" rx="4" fill="#989FAD" />
+  <rect x="269" y="511" width="33" height="33" rx="4" fill="#717A8B" />
+  <rect x="314" y="511" width="33" height="33" rx="4" fill="#3F4859" />
+  <rect x="359" y="511" width="33" height="33" rx="4" fill="#394151" />
+  <rect x="404" y="511" width="33" height="33" rx="4" fill="#333B49" stroke="#474D58" stroke-width="1" />
+  <text x="574" y="524" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Surface 4:</text>
+  <rect x="582" y="511" width="66" height="33" rx="4" fill="#434C5E" />
+  <rect x="669" y="511" width="33" height="33" rx="4" fill="#939AA6" />
+  <rect x="714" y="511" width="33" height="33" rx="4" fill="#6A7281" />
+  <rect x="759" y="511" width="33" height="33" rx="4" fill="#3A4252" />
+  <rect x="804" y="511" width="33" height="33" rx="4" fill="#363D4D" stroke="#474D58" stroke-width="1" />
+  <rect x="849" y="511" width="33" height="33" rx="4" fill="#323947" stroke="#474D58" stroke-width="1" />
+  <text x="129" y="575" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Surface 5:</text>
+  <rect x="137" y="562" width="66" height="33" rx="4" fill="#3B4252" />
+  <rect x="224" y="562" width="33" height="33" rx="4" fill="#8E949F" />
+  <rect x="269" y="562" width="33" height="33" rx="4" fill="#636A78" />
+  <rect x="314" y="562" width="33" height="33" rx="4" fill="#363C4B" stroke="#474D58" stroke-width="1" />
+  <rect x="359" y="562" width="33" height="33" rx="4" fill="#333948" stroke="#474D58" stroke-width="1" />
+  <rect x="404" y="562" width="33" height="33" rx="4" fill="#313744" stroke="#474D58" stroke-width="1" />
+  <line x1="24" y1="613" x2="882" y2="613" stroke="#ECEFF4" stroke-width="1" stroke-opacity="0.18" />
+  <text x="129" y="644" text-anchor="end" class="pyg-label" font-size="13" fill="#ECEFF4">Auto-surface:</text>
+  <rect x="137" y="631" width="66" height="33" rx="4" fill="#232833" stroke="#474D58" stroke-width="1" />
+  <rect x="224" y="631" width="33" height="33" rx="4" fill="#000001" />
+  <rect x="269" y="631" width="33" height="33" rx="4" fill="#020306" />
+  <rect x="314" y="631" width="33" height="33" rx="4" fill="#060910" />
+  <rect x="359" y="631" width="33" height="33" rx="4" fill="#0F131B" />
+  <rect x="404" y="631" width="33" height="33" rx="4" fill="#191D27" />
+</svg>

@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygmentation"
-version = "0.1.4"
+version = "0.2.0"
 authors = [
     {name = "Peter Brookes Chambers"}
 ]
 description = "A quality-of-life package for colour schemes/palettes and matplotlib plots."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU Affero General Public License v3",
@@ -22,15 +22,51 @@ dependencies = [
     "rich",
 ]
 
+[project.optional-dependencies]
+plots = ["matplotlib>=3.5", "cycler>=0.11"]
+dev = ["pytest>=7.0", "pytest-cov", "ruff", "mypy"]
+docs = [
+    "mkdocs>=1.5",
+    "mkdocstrings[python]>=0.24",
+    "mkdocs-material>=9.0",
+    "beautifulsoup4>=4.12",
+]
+
+
 [project.urls]
 Homepage = "https://github.com/ech0-chambers/pygmentation"
 
 [project.scripts]
 pygmentation = "pygmentation.__main__:main"
 
-[tool.setuptools]
-packages = ["pygmentation"]
-package-dir = {"" = "src"}
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
 pygmentation = ["color_schemes.json"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort imports
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade (modern language features)
+]
+ignore = [
+    "E501",
+    "E741",
+    "E743"
+]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
