@@ -472,7 +472,11 @@ def _build_scheme_table(
                     r_codes = [""] * 8 if code_type is not None else None
 
                 table.add_row(*l_swatches, "  ", *r_swatches)
-                if code_type is not None and l_codes is not None:
+                if (
+                    code_type is not None
+                    and l_codes is not None
+                    and r_codes is not None
+                ):
                     table.add_row(*l_codes, "  ", *r_codes)
         else:
             for name, family, aliases in section:
@@ -500,15 +504,15 @@ def show_scheme(
 ) -> None:
     """
     Display a scheme in the terminal using Rich. The full scheme is shown, with
-    base colours and their variants, grouped by catagory 
+    base colours and their variants, grouped by category
     (foreground/background, accents, surfaces (if present), and auto-surface).
 
     Parameters
     ----------
     scheme : ColorScheme
         The colour scheme to display. Unlike most functions, this should be the
-        initialised `ColorScheme` object, and cannot be a string. Use 
-        `registry.get_scheme(name, scheme_type)` to fetch the correct scheme 
+        initialised `ColorScheme` object, and cannot be a string. Use
+        `registry.get_scheme(name, scheme_type)` to fetch the correct scheme
         first.
     name : str | None, optional
         The scheme name, displayed at the top of the output. If `None`, the
@@ -518,7 +522,7 @@ def show_scheme(
         Optionally, the output can be saved to an SVG file using Rich's console
         capture system.
     code_type : str | None, optional
-        The format in which to display the colour code, such as `"hex"` or 
+        The format in which to display the colour code, such as `"hex"` or
         `"oklch"`. If `None`, the colour codes are omitted.
     console : Console | None, optional
         The console to which the output should be printed. If `None`, the active
@@ -570,7 +574,7 @@ def cli_show(
 ) -> None:
     """
     Display a scheme in the terminal using Rich. The full scheme is shown, with
-    base colours and their variants, grouped by catagory 
+    base colours and their variants, grouped by category
     (foreground/background, accents, surfaces (if present), and auto-surface).
     If the variant is specified, only that theme will be shown. Otherwise, both
     the light and dark theme is displayed.
@@ -582,7 +586,7 @@ def cli_show(
     variant : str, optional
         The variant theme to show. This should be "light", "dark", or "both".
     code_type : str | None, optional
-        The format in which to display the colour code, such as `"hex"` or 
+        The format in which to display the colour code, such as `"hex"` or
         `"oklch"`. If `None`, the colour codes are omitted.
     """
     if variant in ["light", "both"]:
@@ -602,22 +606,22 @@ def cli_save(
     code_type: str | None = None,
 ) -> None:
     """
-    Save the scheme to an SVG file, optionally with the colour codes. This 
-    functionality is identical to `cli_write()` with `filetype = "svg"`, except 
+    Save the scheme to an SVG file, optionally with the colour codes. This
+    functionality is identical to `cli_write()` with `filetype = "svg"`, except
     that this allows the colour code format to be specified.
 
     Parameters
     ----------
     filename : str | Path
-        The file to which the scheme palette should be saved. If 
-        `variant = "both"`, then `_light` and `_dark` will be appended to the 
+        The file to which the scheme palette should be saved. If
+        `variant = "both"`, then `_light` and `_dark` will be appended to the
         filename. This must have a `.svg` file extension.
     scheme_name : str
         The name of the scheme to save.
     variant : str, optional
         The variant theme to show. This should be "light", "dark", or "both".
     code_type : str | None, optional
-        The format in which to display the colour code, such as `"hex"` or 
+        The format in which to display the colour code, such as `"hex"` or
         `"oklch"`. If `None`, the colour codes are omitted.
 
     Raises
@@ -666,9 +670,9 @@ def cli_write(
     variant : str, optional
         The variant theme to show. This should be "light", "dark", or "both".
     filetype : str | None, optional
-        The type of file to use. This will determine the output format via the 
-        `Exporter` registry. Possible values are `"latex"`, `"css"`, 
-        `"javascript"`, `"textual"`, `"svg"`. If `None`, it will be inferred 
+        The type of file to use. This will determine the output format via the
+        `Exporter` registry. Possible values are `"latex"`, `"css"`,
+        `"javascript"`, `"textual"`, `"svg"`. If `None`, it will be inferred
         from the `filename`'s file extension.
 
     Raises
@@ -704,14 +708,14 @@ def cli_write(
 
 def get_schemes_by_pattern(pattern: str | re.Pattern) -> list[str]:
     """
-    Search all schemes (custom user-defined schemes and built-in schemes) and 
+    Search all schemes (custom user-defined schemes and built-in schemes) and
     filter only for schemes which contain `pattern`.
 
     Parameters
     ----------
     pattern : str | re.Pattern
-        The pattern to match, which should be a valid regex string or 
-        precompiled regex `re.Pattern` object. Names are checked with 
+        The pattern to match, which should be a valid regex string or
+        precompiled regex `re.Pattern` object. Names are checked with
         `re.search`, so substring matches are also returned.
 
     Returns
@@ -730,28 +734,28 @@ def cli_list(
     console: Console | None = None,
 ) -> int:
     """
-    List all schemes currently discoverable by `pygmentation`. Optionally 
-    display a small swatch of the base colours alongside the scheme name. 
-    Schemes can be filtered to list only those which match of contain a given 
+    List all schemes currently discoverable by `pygmentation`. Optionally
+    display a small swatch of the base colours alongside the scheme name.
+    Schemes can be filtered to list only those which match of contain a given
     regex pattern.
 
     Parameters
     ----------
     names_only : bool, optional
-        If `True`, a plain-text list of names, separated by newlines, will be 
+        If `True`, a plain-text list of names, separated by newlines, will be
         printed. If `False`, a Rich table will be displayed, with the scheme
         names and a small sample of the scheme's palette.
     pattern : str | re.Pattern, optional
-        The pattern to match, which should be a valid regex string or 
-        precompiled regex `re.Pattern` object. Names are checked with 
+        The pattern to match, which should be a valid regex string or
+        precompiled regex `re.Pattern` object. Names are checked with
         `re.search`, so substring matches are also returned. If `None`, all
         schemes are returned.
     variant : str, optional
-        The variant in which to show the scheme preview. This should be "light" 
+        The variant in which to show the scheme preview. This should be "light"
         or "dark". If `names_only = True`, this parameter has no effect.
     console : Console | None, optional
-        Optionally provide a Rich `Console` object to which the output will be 
-        printed. If `None`, the active console will be retrieved via 
+        Optionally provide a Rich `Console` object to which the output will be
+        printed. If `None`, the active console will be retrieved via
         `get_console()`.
 
     Returns

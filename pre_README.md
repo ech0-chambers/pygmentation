@@ -1,6 +1,10 @@
 # Pygmentation
 
-A colour manipulation and palette generation package with optional Matplotlib integration.
+[![Ruff](https://img.shields.io/github/actions/workflow/status/ech0-chambers/pygmentation/ci.yml?branch=main&job=lint&label=ruff)](https://github.com/ech0-chambers/pygmentation/actions/workflows/ci.yml)
+[![Mypy](https://img.shields.io/github/actions/workflow/status/ech0-chambers/pygmentation/ci.yml?branch=main&job=typecheck&label=mypy)](https://github.com/ech0-chambers/pygmentation/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/ech0-chambers/pygmentation/ci.yml?branch=main&job=test&label=tests)](https://github.com/ech0-chambers/pygmentation/actions/workflows/ci.yml)
+
+A colour manipulation and palette generation package with optional Matplotlib integration. For full API documentation, see [the docs](https://ech0-chambers.github.io/pygmentation).
 
 %%%py{readme.py}
 

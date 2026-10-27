@@ -4,7 +4,10 @@ from collections import Counter
 from collections.abc import Iterator, Sequence
 from enum import StrEnum
 from itertools import combinations
-from typing import Any, overload
+from typing import TYPE_CHECKING, Any, overload
+
+if TYPE_CHECKING:
+    from pygmentation.exporters import Exporter
 
 from .color import Color
 from .models import OKLCH, ColorModel
@@ -89,8 +92,6 @@ class ColorFamily:
         instance.
     ValueError
         If the supplied list of variants does not have exactly 5 elements.
-
-    
     """
     __HUE_DIFF_THRESHOLD = 30
     __MIN_TARGET_LIGHTNESS = 0.1
@@ -973,7 +974,7 @@ class ColorScheme:
 
         return None, None
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[ColorFamily]:
         yield self.foreground
         yield self.background
         for c in self.accents:
@@ -984,7 +985,7 @@ class ColorScheme:
 
     def export(
         self,
-        format_or_exporter: str | type[Any],
+        format_or_exporter: str | type[Exporter],
         **kwargs: Any,
     ) -> str:
         """
@@ -1012,16 +1013,18 @@ class ColorScheme:
         """
         from pygmentation.exporters import Exporter, get_exporter
 
+        exporter_cls: type[Exporter]
         if isinstance(format_or_exporter, type) and issubclass(
             format_or_exporter, Exporter
         ):
             exporter_cls = format_or_exporter
         elif isinstance(format_or_exporter, str):
-            exporter_cls = get_exporter(format_or_exporter)
-            if exporter_cls is None:
+            resolved = get_exporter(format_or_exporter)
+            if resolved is None:
                 raise ValueError(
                     f"Unknown export format: '{format_or_exporter}'."
                 )
+            exporter_cls = resolved
         else:
             raise TypeError(
                 f"Expected str format or Exporter subclass, got "

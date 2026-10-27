@@ -17,7 +17,7 @@ class DocType(IntEnum):
     ----------
     REPORT
         For articles and printed documents, the default styling uses a squarer
-        aspect ratio, document-appropriate font sizes, and more conservative 
+        aspect ratio, document-appropriate font sizes, and more conservative
         colour use
     PRESENTATION
         For presentations or some posters. The default styling uses larger font

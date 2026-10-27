@@ -128,7 +128,7 @@ def compile_stylesheet(docs_dir: Path) -> str:
 
 
 def generate_interactive_svg(source_path: Path, dest_path: Path) -> None:
-    # Take the SVG graph used in the README, and change to use CSS variables so 
+    # Take the SVG graph used in the README, and change to use CSS variables so
     # it can respond to scheme changes
     if not source_path.exists():
         return

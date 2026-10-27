@@ -5,18 +5,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-from collections.abc import Sequence
-from dataclasses import fields
-from typing import Any
-
-import numpy as np
-from PIL import Image
-
-import pygmentation as pyg
-from pygmentation.cli import cli_write
-from pygmentation.colors.models import *
 from rich.console import Console
 from rich.text import Text
+
+import pygmentation as pyg
+from pygmentation.colors.models import *
 
 USE_RELATIVE = False
 
@@ -65,7 +58,7 @@ def comparison_swatch(left: str | ColorModel | pyg.Color, right: str | ColorMode
         url = URL_BASE
     url += str(svg_file)
     return md.image(url = url, description = f"Comparison of {left.css} and {right.css}")
-    
+
 
 def capture_terminal(command: str, columns: int = 88):
     global TERMINAL_INDEX

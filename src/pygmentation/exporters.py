@@ -194,9 +194,8 @@ class Exporter(ABC):
         )
 
         for alias_name, color in scheme.aliases.items():
-            canonical = scheme.get_canonical_name(color)
-            if canonical is not None:
-                name, index = canonical
+            name, index = scheme.get_canonical_name(color)
+            if name is not None:
                 output.extend(
                     self.format_alias_family(
                         self.canonical_alias_name(alias_name),
@@ -210,9 +209,8 @@ class Exporter(ABC):
             ("success", scheme.success),
             ("info", scheme.info),
         ]:
-            canonical = scheme.get_canonical_name(color)
-            if canonical is not None:
-                name, index = canonical
+            name, index = scheme.get_canonical_name(color)
+            if name is not None:
                 output.extend(
                     self.format_alias_family(
                         self.canonical_alias_name(alias_name),
@@ -620,18 +618,16 @@ class JavascriptExporter(Exporter):
         lines.append("")
 
         for alias_name, color in scheme.aliases.items():
-            canonical = scheme.get_canonical_name(color)
-            if canonical is not None:
-                name, idx = canonical
+            name, idx = scheme.get_canonical_name(color)
+            if name is not None:
                 target = self.canonical_name(name, idx)
                 alias = self.canonical_alias_name(alias_name)
                 lines.append(self.format_alias(alias, target))
 
         for alias_name in ["error", "warning", "success", "info"]:
             color = getattr(scheme, alias_name)
-            canonical = scheme.get_canonical_name(color)
-            if canonical is not None:
-                name, idx = canonical
+            name, idx = scheme.get_canonical_name(color)
+            if name is not None:
                 target = self.canonical_name(name, idx)
                 alias = self.canonical_alias_name(alias_name)
                 lines.append(self.format_alias(alias, target))
