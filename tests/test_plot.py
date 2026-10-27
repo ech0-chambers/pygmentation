@@ -550,17 +550,17 @@ def test_font_list_caching():
         assert info_l2.misses == 1 and info_l2.hits == 1
         assert l_fonts1 == l_fonts2
 
-        get_fonts(latex=True, pattern="Fira")
+        get_fonts(latex=True, pattern="DejaVu")
         info_l3 = _get_latex_fonts.cache_info()
         assert info_l3.misses == 1 and info_l3.hits == 2
 
 
 @requires_plots
 def test_get_fonts_pattern_single_string():
-    res = get_fonts(pattern="Fira")
+    res = get_fonts(pattern="DejaVu")
     assert isinstance(res, list)
     assert len(res) > 0
-    assert all("fira" in f.lower() for f in res)
+    assert all("dejavu" in f.lower() for f in res)
 
 
 @requires_plots
@@ -573,11 +573,13 @@ def test_get_fonts_pattern_compiled_regex():
 @requires_plots
 def test_get_fonts_pattern_list_matching_in_turn():
     # get_fonts(pattern=[a, b, c]) == get_fonts(pattern=a) + get_fonts(pattern=b) + get_fonts(pattern=c)
-    res_a = get_fonts(pattern="Fira")
-    res_b = get_fonts(pattern="DejaVu")
-    res_combined = get_fonts(pattern=["Fira", "DejaVu"])
+    res_a = get_fonts(pattern="DejaVu Sans")
+    res_b = get_fonts(pattern="DejaVu Serif")
+    res_combined = get_fonts(pattern=["DejaVu Sans", "DejaVu Serif"])
 
     assert isinstance(res_combined, list)
+    assert len(res_a) > 0
+    assert len(res_b) > 0
     assert res_combined == res_a + res_b
 
 
@@ -608,18 +610,23 @@ def test_get_fonts_pattern_invalid_types():
 
 @requires_plots
 def test_get_latex_fonts_returns_dict_pair():
-    serif_dict, sans_dict = _get_latex_fonts()
-    assert isinstance(serif_dict, dict)
-    assert isinstance(sans_dict, dict)
+    _get_latex_fonts.cache_clear()
+    try:
+        with patch("pygmentation.plot.fonts.is_latex_available", return_value=True):
+            serif_dict, sans_dict = _get_latex_fonts()
+            assert isinstance(serif_dict, dict)
+            assert isinstance(sans_dict, dict)
 
-    # Classic fonts should map to None
-    assert "Computer Modern Roman" in serif_dict
-    assert serif_dict["Computer Modern Roman"] is None
+            # Classic fonts should map to None
+            assert "Computer Modern Roman" in serif_dict
+            assert serif_dict["Computer Modern Roman"] is None
 
-    # Known TeX packages mapping check
-    assert KNOWN_LATEX_PACKAGES["Fira Sans"] == "FiraSans"
-    assert KNOWN_LATEX_PACKAGES["Source Sans Pro"] == "sourcesanspro"
-    assert KNOWN_LATEX_PACKAGES["Kurier"] == "kurier"
+            # Known TeX packages mapping check
+            assert KNOWN_LATEX_PACKAGES["Fira Sans"] == "FiraSans"
+            assert KNOWN_LATEX_PACKAGES["Source Sans Pro"] == "sourcesanspro"
+            assert KNOWN_LATEX_PACKAGES["Kurier"] == "kurier"
+    finally:
+        _get_latex_fonts.cache_clear()
 
 
 def test_get_latex_fonts_latex_unavailable():
