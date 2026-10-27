@@ -18,7 +18,7 @@ TERMINAL_INDEX = 0
 GRADIENT_INDEX = 0
 
 IMAGE_DIR = Path(".swatches")
-BRANCH = "refactor"
+BRANCH = "main"
 URL_BASE = f"https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/{BRANCH}/"
 
 swatch_template = """<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20"><rect width="80" height="20" rx = "5" ry = "5" fill="{background}" /><text x="50%" y="50%" dy=".3em" fill="{text}" text-anchor="middle" font-family="monospace" font-size="11">{background}</text></svg>"""

@@ -4,7 +4,7 @@
 
 A colour manipulation and palette generation package with optional Matplotlib integration. For full API documentation, see [the docs](https://ech0-chambers.github.io/pygmentation).
 
-![The Nord dark colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/nord.svg)
+![The Nord dark colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/nord.svg)
 
 ------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ All schemes must have at least a foreground colour, a background colour, and at 
 
 Each colour in the scheme receives 5 variants, which are lighter/darker variants generated in a way that keeps them harmonious with the rest of the colour scheme. For details on this generation, see [Variant Derivation](#variant-derivation). Together with the base colour, these are known collectively as a colour family. A colour family's variants are ordered by their contrast to the background colour, from most contrast to least contrast. Usually, the base colour will sit between variant 2 and variant 3, though this is not always the case. As an example, the dark theme for the [Nord colour scheme](https://www.nordtheme.com/) is shown below, with its variant colours.
 
-![The Nord dark colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/nord.svg)
+![The Nord dark colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/nord.svg)
 
 ------------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ Each colour in the scheme receives 5 variants, which are lighter/darker variants
 
 While colours can always be accessed by their position in the scheme (e.g, `var(--clr-accent1)` in the CSS output), semantic aliases (red, orange etc) are automatically identified by matching accent colours to canonical hue targets in Oklch space. Matches are determined globally, which allows a small adjustment to discourage multiple aliases mapping to the same colour. The target hues and acceptable ranges are defined as follows:
 
-![OKLCh reference hue ranges and target angles for semantic colour aliases](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/reference_colors.svg)
+![OKLCh reference hue ranges and target angles for semantic colour aliases](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/reference_colors.svg)
 
 In addition, four functional aliases are mapped:
 
@@ -75,9 +75,9 @@ Firstly, using integers restricts the number of possible colours to a finite set
 
 Of course, this is fine if all you want to do is specify the colour of something on a screen; this will get converted to sRGB anyway to send to the display. The problems arise when you want to manipulate the colour first. It's quite possible for a colour transformation to take a colour outside the range of possible RGB values, then for another transformation to bring it back inside. If colour is only expressed as RGB values, this sequence of transformations breaks; even if we take the "closest" RGB colour after the first transformation, the second transformation is now acting on a completely different colour.
 
-Colour manipulations themselves are also tricky. If I have a particular shade of blue that I like, but I want to use a pastel version of it for a background, it's not particularly obvious how to find that pastel blue from the RGB representation. RGB is also not an intuitive way for us to think about colour. If you were presented with the hex code `#135C55`, you're unlikely to know intuitively that it's a deep teal (![#135C55](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_1.svg)). You're even more unlikely to know that it has the same hue as `#E1F5F3`.
+Colour manipulations themselves are also tricky. If I have a particular shade of blue that I like, but I want to use a pastel version of it for a background, it's not particularly obvious how to find that pastel blue from the RGB representation. RGB is also not an intuitive way for us to think about colour. If you were presented with the hex code `#135C55`, you're unlikely to know intuitively that it's a deep teal (![#135C55](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_1.svg)). You're even more unlikely to know that it has the same hue as `#E1F5F3`.
 
-To combat this, another colour model is often used, HSL, where colours are expressed as a hue angle (0° being pure red), a saturation from 0% (greyscale) to 100%, and a lightness from 0% (black) to 100% (white). This allows for easy answers for things like "I want this colour, but 20% lighter", but still has all the same pitfalls as RGB since it's just a different way to express the same colours. Although this makes transformations easier, they're still inaccurate. If we start with a pure blue colour, ![#0000FF](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_2.svg), and increase the lightness while reducing the saturation, we get ![#CFCFFC](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_3.svg). This has clearly shifted slightly towards purple, despite ostensibly having the same pure blue hue of 240°.
+To combat this, another colour model is often used, HSL, where colours are expressed as a hue angle (0° being pure red), a saturation from 0% (greyscale) to 100%, and a lightness from 0% (black) to 100% (white). This allows for easy answers for things like "I want this colour, but 20% lighter", but still has all the same pitfalls as RGB since it's just a different way to express the same colours. Although this makes transformations easier, they're still inaccurate. If we start with a pure blue colour, ![#0000FF](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_2.svg), and increase the lightness while reducing the saturation, we get ![#CFCFFC](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_3.svg). This has clearly shifted slightly towards purple, despite ostensibly having the same pure blue hue of 240°.
 
 ### Consistency Across Formats
 
@@ -107,7 +107,7 @@ Furthermore, geometric models do not account for the Helmholtz-Kohlrausch effect
 
 When "lightness" is altered in HSL, a linear calculation is performed on a non-linear perceptual space. This results in visual inconsistency: adjusting two different colours by the same "20% lightness" produces two noticeably different changes in perceived brightness.
 
-For example, we may start from a pure blue and a pure yellow, and lighten both by 20% in HSL. For blue, this produces a noticeable change: ![Comparison of #0000FF and #6666FF](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_4.svg). For yellow, however, the difference is nearly negligible, if anything appearing slightly washed out instead of lightened: ![Comparison of #FFFF00 and #FFFF66](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_5.svg). In darker tones, the difference is reversed with yellow showing a larger change than blue when darkened by 20%: ![Comparison of #0000FF and #000099](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_6.svg) compared to ![Comparison of #FFFF00 and #999900](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_7.svg).
+For example, we may start from a pure blue and a pure yellow, and lighten both by 20% in HSL. For blue, this produces a noticeable change: ![Comparison of #0000FF and #6666FF](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_4.svg). For yellow, however, the difference is nearly negligible, if anything appearing slightly washed out instead of lightened: ![Comparison of #FFFF00 and #FFFF66](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_5.svg). In darker tones, the difference is reversed with yellow showing a larger change than blue when darkened by 20%: ![Comparison of #0000FF and #000099](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_6.svg) compared to ![Comparison of #FFFF00 and #999900](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_7.svg).
 
 ### Perceptual Uniformity: CIEDE2000 and Oklab / Oklch
 
@@ -115,8 +115,8 @@ A perceptually uniform colour model is one in which a given change in coordinate
 
 Neither RGB nor HSL are perceptually uniform. In terms of lightness, this is made clear by the comparison of yellow and blue above. For hue, this is readily demonstrated by comparing the perceived difference between two green hues and two blue hues separated by an identical $30^\circ$ angle in HSL:
 
-- Green at $100^\circ$ and $130^\circ$: ![Comparison of #55FF00 and #00FF2B](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_8.svg).
-- Blue at $260^\circ$ and $290^\circ$: ![Comparison of #5500FF and #D500FF](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/swatch_9.svg).
+- Green at $100^\circ$ and $130^\circ$: ![Comparison of #55FF00 and #00FF2B](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_8.svg).
+- Blue at $260^\circ$ and $290^\circ$: ![Comparison of #5500FF and #D500FF](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/swatch_9.svg).
 
 Although both pairs are separated by exactly $30^\circ$ on the HSL colour wheel, the two greens appear nearly indistinguishable, whereas the blue and purple represent a striking visual leap.
 
@@ -154,9 +154,9 @@ Oklab eliminates the hue-shifting issues seen in CIELAB and HSL: altering lightn
 
 Colour schemes in `pygmentation` are intended to be as close to drop-in replacements for each other as possible, regardless of the number of colours, colour order, and light/dark theming. This makes it vitally important that colours which have good contrast in one theme also have good contrast in another. Of course, this is very hard to enforce between accent colours without imposing restrictions on the colour schemes. However, we can ensure that contrast against the background and foreground colours is consistent. Within each colour family, the variants are always ordered from most contrast with the background colour to least contrast with the background colour. Compare the images below for the Nord dark scheme and the Rose Pine Dawn light scheme.
 
-![The Nord dark colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/nord.svg)
+![The Nord dark colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/nord.svg)
 
-![The Rose Pine Dawn light colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/rose_pine_dawn.svg)
+![The Rose Pine Dawn light colour scheme rendered by Pygmentation.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/rose_pine_dawn.svg)
 
 ------------------------------------------------------------------------
 
@@ -193,7 +193,7 @@ $$C_{\text{variant}} = C_{\text{base}} + (C_{\text{F or B}} - C_{\text{base}}) \
 
 By default, `chroma_blend = 0.75`. This subtle shift prevents saturated accents from appearing unnatural on desaturated background, without appearing washed out if the background colour has high saturation. The sample below has this chroma blend disabled; the darker variants in particular stand out and are quite jarring.
 
-![The Nord dark colour scheme with chroma blending disabled for variants.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/nord_no_chroma.svg)
+![The Nord dark colour scheme with chroma blending disabled for variants.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/nord_no_chroma.svg)
 
 #### Ambient Hue Alignment
 
@@ -258,7 +258,7 @@ Display any colour scheme in your terminal with rich full-colour swatches:
 pygmentation show nord dark
 ```
 
-![pygmentation show nord dark](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/terminal_1.svg)
+![pygmentation show nord dark](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/terminal_1.svg)
 
 ------------------------------------------------------------------------
 
@@ -420,9 +420,9 @@ The `DocType` enum controls layout geometry, typography, and contrast:
 - **`DocType.REPORT`**: Tailored for articles, theses, and printed documents. Uses appropriate font sizes, a squarer aspect ratio, and carefully restricts colour to plot elements.
 - **`DocType.PRESENTATION`**: Tailored for digital slides and presentations. Features enlarged typography, less cluttered axes, and more liberal use of colour to stand out.
 
-![Sample graph produced with the Report styling.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/sample_report.svg)
+![Sample graph produced with the Report styling.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/sample_report.svg)
 
-![Sample graph produced with the Presentation styling.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/sample_report.svg)
+![Sample graph produced with the Presentation styling.](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/sample_report.svg)
 
 #### System & LaTeX Font Discovery
 
@@ -462,7 +462,7 @@ pygmentation list --names-only
 pygmentation list dark
 ```
 
-![pygmentation list \".\*one.\*\"](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/refactor/.swatches/terminal_2.svg)
+![pygmentation list \".\*one.\*\"](https://raw.githubusercontent.com/ech0-chambers/pygmentation/refs/heads/main/.swatches/terminal_2.svg)
 
 ### `show`
 
